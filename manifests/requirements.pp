@@ -39,7 +39,7 @@ define python::requirements (
   }
 
   $req_dir = inline_template('<%= requirements.match(%r!(.+)/.+!)[1] %>')
-  $req_crc = "${req_dir}/$requirements.sha1"
+  $req_crc = "${requirements}.sha1"
 
   file { $requirements:
     ensure  => present,
