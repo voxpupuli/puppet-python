@@ -41,12 +41,13 @@
 # Sergey Stankevich
 #
 define python::gunicorn (
-  $ensure      = present,
-  $virtualenv  = false,
-  $mode        = 'wsgi',
-  $dir         = false,
-  $bind        = false,
-  $environment = false
+  $ensure        = present,
+  $virtualenv    = false,
+  $mode          = 'wsgi',
+  $dir           = false,
+  $bind          = false,
+  $app_interface = 'wsgi',
+  $environment   = false,
 ) {
 
   # Parameter validation

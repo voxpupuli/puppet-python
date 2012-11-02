@@ -50,9 +50,14 @@ define python::virtualenv (
       default  => "--proxy=${proxy}",
     }
 
+    $proxy_command = $proxy ? {
+      false   => '',
+      default => "&& export http_proxy=${proxy}",
+    }
+
     exec { "python_virtualenv_${venv_dir}":
       command => "mkdir -p ${venv_dir} \
-        && export http_proxy=${proxy} \
+        ${proxy_command} \
         && virtualenv -p `which ${python}` ${venv_dir} \
         && ${venv_dir}/bin/pip install ${proxy_flag} --upgrade distribute pip",
       creates => $venv_dir,
