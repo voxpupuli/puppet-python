@@ -38,7 +38,6 @@ define python::requirements (
     default  => "--proxy=${proxy}",
   }
 
-  $req_dir = inline_template('<%= requirements.match(%r!(.+)/.+!)[1] %>')
   $req_crc = "${requirements}.sha1"
 
   file { $requirements:

@@ -46,7 +46,6 @@ define python::gunicorn (
   $mode          = 'wsgi',
   $dir           = false,
   $bind          = false,
-  $app_interface = 'wsgi',
   $environment   = false,
 ) {
 
