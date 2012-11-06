@@ -64,11 +64,14 @@ Creates Python virtualenv.
 
 **proxy** — Proxy server to use for outbound connections. Default: none
 
+**systempkgs** — Copy system site-packages into virtualenv. Default: don't
+
 	python::virtualenv { '/var/www/project1':
 	  ensure       => present,
 	  version      => 'system',
 	  requirements => '/var/www/project1/requirements.txt',
 	  proxy        => 'http://proxy.domain.com:3128',
+	  systempkgs   => true,
 	}
 
 ### python::gunicorn
