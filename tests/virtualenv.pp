@@ -9,4 +9,5 @@ python::virtualenv { '/var/www/project1':
   version      => 'system',
   requirements => '/var/www/project1/requirements.txt',
   proxy        => 'http://proxy.domain.com:3128',
+  systempkgs   => true,
 }
