@@ -105,3 +105,5 @@ Manages Gunicorn virtual hosts.
 ## Authors
 
 [Sergey Stankevich](https://github.com/stankevich)
+[Ashley Penney](https://github.com/apenney)
+[Marc Fournier](https://github.com/mfournier)

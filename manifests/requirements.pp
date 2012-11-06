@@ -20,6 +20,7 @@
 # === Authors
 #
 # Sergey Stankevich
+# Ashley Penney
 #
 define python::requirements (
   $virtualenv = 'system',

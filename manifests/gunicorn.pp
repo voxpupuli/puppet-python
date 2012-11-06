@@ -43,6 +43,8 @@
 # === Authors
 #
 # Sergey Stankevich
+# Ashley Penney
+# Marc Fournier
 #
 define python::gunicorn (
   $ensure        = present,
