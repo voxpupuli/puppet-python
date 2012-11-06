@@ -32,6 +32,8 @@
 # === Authors
 #
 # Sergey Stankevich
+# Ashley Penney
+# Marc Fournier
 #
 define python::virtualenv (
   $ensure       = present,
