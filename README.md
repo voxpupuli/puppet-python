@@ -64,11 +64,14 @@ Creates Python virtualenv.
 
 **proxy** — Proxy server to use for outbound connections. Default: none
 
+**systempkgs** — Copy system site-packages into virtualenv. Default: don't
+
 	python::virtualenv { '/var/www/project1':
 	  ensure       => present,
 	  version      => 'system',
 	  requirements => '/var/www/project1/requirements.txt',
 	  proxy        => 'http://proxy.domain.com:3128',
+	  systempkgs   => true,
 	}
 
 ### python::gunicorn
@@ -87,6 +90,8 @@ Manages Gunicorn virtual hosts.
 
 **environment** — Set ENVIRONMENT variable. Default: none
 
+**template** — Which ERB template to use. Default: python/gunicorn.erb
+
 	python::gunicorn { 'vhost':
 	  ensure      => present,
 	  virtualenv  => '/var/www/project1',
@@ -94,8 +99,11 @@ Manages Gunicorn virtual hosts.
 	  dir         => '/var/www/project1/current',
 	  bind        => 'unix:/tmp/gunicorn.socket',
 	  environment => 'prod',
+	  template    => 'python/gunicorn.erb',
 	}
 
 ## Authors
 
 [Sergey Stankevich](https://github.com/stankevich)
+[Ashley Penney](https://github.com/apenney)
+[Marc Fournier](https://github.com/mfournier)

@@ -16,6 +16,9 @@
 # [*proxy*]
 #  Proxy server to use for outbound connections. Default: none
 #
+# [*systempkgs*]
+#  Copy system site-packages into virtualenv. Default: don't
+#
 # === Examples
 #
 # python::virtualenv { '/var/www/project1':
@@ -23,17 +26,21 @@
 #   version      => 'system',
 #   requirements => '/var/www/project1/requirements.txt',
 #   proxy        => 'http://proxy.domain.com:3128',
+#   systempkgs   => true,
 # }
 #
 # === Authors
 #
 # Sergey Stankevich
+# Ashley Penney
+# Marc Fournier
 #
 define python::virtualenv (
   $ensure       = present,
   $version      = 'system',
   $requirements = false,
-  $proxy        = false
+  $proxy        = false,
+  $systempkgs   = false,
 ) {
 
   $venv_dir = $name
@@ -55,10 +62,15 @@ define python::virtualenv (
       default => "&& export http_proxy=${proxy}",
     }
 
+    $system_pkgs_flag = $systempkgs ? {
+      false    => '',
+      default  => '--system-site-packages',
+    }
+
     exec { "python_virtualenv_${venv_dir}":
       command => "mkdir -p ${venv_dir} \
         ${proxy_command} \
-        && virtualenv -p `which ${python}` ${venv_dir} \
+        && virtualenv -p `which ${python}` ${system_pkgs_flag} ${venv_dir} \
         && ${venv_dir}/bin/pip install ${proxy_flag} --upgrade distribute pip",
       creates => $venv_dir,
     }
