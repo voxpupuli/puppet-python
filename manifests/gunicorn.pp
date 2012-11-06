@@ -25,6 +25,9 @@
 # [*environment*]
 #  Set ENVIRONMENT variable. Default: none
 #
+# [*template*]
+#  Which ERB template to use. Default: python/gunicorn.erb
+#
 # === Examples
 #
 # python::gunicorn { 'vhost':
@@ -34,6 +37,7 @@
 #   dir         => '/var/www/project1/current',
 #   bind        => 'unix:/tmp/gunicorn.socket',
 #   environment => 'prod',
+#   template    => 'python/gunicorn.erb',
 # }
 #
 # === Authors
@@ -47,6 +51,7 @@ define python::gunicorn (
   $dir           = false,
   $bind          = false,
   $environment   = false,
+  $template      = 'python/gunicorn.erb',
 ) {
 
   # Parameter validation
@@ -59,7 +64,7 @@ define python::gunicorn (
     mode    => '0644',
     owner   => 'root',
     group   => 'root',
-    content => template('python/gunicorn.erb'),
+    content => template($template),
   }
 
 }
