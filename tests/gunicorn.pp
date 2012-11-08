@@ -11,4 +11,5 @@ python::gunicorn { 'vhost':
   dir         => '/var/www/project1/current',
   bind        => 'unix:/tmp/gunicorn.socket',
   environment => 'prod',
+  template    => 'python/gunicorn.erb',
 }
