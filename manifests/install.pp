@@ -12,7 +12,7 @@ class python::install {
     default => absent,
   }
 
-  package { "${python}-dev": ensure => $dev_ensure }
+  package { [ "${python}-dev", 'python-pip' ]: ensure => $dev_ensure }
 
   $venv_ensure = $python::virtualenv ? {
     true    => present,

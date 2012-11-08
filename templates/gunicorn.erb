@@ -30,6 +30,8 @@ CONFIG = {
 <% end -%>
     '--workers=<%= @processorcount.to_i*2 %>',
     '--timeout=30',
+<% if mode != 'django' -%>
     'app:app',
+<% end -%>
   ),
 }
