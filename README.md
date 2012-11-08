@@ -1,7 +1,7 @@
 [puppet-python](https://github.com/stankevich/puppet-python)
 ======
 
-Puppet module for installing and managing python, pip, virtualenv, Gunicorn virtual hosts
+Puppet module for installing and managing python, pip, virtualenvs and Gunicorn virtual hosts.
 
 ## Usage
 
