@@ -4,6 +4,9 @@
 #
 # === Parameters
 #
+# [*requirements*]
+#  Path to the requirements file. Defaults to the resource name
+#
 # [*virtualenv*]
 #  virtualenv to run pip in. Default: system-wide
 #
@@ -23,11 +26,10 @@
 # Ashley Penney
 #
 define python::requirements (
-  $virtualenv = 'system',
-  $proxy      = false
+  $requirements = $name,
+  $virtualenv   = 'system',
+  $proxy        = false
 ) {
-
-  $requirements = $name
 
   $pip_env = $virtualenv ? {
     'system' => '`which pip`',
@@ -41,13 +43,17 @@ define python::requirements (
 
   $req_crc = "${requirements}.sha1"
 
-  file { $requirements:
-    ensure  => present,
-    mode    => '0644',
-    owner   => 'root',
-    group   => 'root',
-    replace => false,
-    content => '# Puppet will install and/or update pip packages listed here',
+   # This will ensure multiple python::virtualenv definitions can share the
+   # the same requirements file.
+   if !defined(File[$requirements]) {
+	file { $requirements:
+      ensure  => present,
+      mode    => '0644',
+      owner   => 'root',
+      group   => 'root',
+      replace => false,
+      content => '# Puppet will install and/or update pip packages listed here',
+    }
   }
 
   # SHA1 checksum to detect changes
