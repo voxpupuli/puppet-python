@@ -5,7 +5,6 @@ class python::config {
   Class['python::install'] -> Python::Virtualenv <| |>
 
   Python::Virtualenv <| |> -> Python::Pip <| |>
-  Python::Virtualenv <| |> -> Python::Requirements <| |>
 
   if $python::gunicorn {
     Class['python::install'] -> Python::Gunicorn <| |>
