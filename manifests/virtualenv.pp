@@ -19,6 +19,9 @@
 # [*systempkgs*]
 #  Copy system site-packages into virtualenv. Default: don't
 #
+# [*distribute*]
+#  Include distribute in the virtualenv. Default: true
+#
 # === Examples
 #
 # python::virtualenv { '/var/www/project1':
@@ -41,6 +44,7 @@ define python::virtualenv (
   $requirements = false,
   $proxy        = false,
   $systempkgs   = false,
+  $distribute   = true,
 ) {
 
   $venv_dir = $name
@@ -67,11 +71,16 @@ define python::virtualenv (
       default  => '--system-site-packages',
     }
 
+    $distribute_pkg = $distribute ? {
+      true     => 'distribute',
+      default  => '',
+    }
+
     exec { "python_virtualenv_${venv_dir}":
       command => "mkdir -p ${venv_dir} \
         ${proxy_command} \
         && virtualenv -p `which ${python}` ${system_pkgs_flag} ${venv_dir} \
-        && ${venv_dir}/bin/pip install ${proxy_flag} --upgrade distribute pip",
+        && ${venv_dir}/bin/pip install ${proxy_flag} --upgrade ${distribute_pkg} pip",
       creates => $venv_dir,
     }
 
