@@ -66,12 +66,15 @@ Creates Python virtualenv.
 
 **systempkgs** — Copy system site-packages into virtualenv. Default: don't
 
+**distribute** — Include distribute in the virtualenv. Default: true
+
 	python::virtualenv { '/var/www/project1':
 	  ensure       => present,
 	  version      => 'system',
 	  requirements => '/var/www/project1/requirements.txt',
 	  proxy        => 'http://proxy.domain.com:3128',
 	  systempkgs   => true,
+	  distribute   => false,
 	}
 
 ### python::gunicorn
