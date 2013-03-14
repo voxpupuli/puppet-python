@@ -82,6 +82,7 @@ define python::virtualenv (
         && virtualenv -p `which ${python}` ${system_pkgs_flag} ${venv_dir} \
         && ${venv_dir}/bin/pip install ${proxy_flag} --upgrade ${distribute_pkg} pip",
       creates => $venv_dir,
+      path => ['/bin', '/usr/bin'],
     }
 
     if $requirements {
