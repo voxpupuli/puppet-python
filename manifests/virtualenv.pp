@@ -76,12 +76,18 @@ define python::virtualenv (
     }
 
     if $requirements {
-      Exec["python_virtualenv_${venv_dir}"]
-      -> Python::Requirements[$requirements]
+      exec { "python_requirements_initial_install_${requirements}_${venv_dir}":
+        command     => "${venv_dir}/bin/pip install ${proxy_flag} --requirement ${requirements}",
+        refreshonly => true,
+        timeout     => 1800,
+        subscribe   => Exec["python_virtualenv_${venv_dir}"],
+      }
 
-      python::requirements { $requirements:
-        virtualenv => $venv_dir,
-        proxy      => $proxy,
+      python::requirements { "${requirements}_${venv_dir}":
+        requirements => $requirements,
+        virtualenv   => $venv_dir,
+        proxy        => $proxy,
+        require      => Exec["python_virtualenv_${venv_dir}"],
       }
     }
 
