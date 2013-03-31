@@ -32,6 +32,8 @@ Installs and manages packages from pip.
 
 **virtualenv** — virtualenv to run pip in.
 
+**url** — URL to install from. Default: none
+
 **proxy** — Proxy server to use for outbound connections. Default: none
 
 	python::pip { 'flask':
