@@ -10,6 +10,9 @@
 # [*virtualenv*]
 #  virtualenv to run pip in.
 #
+# [*url*]
+#  URL to install from. Default: none
+#
 # [*proxy*]
 #  Proxy server to use for outbound connections. Default: none
 #
@@ -27,6 +30,7 @@
 define python::pip (
   $virtualenv,
   $ensure = present,
+  $url    = false,
   $proxy  = false
 ) {
 
@@ -45,10 +49,15 @@ define python::pip (
     default => "^${name}==",
   }
 
+  $source = $url ? {
+    false   => $name,
+    default => "${url}#egg=${name}",
+  }
+
   case $ensure {
     present: {
       exec { "pip_install_${name}":
-        command => "${virtualenv}/bin/pip install ${proxy_flag} ${name}",
+        command => "${virtualenv}/bin/pip install ${proxy_flag} ${source}",
         unless  => "${virtualenv}/bin/pip freeze | grep -i -e ${grep_regex}",
       }
     }
