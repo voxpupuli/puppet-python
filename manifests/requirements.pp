@@ -31,6 +31,11 @@ define python::requirements (
   $proxy        = false
 ) {
 
+  $cwd = $virtualenv ? {
+    'system' => '/',
+    default  => "${virtualenv}/bin/pip",
+  }
+
   $pip_env = $virtualenv ? {
     'system' => '`which pip`',
     default  => "${virtualenv}/bin/pip",
@@ -46,7 +51,7 @@ define python::requirements (
    # This will ensure multiple python::virtualenv definitions can share the
    # the same requirements file.
    if !defined(File[$requirements]) {
-	file { $requirements:
+  file { $requirements:
       ensure  => present,
       mode    => '0644',
       owner   => 'root',
@@ -64,8 +69,9 @@ define python::requirements (
   }
 
   exec { "python_requirements_update_${name}":
+    provider    => shell,
     command     => "${pip_env} install ${proxy_flag} -Ur ${requirements}",
-    cwd         => $virtualenv,
+    cwd         => $cwd,
     refreshonly => true,
     timeout     => 1800,
     subscribe   => Exec["python_requirements_check_${name}"],
