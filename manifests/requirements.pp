@@ -33,7 +33,7 @@ define python::requirements (
 
   $cwd = $virtualenv ? {
     'system' => '/',
-    default  => "${virtualenv}/bin/pip",
+    default  => "${virtualenv}/bin/",
   }
 
   $pip_env = $virtualenv ? {
