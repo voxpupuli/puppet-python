@@ -33,7 +33,7 @@ define python::requirements (
 
   $cwd = $virtualenv ? {
     'system' => '/',
-    default  => "${virtualenv}/bin/pip",
+    default  => "${virtualenv}/bin/",
   }
 
   $pip_env = $virtualenv ? {
@@ -48,10 +48,10 @@ define python::requirements (
 
   $req_crc = "${requirements}.sha1"
 
-   # This will ensure multiple python::virtualenv definitions can share the
-   # the same requirements file.
-   if !defined(File[$requirements]) {
-  file { $requirements:
+  # This will ensure multiple python::virtualenv definitions can share the
+  # the same requirements file.
+  if !defined(File[$requirements]) {
+    file { $requirements:
       ensure  => present,
       mode    => '0644',
       owner   => 'root',
