@@ -28,7 +28,9 @@
 define python::requirements (
   $requirements = $name,
   $virtualenv   = 'system',
-  $proxy        = false
+  $proxy        = false,
+  $owner        = 'root',
+  $group        = 'root'
 ) {
 
   $cwd = $virtualenv ? {
@@ -54,8 +56,8 @@ define python::requirements (
     file { $requirements:
       ensure  => present,
       mode    => '0644',
-      owner   => 'root',
-      group   => 'root',
+      owner   => $owner,
+      group   => $group,
       replace => false,
       content => '# Puppet will install and/or update pip packages listed here',
     }
@@ -65,6 +67,7 @@ define python::requirements (
   exec { "python_requirements_check_${name}":
     command => "sha1sum ${requirements} > ${req_crc}",
     unless  => "sha1sum -c ${req_crc}",
+    user    => $owner,
     require => File[$requirements],
   }
 
@@ -74,6 +77,7 @@ define python::requirements (
     cwd         => $cwd,
     refreshonly => true,
     timeout     => 1800,
+    user        => $owner,
     subscribe   => Exec["python_requirements_check_${name}"],
   }
 
