@@ -45,6 +45,8 @@ define python::virtualenv (
   $proxy        = false,
   $systempkgs   = false,
   $distribute   = true,
+  $owner        = 'root',
+  $group        = 'root'
 ) {
 
   $venv_dir = $name
@@ -81,8 +83,17 @@ define python::virtualenv (
         ${proxy_command} \
         && virtualenv -p `which ${python}` ${system_pkgs_flag} ${venv_dir} \
         && ${venv_dir}/bin/pip install ${proxy_flag} --upgrade ${distribute_pkg} pip",
+      user    => $owner,
       creates => $venv_dir,
       path    => [ '/bin', '/usr/bin', '/usr/sbin' ],
+    }
+
+    file{$venv_dir:
+      ensure  => directory,
+      owner   => $owner,
+      group   => $group,
+      recurse => true,
+      require => Exec["python_virtualenv_${venv_dir}"],
     }
 
     if $requirements {
@@ -90,6 +101,7 @@ define python::virtualenv (
         command     => "${venv_dir}/bin/pip install ${proxy_flag} --requirement ${requirements}",
         refreshonly => true,
         timeout     => 1800,
+        user        => $owner,
         subscribe   => Exec["python_virtualenv_${venv_dir}"],
       }
 
@@ -97,6 +109,8 @@ define python::virtualenv (
         requirements => $requirements,
         virtualenv   => $venv_dir,
         proxy        => $proxy,
+        owner        => $owner,
+        group        => $group,
         require      => Exec["python_virtualenv_${venv_dir}"],
       }
     }
