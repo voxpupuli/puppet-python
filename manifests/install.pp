@@ -5,6 +5,11 @@ class python::install {
     default  => "python${python::version}",
   }
 
+  $pythondev = $::operatingsystem ? {
+    'RedHat', 'CentOS', 'Fedora' => "$python-devel",
+    'Debian', 'Ubuntu' => "$python-dev"
+  }
+
   package { $python: ensure => present }
 
   $dev_ensure = $python::dev ? {
@@ -12,7 +17,7 @@ class python::install {
     default => absent,
   }
 
-  package { [ "${python}-dev", 'python-pip' ]: ensure => $dev_ensure }
+  package { [ $pythondev, 'python-pip' ]: ensure => $dev_ensure }
 
   $venv_ensure = $python::virtualenv ? {
     true    => present,
