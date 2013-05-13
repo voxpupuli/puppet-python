@@ -6,8 +6,8 @@ class python::install {
   }
 
   $pythondev = $::operatingsystem ? {
-    'RedHat', 'CentOS', 'Fedora' => "$python-devel",
-    'Debian', 'Ubuntu' => "$python-dev"
+    /(?i:RedHat|CentOS|Fedora)/ => "$python-devel",
+    /(?i:Debian|Ubuntu)/        => "$python-dev"
   }
 
   package { $python: ensure => present }
