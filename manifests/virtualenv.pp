@@ -30,6 +30,7 @@
 #   requirements => '/var/www/project1/requirements.txt',
 #   proxy        => 'http://proxy.domain.com:3128',
 #   systempkgs   => true,
+#   index        => 'http://www.example.com/simple/'
 # }
 #
 # === Authors
@@ -47,6 +48,7 @@ define python::virtualenv (
   $distribute   = true,
   $owner        = 'root',
   $group        = 'root'
+  $index        = false,
 ) {
 
   $venv_dir = $name
@@ -77,12 +79,17 @@ define python::virtualenv (
       true     => 'distribute',
       default  => '',
     }
+    $pypi_index = $index ? {
+        false   => '',
+        default => "-i ${index}",
+    }
+
 
     exec { "python_virtualenv_${venv_dir}":
       command => "mkdir -p ${venv_dir} \
         ${proxy_command} \
         && virtualenv -p `which ${python}` ${system_pkgs_flag} ${venv_dir} \
-        && ${venv_dir}/bin/pip install ${proxy_flag} --upgrade ${distribute_pkg} pip",
+        && ${venv_dir}/bin/pip install ${pypi_index} ${proxy_flag} --upgrade ${distribute_pkg} pip",
       user    => $owner,
       creates => $venv_dir,
       path    => [ '/bin', '/usr/bin', '/usr/sbin' ],
@@ -98,7 +105,7 @@ define python::virtualenv (
 
     if $requirements {
       exec { "python_requirements_initial_install_${requirements}_${venv_dir}":
-        command     => "${venv_dir}/bin/pip install ${proxy_flag} --requirement ${requirements}",
+        command     => "${venv_dir}/bin/pip install ${pypi_index} ${proxy_flag} --requirement ${requirements}",
         refreshonly => true,
         timeout     => 1800,
         user        => $owner,
