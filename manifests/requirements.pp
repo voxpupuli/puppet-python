@@ -65,10 +65,11 @@ define python::requirements (
 
   # SHA1 checksum to detect changes
   exec { "python_requirements_check_${name}":
-    command => "sha1sum ${requirements} > ${req_crc}",
-    unless  => "sha1sum -c ${req_crc}",
-    user    => $owner,
-    require => File[$requirements],
+    provider => shell,
+    command  => "sha1sum ${requirements} > ${req_crc}",
+    unless   => "sha1sum -c ${req_crc}",
+    user     => $owner,
+    require  => File[$requirements],
   }
 
   exec { "python_requirements_update_${name}":
