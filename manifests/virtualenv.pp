@@ -47,7 +47,7 @@ define python::virtualenv (
   $systempkgs   = false,
   $distribute   = true,
   $owner        = 'root',
-  $group        = 'root'
+  $group        = 'root',
   $index        = false,
 ) {
 
