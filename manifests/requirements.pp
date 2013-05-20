@@ -48,8 +48,6 @@ define python::requirements (
     default  => "--proxy=${proxy}",
   }
 
-  $req_crc = "${requirements}.sha1"
-
   # This will ensure multiple python::virtualenv definitions can share the
   # the same requirements file.
   if !defined(File[$requirements]) {
@@ -58,28 +56,20 @@ define python::requirements (
       mode    => '0644',
       owner   => $owner,
       group   => $group,
+      audit   => content,
       replace => false,
       content => '# Puppet will install and/or update pip packages listed here',
     }
   }
 
-  # SHA1 checksum to detect changes
-  exec { "python_requirements_check_${name}":
-    provider => shell,
-    command  => "sha1sum ${requirements} > ${req_crc}",
-    unless   => "sha1sum -c ${req_crc}",
-    user     => $owner,
-    require  => File[$requirements],
-  }
-
-  exec { "python_requirements_update_${name}":
+  exec { "python_requirements${name}":
     provider    => shell,
-    command     => "${pip_env} install ${proxy_flag} -Ur ${requirements}",
+    command     => "${pip_env} install ${proxy_flag} -r ${requirements}",
     cwd         => $cwd,
     refreshonly => true,
     timeout     => 1800,
     user        => $owner,
-    subscribe   => Exec["python_requirements_check_${name}"],
+    subscribe   => File[$requirements],
   }
 
 }
