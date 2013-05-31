@@ -70,6 +70,11 @@ Creates Python virtualenv.
 
 **distribute** — Include distribute in the virtualenv. Default: true
 
+** owner ** - specify the owner of this virtualenv
+
+** group ** - specify the group for this virtualenv
+
+
 	python::virtualenv { '/var/www/project1':
 	  ensure       => present,
 	  version      => 'system',
@@ -77,6 +82,8 @@ Creates Python virtualenv.
 	  proxy        => 'http://proxy.domain.com:3128',
 	  systempkgs   => true,
 	  distribute   => false,
+	  owner        => 'appuser',
+	  group        => 'apps',
 	}
 
 ### python::gunicorn
