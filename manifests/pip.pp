@@ -28,7 +28,7 @@
 # Sergey Stankevich
 #
 define python::pip (
-  $virtualenv,
+  $virtualenv = 'system',
   $ensure     = present,
   $url        = false,
   $owner      = 'root',
@@ -40,6 +40,20 @@ define python::pip (
   # Parameter validation
   if ! $virtualenv {
     fail('python::pip: virtualenv parameter must not be empty')
+  }
+
+  if $virtualenv == 'system' and ($owner != 'root' or $group != 'root') {
+    fail('python::pip: root user must be used when virtualenv is system')
+  }
+
+  $cwd = $virtualenv ? {
+    'system' => '/',
+    default  => "${virtualenv}",
+  }
+
+  $pip_env = $virtualenv ? {
+    'system' => '`which pip`',
+    default  => "${virtualenv}/bin/pip",
   }
 
   $proxy_flag = $proxy ? {
@@ -60,8 +74,8 @@ define python::pip (
   case $ensure {
     present: {
       exec { "pip_install_${name}":
-        command     => "${virtualenv}/bin/pip install ${proxy_flag} ${source}",
-        unless      => "${virtualenv}/bin/pip freeze | grep -i -e ${grep_regex}",
+        command     => "$pip_env --log-file ${cwd}/pip.log install ${proxy_flag} ${source}",
+        unless      => "$pip_env freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         environment => $environment,
       }
@@ -69,8 +83,8 @@ define python::pip (
 
     default: {
       exec { "pip_uninstall_${name}":
-        command     => "echo y | ${virtualenv}/bin/pip uninstall ${proxy_flag} ${name}",
-        onlyif      => "${virtualenv}/bin/pip freeze | grep -i -e ${grep_regex}",
+        command     => "echo y | $pip_env uninstall ${proxy_flag} ${name}",
+        onlyif      => "$pip_env freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         environment => $environment,
       }
