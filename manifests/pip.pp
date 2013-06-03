@@ -29,9 +29,11 @@
 #
 define python::pip (
   $virtualenv,
-  $ensure = present,
-  $url    = false,
-  $proxy  = false
+  $ensure     = present,
+  $url        = false,
+  $owner      = 'root',
+  $group      = 'root',
+  $proxy      = false
 ) {
 
   # Parameter validation
@@ -57,15 +59,17 @@ define python::pip (
   case $ensure {
     present: {
       exec { "pip_install_${name}":
-        command => "${virtualenv}/bin/pip install ${proxy_flag} ${source}",
-        unless  => "${virtualenv}/bin/pip freeze | grep -i -e ${grep_regex}",
+        command     => "${virtualenv}/bin/pip install ${proxy_flag} ${source}",
+        unless      => "${virtualenv}/bin/pip freeze | grep -i -e ${grep_regex}",
+        user        => $owner,
       }
     }
 
     default: {
       exec { "pip_uninstall_${name}":
-        command => "echo y | ${virtualenv}/bin/pip uninstall ${proxy_flag} ${name}",
-        onlyif  => "${virtualenv}/bin/pip freeze | grep -i -e ${grep_regex}",
+        command     => "echo y | ${virtualenv}/bin/pip uninstall ${proxy_flag} ${name}",
+        onlyif      => "${virtualenv}/bin/pip freeze | grep -i -e ${grep_regex}",
+        user        => $owner,
       }
     }
   }
