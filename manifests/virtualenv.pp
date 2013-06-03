@@ -22,6 +22,15 @@
 # [*distribute*]
 #  Include distribute in the virtualenv. Default: true
 #
+# [*owner*]
+#  The owner of the virtualenv being manipulated. Default: root
+#
+# [*group*]
+#  The group relating to the virtualenv being manipulated. Default: root
+#
+# [*index*]
+#  Base URL of Python package index. Default: none (http://pypi.python.org/simple/)
+#
 # === Examples
 #
 # python::virtualenv { '/var/www/project1':
@@ -38,6 +47,7 @@
 # Sergey Stankevich
 # Ashley Penney
 # Marc Fournier
+# Fotis Gimian
 #
 define python::virtualenv (
   $ensure       = present,
