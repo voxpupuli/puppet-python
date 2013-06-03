@@ -33,9 +33,13 @@ define python::requirements (
   $group        = 'root'
 ) {
 
+  if $virtualenv == 'system' and ($owner != 'root' or $group != 'root') {
+    fail('python::pip: root user must be used when virtualenv is system')
+  }
+
   $cwd = $virtualenv ? {
     'system' => '/',
-    default  => "${virtualenv}/bin/",
+    default  => "${virtualenv}",
   }
 
   $pip_env = $virtualenv ? {
@@ -64,8 +68,7 @@ define python::requirements (
 
   exec { "python_requirements${name}":
     provider    => shell,
-    command     => "${pip_env} install ${proxy_flag} -r ${requirements}",
-    cwd         => $cwd,
+    command     => "${pip_env} --log-file ${cwd}/pip.log install ${proxy_flag} -r ${requirements}",
     refreshonly => true,
     timeout     => 1800,
     user        => $owner,
