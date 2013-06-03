@@ -13,8 +13,14 @@
 # [*url*]
 #  URL to install from. Default: none
 #
+# [*owner*]
+#  The owner of the virtualenv being manipulated. Default: root
+#
 # [*proxy*]
 #  Proxy server to use for outbound connections. Default: none
+#
+# [*environment*]
+#  Additional environment variables required to install the packages. Default: none
 #
 # === Examples
 #
@@ -26,6 +32,7 @@
 # === Authors
 #
 # Sergey Stankevich
+# Fotis Gimian
 #
 define python::pip (
   $ensure      = present,

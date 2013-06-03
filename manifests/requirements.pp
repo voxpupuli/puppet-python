@@ -13,6 +13,12 @@
 # [*proxy*]
 #  Proxy server to use for outbound connections. Default: none
 #
+# [*owner*]
+#  The owner of the virtualenv being manipulated. Default: root
+#
+# [*group*]
+#  The group relating to the virtualenv being manipulated. Default: root
+#
 # === Examples
 #
 # python::requirements { '/var/www/project1/requirements.txt':
@@ -24,6 +30,7 @@
 #
 # Sergey Stankevich
 # Ashley Penney
+# Fotis Gimian
 #
 define python::requirements (
   $requirements = $name,
