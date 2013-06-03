@@ -28,13 +28,12 @@
 # Sergey Stankevich
 #
 define python::pip (
-  $virtualenv = 'system',
-  $ensure     = present,
-  $url        = false,
-  $owner      = 'root',
-  $group      = 'root',
-  $proxy      = false,
-  environment = []
+  $ensure      = present,
+  $virtualenv  = 'system',
+  $url         = false,
+  $owner       = 'root',
+  $proxy       = false,
+  $environment = []
 ) {
 
   # Parameter validation
@@ -42,7 +41,7 @@ define python::pip (
     fail('python::pip: virtualenv parameter must not be empty')
   }
 
-  if $virtualenv == 'system' and ($owner != 'root' or $group != 'root') {
+  if $virtualenv == 'system' and $owner != 'root' {
     fail('python::pip: root user must be used when virtualenv is system')
   }
 
