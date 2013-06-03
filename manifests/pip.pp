@@ -33,7 +33,8 @@ define python::pip (
   $url        = false,
   $owner      = 'root',
   $group      = 'root',
-  $proxy      = false
+  $proxy      = false,
+  environment = []
 ) {
 
   # Parameter validation
@@ -62,6 +63,7 @@ define python::pip (
         command     => "${virtualenv}/bin/pip install ${proxy_flag} ${source}",
         unless      => "${virtualenv}/bin/pip freeze | grep -i -e ${grep_regex}",
         user        => $owner,
+        environment => $environment,
       }
     }
 
@@ -70,6 +72,7 @@ define python::pip (
         command     => "echo y | ${virtualenv}/bin/pip uninstall ${proxy_flag} ${name}",
         onlyif      => "${virtualenv}/bin/pip freeze | grep -i -e ${grep_regex}",
         user        => $owner,
+        environment => $environment,
       }
     }
   }
