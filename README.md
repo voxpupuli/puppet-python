@@ -1,9 +1,11 @@
-[puppet-python](https://github.com/stankevich/puppet-python)
+[puppet-python](https://github.com/fgimian/puppet-python)
 ======
 
-Puppet module for installing and managing python, pip, virtualenvs and Gunicorn virtual hosts.
+This project was forked from [stankevich's Github page](https://github.com/stankevich/puppet-python)
 
-**Version 1.1.x Notes**
+Puppet module for installing and managing python, pip, virtualenvs and Gunicorn virtual hosts.  This fork makes several fundamental changes to the core of this module, adding some additional features, improving performance and making operations more robust in general.
+
+**Version 1.1.x Notes (fgimian fork)**
 
 Version 1.1.x makes several fundamental changes to the core of this module, adding some additional features, improving performance and making operations more robust in general.
 
@@ -18,7 +20,7 @@ Currently, the changes you need to make are as follows:
 
 ``` bash
 cd /etc/puppet/modules
-git clone git://github.com/stankevich/puppet-python.git python
+git clone git://github.com/fgimian/puppet-python.git python
 ```
 
 ## Usage
