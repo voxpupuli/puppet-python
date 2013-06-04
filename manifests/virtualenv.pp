@@ -95,7 +95,7 @@ define python::virtualenv (
     }
 
     exec { "python_virtualenv_${venv_dir}":
-      command => "mkdir -p ${venv_dir} ${proxy_command} && virtualenv -p `which ${python}` ${system_pkgs_flag} ${venv_dir} && ${venv_dir}/bin/pip --log-file ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} --upgrade ${distribute_pkg} pip",
+      command => "mkdir -p ${venv_dir} ${proxy_command} && virtualenv ${system_pkgs_flag} ${venv_dir} && ${venv_dir}/bin/pip --log-file ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} --upgrade ${distribute_pkg} pip",
       user    => $owner,
       creates => "${venv_dir}/bin/activate",
       path    => [ '/bin', '/usr/bin', '/usr/sbin' ],

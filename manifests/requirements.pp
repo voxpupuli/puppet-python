@@ -50,7 +50,7 @@ define python::requirements (
   }
 
   $pip_env = $virtualenv ? {
-    'system' => '`which pip`',
+    'system' => 'pip',
     default  => "${virtualenv}/bin/pip",
   }
 
