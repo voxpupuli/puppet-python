@@ -7,6 +7,9 @@
 # [*version*]
 #  Python version to install. Default: system default
 #
+# [*pip*]
+#  Install python-pip. Default: false
+#
 # [*dev*]
 #  Install python-dev. Default: false
 #
@@ -20,6 +23,7 @@
 #
 # class { 'python':
 #   version    => 'system',
+#   pip        => true,
 #   dev        => true,
 #   virtualenv => true,
 #   gunicorn   => true,
@@ -31,6 +35,7 @@
 #
 class python (
   $version    = 'system',
+  $pip        = false,
   $dev        = false,
   $virtualenv = false,
   $gunicorn   = false

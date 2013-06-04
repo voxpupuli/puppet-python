@@ -3,15 +3,16 @@
 
 Puppet module for installing and managing python, pip, virtualenvs and Gunicorn virtual hosts.
 
-**Version 1.1.0 Notes**
+**Version 1.1.1 Notes**
 
-Version 1.1.0 makes several fundamental changes to the core of this module, adding some additional features, improving performance and making operations more robust in general.
+Version 1.1.1 makes several fundamental changes to the core of this module, adding some additional features, improving performance and making operations more robust in general.
 
-Please note that everal changes have been made in v1.1.0 which make manifests incompatible with the previous version.  However, modifying your manifests to suit is trivial.  Please see the notes below.
+Please note that everal changes have been made in v1.1.1 which make manifests incompatible with the previous version.  However, modifying your manifests to suit is trivial.  Please see the notes below.
 
 Currently, the changes you need to make are as follows:
 
 * All pip definitions MUST include the owner field which specifies which user owns the virtualenv that packages will be installed in.  Adding this greatly improves performance and efficiency of this module.
+* You must explicitly specify pip => true in the python class if you want pip installed.  As such, the pip package is now independent of the dev package and so one can exist without the other.
 
 ## Installation
 
@@ -27,6 +28,8 @@ git clone git://github.com/stankevich/puppet-python.git
 Installs and manages python, python-dev, python-virtualenv and Gunicorn.
 
 **version** - Python version to install. Default: system default
+
+**pip** - Install python-pip. Default: false
 
 **dev** - Install python-dev. Default: false
 
