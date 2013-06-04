@@ -58,7 +58,7 @@ define python::pip (
   }
 
   $pip_env = $virtualenv ? {
-    'system' => '`which pip`',
+    'system' => 'pip',
     default  => "${virtualenv}/bin/pip",
   }
 
