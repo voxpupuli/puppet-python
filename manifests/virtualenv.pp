@@ -13,14 +13,14 @@
 # [*requirements*]
 #  Path to pip requirements.txt file. Default: none
 #
-# [*proxy*]
-#  Proxy server to use for outbound connections. Default: none
-#
 # [*systempkgs*]
 #  Copy system site-packages into virtualenv. Default: don't
 #
 # [*distribute*]
 #  Include distribute in the virtualenv. Default: true
+#
+# [*index*]
+#  Base URL of Python package index. Default: none (http://pypi.python.org/simple/)
 #
 # [*owner*]
 #  The owner of the virtualenv being manipulated. Default: root
@@ -28,8 +28,11 @@
 # [*group*]
 #  The group relating to the virtualenv being manipulated. Default: root
 #
-# [*index*]
-#  Base URL of Python package index. Default: none (http://pypi.python.org/simple/)
+# [*proxy*]
+#  Proxy server to use for outbound connections. Default: none
+#
+# [*environment*]
+#  Additional environment variables required to install the packages. Default: none
 #
 # === Examples
 #
@@ -53,12 +56,13 @@ define python::virtualenv (
   $ensure       = present,
   $version      = 'system',
   $requirements = false,
-  $proxy        = false,
   $systempkgs   = false,
   $distribute   = true,
+  $index        = false,
   $owner        = 'root',
   $group        = 'root',
-  $index        = false,
+  $proxy        = false,
+  $environment = []
 ) {
 
   $venv_dir = $name
@@ -100,6 +104,7 @@ define python::virtualenv (
       creates => "${venv_dir}/bin/activate",
       path    => [ '/bin', '/usr/bin', '/usr/sbin' ],
       cwd     => "/tmp",
+      environment => $environment,
     }
 
     if $requirements {
@@ -109,6 +114,7 @@ define python::virtualenv (
         timeout     => 1800,
         user        => $owner,
         subscribe   => Exec["python_virtualenv_${venv_dir}"],
+        environment => $environment,
       }
 
       python::requirements { "${requirements}_${venv_dir}":
