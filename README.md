@@ -18,7 +18,7 @@ Currently, the changes you need to make are as follows:
 
 ``` bash
 cd /etc/puppet/modules
-git clone git://github.com/stankevich/puppet-python.git
+git clone git://github.com/stankevich/puppet-python.git python
 ```
 
 ## Usage
