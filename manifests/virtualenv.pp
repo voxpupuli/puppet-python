@@ -99,6 +99,7 @@ define python::virtualenv (
       user    => $owner,
       creates => "${venv_dir}/bin/activate",
       path    => [ '/bin', '/usr/bin', '/usr/sbin' ],
+      cwd     => "/tmp",
     }
 
     if $requirements {
