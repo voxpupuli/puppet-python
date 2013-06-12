@@ -10,8 +10,17 @@
 # [*virtualenv*]
 #  virtualenv to run pip in. Default: system-wide
 #
+# [*owner*]
+#  The owner of the virtualenv being manipulated. Default: root
+#
+# [*group*]
+#  The group relating to the virtualenv being manipulated. Default: root
+#
 # [*proxy*]
 #  Proxy server to use for outbound connections. Default: none
+#
+# [*environment*]
+#  Additional environment variables required to install the packages. Default: none
 #
 # === Examples
 #
@@ -24,22 +33,28 @@
 #
 # Sergey Stankevich
 # Ashley Penney
+# Fotis Gimian
 #
 define python::requirements (
   $requirements = $name,
   $virtualenv   = 'system',
-  $proxy        = false,
   $owner        = 'root',
-  $group        = 'root'
+  $group        = 'root',
+  $proxy        = false,
+  $environment = []
 ) {
+
+  if $virtualenv == 'system' and ($owner != 'root' or $group != 'root') {
+    fail('python::pip: root user must be used when virtualenv is system')
+  }
 
   $cwd = $virtualenv ? {
     'system' => '/',
-    default  => "${virtualenv}/bin/",
+    default  => "${virtualenv}",
   }
 
   $pip_env = $virtualenv ? {
-    'system' => '`which pip`',
+    'system' => 'pip',
     default  => "${virtualenv}/bin/pip",
   }
 
@@ -64,12 +79,12 @@ define python::requirements (
 
   exec { "python_requirements${name}":
     provider    => shell,
-    command     => "${pip_env} install ${proxy_flag} -r ${requirements}",
-    cwd         => $cwd,
+    command     => "${pip_env} --log-file ${cwd}/pip.log install ${proxy_flag} -r ${requirements}",
     refreshonly => true,
     timeout     => 1800,
     user        => $owner,
     subscribe   => File[$requirements],
+    environment => $environment,
   }
 
 }
