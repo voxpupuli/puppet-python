@@ -13,8 +13,14 @@
 # [*url*]
 #  URL to install from. Default: none
 #
+# [*owner*]
+#  The owner of the virtualenv being manipulated. Default: root
+#
 # [*proxy*]
 #  Proxy server to use for outbound connections. Default: none
+#
+# [*environment*]
+#  Additional environment variables required to install the packages. Default: none
 #
 # === Examples
 #
@@ -26,17 +32,34 @@
 # === Authors
 #
 # Sergey Stankevich
+# Fotis Gimian
 #
 define python::pip (
-  $virtualenv,
-  $ensure = present,
-  $url    = false,
-  $proxy  = false
+  $ensure      = present,
+  $virtualenv  = 'system',
+  $url         = false,
+  $owner       = 'root',
+  $proxy       = false,
+  $environment = []
 ) {
 
   # Parameter validation
   if ! $virtualenv {
     fail('python::pip: virtualenv parameter must not be empty')
+  }
+
+  if $virtualenv == 'system' and $owner != 'root' {
+    fail('python::pip: root user must be used when virtualenv is system')
+  }
+
+  $cwd = $virtualenv ? {
+    'system' => '/',
+    default  => "${virtualenv}",
+  }
+
+  $pip_env = $virtualenv ? {
+    'system' => 'pip',
+    default  => "${virtualenv}/bin/pip",
   }
 
   $proxy_flag = $proxy ? {
@@ -57,15 +80,19 @@ define python::pip (
   case $ensure {
     present: {
       exec { "pip_install_${name}":
-        command => "${virtualenv}/bin/pip install ${proxy_flag} ${source}",
-        unless  => "${virtualenv}/bin/pip freeze | grep -i -e ${grep_regex}",
+        command     => "$pip_env --log-file ${cwd}/pip.log install ${proxy_flag} ${source}",
+        unless      => "$pip_env freeze | grep -i -e ${grep_regex}",
+        user        => $owner,
+        environment => $environment,
       }
     }
 
     default: {
       exec { "pip_uninstall_${name}":
-        command => "echo y | ${virtualenv}/bin/pip uninstall ${proxy_flag} ${name}",
-        onlyif  => "${virtualenv}/bin/pip freeze | grep -i -e ${grep_regex}",
+        command     => "echo y | $pip_env uninstall ${proxy_flag} ${name}",
+        onlyif      => "$pip_env freeze | grep -i -e ${grep_regex}",
+        user        => $owner,
+        environment => $environment,
       }
     }
   }

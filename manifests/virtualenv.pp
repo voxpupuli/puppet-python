@@ -13,14 +13,26 @@
 # [*requirements*]
 #  Path to pip requirements.txt file. Default: none
 #
-# [*proxy*]
-#  Proxy server to use for outbound connections. Default: none
-#
 # [*systempkgs*]
 #  Copy system site-packages into virtualenv. Default: don't
 #
 # [*distribute*]
 #  Include distribute in the virtualenv. Default: true
+#
+# [*index*]
+#  Base URL of Python package index. Default: none (http://pypi.python.org/simple/)
+#
+# [*owner*]
+#  The owner of the virtualenv being manipulated. Default: root
+#
+# [*group*]
+#  The group relating to the virtualenv being manipulated. Default: root
+#
+# [*proxy*]
+#  Proxy server to use for outbound connections. Default: none
+#
+# [*environment*]
+#  Additional environment variables required to install the packages. Default: none
 #
 # === Examples
 #
@@ -38,17 +50,19 @@
 # Sergey Stankevich
 # Ashley Penney
 # Marc Fournier
+# Fotis Gimian
 #
 define python::virtualenv (
   $ensure       = present,
   $version      = 'system',
   $requirements = false,
-  $proxy        = false,
   $systempkgs   = false,
   $distribute   = true,
+  $index        = false,
   $owner        = 'root',
   $group        = 'root',
-  $index        = false,
+  $proxy        = false,
+  $environment = []
 ) {
 
   $venv_dir = $name
@@ -84,29 +98,23 @@ define python::virtualenv (
         default => "-i ${index}",
     }
 
-
     exec { "python_virtualenv_${venv_dir}":
-      command => "mkdir -p ${venv_dir} ${proxy_command} && virtualenv -p `which ${python}` ${system_pkgs_flag} ${venv_dir} && ${venv_dir}/bin/pip install ${pypi_index} ${proxy_flag} --upgrade ${distribute_pkg} pip",
+      command => "mkdir -p ${venv_dir} ${proxy_command} && virtualenv ${system_pkgs_flag} ${venv_dir} && ${venv_dir}/bin/pip --log-file ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} --upgrade ${distribute_pkg} pip",
       user    => $owner,
-      creates => $venv_dir,
+      creates => "${venv_dir}/bin/activate",
       path    => [ '/bin', '/usr/bin', '/usr/sbin' ],
-    }
-
-    file{$venv_dir:
-      ensure  => directory,
-      owner   => $owner,
-      group   => $group,
-      recurse => true,
-      require => Exec["python_virtualenv_${venv_dir}"],
+      cwd     => "/tmp",
+      environment => $environment,
     }
 
     if $requirements {
       exec { "python_requirements_initial_install_${requirements}_${venv_dir}":
-        command     => "${venv_dir}/bin/pip install ${pypi_index} ${proxy_flag} --requirement ${requirements}",
+        command     => "${venv_dir}/bin/pip --log-file ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} -r ${requirements}",
         refreshonly => true,
         timeout     => 1800,
         user        => $owner,
         subscribe   => Exec["python_virtualenv_${venv_dir}"],
+        environment => $environment,
       }
 
       python::requirements { "${requirements}_${venv_dir}":
