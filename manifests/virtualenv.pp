@@ -34,6 +34,9 @@
 # [*environment*]
 #  Additional environment variables required to install the packages. Default: none
 #
+# [*path*]
+#  Specifies the PATH variable. Default: [ '/bin', '/usr/bin', '/usr/sbin' ]
+#
 # === Examples
 #
 # python::virtualenv { '/var/www/project1':
