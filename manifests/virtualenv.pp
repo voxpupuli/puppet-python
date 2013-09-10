@@ -34,6 +34,9 @@
 # [*environment*]
 #  Additional environment variables required to install the packages. Default: none
 #
+# [*path*]
+#  Specifies the PATH variable. Default: [ '/bin', '/usr/bin', '/usr/sbin' ]
+#
 # === Examples
 #
 # python::virtualenv { '/var/www/project1':
@@ -62,7 +65,8 @@ define python::virtualenv (
   $owner        = 'root',
   $group        = 'root',
   $proxy        = false,
-  $environment = []
+  $environment  = [],
+  $path         = [ '/bin', '/usr/bin', '/usr/sbin' ]
 ) {
 
   $venv_dir = $name
@@ -102,7 +106,7 @@ define python::virtualenv (
       command => "mkdir -p ${venv_dir} ${proxy_command} && virtualenv ${system_pkgs_flag} -p ${python} ${venv_dir} && ${venv_dir}/bin/pip --log-file ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} --upgrade pip ${distribute_pkg}",
       user    => $owner,
       creates => "${venv_dir}/bin/activate",
-      path    => [ '/bin', '/usr/bin', '/usr/sbin' ],
+      path    => $path,
       cwd     => "/tmp",
       environment => $environment,
     }
