@@ -19,6 +19,11 @@
 # [*proxy*]
 #  Proxy server to use for outbound connections. Default: none
 #
+# [*src*]
+# Pip --src parameter; if the requirements file contains --editable resources,
+# this parameter specifies where they will be installed. See the pip
+# documentation for more. Default: none (i.e. use the pip default).
+#
 # [*environment*]
 #  Additional environment variables required to install the packages. Default: none
 #
@@ -41,6 +46,7 @@ define python::requirements (
   $owner        = 'root',
   $group        = 'root',
   $proxy        = false,
+  $src          = false,
   $environment = []
 ) {
 
@@ -63,6 +69,11 @@ define python::requirements (
     default  => "--proxy=${proxy}",
   }
 
+  $src_flag = $src ? {
+    false   => '',
+    default => "--src=${src}",
+  }
+
   # This will ensure multiple python::virtualenv definitions can share the
   # the same requirements file.
   if !defined(File[$requirements]) {
@@ -79,7 +90,7 @@ define python::requirements (
 
   exec { "python_requirements${name}":
     provider    => shell,
-    command     => "${pip_env} --log-file ${cwd}/pip.log install ${proxy_flag} -r ${requirements}",
+    command     => "${pip_env} --log-file ${cwd}/pip.log install ${proxy_flag} ${src_flag} -r ${requirements}",
     refreshonly => true,
     timeout     => 1800,
     user        => $owner,
