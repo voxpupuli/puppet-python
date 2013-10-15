@@ -62,6 +62,10 @@ Installs and manages packages from pip.
 
 **egg** - The egg name to use. Default: $name of the class, e.g. cx_Oracle
 
+**install_args** - Array of additional flags to pass to pip during installaton. Default: none
+
+**uninstall_args** - Array of additional flags to pass to pip during uninstall. Default: none
+
 	python::pip { 'cx_Oracle':
 	  virtualenv  => '/var/www/project1',
 	  owner       => 'appuser',
