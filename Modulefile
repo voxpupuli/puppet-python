@@ -1,4 +1,4 @@
-name         'puppet-python'
+name         'nibalizer-python'
 version      '1.1.4'
 
 author       'Sergey Stankevich'
