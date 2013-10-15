@@ -40,6 +40,7 @@ define python::pip (
   $url             = false,
   $owner           = 'root',
   $proxy           = false,
+  $egg             = false,
   $environment     = [],
   $install_args    = '',
   $uninstall_args  = '',
@@ -74,9 +75,14 @@ define python::pip (
     default => "^${name}==",
   }
 
+  $egg_name = $egg ? {
+    false   => $name,
+    default => $egg
+  }
+
   $source = $url ? {
     false   => $name,
-    default => "${url}#egg=${name}",
+    default => "${url}#egg=${egg_name}",
   }
 
   case $ensure {
