@@ -1,6 +1,14 @@
 [puppet-python](https://github.com/stankevich/puppet-python)
 ======
 
+Note that this module is developed at:
+
+https://github.com/stankevich/puppet-python
+
+
+Nibalizer is only releasing it to the forge
+
+
 Puppet module for installing and managing python, pip, virtualenvs and Gunicorn virtual hosts.
 
 **Version 1.1.x Notes**
