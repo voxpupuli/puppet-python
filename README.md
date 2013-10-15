@@ -60,6 +60,8 @@ Installs and manages packages from pip.
 
 **environment** - Additional environment variables required to install the packages. Default: none
 
+**egg** - The egg name to use. Default: $name of the class, e.g. cx_Oracle
+
 	python::pip { 'cx_Oracle':
 	  virtualenv  => '/var/www/project1',
 	  owner       => 'appuser',
