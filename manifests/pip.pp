@@ -88,7 +88,7 @@ define python::pip (
   case $ensure {
     present: {
       exec { "pip_install_${name}":
-        command     => "$pip_env --log-file ${cwd}/pip.log install $install_args ${proxy_flag} ${source}",
+        command     => "$pip_env --log ${cwd}/pip.log install $install_args ${proxy_flag} ${source}",
         unless      => "$pip_env freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         environment => $environment,
