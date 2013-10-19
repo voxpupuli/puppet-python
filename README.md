@@ -60,11 +60,18 @@ Installs and manages packages from pip.
 
 **environment** - Additional environment variables required to install the packages. Default: none
 
+**egg** - The egg name to use. Default: $name of the class, e.g. cx_Oracle
+
+**install_args** - Array of additional flags to pass to pip during installaton. Default: none
+
+**uninstall_args** - Array of additional flags to pass to pip during uninstall. Default: none
+
 	python::pip { 'cx_Oracle':
-	  virtualenv  => '/var/www/project1',
-	  owner       => 'appuser',
-	  proxy       => 'http://proxy.domain.com:3128',
-	  environment => 'ORACLE_HOME=/usr/lib/oracle/11.2/client64',
+	  virtualenv  	=> '/var/www/project1',
+	  owner       	=> 'appuser',
+	  proxy       	=> 'http://proxy.domain.com:3128',
+	  environment 	=> 'ORACLE_HOME=/usr/lib/oracle/11.2/client64',
+	  install_args	=> ['-e'],
 	}
 
 ### python::requirements
