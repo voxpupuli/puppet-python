@@ -1,4 +1,4 @@
-name         'puppet-python'
+name         'stankevich-python'
 version      '1.1.6'
 
 author       'Sergey Stankevich'
