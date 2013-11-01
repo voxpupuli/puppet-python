@@ -92,8 +92,8 @@ define python::virtualenv (
 
     # Virtualenv versions prior to 1.7 do not support the 
     # --system-site-packages flag, default off for prior versions
-    if versioncmp($::virtualenv_version,'1.7') > 0 and systempkgs == true {
-      $system_pkgs_flag = '--system-site-packages',
+    if (( versioncmp($::virtualenv_version,'1.7') > 0 ) and ( $systempkgs == true )) {
+      $system_pkgs_flag = '--system-site-packages'
     } else {
       $system_pkgs_flag = ''
     }
