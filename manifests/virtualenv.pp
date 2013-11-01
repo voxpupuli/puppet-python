@@ -15,6 +15,8 @@
 #
 # [*systempkgs*]
 #  Copy system site-packages into virtualenv. Default: don't
+#  If virtualenv version < 1.7 this flag has no effect since
+#  the system packages were not supported
 #
 # [*distribute*]
 #  Include distribute in the virtualenv. Default: true
@@ -88,9 +90,12 @@ define python::virtualenv (
       default => "&& export http_proxy=${proxy}",
     }
 
-    $system_pkgs_flag = $systempkgs ? {
-      false    => '',
-      default  => '--system-site-packages',
+    # Virtualenv versions prior to 1.7 do not support the 
+    # --system-site-packages flag, default off for prior versions
+    if versioncmp($::virtualenv_version,'1.7') > 0 and systempkgs == true {
+      $system_pkgs_flag = '--system-site-packages',
+    } else {
+      $system_pkgs_flag = ''
     }
 
     $distribute_pkg = $distribute ? {
