@@ -31,7 +31,7 @@ class python::install {
     pip => absent,
   }
 
-  case $venv_ensure {
+  case $python::virtualenv {
     'pip': {
       exec { "pip-virtualenv":
         command => "pip install --upgrade virtualenv",
