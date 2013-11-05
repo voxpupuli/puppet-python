@@ -28,9 +28,24 @@ class python::install {
   $venv_ensure = $python::virtualenv ? {
     true    => present,
     default => absent,
+    pip => absent,
   }
 
-  package { 'python-virtualenv': ensure => $venv_ensure }
+  case $venv_ensure {
+    'pip': {
+      exec { "pip-virtualenv":
+        command => "pip install --upgrade virtualenv",
+        cwd => $cwd,
+        user => $run_as_user,
+        timeout => 0,
+        path => ["/usr/local/bin","/usr/bin","/bin", "/usr/sbin"],
+        require => Package['python-pip']
+      }
+    }
+    default: {
+      package { 'python-virtualenv': ensure => $venv_ensure }
+    }
+  }
 
   $gunicorn_ensure = $python::gunicorn ? {
     true    => present,
