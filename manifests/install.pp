@@ -28,19 +28,12 @@ class python::install {
   $venv_ensure = $python::virtualenv ? {
     true    => present,
     default => absent,
-    pip => absent,
   }
 
-  case $python::virtualenv {
-    'pip': {
-      exec { "pip-virtualenv":
-        command => "pip install --upgrade virtualenv",
-        cwd => $cwd,
-        user => $run_as_user,
-        timeout => 0,
-        path => ["/usr/local/bin","/usr/bin","/bin", "/usr/sbin"],
-        require => Package['python-pip']
-      }
+  # Install latest from pip if pip is the provider
+  case $python::provider {
+    pip: {
+      package { 'python-virtualenv': ensure => latest, provider => pip } 
     }
     default: {
       package { 'python-virtualenv': ensure => $venv_ensure }
