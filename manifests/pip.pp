@@ -84,6 +84,7 @@ define python::pip (
         unless      => "$pip_env freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         environment => $environment,
+        path        => [ '/usr/bin', '/usr/local/bin/' ],
       }
     }
 
