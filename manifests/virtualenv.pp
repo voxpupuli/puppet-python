@@ -66,7 +66,9 @@ define python::virtualenv (
   $group        = 'root',
   $proxy        = false,
   $environment  = [],
-  $path         = [ '/bin', '/usr/bin', '/usr/sbin' ]
+  $path         = [ '/bin', '/usr/bin', '/usr/sbin' ],
+  $cwd          = undef,
+  $timeout      = 1800
 ) {
 
   $venv_dir = $name
@@ -115,10 +117,11 @@ define python::virtualenv (
       exec { "python_requirements_initial_install_${requirements}_${venv_dir}":
         command     => "${venv_dir}/bin/pip --log-file ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} -r ${requirements}",
         refreshonly => true,
-        timeout     => 1800,
+        timeout     => $timeout,
         user        => $owner,
         subscribe   => Exec["python_virtualenv_${venv_dir}"],
         environment => $environment,
+        cwd         => $cwd
       }
 
       python::requirements { "${requirements}_${venv_dir}":
