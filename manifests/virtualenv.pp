@@ -68,7 +68,7 @@ define python::virtualenv (
   $group        = 'root',
   $proxy        = false,
   $environment  = [],
-  $path         = [ '/bin', '/usr/bin', '/usr/sbin' ]
+  $path         = [ '/bin', '/usr/bin', '/usr/sbin','/usr/local/bin' ]
 ) {
 
   $venv_dir = $name
