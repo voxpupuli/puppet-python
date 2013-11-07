@@ -130,8 +130,8 @@ Creates Python virtualenv.
 	  distribute   => false,
 	  owner        => 'appuser',
 	  group        => 'apps',
-          cwd          => '/var/www/project1',
-          timeout      => 0,
+	  cwd          => '/var/www/project1',
+	  timeout      => 0,
 	}
 
 ### python::gunicorn
