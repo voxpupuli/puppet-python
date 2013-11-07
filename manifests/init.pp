@@ -39,7 +39,8 @@ class python (
   $pip        = false,
   $dev        = false,
   $virtualenv = false,
-  $gunicorn   = false
+  $gunicorn   = false,
+  $provider   = undef,
 ) {
 
   # Module compatibility check
