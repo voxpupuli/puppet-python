@@ -33,7 +33,7 @@ class python::install {
   # Install latest from pip if pip is the provider
   case $python::provider {
     pip: {
-      package { 'python-virtualenv': ensure => latest, provider => pip } 
+      package { 'virtualenv': ensure => latest, provider => pip } 
     }
     default: {
       package { 'python-virtualenv': ensure => $venv_ensure }
