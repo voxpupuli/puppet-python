@@ -37,6 +37,12 @@
 # [*path*]
 #  Specifies the PATH variable. Default: [ '/bin', '/usr/bin', '/usr/sbin' ]
 #
+# [*cwd*]
+#  The directory from which to run the "pip install" command. Default: undef
+#
+# [*timeout*]
+#  The maximum time in seconds the "pip install" command should take. Default: 1800
+#
 # === Examples
 #
 # python::virtualenv { '/var/www/project1':

@@ -117,6 +117,10 @@ Creates Python virtualenv.
 
 **index** - Base URL of Python package index. Default: none
 
+**cwd** - The directory from which to run the "pip install" command. Default: undef
+
+**timeout** - The maximum time in seconds the "pip install" command should take. Default: 1800
+
 	python::virtualenv { '/var/www/project1':
 	  ensure       => present,
 	  version      => 'system',
