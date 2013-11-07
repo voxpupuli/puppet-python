@@ -84,7 +84,7 @@ define python::pip (
         unless      => "$pip_env freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         environment => $environment,
-        path        => [ '/bin', '/usr/bin', '/usr/local/bin/' ],
+        path        => ["/usr/local/bin","/usr/bin","/bin", "/usr/sbin"],
       }
     }
 
@@ -94,7 +94,7 @@ define python::pip (
         onlyif      => "$pip_env freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         environment => $environment,
-        path        => [ '/bin', '/usr/bin', '/usr/local/bin/' ],
+        path => ["/usr/local/bin","/usr/bin","/bin", "/usr/sbin"],
       }
     }
   }
