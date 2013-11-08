@@ -10,8 +10,6 @@ class python::install {
     /(?i:Debian|Ubuntu)/        => "${python}-dev"
   }
 
-  package { $python: ensure => present }
-
   $dev_ensure = $python::dev ? {
     true    => present,
     default => absent,
@@ -22,9 +20,6 @@ class python::install {
     default => absent,
   }
 
-  package { $pythondev: ensure => $dev_ensure }
-  package { 'python-pip': ensure => $pip_ensure }
-
   $venv_ensure = $python::virtualenv ? {
     true    => present,
     default => absent,
@@ -33,10 +28,16 @@ class python::install {
   # Install latest from pip if pip is the provider
   case $python::provider {
     pip: {
-      package { 'virtualenv': ensure => latest, provider => pip } 
+      package { 'virtualenv': ensure => latest, provider => pip }
+      package { 'pip': ensure => latest, provider => pip }
+      package { $pythondev: ensure => latest }
+      package { "python==${python::version}": ensure => latest, provider => pip }
     }
     default: {
       package { 'python-virtualenv': ensure => $venv_ensure }
+      package { 'python-pip': ensure => $pip_ensure }
+      package { $pythondev: ensure => $dev_ensure }
+      package { $python: ensure => present }
     }
   }
 
