@@ -96,7 +96,7 @@ define python::virtualenv (
     # and the flag --no-site-packages had to be passed to do the opposite
     if (( versioncmp($::virtualenv_version,'1.7') > 0 ) and ( $systempkgs == true )) {
       $system_pkgs_flag = '--system-site-packages'
-    } elif (( versioncmp($::virtualenv_version,'1.7') < { 0 ) and ( $systempkgs == false ))
+    } elsif (( versioncmp($::virtualenv_version,'1.7') < { 0 ) and ( $systempkgs == false ))
       $system_pkgs_flag = '--no-site-packages'
     } else {
       $system_pkgs_flag = ''
