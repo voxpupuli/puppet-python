@@ -48,7 +48,7 @@ Installs and manages python, python-dev, python-virtualenv and Gunicorn.
 
 Installs and manages packages from pip.
 
-**ensure** - present/absent. Default: present
+**ensure** - present/latest/absent. Default: present
 
 **virtualenv** - virtualenv to run pip in. Default: system (no virtualenv)
 
