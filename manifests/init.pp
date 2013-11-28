@@ -35,10 +35,11 @@
 #
 class python (
   $version    = 'system',
-  $pip        = false,
-  $dev        = false,
-  $virtualenv = false,
-  $gunicorn   = false
+  $pip               = false,
+  $dev               = false,
+  $virtualenv        = false,
+  $gunicorn          = false,
+  $manage_gunicorn   = false
 ) {
 
   # Module compatibility check
