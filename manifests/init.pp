@@ -19,6 +19,9 @@
 # [*gunicorn*]
 #  Install Gunicorn. Default: false
 #
+# [*manage_gunicorn*]
+#  Allow Installation / Removal of Gunicorn. Default: true
+#
 # === Examples
 #
 # class { 'python':
@@ -39,7 +42,7 @@ class python (
   $dev               = false,
   $virtualenv        = false,
   $gunicorn          = false,
-  $manage_gunicorn   = false
+  $manage_gunicorn   = true
 ) {
 
   # Module compatibility check
