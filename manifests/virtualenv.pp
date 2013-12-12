@@ -114,10 +114,10 @@ define python::virtualenv (
     exec { "python_virtualenv_${venv_dir}":
       command => "mkdir -p ${venv_dir} ${proxy_command} && virtualenv ${system_pkgs_flag} -p ${python} ${venv_dir} && ${venv_dir}/bin/pip --log-file ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} --upgrade pip ${distribute_pkg}",
       user    => $owner,
-      creates => "${venv_dir}/bin/activate",
       path    => $path,
       cwd     => "/tmp",
       environment => $environment,
+      unless => "grep '^[ \t]*VIRTUAL_ENV=[\'\"]*/tmp[\"\']*[ \t]*$' /tmp/bin/activate", #Unless activate exists and VIRTUAL_ENV is correct we re-create the virtualenv
     }
 
     if $requirements {
