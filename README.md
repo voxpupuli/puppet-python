@@ -48,7 +48,7 @@ Installs and manages python, python-dev, python-virtualenv and Gunicorn.
 
 Installs and manages packages from pip.
 
-**ensure** - present/absent. Default: present
+**ensure** - present/latest/absent. Default: present
 
 **virtualenv** - virtualenv to run pip in. Default: system (no virtualenv)
 
@@ -60,11 +60,18 @@ Installs and manages packages from pip.
 
 **environment** - Additional environment variables required to install the packages. Default: none
 
+**egg** - The egg name to use. Default: $name of the class, e.g. cx_Oracle
+
+**install_args** - Array of additional flags to pass to pip during installaton. Default: none
+
+**uninstall_args** - Array of additional flags to pass to pip during uninstall. Default: none
+
 	python::pip { 'cx_Oracle':
-	  virtualenv  => '/var/www/project1',
-	  owner       => 'appuser',
-	  proxy       => 'http://proxy.domain.com:3128',
-	  environment => 'ORACLE_HOME=/usr/lib/oracle/11.2/client64',
+	  virtualenv  	=> '/var/www/project1',
+	  owner       	=> 'appuser',
+	  proxy       	=> 'http://proxy.domain.com:3128',
+	  environment 	=> 'ORACLE_HOME=/usr/lib/oracle/11.2/client64',
+	  install_args	=> ['-e'],
 	}
 
 ### python::requirements
@@ -76,6 +83,8 @@ Installs and manages Python packages from requirements file.
 **proxy** - Proxy server to use for outbound connections. Default: none
 
 **owner** - The owner of the virtualenv to ensure that packages are installed with the correct permissions (must be specified). Default: root
+
+**src** - The ``--src`` parameter to ``pip``, used to specify where to install ``--editable`` resources; by default no ``--src`` parameter is passed to ``pip``.
 
 **group** - The group that was used to create the virtualenv.  This is used to create the requirements file with correct permissions if it's not present already.
 
@@ -108,6 +117,10 @@ Creates Python virtualenv.
 
 **index** - Base URL of Python package index. Default: none
 
+**cwd** - The directory from which to run the "pip install" command. Default: undef
+
+**timeout** - The maximum time in seconds the "pip install" command should take. Default: 1800
+
 	python::virtualenv { '/var/www/project1':
 	  ensure       => present,
 	  version      => 'system',
@@ -117,6 +130,8 @@ Creates Python virtualenv.
 	  distribute   => false,
 	  owner        => 'appuser',
 	  group        => 'apps',
+	  cwd          => '/var/www/project1',
+	  timeout      => 0,
 	}
 
 ### python::gunicorn
