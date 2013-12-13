@@ -74,7 +74,7 @@ define python::virtualenv (
   $group        = 'root',
   $proxy        = false,
   $environment  = [],
-  $path         = [ '/bin', '/usr/bin', '/usr/sbin','/usr/local/bin' ]
+  $path         = [ '/bin', '/usr/bin', '/usr/sbin','/usr/local/bin' ],
   $cwd          = undef,
   $timeout      = 1800
 ) {
