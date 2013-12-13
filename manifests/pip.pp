@@ -35,12 +35,15 @@
 # Fotis Gimian
 #
 define python::pip (
-  $ensure      = present,
-  $virtualenv  = 'system',
-  $url         = false,
-  $owner       = 'root',
-  $proxy       = false,
-  $environment = []
+  $ensure          = present,
+  $virtualenv      = 'system',
+  $url             = false,
+  $owner           = 'root',
+  $proxy           = false,
+  $egg             = false,
+  $environment     = [],
+  $install_args    = '',
+  $uninstall_args  = '',
 ) {
 
   # Parameter validation
@@ -72,15 +75,20 @@ define python::pip (
     default => "^${name}==",
   }
 
+  $egg_name = $egg ? {
+    false   => $name,
+    default => $egg
+  }
+
   $source = $url ? {
     false   => $name,
-    default => "${url}#egg=${name}",
+    default => "${url}#egg=${egg_name}",
   }
 
   case $ensure {
     present: {
       exec { "pip_install_${name}":
-        command     => "$pip_env --log ${cwd}/pip.log install ${proxy_flag} ${source}",
+        command     => "$pip_env --log ${cwd}/pip.log install $install_args ${proxy_flag} ${source}",
         unless      => "$pip_env freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         environment => $environment,
@@ -97,9 +105,17 @@ define python::pip (
       }
     }
 
+    latest: {
+      exec { "pip_install_${name}":
+        command     => "$pip_env --log ${cwd}/pip.log install -U $install_args ${proxy_flag} ${source}",
+        user        => $owner,
+        environment => $environment,
+      }
+    }
+
     default: {
       exec { "pip_uninstall_${name}":
-        command     => "echo y | $pip_env uninstall ${proxy_flag} ${name}",
+        command     => "echo y | $pip_env uninstall $uninstall_args ${proxy_flag} ${name}",
         onlyif      => "$pip_env freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         environment => $environment,

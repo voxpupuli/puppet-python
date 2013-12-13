@@ -1,5 +1,5 @@
-name         'puppet-python'
-version      '1.1.4'
+name         'stankevich-python'
+version      '1.2.1'
 
 author       'Sergey Stankevich'
 license      'Apache License, Version 2.0'

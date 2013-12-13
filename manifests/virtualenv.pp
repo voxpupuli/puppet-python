@@ -39,6 +39,12 @@
 # [*path*]
 #  Specifies the PATH variable. Default: [ '/bin', '/usr/bin', '/usr/sbin' ]
 #
+# [*cwd*]
+#  The directory from which to run the "pip install" command. Default: undef
+#
+# [*timeout*]
+#  The maximum time in seconds the "pip install" command should take. Default: 1800
+#
 # === Examples
 #
 # python::virtualenv { '/var/www/project1':
@@ -69,6 +75,8 @@ define python::virtualenv (
   $proxy        = false,
   $environment  = [],
   $path         = [ '/bin', '/usr/bin', '/usr/sbin','/usr/local/bin' ]
+  $cwd          = undef,
+  $timeout      = 1800
 ) {
 
   $venv_dir = $name
@@ -124,10 +132,11 @@ define python::virtualenv (
       exec { "python_requirements_initial_install_${requirements}_${venv_dir}":
         command     => "${venv_dir}/bin/pip --log-file ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} -r ${requirements}",
         refreshonly => true,
-        timeout     => 1800,
+        timeout     => $timeout,
         user        => $owner,
         subscribe   => Exec["python_virtualenv_${venv_dir}"],
         environment => $environment,
+        cwd         => $cwd
       }
 
       python::requirements { "${requirements}_${venv_dir}":
@@ -139,7 +148,6 @@ define python::virtualenv (
         require      => Exec["python_virtualenv_${venv_dir}"],
       }
     }
-
   } elsif $ensure == 'absent' {
 
     file { $venv_dir:
@@ -148,7 +156,5 @@ define python::virtualenv (
       recurse => true,
       purge   => true,
     }
-
   }
-
 }
