@@ -90,7 +90,7 @@ define python::requirements (
 
   exec { "python_requirements${name}":
     provider    => shell,
-    command     => "${pip_env} --log-file ${cwd}/pip.log install ${proxy_flag} ${src_flag} -r ${requirements}",
+    command     => "${pip_env} --log ${cwd}/pip.log install ${proxy_flag} ${src_flag} -r ${requirements}",
     refreshonly => true,
     timeout     => 1800,
     user        => $owner,
