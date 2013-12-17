@@ -120,7 +120,7 @@ define python::virtualenv (
     }
 
     exec { "python_virtualenv_${venv_dir}":
-      command => "mkdir -p ${venv_dir} ${proxy_command} && virtualenv ${system_pkgs_flag} -p ${python} ${venv_dir} && ${venv_dir}/bin/pip --log-file ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} --upgrade pip ${distribute_pkg}",
+      command => "mkdir -p ${venv_dir} ${proxy_command} && virtualenv ${system_pkgs_flag} -p ${python} ${venv_dir} && ${venv_dir}/bin/pip --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} --upgrade pip ${distribute_pkg}",
       user    => $owner,
       path    => $path,
       cwd     => "/tmp",
@@ -130,7 +130,7 @@ define python::virtualenv (
 
     if $requirements {
       exec { "python_requirements_initial_install_${requirements}_${venv_dir}":
-        command     => "${venv_dir}/bin/pip --log-file ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} -r ${requirements}",
+        command     => "${venv_dir}/bin/pip --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} -r ${requirements}",
         refreshonly => true,
         timeout     => $timeout,
         user        => $owner,
