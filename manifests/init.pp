@@ -14,7 +14,8 @@
 #  Install python-dev. Default: false
 #
 # [*virtualenv*]
-#  Install python-virtualenv. Default: false
+#  Install python-virtualenv. Default: false, also accepts 'pip' which will
+#  install latest virtualenv from pip rather than package manager
 #
 # [*gunicorn*]
 #  Install Gunicorn. Default: false
@@ -38,7 +39,8 @@ class python (
   $pip        = false,
   $dev        = false,
   $virtualenv = false,
-  $gunicorn   = false
+  $gunicorn   = false,
+  $provider   = undef,
 ) {
 
   # Module compatibility check
