@@ -92,6 +92,16 @@ define python::pip (
         unless      => "$pip_env freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         environment => $environment,
+        path        => ["/usr/local/bin","/usr/bin","/bin", "/usr/sbin"],
+      }
+    }
+
+    latest: {
+      exec { "pip_install_${name}":
+        command     => "$pip_env --log ${cwd}/pip.log install --upgrade ${proxy_flag} ${source}",
+        user        => $owner,
+        environment => $environment,
+        path        => ["/usr/local/bin","/usr/bin","/bin", "/usr/sbin"],
       }
     }
 
@@ -109,6 +119,7 @@ define python::pip (
         onlyif      => "$pip_env freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         environment => $environment,
+        path => ["/usr/local/bin","/usr/bin","/bin", "/usr/sbin"],
       }
     }
   }

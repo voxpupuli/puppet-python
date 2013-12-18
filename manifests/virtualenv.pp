@@ -15,6 +15,8 @@
 #
 # [*systempkgs*]
 #  Copy system site-packages into virtualenv. Default: don't
+#  If virtualenv version < 1.7 this flag has no effect since
+#  the system packages were not supported
 #
 # [*distribute*]
 #  Include distribute in the virtualenv. Default: true
@@ -72,7 +74,7 @@ define python::virtualenv (
   $group        = 'root',
   $proxy        = false,
   $environment  = [],
-  $path         = [ '/bin', '/usr/bin', '/usr/sbin' ],
+  $path         = [ '/bin', '/usr/bin', '/usr/sbin','/usr/local/bin' ],
   $cwd          = undef,
   $timeout      = 1800
 ) {
@@ -96,9 +98,16 @@ define python::virtualenv (
       default => "&& export http_proxy=${proxy}",
     }
 
-    $system_pkgs_flag = $systempkgs ? {
-      false    => '',
-      default  => '--system-site-packages',
+    # Virtualenv versions prior to 1.7 do not support the 
+    # --system-site-packages flag, default off for prior versions
+    # Prior to version 1.7 the default was equal to --system-site-packages
+    # and the flag --no-site-packages had to be passed to do the opposite
+    if (( versioncmp($::virtualenv_version,'1.7') > 0 ) and ( $systempkgs == true )) {
+      $system_pkgs_flag = '--system-site-packages'
+    } elsif (( versioncmp($::virtualenv_version,'1.7') < 0 ) and ( $systempkgs == false )) {
+      $system_pkgs_flag = '--no-site-packages'
+    } else {
+      $system_pkgs_flag = ''
     }
 
     $distribute_pkg = $distribute ? {
@@ -111,17 +120,17 @@ define python::virtualenv (
     }
 
     exec { "python_virtualenv_${venv_dir}":
-      command => "mkdir -p ${venv_dir} ${proxy_command} && virtualenv ${system_pkgs_flag} -p ${python} ${venv_dir} && ${venv_dir}/bin/pip --log-file ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} --upgrade pip ${distribute_pkg}",
+      command => "mkdir -p ${venv_dir} ${proxy_command} && virtualenv ${system_pkgs_flag} -p ${python} ${venv_dir} && ${venv_dir}/bin/pip --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} --upgrade pip ${distribute_pkg}",
       user    => $owner,
-      creates => "${venv_dir}/bin/activate",
       path    => $path,
       cwd     => "/tmp",
       environment => $environment,
+      unless => "grep '^[ \t]*VIRTUAL_ENV=[\'\"]*/tmp[\"\']*[ \t]*$' /tmp/bin/activate", #Unless activate exists and VIRTUAL_ENV is correct we re-create the virtualenv
     }
 
     if $requirements {
       exec { "python_requirements_initial_install_${requirements}_${venv_dir}":
-        command     => "${venv_dir}/bin/pip --log-file ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} -r ${requirements}",
+        command     => "${venv_dir}/bin/pip --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} -r ${requirements}",
         refreshonly => true,
         timeout     => $timeout,
         user        => $owner,
@@ -139,7 +148,6 @@ define python::virtualenv (
         require      => Exec["python_virtualenv_${venv_dir}"],
       }
     }
-
   } elsif $ensure == 'absent' {
 
     file { $venv_dir:
@@ -148,7 +156,5 @@ define python::virtualenv (
       recurse => true,
       purge   => true,
     }
-
   }
-
 }
