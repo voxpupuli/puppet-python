@@ -98,7 +98,7 @@ define python::virtualenv (
       default => "&& export http_proxy=${proxy}",
     }
 
-    # Virtualenv versions prior to 1.7 do not support the 
+    # Virtualenv versions prior to 1.7 do not support the
     # --system-site-packages flag, default off for prior versions
     # Prior to version 1.7 the default was equal to --system-site-packages
     # and the flag --no-site-packages had to be passed to do the opposite
@@ -120,12 +120,12 @@ define python::virtualenv (
     }
 
     exec { "python_virtualenv_${venv_dir}":
-      command => "mkdir -p ${venv_dir} ${proxy_command} && virtualenv ${system_pkgs_flag} -p ${python} ${venv_dir} && ${venv_dir}/bin/pip --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} --upgrade pip ${distribute_pkg}",
-      user    => $owner,
-      path    => $path,
-      cwd     => "/tmp",
+      command     => "mkdir -p ${venv_dir} ${proxy_command} && virtualenv ${system_pkgs_flag} -p ${python} ${venv_dir} && ${venv_dir}/bin/pip --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} --upgrade pip ${distribute_pkg}",
+      user        => $owner,
+      path        => $path,
+      cwd         => '/tmp',
       environment => $environment,
-      unless => "grep '^[ \t]*VIRTUAL_ENV=[\'\"]*/tmp[\"\']*[ \t]*$' /tmp/bin/activate", #Unless activate exists and VIRTUAL_ENV is correct we re-create the virtualenv
+      unless      => "grep '^[ \t]*VIRTUAL_ENV=[\'\"]*/tmp[\"\']*[ \t]*$' /tmp/bin/activate", #Unless activate exists and VIRTUAL_ENV is correct we re-create the virtualenv
     }
 
     if $requirements {
