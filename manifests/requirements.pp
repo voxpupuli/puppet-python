@@ -27,6 +27,11 @@
 # [*environment*]
 #  Additional environment variables required to install the packages. Default: none
 #
+# [*forceupdate*]
+#  Run a pip install requirements even if we don't receive an event from the
+# requirements file - Useful for when the requirements file is written as part of a
+# resource other than file (E.g vcsrepo)
+#
 # === Examples
 #
 # python::requirements { '/var/www/project1/requirements.txt':
@@ -47,7 +52,8 @@ define python::requirements (
   $group        = 'root',
   $proxy        = false,
   $src          = false,
-  $environment = []
+  $environment  = [],
+  $forceupdate  = false,
 ) {
 
   if $virtualenv == 'system' and ($owner != 'root' or $group != 'root') {
@@ -56,7 +62,7 @@ define python::requirements (
 
   $cwd = $virtualenv ? {
     'system' => '/',
-    default  => "${virtualenv}",
+    default  => $virtualenv,
   }
 
   $pip_env = $virtualenv ? {
@@ -91,7 +97,7 @@ define python::requirements (
   exec { "python_requirements${name}":
     provider    => shell,
     command     => "${pip_env} --log ${cwd}/pip.log install ${proxy_flag} ${src_flag} -r ${requirements}",
-    refreshonly => true,
+    refreshonly => !$forceupdate,
     timeout     => 1800,
     user        => $owner,
     subscribe   => File[$requirements],
