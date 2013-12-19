@@ -1,3 +1,18 @@
+# == Define: python::install
+#
+# Installs core python packages
+#
+# === Examples
+#
+# include python::install
+#
+# === Authors
+#
+# Sergey Stankevich
+# Ashley Penney
+# Fotis Gimian
+#
+
 class python::install {
 
   $python = $python::version ? {
