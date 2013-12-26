@@ -37,6 +37,8 @@
 #   dir         => '/var/www/project1/current',
 #   bind        => 'unix:/tmp/gunicorn.socket',
 #   environment => 'prod',
+#   owner       => 'www-data',
+#   group       => 'www-data',
 #   template    => 'python/gunicorn.erb',
 # }
 #
@@ -53,6 +55,8 @@ define python::gunicorn (
   $dir           = false,
   $bind          = false,
   $environment   = false,
+  $owner         = 'www-data',
+  $group         = 'www-data',
   $template      = 'python/gunicorn.erb',
 ) {
 

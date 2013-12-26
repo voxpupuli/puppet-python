@@ -13,8 +13,8 @@ CONFIG = {
   },
 <% end -%>
   'working_dir': '<%= @dir %>',
-  'user': 'www-data',
-  'group': 'www-data',
+  'user': '<%= @owner %>',
+  'group': '<%= @group %>',
 <% if @virtualenv -%>
   'python': '<%= @virtualenv %>/bin/python',
 <% else -%>
