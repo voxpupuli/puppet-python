@@ -125,7 +125,7 @@ define python::virtualenv (
       path    => $path,
       cwd     => "/tmp",
       environment => $environment,
-      unless => "grep '^[ \t]*VIRTUAL_ENV=[\'\"]*/tmp[\"\']*[ \t]*$' /tmp/bin/activate", #Unless activate exists and VIRTUAL_ENV is correct we re-create the virtualenv
+      unless => "grep '^[ \t]*VIRTUAL_ENV=[\'\"]*/tmp[\"\']*[ \t]*$' ${venv_dir}/bin/activate", #Unless activate exists and VIRTUAL_ENV is correct we re-create the virtualenv
     }
 
     if $requirements {
