@@ -106,7 +106,7 @@ define python::pip (
 
     latest: {
       exec { "pip_install_${name}":
-        command     => "$pip_env wheel --help && pip wheel --version || wheel_support_flag='--no-use-wheel'; $pip_env x--log ${cwd}/pip.log install --upgrade \$wheel_support_flag ${proxy_flag} ${source}",
+        command     => "$pip_env wheel --help && pip wheel --version || wheel_support_flag='--no-use-wheel'; $pip_env --log ${cwd}/pip.log install --upgrade \$wheel_support_flag ${proxy_flag} ${source}",
         user        => $owner,
         environment => $environment,
         path        => ["/usr/local/bin","/usr/bin","/bin", "/usr/sbin"],
