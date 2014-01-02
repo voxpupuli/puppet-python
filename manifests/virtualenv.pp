@@ -127,7 +127,7 @@ define python::virtualenv (
     # version, this makes sure we only use wheels if they are supported
 
     exec { "python_virtualenv_${venv_dir}":
-      command => "mkdir -p ${venv_dir} ${proxy_command} && virtualenv ${system_pkgs_flag} -p ${python} ${venv_dir} && ${venv_dir}/bin/pip $pip_env wheel --help && ${venv_dir}/bin/pip wheel --version || wheel_support_flag='--no-use-wheel'; ${venv_dir}/bin/pip --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} \$wheel_support_flag --upgrade pip ${distribute_pkg}",
+      command => "mkdir -p ${venv_dir} ${proxy_command} && virtualenv ${system_pkgs_flag} -p ${python} ${venv_dir} && ${venv_dir}/bin/pip $pip_env wheel --help && (${venv_dir}/bin/pip wheel --version || wheel_support_flag='--no-use-wheel'); ${venv_dir}/bin/pip --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} \$wheel_support_flag --upgrade pip ${distribute_pkg}",
       user    => $owner,
       path    => $path,
       cwd     => "/tmp",
