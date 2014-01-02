@@ -110,15 +110,6 @@ define python::virtualenv (
       $system_pkgs_flag = ''
     }
 
-    # Python 2.6 and older don't support setuptools/distribute > 0.8 which is required
-    # for pip wheel support, pip therefor requires --no-use-wheel flag if the
-    # version is newer than 1.4.1 when they added wheels
-    if (( versioncmp($::python_version,'2.6') > 0 ) and ( versioncmp($::pip_version,'1.4.1') > 0)) {
-      $wheel_support_flag = '--no-use-wheel'
-    } else {
-      $wheel_support_flag = ''
-    }
-
     $distribute_pkg = $distribute ? {
       true     => 'distribute',
       default  => '',
@@ -128,8 +119,15 @@ define python::virtualenv (
         default => "-i ${index}",
     }
 
+    # Python 2.6 and older does not support setuptools/distribute > 0.8 which 
+    # is required for pip wheel support, pip therefor requires --no-use-wheel flag
+    # if the # pip version is more recent than 1.4.1 but using an old python or
+    # setuputils/distribute version
+    # To check for this we test for wheel parameter using help and then using
+    # version, this makes sure we only use wheels if they are supported
+
     exec { "python_virtualenv_${venv_dir}":
-      command => "mkdir -p ${venv_dir} ${proxy_command} && virtualenv ${system_pkgs_flag} -p ${python} ${venv_dir} && ${venv_dir}/bin/pip --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} ${wheel_support_flag} --upgrade pip ${distribute_pkg}",
+      command => "mkdir -p ${venv_dir} ${proxy_command} && virtualenv ${system_pkgs_flag} -p ${python} ${venv_dir} && ${venv_dir}/bin/pip $pip_env wheel --help && ${venv_dir}/bin/pip wheel --version || wheel_support_flag='--no-use-wheel'; ${venv_dir}/bin/pip --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} \$wheel_support_flag --upgrade pip ${distribute_pkg}",
       user    => $owner,
       path    => $path,
       cwd     => "/tmp",
