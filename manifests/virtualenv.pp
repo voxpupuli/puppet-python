@@ -98,7 +98,7 @@ define python::virtualenv (
       default => "&& export http_proxy=${proxy}",
     }
 
-    # Virtualenv versions prior to 1.7 do not support the 
+    # Virtualenv versions prior to 1.7 do not support the
     # --system-site-packages flag, default off for prior versions
     # Prior to version 1.7 the default was equal to --system-site-packages
     # and the flag --no-site-packages had to be passed to do the opposite
@@ -108,6 +108,14 @@ define python::virtualenv (
       $system_pkgs_flag = '--no-site-packages'
     } else {
       $system_pkgs_flag = ''
+    }
+
+    # Python 2.6 and older don't support setuptools > 0.8 which is required
+    # for pip wheel support, it therefor requires --no-use-wheel flag
+    if ( versioncmp($::python_version,'2.6') > 0 ) {
+      $wheel_support_flag = '--no-use-wheel'
+    } else {
+      $wheel_support_flag = ''
     }
 
     $distribute_pkg = $distribute ? {
@@ -120,7 +128,7 @@ define python::virtualenv (
     }
 
     exec { "python_virtualenv_${venv_dir}":
-      command => "mkdir -p ${venv_dir} ${proxy_command} && virtualenv ${system_pkgs_flag} -p ${python} ${venv_dir} && ${venv_dir}/bin/pip --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} --upgrade pip ${distribute_pkg}",
+      command => "mkdir -p ${venv_dir} ${proxy_command} && virtualenv ${system_pkgs_flag} -p ${python} ${venv_dir} && ${venv_dir}/bin/pip --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} ${wheel_support_flag} --upgrade pip ${distribute_pkg}",
       user    => $owner,
       path    => $path,
       cwd     => "/tmp",
@@ -130,7 +138,7 @@ define python::virtualenv (
 
     if $requirements {
       exec { "python_requirements_initial_install_${requirements}_${venv_dir}":
-        command     => "${venv_dir}/bin/pip --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} -r ${requirements}",
+        command     => "${venv_dir}/bin/pip --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} ${wheel_support_flag} -r ${requirements}",
         refreshonly => true,
         timeout     => $timeout,
         user        => $owner,
