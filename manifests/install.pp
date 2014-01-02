@@ -20,9 +20,9 @@ class python::install {
     default  => "python${python::version}",
   }
 
-  $pythondev = $::operatingsystem ? {
-    /(?i:RedHat|CentOS|Fedora|Scientific)/ => "${python}-devel",
-    /(?i:Debian|Ubuntu)/ => "${python}-dev"
+  $pythondev = $::osfamily ? {
+    redhat => "${python}-devel",
+    debian => "${python}-dev"
   }
 
   $dev_ensure = $python::dev ? {
