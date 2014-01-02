@@ -111,7 +111,7 @@ define python::virtualenv (
     }
 
     # Python 2.6 and older don't support setuptools > 0.8 which is required
-    # for pip wheel support, it therefor requires --no-use-wheel flag
+    # for pip wheel support, pip therefor requires --no-use-wheel flag
     if ( versioncmp($::python_version,'2.6') > 0 ) {
       $wheel_support_flag = '--no-use-wheel'
     } else {

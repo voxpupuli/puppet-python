@@ -70,6 +70,14 @@ define python::pip (
     default  => "--proxy=${proxy}",
   }
 
+  # Python 2.6 and older don't support setuptools > 0.8 which is required
+  # for pip wheel support, pip therefor requires --no-use-wheel flag
+  if ( versioncmp($::python_version,'2.6') > 0 ) {
+    $wheel_support_flag = '--no-use-wheel'
+  } else {
+    $wheel_support_flag = ''
+  }
+
   $grep_regex = $name ? {
     /==/    => "^${name}\$",
     default => "^${name}==",
@@ -88,7 +96,7 @@ define python::pip (
   case $ensure {
     present: {
       exec { "pip_install_${name}":
-        command     => "$pip_env --log ${cwd}/pip.log install $install_args ${proxy_flag} ${source}",
+        command     => "$pip_env --log ${cwd}/pip.log install $install_args ${wheel_support_flag} ${proxy_flag} ${source}",
         unless      => "$pip_env freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         environment => $environment,
@@ -98,7 +106,7 @@ define python::pip (
 
     latest: {
       exec { "pip_install_${name}":
-        command     => "$pip_env --log ${cwd}/pip.log install --upgrade ${proxy_flag} ${source}",
+        command     => "$pip_env --log ${cwd}/pip.log install --upgrade ${wheel_support_flag} ${proxy_flag} ${source}",
         user        => $owner,
         environment => $environment,
         path        => ["/usr/local/bin","/usr/bin","/bin", "/usr/sbin"],
@@ -107,7 +115,7 @@ define python::pip (
 
     latest: {
       exec { "pip_install_${name}":
-        command     => "$pip_env --log ${cwd}/pip.log install -U $install_args ${proxy_flag} ${source}",
+        command     => "$pip_env --log ${cwd}/pip.log install -U $install_args ${wheel_support_flag} ${proxy_flag} ${source}",
         user        => $owner,
         environment => $environment,
       }
@@ -115,7 +123,7 @@ define python::pip (
 
     default: {
       exec { "pip_uninstall_${name}":
-        command     => "echo y | $pip_env uninstall $uninstall_args ${proxy_flag} ${name}",
+        command     => "echo y | $pip_env uninstall $uninstall_args ${wheel_support_flag} ${proxy_flag} ${name}",
         onlyif      => "$pip_env freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         environment => $environment,
