@@ -119,7 +119,7 @@ define python::virtualenv (
         default => "-i ${index}",
     }
 
-    # Python 2.6 and older does not support setuptools/distribute > 0.8 which 
+    # Python 2.6 and older does not support setuptools/distribute > 0.8 which
     # is required for pip wheel support, pip therefor requires --no-use-wheel flag
     # if the # pip version is more recent than 1.4.1 but using an old python or
     # setuputils/distribute version
@@ -132,7 +132,7 @@ define python::virtualenv (
       path    => $path,
       cwd     => "/tmp",
       environment => $environment,
-      unless => "grep '^[ \t]*VIRTUAL_ENV=[\'\"]*${venv_dir}[\"\']*[ \t]*$' ${venv_dir}/bin/activate", #Unless activate exists and VIRTUAL_ENV is correct we re-create the virtualenv
+      unless => "grep '^[\\t ]*VIRTUAL_ENV=[\\\\'\\\"]*${venv_dir}[\\\"\\\\'][\\t ]*$' ${venv_dir}/bin/activate", #Unless activate exists and VIRTUAL_ENV is correct we re-create the virtualenv
     }
 
     if $requirements {
