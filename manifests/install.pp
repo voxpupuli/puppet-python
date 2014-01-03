@@ -1,3 +1,18 @@
+# == Define: python::install
+#
+# Installs core python packages
+#
+# === Examples
+#
+# include python::install
+#
+# === Authors
+#
+# Sergey Stankevich
+# Ashley Penney
+# Fotis Gimian
+#
+
 class python::install {
 
   $python = $python::version ? {
@@ -5,9 +20,9 @@ class python::install {
     default  => "python${python::version}",
   }
 
-  $pythondev = $::operatingsystem ? {
-    /(?i:RedHat|CentOS|Fedora|Scientific)/ => "${python}-devel",
-    /(?i:Debian|Ubuntu)/ => "${python}-dev"
+  $pythondev = $::osfamily ? {
+    RedHat => "${python}-devel",
+    Debian => "${python}-dev"
   }
 
   $dev_ensure = $python::dev ? {
