@@ -70,7 +70,6 @@ define python::pip (
     default  => "--proxy=${proxy}",
   }
 
-
   $grep_regex = $name ? {
     /==/    => "^${name}\$",
     default => "^${name}==",
@@ -123,7 +122,7 @@ define python::pip (
 
     default: {
       exec { "pip_uninstall_${name}":
-        command     => "echo y | $pip_env uninstall $uninstall_args ${wheel_support_flag} ${proxy_flag} ${name}",
+        command     => "echo y | $pip_env uninstall $uninstall_args ${proxy_flag} ${name}",
         onlyif      => "$pip_env freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         environment => $environment,
