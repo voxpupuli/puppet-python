@@ -37,6 +37,8 @@ Installs and manages python, python-dev, python-virtualenv and Gunicorn.
 
 **gunicorn** - Install Gunicorn. Default: false
 
+**manage_gunicorn** - Allow Installation / Removal of Gunicorn. Default: true
+
 	class { 'python':
 	  version    => 'system',
 	  dev        => true,
