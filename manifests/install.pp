@@ -56,11 +56,12 @@ class python::install {
     }
   }
 
-  $gunicorn_ensure = $python::gunicorn ? {
-    true    => present,
-    default => absent,
+  if $python::manage_gunicorn {
+    $gunicorn_ensure = $python::gunicorn ? {
+      true    => present,
+      default => absent,
+    }
+    package { 'gunicorn': ensure => $gunicorn_ensure }
   }
-
-  package { 'gunicorn': ensure => $gunicorn_ensure }
 
 }
