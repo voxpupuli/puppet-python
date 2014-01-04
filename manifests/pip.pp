@@ -85,10 +85,17 @@ define python::pip (
     default => "${url}#egg=${egg_name}",
   }
 
+  # Python 2.6 and older does not support setuptools/distribute > 0.8 which
+  # is required for pip wheel support, pip therefor requires --no-use-wheel flag
+  # if the # pip version is more recent than 1.4.1 but using an old python or
+  # setuputils/distribute version
+  # To check for this we test for wheel parameter using help and then using
+  # version, this makes sure we only use wheels if they are supported
+
   case $ensure {
     present: {
       exec { "pip_install_${name}":
-        command     => "${pip_env} --log ${cwd}/pip.log install ${install_args} ${proxy_flag} ${source}",
+        command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; ${pip_env} --log ${cwd}/pip.log install ${install_args} \$wheel_support_flag ${proxy_flag} ${source}",
         unless      => "${pip_env} freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         environment => $environment,
@@ -98,7 +105,7 @@ define python::pip (
 
     latest: {
       exec { "pip_install_${name}":
-        command     => "${pip_env} --log ${cwd}/pip.log install --upgrade ${proxy_flag} ${source}",
+        command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; ${pip_env} --log ${cwd}/pip.log install --upgrade \$wheel_support_flag ${proxy_flag} ${source}",
         user        => $owner,
         environment => $environment,
         path        => ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
@@ -107,7 +114,7 @@ define python::pip (
 
     latest: {
       exec { "pip_install_${name}":
-        command     => "${pip_env} --log ${cwd}/pip.log install -U ${install_args} ${proxy_flag} ${source}",
+        command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; ${pip_env} --log ${cwd}/pip.log install -U ${install_args} \$wheel_support_flag ${proxy_flag} ${source}",
         user        => $owner,
         environment => $environment,
       }
