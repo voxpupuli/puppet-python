@@ -14,7 +14,7 @@ end
 Facter.add("python_version") do
   has_weight 100
   setcode do
-    /^.*(\d+\.\d+\.\d+)$/.match(Facter::Util::Resolution.exec('python -V'))[1]
+    /^.*(\d+\.\d+\.\d+)$/.match(Facter::Util::Resolution.exec('python -V 2>/dev/null'))[1]
   end
 end
 
