@@ -85,12 +85,20 @@ define python::pip (
     default => "${url}#egg=${egg_name}",
   }
 
-  # Python 2.6 and older does not support setuptools/distribute > 0.8 which
-  # is required for pip wheel support, pip therefor requires --no-use-wheel flag
-  # if the # pip version is more recent than 1.4.1 but using an old python or
-  # setuputils/distribute version
+  # We need to jump through hoops to make sure we issue the correct pip command
+  # depending on wheel support and versions.
+  #
+  # Pip does not support wheels prior to version 1.4.0
+  # Pip wheels require setuptools/distribute > 0.8
+  # Python 2.6 and older does not support setuptools/distribute > 0.8
+  # Pip >= 1.5 tries to use wheels by default, even if wheel package is not
+  # installed, in this case the --no-use-wheel flag needs to be passed
+  # Versions prior to 1.5 don't support the --no-use-wheel flag
+  #
   # To check for this we test for wheel parameter using help and then using
-  # version, this makes sure we only use wheels if they are supported
+  # version, this makes sure we only use wheels if they are supported and
+  # installed
+
 
   case $ensure {
     present: {
