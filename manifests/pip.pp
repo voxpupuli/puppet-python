@@ -112,14 +112,6 @@ define python::pip (
       }
     }
 
-    latest: {
-      exec { "pip_install_${name}":
-        command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; ${pip_env} --log ${cwd}/pip.log install -U ${install_args} \$wheel_support_flag ${proxy_flag} ${source}",
-        user        => $owner,
-        environment => $environment,
-      }
-    }
-
     default: {
       exec { "pip_uninstall_${name}":
         command     => "echo y | ${pip_env} uninstall ${uninstall_args} ${proxy_flag} ${name}",
