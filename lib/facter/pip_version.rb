@@ -5,7 +5,7 @@ pkg = Puppet::Type.type(:package).new(:name => "python-pip")
 Facter.add("pip_version") do
   has_weight 100
   setcode do
-    /^pip (\d+\.\d+\.?\d*).*$/.match(Facter::Util::Resolution.exec('pip --version'))[1]
+    /^pip (\d+\.\d+\.?\d*).*$/.match(Facter::Util::Resolution.exec('pip --version 2>/dev/null'))[1]
   end
 end
 
