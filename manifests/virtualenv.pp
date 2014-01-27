@@ -112,7 +112,7 @@ define python::virtualenv (
 
     $distribute_pkg = $distribute ? {
       true     => 'distribute',
-      default  => '',
+      default  => 'setuptools',
     }
     $pypi_index = $index ? {
         false   => '',
