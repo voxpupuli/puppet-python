@@ -5,7 +5,7 @@ pkg = Puppet::Type.type(:package).new(:name => "python")
 
 Facter.add("system_python_version") do
   setcode do
-    if pkg.retrieve[pkg.property(:ensure)] != 'purged'
+    unless [:absent,'purged'].include?(pkg.retrieve[pkg.property(:ensure)])
         /^(\d+\.\d+\.\d+).*$/.match(pkg.retrieve[pkg.property(:ensure)])[1]
     end
   end
@@ -21,7 +21,7 @@ end
 Facter.add("python_version") do
   has_weight 50
   setcode do
-    if pkg.retrieve[pkg.property(:ensure)] != 'purged'
+    unless [:absent,'purged'].include?(pkg.retrieve[pkg.property(:ensure)])
         /^.*(\d+\.\d+\.\d+).*$/.match(pkg.retrieve[pkg.property(:ensure)])[1]
     end
   end
