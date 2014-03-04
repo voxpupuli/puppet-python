@@ -5,15 +5,23 @@ pkg = Puppet::Type.type(:package).new(:name => "python-pip")
 Facter.add("pip_version") do
   has_weight 100
   setcode do
-    /^pip (\d+\.\d+\.?\d*).*$/.match(Facter::Util::Resolution.exec('pip --version 2>/dev/null'))[1]
+    begin
+      /^pip (\d+\.\d+\.?\d*).*$/.match(Facter::Util::Resolution.exec('pip --version 2>/dev/null'))[1]
+    rescue
+      false
+    end
   end
 end
 
 Facter.add("pip_version") do
   has_weight 50
   setcode do
-    unless [:absent,'purged'].include?(pkg.retrieve[pkg.property(:ensure)])
-        /^.*(\d+\.\d+\.\d+).*$/.match(pkg.retrieve[pkg.property(:ensure)])[1]
+    begin
+      unless [:absent,'purged'].include?(pkg.retrieve[pkg.property(:ensure)])
+          /^.*(\d+\.\d+\.\d+).*$/.match(pkg.retrieve[pkg.property(:ensure)])[1]
+      end
+    rescue
+      false
     end
   end
 end
