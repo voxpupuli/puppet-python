@@ -4,6 +4,12 @@
 #
 # === Parameters
 #
+# [*name]
+#  must be unique
+#
+# [*pkgname]
+#  name of the package.
+#
 # [*ensure*]
 #  present|absent. Default: present
 #
@@ -35,6 +41,7 @@
 # Fotis Gimian
 #
 define python::pip (
+  $pkgname         = undef,
   $ensure          = present,
   $virtualenv      = 'system',
   $url             = false,
@@ -70,18 +77,18 @@ define python::pip (
     default  => "--proxy=${proxy}",
   }
 
-  $grep_regex = $name ? {
-    /==/    => "^${name}\$",
-    default => "^${name}==",
+  $grep_regex = $pkgname ? {
+    /==/    => "^${pkgname}\$",
+    default => "^${pkgname}==",
   }
 
   $egg_name = $egg ? {
-    false   => $name,
+    false   => $pkgname,
     default => $egg
   }
 
   $source = $url ? {
-    false   => $name,
+    false   => $pkgname,
     default => "${url}#egg=${egg_name}",
   }
 
@@ -122,7 +129,7 @@ define python::pip (
 
     default: {
       exec { "pip_uninstall_${name}":
-        command     => "echo y | ${pip_env} uninstall ${uninstall_args} ${proxy_flag} ${name}",
+        command     => "echo y | ${pip_env} uninstall ${uninstall_args} ${proxy_flag} ${pkgname}",
         onlyif      => "${pip_env} freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         environment => $environment,
