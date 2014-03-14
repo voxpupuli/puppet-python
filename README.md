@@ -50,6 +50,8 @@ Installs and manages python, python-dev, python-virtualenv and Gunicorn.
 
 Installs and manages packages from pip.
 
+**pkgname** - the name of the package to install. Required.
+
 **ensure** - present/latest/absent. Default: present
 
 **virtualenv** - virtualenv to run pip in. Default: system (no virtualenv)
@@ -69,6 +71,7 @@ Installs and manages packages from pip.
 **uninstall_args** - Array of additional flags to pass to pip during uninstall. Default: none
 
 	python::pip { 'cx_Oracle':
+	  pkgname       => 'cx_Oracle',
 	  virtualenv  	=> '/var/www/project1',
 	  owner       	=> 'appuser',
 	  proxy       	=> 'http://proxy.domain.com:3128',
