@@ -77,18 +77,29 @@ define python::pip (
     default  => "--proxy=${proxy}",
   }
 
-  $grep_regex = $pkgname ? {
-    /==/    => "^${pkgname}\$",
-    default => "^${pkgname}==",
+  # If pkgname is not specified, use name (title) instead.
+  $use_pkgname = $pkgname ? {
+    undef   => $name,
+    default => $pkgname
+  }
+
+  # Check if searching by explicit version.
+  if $ensure =~ /^((19|20)[0-9][0-9]-(0[1-9]|1[1-2])-([0-2][1-9]|3[0-1])|[0-9]+\.[0-9]+(\.[0-9]+)?)$/ {
+    $grep_regex = "^${use_pkgname}==${ensure}\$"
+  } else {
+    $grep_regex = $use_pkgname ? {
+      /==/    => "^${use_pkgname}\$",
+      default => "^${use_pkgname}==",
+    }
   }
 
   $egg_name = $egg ? {
-    false   => $pkgname,
+    false   => $use_pkgname,
     default => $egg
   }
 
   $source = $url ? {
-    false   => $pkgname,
+    false   => $use_pkgname,
     default => "${url}#egg=${egg_name}",
   }
 
@@ -108,7 +119,20 @@ define python::pip (
 
 
   case $ensure {
+    /^((19|20)[0-9][0-9]-(0[1-9]|1[1-2])-([0-2][1-9]|3[0-1])|[0-9]+\.[0-9]+(\.[0-9]+)?)$/: {
+      # Version formats as per http://guide.python-distribute.org/specification.html#standard-versioning-schemes
+      # Explicit version.
+      exec { "pip_install_${name}":
+        command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; ${pip_env} --log ${cwd}/pip.log install ${install_args} \$wheel_support_flag ${proxy_flag} ${source}==${ensure}",
+        unless      => "${pip_env} freeze | grep -i -e ${grep_regex}",
+        user        => $owner,
+        environment => $environment,
+        path        => ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
+      }
+    }
+
     present: {
+      # Whatever version is available.
       exec { "pip_install_${name}":
         command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; ${pip_env} --log ${cwd}/pip.log install ${install_args} \$wheel_support_flag ${proxy_flag} ${source}",
         unless      => "${pip_env} freeze | grep -i -e ${grep_regex}",
@@ -119,6 +143,7 @@ define python::pip (
     }
 
     latest: {
+      # Latest version.
       exec { "pip_install_${name}":
         command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; ${pip_env} --log ${cwd}/pip.log install --upgrade \$wheel_support_flag ${proxy_flag} ${source}",
         user        => $owner,
@@ -128,8 +153,9 @@ define python::pip (
     }
 
     default: {
+      # Anti-action, uninstall.
       exec { "pip_uninstall_${name}":
-        command     => "echo y | ${pip_env} uninstall ${uninstall_args} ${proxy_flag} ${pkgname}",
+        command     => "echo y | ${pip_env} uninstall ${uninstall_args} ${proxy_flag} ${use_pkgname}",
         onlyif      => "${pip_env} freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         environment => $environment,
