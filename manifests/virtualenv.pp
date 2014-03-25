@@ -85,6 +85,7 @@ define python::virtualenv (
 
     $python = $version ? {
       'system' => 'python',
+      'pypy'   => 'pypy',
       default  => "python${version}",
     }
 
