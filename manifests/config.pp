@@ -1,3 +1,18 @@
+# == Define: python::config
+#
+# Optionally installs the gunicorn service
+#
+# === Examples
+#
+# include python::config
+#
+# === Authors
+#
+# Sergey Stankevich
+# Ashley Penney
+# Fotis Gimian
+#
+
 class python::config {
 
   Class['python::install'] -> Python::Pip <| |>
@@ -6,17 +21,19 @@ class python::config {
 
   Python::Virtualenv <| |> -> Python::Pip <| |>
 
-  if $python::gunicorn {
-    Class['python::install'] -> Python::Gunicorn <| |>
+  if $python::manage_gunicorn {
+    if $python::gunicorn {
+      Class['python::install'] -> Python::Gunicorn <| |>
 
-    Python::Gunicorn <| |> ~> Service['gunicorn']
+      Python::Gunicorn <| |> ~> Service['gunicorn']
 
-    service { 'gunicorn':
-      ensure     => running,
-      enable     => true,
-      hasrestart => true,
-      hasstatus  => false,
-      pattern    => '/usr/bin/gunicorn',
+      service { 'gunicorn':
+        ensure     => running,
+        enable     => true,
+        hasrestart => true,
+        hasstatus  => false,
+        pattern    => '/usr/bin/gunicorn',
+      }
     }
   }
 

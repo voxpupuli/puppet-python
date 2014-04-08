@@ -1,36 +1,36 @@
 CONFIG = {
-<% if mode == 'django' -%>
+<% if @mode == 'django' -%>
   'mode': 'django',
 <% else -%>
   'mode': 'wsgi',
 <% end -%>
-<% if virtualenv -%>
+<% if @virtualenv -%>
   'environment': {
-<% if environment -%>
-    'ENVIRONMENT': '<%= environment %>',
+<% if @environment -%>
+    'ENVIRONMENT': '<%= @environment %>',
 <% end -%>
-    'PYTHONPATH': '<%= virtualenv %>'
+    'PYTHONPATH': '<%= @virtualenv %>'
   },
 <% end -%>
-  'working_dir': '<%= dir %>',
-  'user': 'www-data',
-  'group': 'www-data',
-<% if virtualenv -%>
-  'python': '<%= virtualenv %>/bin/python',
+  'working_dir': '<%= @dir %>',
+  'user': '<%= @owner %>',
+  'group': '<%= @group %>',
+<% if @virtualenv -%>
+  'python': '<%= @virtualenv %>/bin/python',
 <% else -%>
   'python': '/usr/bin/python',
 <% end -%>
   'args': (
-<% if !virtualenv and !bind -%>
-    '--bind=unix:/tmp/gunicorn-<%= name %>.socket',
-<% elsif virtualenv and !bind -%>
-    '--bind=unix:<%= virtualenv %>/<%= name %>.socket',
+<% if !@virtualenv and !@bind -%>
+    '--bind=unix:/tmp/gunicorn-<%= @name %>.socket',
+<% elsif @virtualenv and !@bind -%>
+    '--bind=unix:<%= @virtualenv %>/<%= @name %>.socket',
 <% else -%>
-    '--bind=<%= bind %>',
+    '--bind=<%= @bind %>',
 <% end -%>
     '--workers=<%= @processorcount.to_i*2 %>',
     '--timeout=30',
-<% if mode != 'django' -%>
+<% if @mode != 'django' -%>
     'app:app',
 <% end -%>
   ),

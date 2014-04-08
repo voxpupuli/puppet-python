@@ -37,6 +37,8 @@ Installs and manages python, python-dev, python-virtualenv and Gunicorn.
 
 **gunicorn** - Install Gunicorn. Default: false
 
+**manage_gunicorn** - Allow Installation / Removal of Gunicorn. Default: true
+
 	class { 'python':
 	  version    => 'system',
 	  dev        => true,
@@ -48,7 +50,9 @@ Installs and manages python, python-dev, python-virtualenv and Gunicorn.
 
 Installs and manages packages from pip.
 
-**ensure** - present/absent. Default: present
+**pkgname** - the name of the package to install. Required.
+
+**ensure** - present/latest/absent. Default: present
 
 **virtualenv** - virtualenv to run pip in. Default: system (no virtualenv)
 
@@ -67,6 +71,7 @@ Installs and manages packages from pip.
 **uninstall_args** - Array of additional flags to pass to pip during uninstall. Default: none
 
 	python::pip { 'cx_Oracle':
+	  pkgname       => 'cx_Oracle',
 	  virtualenv  	=> '/var/www/project1',
 	  owner       	=> 'appuser',
 	  proxy       	=> 'http://proxy.domain.com:3128',
@@ -117,6 +122,10 @@ Creates Python virtualenv.
 
 **index** - Base URL of Python package index. Default: none
 
+**cwd** - The directory from which to run the "pip install" command. Default: undef
+
+**timeout** - The maximum time in seconds the "pip install" command should take. Default: 1800
+
 	python::virtualenv { '/var/www/project1':
 	  ensure       => present,
 	  version      => 'system',
@@ -126,6 +135,8 @@ Creates Python virtualenv.
 	  distribute   => false,
 	  owner        => 'appuser',
 	  group        => 'apps',
+	  cwd          => '/var/www/project1',
+	  timeout      => 0,
 	}
 
 ### python::gunicorn
