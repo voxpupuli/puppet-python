@@ -57,7 +57,7 @@ define python::pip (
 
   $cwd = $virtualenv ? {
     'system' => '/',
-    default  => "${virtualenv}",
+    default  => $virtualenv,
   }
 
   $pip_env = $virtualenv ? {
@@ -88,8 +88,8 @@ define python::pip (
   case $ensure {
     present: {
       exec { "pip_install_${name}":
-        command     => "$pip_env --log-file ${cwd}/pip.log install $install_args ${proxy_flag} ${source}",
-        unless      => "$pip_env freeze | grep -i -e ${grep_regex}",
+        command     => "${pip_env} --log-file ${cwd}/pip.log install ${install_args} ${proxy_flag} ${source}",
+        unless      => "${pip_env} freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         environment => $environment,
       }
@@ -97,8 +97,8 @@ define python::pip (
 
     default: {
       exec { "pip_uninstall_${name}":
-        command     => "echo y | $pip_env uninstall $uninstall_args ${proxy_flag} ${name}",
-        onlyif      => "$pip_env freeze | grep -i -e ${grep_regex}",
+        command     => "echo y | ${pip_env} uninstall ${uninstall_args} ${proxy_flag} ${name}",
+        onlyif      => "${pip_env} freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         environment => $environment,
       }
