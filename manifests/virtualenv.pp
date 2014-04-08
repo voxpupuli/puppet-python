@@ -76,9 +76,9 @@ define python::virtualenv (
   $group            = 'root',
   $proxy            = false,
   $environment      = [],
-  $path             = [ '/bin', '/usr/bin', '/usr/sbin' ]
-  $cwd          = undef,
-  $timeout      = 1800
+  $path             = [ '/bin', '/usr/bin', '/usr/sbin' ],
+  $cwd              = undef,
+  $timeout          = 1800
 ) {
 
   if $ensure == 'present' {
