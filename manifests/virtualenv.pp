@@ -16,6 +16,9 @@
 # [*systempkgs*]
 #  Copy system site-packages into virtualenv. Default: don't
 #
+# [*venv_dir*]
+#  Directory to install virtualenv to. Default: $name
+#
 # [*distribute*]
 #  Include distribute in the virtualenv. Default: true
 #
@@ -56,20 +59,19 @@
 # Fotis Gimian
 #
 define python::virtualenv (
-  $ensure       = present,
-  $version      = 'system',
-  $requirements = false,
-  $systempkgs   = false,
-  $distribute   = true,
-  $index        = false,
-  $owner        = 'root',
-  $group        = 'root',
-  $proxy        = false,
-  $environment  = [],
-  $path         = [ '/bin', '/usr/bin', '/usr/sbin' ]
+  $ensure           = present,
+  $version          = 'system',
+  $requirements     = false,
+  $systempkgs       = false,
+  $venv_dir         = $name,
+  $distribute       = true,
+  $index            = false,
+  $owner            = 'root',
+  $group            = 'root',
+  $proxy            = false,
+  $environment      = [],
+  $path             = [ '/bin', '/usr/bin', '/usr/sbin' ]
 ) {
-
-  $venv_dir = $name
 
   if $ensure == 'present' {
 
