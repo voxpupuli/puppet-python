@@ -16,7 +16,8 @@
 # [*systempkgs*]
 #  Copy system site-packages into virtualenv. Default: don't
 #  If virtualenv version < 1.7 this flag has no effect since
-#  the system packages were not supported
+# [*venv_dir*]
+#  Directory to install virtualenv to. Default: $name
 #
 # [*distribute*]
 #  Include distribute in the virtualenv. Default: true
@@ -64,22 +65,21 @@
 # Fotis Gimian
 #
 define python::virtualenv (
-  $ensure       = present,
-  $version      = 'system',
-  $requirements = false,
-  $systempkgs   = false,
-  $distribute   = true,
-  $index        = false,
-  $owner        = 'root',
-  $group        = 'root',
-  $proxy        = false,
-  $environment  = [],
-  $path         = [ '/bin', '/usr/bin', '/usr/sbin','/usr/local/bin' ],
-  $cwd          = undef,
-  $timeout      = 1800
+  $ensure           = present,
+  $version          = 'system',
+  $requirements     = false,
+  $systempkgs       = false,
+  $venv_dir         = $name,
+  $distribute       = true,
+  $index            = false,
+  $owner            = 'root',
+  $group            = 'root',
+  $proxy            = false,
+  $environment      = [],
+  $path             = [ '/bin', '/usr/bin', '/usr/sbin' ],
+  $cwd              = undef,
+  $timeout          = 1800
 ) {
-
-  $venv_dir = $name
 
   if $ensure == 'present' {
 
@@ -130,8 +130,9 @@ define python::virtualenv (
     exec { "python_virtualenv_${venv_dir}":
       command     => "mkdir -p ${venv_dir} ${proxy_command} && virtualenv ${system_pkgs_flag} -p ${python} ${venv_dir} && ${venv_dir}/bin/pip wheel --help > /dev/null 2>&1 && { ${venv_dir}/bin/pip wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { ${venv_dir}/bin/pip --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} \$wheel_support_flag --upgrade pip ${distribute_pkg} || ${venv_dir}/bin/pip --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag}  --upgrade pip ${distribute_pkg} ;}",
       user        => $owner,
+      creates     => "${venv_dir}/bin/activate",
       path        => $path,
-      cwd         => "/tmp",
+      cwd         => '/tmp',
       environment => $environment,
       unless      => "grep '^[\\t ]*VIRTUAL_ENV=[\\\\'\\\"]*${venv_dir}[\\\"\\\\'][\\t ]*$' ${venv_dir}/bin/activate", #Unless activate exists and VIRTUAL_ENV is correct we re-create the virtualenv
     }
