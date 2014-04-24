@@ -101,7 +101,7 @@ define python::pip (
     fail('python::pip cannot provide install_args with ensure => absent')
   }
 
-  if $(ensure == present) and ($uninstall_args != '') {
+  if ($ensure == present) and ($uninstall_args != '') {
     fail('python::pip cannot provide uninstall_args with ensure => present')
   }
 
