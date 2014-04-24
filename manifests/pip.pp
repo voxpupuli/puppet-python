@@ -25,8 +25,19 @@
 # [*proxy*]
 #  Proxy server to use for outbound connections. Default: none
 #
+# [*editable*]
+#  Boolean. If true the package is installed as an editable resource.
+#
 # [*environment*]
 #  Additional environment variables required to install the packages. Default: none
+#
+# [*install_args*]
+#  String. Any additional installation arguments that will be supplied
+#  when running pip install.
+#
+# [*uninstall args*]
+# String. Any additional arguments that will be supplied when running
+# pip uninstall.
 #
 # === Examples
 #
@@ -48,6 +59,7 @@ define python::pip (
   $owner           = 'root',
   $proxy           = false,
   $egg             = false,
+  $editable        = false,
   $environment     = [],
   $install_args    = '',
   $uninstall_args  = '',
@@ -75,6 +87,22 @@ define python::pip (
   $proxy_flag = $proxy ? {
     false    => '',
     default  => "--proxy=${proxy}",
+  }
+
+  if $editable == true {
+    $install_editable = ' -e '
+  }
+  else {
+    $install_editable = ''
+  }
+
+  #TODO: Do more robust argument checking, but below is a start
+  if ($ensure == absent) and ($install_args != '') {
+    fail('python::pip cannot provide install_args with ensure => absent')
+  }
+
+  if $(ensure == present) and ($uninstall_args != '') {
+    fail('python::pip cannot provide uninstall_args with ensure => present')
   }
 
   # Check if searching by explicit version.
@@ -117,7 +145,7 @@ define python::pip (
       # Version formats as per http://guide.python-distribute.org/specification.html#standard-versioning-schemes
       # Explicit version.
       exec { "pip_install_${name}":
-        command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; ${pip_env} --log ${cwd}/pip.log install ${install_args} \$wheel_support_flag ${proxy_flag} ${source}==${ensure}",
+        command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; ${pip_env} --log ${cwd}/pip.log install ${install_args} \$wheel_support_flag ${proxy_flag} ${install_args} ${install_editable} ${source}==${ensure}",
         unless      => "${pip_env} freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         environment => $environment,
@@ -128,7 +156,7 @@ define python::pip (
     present: {
       # Whatever version is available.
       exec { "pip_install_${name}":
-        command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; ${pip_env} --log ${cwd}/pip.log install ${install_args} \$wheel_support_flag ${proxy_flag} ${source}",
+        command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; ${pip_env} --log ${cwd}/pip.log install \$wheel_support_flag ${proxy_flag} ${install_args} ${install_editable} ${source}",
         unless      => "${pip_env} freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         environment => $environment,
@@ -139,7 +167,7 @@ define python::pip (
     latest: {
       # Latest version.
       exec { "pip_install_${name}":
-        command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; ${pip_env} --log ${cwd}/pip.log install --upgrade \$wheel_support_flag ${proxy_flag} ${source}",
+        command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; ${pip_env} --log ${cwd}/pip.log install --upgrade \$wheel_support_flag ${proxy_flag} ${uninstall_args} ${install_editable} ${source}",
         unless      => "${pip_env} search ${source} | grep -i INSTALLED | grep -i latest",
         user        => $owner,
         environment => $environment,
