@@ -31,6 +31,9 @@
 # [*environment*]
 #  Additional environment variables required to install the packages. Default: none
 #
+# [*timeout*]
+#  The maximum time in seconds the "pip install" command should take. Default: 1800
+#
 # [*install_args*]
 #  String. Any additional installation arguments that will be supplied
 #  when running pip install.
@@ -63,6 +66,7 @@ define python::pip (
   $environment     = [],
   $install_args    = '',
   $uninstall_args  = '',
+  $timeout         = 1800,
 ) {
 
   # Parameter validation
@@ -150,6 +154,7 @@ define python::pip (
         user        => $owner,
         environment => $environment,
         path        => ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
+        timeout     => $timeout,
       }
     }
 
@@ -161,6 +166,7 @@ define python::pip (
         user        => $owner,
         environment => $environment,
         path        => ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
+        timeout     => $timeout,
       }
     }
 
@@ -172,6 +178,7 @@ define python::pip (
         user        => $owner,
         environment => $environment,
         path        => ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
+        timeout     => $timeout,
       }
     }
 
@@ -183,6 +190,7 @@ define python::pip (
         user        => $owner,
         environment => $environment,
         path        => ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
+        timeout     => $timeout,
       }
     }
   }

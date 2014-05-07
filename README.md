@@ -70,6 +70,8 @@ Installs and manages packages from pip.
 
 **uninstall_args** - Array of additional flags to pass to pip during uninstall. Default: none
 
+**timeout** - Timeout for the pip install command. Defaults to 1800.
+
 	python::pip { 'cx_Oracle':
 	  pkgname       => 'cx_Oracle',
 	  virtualenv  	=> '/var/www/project1',
@@ -77,6 +79,7 @@ Installs and manages packages from pip.
 	  proxy       	=> 'http://proxy.domain.com:3128',
 	  environment 	=> 'ORACLE_HOME=/usr/lib/oracle/11.2/client64',
 	  install_args	=> ['-e'],
+	  timeout 		=> 1800,
 	}
 
 ### python::requirements
