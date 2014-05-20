@@ -7,7 +7,7 @@ Puppet module for installing and managing python, pip, virtualenvs and Gunicorn 
 
 Version 1.1.x makes several fundamental changes to the core of this module, adding some additional features, improving performance and making operations more robust in general.
 
-Please note that everal changes have been made in v1.1.x which make manifests incompatible with the previous version.  However, modifying your manifests to suit is trivial.  Please see the notes below.
+Please note that several changes have been made in v1.1.x which make manifests incompatible with the previous version.  However, modifying your manifests to suit is trivial.  Please see the notes below.
 
 Currently, the changes you need to make are as follows:
 
