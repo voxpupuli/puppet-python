@@ -124,6 +124,8 @@ Creates Python virtualenv.
 
 **distribute** - Include distribute in the virtualenv. Default: true
 
+**venv_dir** - The location of the virtualenv if resource path not specified. Must be absolute path. Default: resource name
+
 **owner** - Specify the owner of this virtualenv
 
 **group** - Specify the group for this virtualenv
@@ -142,6 +144,7 @@ Creates Python virtualenv.
     proxy        => 'http://proxy.domain.com:3128',
     systempkgs   => true,
     distribute   => false,
+    venv_dir     => '/home/appuser/virtualenvs',
     owner        => 'appuser',
     group        => 'apps',
     cwd          => '/var/www/project1',
