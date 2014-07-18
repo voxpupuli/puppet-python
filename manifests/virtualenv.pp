@@ -154,6 +154,7 @@ define python::virtualenv (
         proxy        => $proxy,
         owner        => $owner,
         group        => $group,
+        cwd          => $cwd,
         require      => Exec["python_virtualenv_${venv_dir}"],
       }
     }
