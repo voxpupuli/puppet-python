@@ -32,6 +32,9 @@
 # requirements file - Useful for when the requirements file is written as part of a
 # resource other than file (E.g vcsrepo)
 #
+# [*cwd*]
+#  The directory from which to run the "pip install" command. Default: undef
+#
 # === Examples
 #
 # python::requirements { '/var/www/project1/requirements.txt':
@@ -54,13 +57,14 @@ define python::requirements (
   $src          = false,
   $environment  = [],
   $forceupdate  = false,
+  $cwd          = undef,
 ) {
 
   if $virtualenv == 'system' and ($owner != 'root' or $group != 'root') {
     fail('python::pip: root user must be used when virtualenv is system')
   }
 
-  $cwd = $virtualenv ? {
+  $rootdir = $virtualenv ? {
     'system' => '/',
     default  => $virtualenv,
   }
@@ -96,9 +100,10 @@ define python::requirements (
 
   exec { "python_requirements${name}":
     provider    => shell,
-    command     => "${pip_env} --log ${cwd}/pip.log install ${proxy_flag} ${src_flag} -r ${requirements}",
+    command     => "${pip_env} --log ${rootdir}/pip.log install ${proxy_flag} ${src_flag} -r ${requirements}",
     refreshonly => !$forceupdate,
     timeout     => 1800,
+    cwd         => $cwd,
     user        => $owner,
     subscribe   => File[$requirements],
     environment => $environment,
