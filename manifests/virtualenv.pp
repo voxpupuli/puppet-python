@@ -108,7 +108,11 @@ define python::virtualenv (
     } elsif (( versioncmp($::virtualenv_version,'1.7') < 0 ) and ( $systempkgs == false )) {
       $system_pkgs_flag = '--no-site-packages'
     } else {
-      $system_pkgs_flag = ''
+      $system_pkgs_flag = $systempkgs ? {
+        true    => '--system-site-packages',
+        false   => '--no-site-packages',
+        default => fail('Invalid value for systempkgs. Boolean value is expected')
+      }
     }
 
     $distribute_pkg = $distribute ? {
