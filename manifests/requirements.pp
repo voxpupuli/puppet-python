@@ -107,7 +107,6 @@ define python::requirements (
     user        => $owner,
     subscribe   => File[$requirements],
     environment => $environment,
-    path        => ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
   }
 
 }
