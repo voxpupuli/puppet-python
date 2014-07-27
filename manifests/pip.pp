@@ -185,7 +185,7 @@ define python::pip (
     default: {
       # Anti-action, uninstall.
       exec { "pip_uninstall_${name}":
-        command     => "echo y | ${pip_env} uninstall ${uninstall_args} ${proxy_flag} ${use_pkgname}",
+        command     => "echo y | ${pip_env} uninstall ${uninstall_args} ${proxy_flag}",
         onlyif      => "${pip_env} freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         environment => $environment,
