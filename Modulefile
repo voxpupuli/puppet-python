@@ -1,5 +1,5 @@
 name         'stankevich-python'
-version      '1.7.7'
+version      '1.7.8'
 
 author       'Sergey Stankevich'
 license      'Apache License, Version 2.0'
