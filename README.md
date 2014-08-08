@@ -25,7 +25,7 @@ git clone git://github.com/stankevich/puppet-python.git python
 
 ### python
 
-Installs and manages python, python-dev, python-virtualenv and Gunicorn.
+Installs and manages python, python-pip, python-dev, python-virtualenv and Gunicorn.
 
 **version** - Python version to install. Default: system default
 
@@ -42,10 +42,11 @@ Installs and manages python, python-dev, python-virtualenv and Gunicorn.
 ```puppet
   class { 'python':
     version    => 'system',
+    pip        => true,
     dev        => true,
     virtualenv => true,
     gunicorn   => true,
-  }	}
+  }
 ```
 
 ### python::pip
