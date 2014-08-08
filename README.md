@@ -1,5 +1,4 @@
-[puppet-python](https://github.com/stankevich/puppet-python)
-======
+# Puppet Python #
 
 Puppet module for installing and managing python, pip, virtualenvs and Gunicorn virtual hosts.
 
@@ -25,7 +24,7 @@ git clone git://github.com/stankevich/puppet-python.git python
 
 ### python
 
-Installs and manages python, python-pip, python-dev, python-virtualenv and Gunicorn.
+Installs and manages python, python-dev, python-virtualenv and Gunicorn.
 
 **version** - Python version to install. Default: system default
 
@@ -42,11 +41,10 @@ Installs and manages python, python-pip, python-dev, python-virtualenv and Gunic
 ```puppet
   class { 'python':
     version    => 'system',
-    pip        => true,
     dev        => true,
     virtualenv => true,
     gunicorn   => true,
-  }
+  }	}
 ```
 
 ### python::pip
