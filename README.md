@@ -1,4 +1,6 @@
-# Puppet Python #
+# Puppet module: python
+
+[![Build Status](https://travis-ci.org/axislab/puppet-python.svg?branch=master)](https://travis-ci.org/axislab/puppet-python)
 
 Puppet module for installing and managing python, pip, virtualenvs and Gunicorn virtual hosts.
 
