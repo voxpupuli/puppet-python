@@ -33,7 +33,6 @@ describe 'python::requirements', :type => :define do
               should compile
             }.to raise_error(Puppet::Error, /root user must be used when virtualenv is system/)
           end
-          
         end
       end
 
