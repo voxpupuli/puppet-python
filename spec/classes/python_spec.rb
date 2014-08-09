@@ -166,7 +166,7 @@ describe 'python', :type => :class do
         describe "with python::virtualenv" do
           context "default/empty" do
             let (:params) {{ :provider => '', :virtualenv => '' }}
-            it { is_expected.to contain_package("python-virtualenv").with_ensure('present') }
+            it { is_expected.to contain_package("python-virtualenv").with_ensure('absent') }
           end
         end
       end
