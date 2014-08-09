@@ -28,6 +28,6 @@ RSpec.configure do |c|
   # Configure all nodes in nodeset
   c.before :suite do
     # Install module
-    puppet_module_install(:source => proj_root, :module_name => 'ntp')
+    puppet_module_install(:source => proj_root, :module_name => 'python')
   end
 end
