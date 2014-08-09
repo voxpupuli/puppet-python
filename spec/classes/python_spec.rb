@@ -67,46 +67,30 @@ describe 'python', :type => :class do
         
         describe "with python::virtualenv" do
           context "true" do
-            let (:params) {{
-                :provider   => '',
-                :virtualenv => true
-              }} 
-            it { is_expected.to contain_package("python-virtualenv").with(
-                                                                   "ensure" => "present"
-                                                             )}
+            let (:params) {{ :provider => '', :virtualenv => true }}
+            it { is_expected.to contain_package("python-virtualenv").with_ensure('present') }
           end
         end
         
         describe "with python::virtualenv" do
           context "default/empty" do
-            let (:params) {{
-                :provider   => '',
-                :virtualenv => ''
-              }} 
-            it { is_expected.to contain_package("python-virtualenv").with(
-                                                                   "ensure" => "absent"
-                                                             )}
+            let (:params) {{ :provider => '', :virtualenv => '' }}
+            it { is_expected.to contain_package("python-virtualenv").with_ensure('absent') }
           end
         end
-
-        
       end
     end
     
     describe "with python::dev" do
       context "true" do
-        let (:params) {{ :dev => true }} 
-        it { is_expected.to contain_package("python-dev").with(
-                                                               "ensure" => "present")
-        }
+        let (:params) {{ :dev => true }}
+        it { is_expected.to contain_package("python-dev").with_ensure('present') }
       end
       context "default/empty" do
-        let (:params) {{ :dev => '' }} 
-        it { is_expected.to contain_package("python-dev").with(
-                                                               "ensure" => "absent")
-        }
+        let (:params) {{ :dev => true }}
+        it { is_expected.to contain_package("python-dev").with_ensure('absent') }
       end
-
+    end
   end
   
   context "on a Redhat 5 OS" do
