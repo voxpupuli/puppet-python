@@ -7,5 +7,5 @@ summary       'Python Module'
 description   'Puppet module for Python'
 project_page  'https://github.com/stankevich/puppet-python'
 
-# Add dependencies, if any:
-dependency    'puppetlabs/stdlib', '>= 3.x'
+## Add dependencies, if any:
+dependency    'puppetlabs/stdlib', '>= 4.0.0'
