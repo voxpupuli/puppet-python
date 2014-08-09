@@ -90,7 +90,7 @@ describe 'python', :type => :class do
         let (:params) {{ :dev => true }}
         it { is_expected.to contain_package("python-dev").with_ensure('absent') }
       end
-    end
+
   end
   
   context "on a Redhat 5 OS" do
