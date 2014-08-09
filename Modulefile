@@ -1,7 +1,7 @@
 name          'stankevich-python'
 version       '1.7.8'
 source        'git://github.com/stankevich/puppet-python.git'
-author        'Sergey Stankevich'
+author        'stankevich'
 license       'Apache 2.0'
 summary       'Python Module'
 description   'Puppet module for Python'
