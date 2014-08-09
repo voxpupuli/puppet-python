@@ -87,7 +87,7 @@ describe 'python', :type => :class do
         it { is_expected.to contain_package("python-dev").with_ensure('present') }
       end
       context "default/empty" do
-        let (:params) {{ :dev => true }}
+        let (:params) {{ :dev => '' }}
         it { is_expected.to contain_package("python-dev").with_ensure('absent') }
       end
 
