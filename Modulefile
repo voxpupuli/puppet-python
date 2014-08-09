@@ -2,8 +2,10 @@ name          'stankevich-python'
 version       '1.7.8'
 source        'git://github.com/stankevich/puppet-python.git'
 author        'stankevich'
-license       'Apache 2.0'
+license       'Apache License, Version 2.0'
 summary       'Python Module'
 description   'Puppet module for Python'
 project_page  'https://github.com/stankevich/puppet-python'
-dependency    'puppetlabs/stdlib', '>= 3.2.0'
+
+# Add dependencies, if any:
+dependency    'puppetlabs/stdlib', '>= 3.x'
