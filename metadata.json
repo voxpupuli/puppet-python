@@ -3,11 +3,12 @@
   "version": "1.7.8",
   "source": "git://github.com/stankevich/puppet-python.git",
   "author": "stankevich",
-  "license": "Apache 2.0",
+  "license": "Apache Version 2.0",
   "summary": "Python Module",
   "description": "Puppet module for Python",
   "project_page": "https://github.com/stankevich/puppet-python",
   "issues_url": "https://github.com/stankevich/puppet-python/issues",
+  "tags": ["python", "pip", "virtualenv", "gunicorn"],
   "operatingsystem_support": [
     {
       "operatingsystem": "CentOS",
