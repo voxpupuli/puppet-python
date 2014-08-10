@@ -1,4 +1,4 @@
-require_relative '../../spec_helper'
+require 'spec_helper'
 
 describe 'python::requirements', :type => :define do
   let (:title) { '/requirements.txt' }
@@ -19,10 +19,7 @@ describe 'python::requirements', :type => :define do
     describe "requirements as" do
       context "/requirements.txt" do
         let (:params) {{ :requirements => "/requirements.txt" }}
-        it { is_expected.to contain_file("/requirements.txt").with(
-                                                                 "mode" => "0644"
-
-                                                                   )}
+        it { is_expected.to contain_file("/requirements.txt").with_mode('0644') }
       end
       
       describe "with owner" do
@@ -36,16 +33,12 @@ describe 'python::requirements', :type => :define do
               should compile
             }.to raise_error(Puppet::Error, /root user must be used when virtualenv is system/)
           end
-          
         end
       end
 
       describe "with owner" do
         context "default" do
-          it { is_expected.to contain_file("/requirements.txt").with(
-                                                                     "owner" => "root",
-                                                                     "group"  => "root"
-                                                                     )}
+          it { is_expected.to contain_file("/requirements.txt").with_owner('root').with_group('root') }
         end
       end
     end
