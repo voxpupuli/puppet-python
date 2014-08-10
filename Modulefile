@@ -1,5 +1,5 @@
 name          'stankevich-python'
-version       '1.7.8'
+version       '1.7.9'
 source        'git://github.com/stankevich/puppet-python.git'
 author        'stankevich'
 license       'Apache License, Version 2.0'
