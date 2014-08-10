@@ -1,4 +1,4 @@
-require_relative '../../spec_helper'
+require 'spec_helper'
 
 describe 'python', :type => :class do
   context "on Debian OS" do
@@ -26,18 +26,13 @@ describe 'python', :type => :class do
     describe "with python::dev" do
       context "true" do
         let (:params) {{ :dev => true }} 
-        it { is_expected.to contain_package("python-dev").with(
-                                                               "ensure" => "present")
-        }
+        it { is_expected.to contain_package("python-dev").with_ensure('present') }
       end
       context "empty/default" do
-        it { is_expected.to contain_package("python-dev").with(
-                                                               "ensure" => "absent")
-        }
+        it { is_expected.to contain_package("python-dev").with_ensure('absent') }
       end
     end
-        
-    
+
     describe "with manage_gunicorn" do
       context "true" do
         let (:params) {{ :manage_gunicorn => true }} 
@@ -55,13 +50,13 @@ describe 'python', :type => :class do
 
     describe "with python::provider" do
       context "pip" do
-        let (:params) {{ :provider => 'pip' }} 
+        let (:params) {{ :provider => 'pip' }}
         it { is_expected.to contain_package("virtualenv").with(
-                                                               "provider" => "pip"
-                                                             )}
+          'provider' => 'pip'
+        )}
         it { is_expected.to contain_package("pip").with(
-                                                        "provider" => "pip"
-                                                        )}
+          'provider' => 'pip'
+        )}
       end
       
       # python::provider
@@ -72,46 +67,30 @@ describe 'python', :type => :class do
         
         describe "with python::virtualenv" do
           context "true" do
-            let (:params) {{
-                :provider   => '',
-                :virtualenv => true
-              }} 
-            it { is_expected.to contain_package("python-virtualenv").with(
-                                                                   "ensure" => "present"
-                                                             )}
+            let (:params) {{ :provider => '', :virtualenv => true }}
+            it { is_expected.to contain_package("python-virtualenv").with_ensure('present') }
           end
         end
         
         describe "with python::virtualenv" do
           context "default/empty" do
-            let (:params) {{
-                :provider   => '',
-                :virtualenv => ''
-              }} 
-            it { is_expected.to contain_package("python-virtualenv").with(
-                                                                   "ensure" => "absent"
-                                                             )}
+            let (:params) {{ :provider => '', :virtualenv => '' }}
+            it { is_expected.to contain_package("python-virtualenv").with_ensure('absent') }
           end
         end
-
-        
       end
     end
     
     describe "with python::dev" do
       context "true" do
-        let (:params) {{ :dev => true }} 
-        it { is_expected.to contain_package("python-dev").with(
-                                                               "ensure" => "present")
-        }
+        let (:params) {{ :dev => true }}
+        it { is_expected.to contain_package("python-dev").with_ensure('present') }
       end
       context "default/empty" do
-        let (:params) {{ :dev => '' }} 
-        it { is_expected.to contain_package("python-dev").with(
-                                                               "ensure" => "absent")
-        }
+        let (:params) {{ :dev => '' }}
+        it { is_expected.to contain_package("python-dev").with_ensure('absent') }
       end
-
+    end
   end
   
   context "on a Redhat 5 OS" do
@@ -136,18 +115,13 @@ describe 'python', :type => :class do
   
     describe "with python::dev" do
       context "true" do
-        let (:params) {{ :dev => true }} 
-        it { is_expected.to contain_package("python-devel").with(
-                                                               "ensure" => "present")
-        }
+        let (:params) {{ :dev => true }}
+        it { is_expected.to contain_package("python-devel").with_ensure('present') }
       end
       context "empty/default" do
-        it { is_expected.to contain_package("python-devel").with(
-                                                               "ensure" => "absent")
-        }
+        it { is_expected.to contain_package("python-devel").with_ensure('absent') }
       end
     end
-        
     
     describe "with manage_gunicorn" do
       context "true" do
@@ -166,13 +140,14 @@ describe 'python', :type => :class do
 
     describe "with python::provider" do
       context "pip" do
-        let (:params) {{ :provider => 'pip' }} 
+        let (:params) {{ :provider => 'pip' }}
+
         it { is_expected.to contain_package("virtualenv").with(
-                                                               "provider" => "pip"
-                                                             )}
+          'provider' => 'pip'
+        )}
         it { is_expected.to contain_package("pip").with(
-                                                        "provider" => "pip"
-                                                        )}
+          'provider' => 'pip'
+        )}
       end
       
       # python::provider
@@ -183,46 +158,29 @@ describe 'python', :type => :class do
         
         describe "with python::virtualenv" do
           context "true" do
-            let (:params) {{
-                :provider   => '',
-                :virtualenv => true
-              }} 
-            it { is_expected.to contain_package("python-virtualenv").with(
-                                                                   "ensure" => "present"
-                                                             )}
+            let (:params) {{ :provider => '', :virtualenv => true }}
+            it { is_expected.to contain_package("python-virtualenv").with_ensure('present') }
           end
         end
         
         describe "with python::virtualenv" do
           context "default/empty" do
-            let (:params) {{
-                :provider   => '',
-                :virtualenv => ''
-              }} 
-            it { is_expected.to contain_package("python-virtualenv").with(
-                                                                   "ensure" => "absent"
-                                                             )}
+            let (:params) {{ :provider => '', :virtualenv => '' }}
+            it { is_expected.to contain_package("python-virtualenv").with_ensure('absent') }
           end
         end
-
-        
       end
     end
     
     describe "with python::dev" do
       context "true" do
         let (:params) {{ :dev => true }} 
-        it { is_expected.to contain_package("python-devel").with(
-                                                               "ensure" => "present")
-        }
+        it { is_expected.to contain_package("python-devel").with_ensure('present') }
       end
       context "default/empty" do
         let (:params) {{ :dev => '' }} 
-        it { is_expected.to contain_package("python-devel").with(
-                                                               "ensure" => "absent")
-        }
-        end
+        it { is_expected.to contain_package("python-devel").with_ensure('absent') }
       end
     end
-  end 
-end
+  end
+end 
