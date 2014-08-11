@@ -30,7 +30,7 @@ Installs and manages python, python-pip, python-dev, python-virtualenv and Gunic
 
 **version** - Python version to install. Default: system default
 
-**pip** - Install python-pip. Default: false
+**pip** - Install python-pip. Default: true
 
 **dev** - Install python-dev. Default: false
 
