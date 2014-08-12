@@ -17,9 +17,13 @@ Currently, the changes you need to make are as follows:
 
 ## Installation
 
+```shell
+git submodule add https://github.com/stankevich/puppet-python.git /path/to/python
+```
+OR
+
 ``` shell
-cd /etc/puppet/modules
-git clone git://github.com/stankevich/puppet-python.git python
+puppet module install stankevich-python
 ```
 
 ## Usage
