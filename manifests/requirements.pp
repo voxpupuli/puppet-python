@@ -35,6 +35,9 @@
 # [*cwd*]
 #  The directory from which to run the "pip install" command. Default: undef
 #
+# [*extra_pip_args*]
+# Extra arguments to pass to pip after the requirements file
+#
 # === Examples
 #
 # python::requirements { '/var/www/project1/requirements.txt':
@@ -58,6 +61,7 @@ define python::requirements (
   $environment  = [],
   $forceupdate  = false,
   $cwd          = undef,
+  $extra_pip_args = '',
 ) {
 
   if $virtualenv == 'system' and ($owner != 'root' or $group != 'root') {
@@ -100,7 +104,7 @@ define python::requirements (
 
   exec { "python_requirements${name}":
     provider    => shell,
-    command     => "${pip_env} --log ${rootdir}/pip.log install ${proxy_flag} ${src_flag} -r ${requirements}",
+    command     => "${pip_env} --log ${rootdir}/pip.log install ${proxy_flag} ${src_flag} -r ${requirements} $extra_pip_args",
     refreshonly => !$forceupdate,
     timeout     => 1800,
     cwd         => $cwd,
