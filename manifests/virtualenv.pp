@@ -156,7 +156,7 @@ define python::virtualenv (
 
     if $requirements {
       exec { "python_requirements_initial_install_${requirements}_${venv_dir}":
-        command     => "${venv_dir}/bin/pip wheel --help > /dev/null 2>&1 && { ${venv_dir}/bin/pip wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; ${venv_dir}/bin/pip --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} \$wheel_support_flag -r ${requirements} $extra_pip_args",
+        command     => "${venv_dir}/bin/pip wheel --help > /dev/null 2>&1 && { ${venv_dir}/bin/pip wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; ${venv_dir}/bin/pip --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} \$wheel_support_flag -r ${requirements} ${extra_pip_args}",
         refreshonly => true,
         timeout     => $timeout,
         user        => $owner,
@@ -166,14 +166,14 @@ define python::virtualenv (
       }
 
       python::requirements { "${requirements}_${venv_dir}":
-        requirements => $requirements,
-        virtualenv   => $venv_dir,
-        proxy        => $proxy,
-        owner        => $owner,
-        group        => $group,
-        cwd          => $cwd,
-        require      => Exec["python_virtualenv_${venv_dir}"],
-	extra_pip_args => $extra_pip_args,
+        requirements    => $requirements,
+        virtualen       => $venv_dir,
+        proxy           => $proxy,
+        owner           => $owner,
+        group           => $group,
+        cwd             => $cwd,
+        require         => Exec["python_virtualenv_${venv_dir}"],
+	      extra_pip_args  => $extra_pip_args,
       }
     }
   } elsif $ensure == 'absent' {
