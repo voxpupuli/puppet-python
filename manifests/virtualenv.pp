@@ -173,7 +173,7 @@ define python::virtualenv (
         group           => $group,
         cwd             => $cwd,
         require         => Exec["python_virtualenv_${venv_dir}"],
-	      extra_pip_args  => $extra_pip_args,
+        extra_pip_args  => $extra_pip_args,
       }
     }
   } elsif $ensure == 'absent' {
