@@ -72,9 +72,9 @@ describe 'python', :type => :class do
           end
         end
         
-        describe "with python::virtualenv" do
+        describe "without python::virtualenv" do
           context "default/empty" do
-            let (:params) {{ :provider => '', :virtualenv => '' }}
+            let (:params) {{ :provider => '' }}
             it { is_expected.to contain_package("python-virtualenv").with_ensure('absent') }
           end
         end
@@ -87,7 +87,6 @@ describe 'python', :type => :class do
         it { is_expected.to contain_package("python-dev").with_ensure('present') }
       end
       context "default/empty" do
-        let (:params) {{ :dev => '' }}
         it { is_expected.to contain_package("python-dev").with_ensure('absent') }
       end
     end
@@ -165,7 +164,7 @@ describe 'python', :type => :class do
         
         describe "with python::virtualenv" do
           context "default/empty" do
-            let (:params) {{ :provider => '', :virtualenv => '' }}
+            let (:params) {{ :provider => '' }}
             it { is_expected.to contain_package("python-virtualenv").with_ensure('absent') }
           end
         end
@@ -178,7 +177,6 @@ describe 'python', :type => :class do
         it { is_expected.to contain_package("python-devel").with_ensure('present') }
       end
       context "default/empty" do
-        let (:params) {{ :dev => '' }} 
         it { is_expected.to contain_package("python-devel").with_ensure('absent') }
       end
     end

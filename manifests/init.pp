@@ -67,10 +67,10 @@ class python (
   }
 
   if $provider == 'pip' {
-    validate_re($version, '^(2\.[4-7]\.\d|3\.\d\.\d)$') 
-  # this will only be checked if not pip, every other string would be rejected by provider check 
+    validate_re($version, ['^(2\.[4-7]\.\d|3\.\d\.\d)$','^system$'])
+  # this will only be checked if not pip, every other string would be rejected by provider check
   } else {
-    validate_re($version, concat(['system', 'pypy'], $::python::install::valid_versions]))
+    validate_re($version, concat(['system', 'pypy'], $::python::install::valid_versions))
   }
 
   validate_bool($pip)
