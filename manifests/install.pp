@@ -15,7 +15,7 @@
 
 class python::install {
 
-  $valid_version = $osfamily ? {
+  $valid_version = $::osfamily ? {
     'RedHat' => ['3'],
     'Debian' => ['3', '3.3']
   }
@@ -32,7 +32,7 @@ class python::install {
   }
 
   # pip version: use only for installation via os package manager!
-  if $::python::version =~ '^3' {
+  if $::python::version =~ /^3/ {
     $pip = 'python3-pip'
   } else {
     $pip = 'python-pip'
