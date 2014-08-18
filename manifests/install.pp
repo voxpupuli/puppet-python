@@ -15,7 +15,12 @@
 
 class python::install {
 
-  $python = $python::version ? {
+  $valid_version = $::osfamily ? {
+    'RedHat' => ['3'],
+    'Debian' => ['3', '3.3']
+  }
+
+  $python = $::python::version ? {
     'system' => 'python',
     'pypy'   => 'pypy',
     default  => "python${python::version}",
@@ -24,6 +29,13 @@ class python::install {
   $pythondev = $::osfamily ? {
     'RedHat' => "${python}-devel",
     'Debian' => "${python}-dev"
+  }
+
+  # pip version: use only for installation via os package manager!
+  if $::python::version =~ /^3/ {
+    $pip = 'python3-pip'
+  } else {
+    $pip = 'python-pip'
   }
 
   $dev_ensure = $python::dev ? {
@@ -46,12 +58,11 @@ class python::install {
     pip: {
       package { 'virtualenv': ensure => latest, provider => pip }
       package { 'pip': ensure => latest, provider => pip }
-      package { $pythondev: ensure => latest }
       package { "python==${python::version}": ensure => latest, provider => pip }
     }
     default: {
       package { 'python-virtualenv': ensure => $venv_ensure }
-      package { 'python-pip': ensure => $pip_ensure }
+      package { $pip: ensure => $pip_ensure }
       package { $pythondev: ensure => $dev_ensure }
       package { $python: ensure => present }
     }
