@@ -1,4 +1,4 @@
-# Puppet module: python
+# puppet-python #
 
 [![Build Status](https://travis-ci.org/stankevich/puppet-python.svg?branch=master)](https://travis-ci.org/stankevich/puppet-python)
 
