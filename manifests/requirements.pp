@@ -38,6 +38,9 @@
 # [*extra_pip_args*]
 # Extra arguments to pass to pip after the requirements file
 #
+# [*fix_requirements_owner*]
+# Change owner and group of requirements file. Default: true
+#
 # === Examples
 #
 # python::requirements { '/var/www/project1/requirements.txt':
@@ -52,20 +55,29 @@
 # Fotis Gimian
 #
 define python::requirements (
-  $requirements = $name,
-  $virtualenv   = 'system',
-  $owner        = 'root',
-  $group        = 'root',
-  $proxy        = false,
-  $src          = false,
-  $environment  = [],
-  $forceupdate  = false,
-  $cwd          = undef,
-  $extra_pip_args = '',
+  $requirements           = $name,
+  $virtualenv             = 'system',
+  $owner                  = 'root',
+  $group                  = 'root',
+  $proxy                  = false,
+  $src                    = false,
+  $environment            = [],
+  $forceupdate            = false,
+  $cwd                    = undef,
+  $extra_pip_args         = '',
+  $fix_requirements_owner = true
 ) {
 
   if $virtualenv == 'system' and ($owner != 'root' or $group != 'root') {
     fail('python::pip: root user must be used when virtualenv is system')
+  }
+
+  if $fix_requirements_owner {
+    $owner_real = $owner
+    $group_real = $group
+  } else {
+    $owner_real = undef
+    $group_real = undef
   }
 
   $rootdir = $virtualenv ? {
@@ -94,8 +106,8 @@ define python::requirements (
     file { $requirements:
       ensure  => present,
       mode    => '0644',
-      owner   => $owner,
-      group   => $group,
+      owner   => $owner_real,
+      group   => $group_real,
       audit   => content,
       replace => false,
       content => '# Puppet will install and/or update pip packages listed here',
