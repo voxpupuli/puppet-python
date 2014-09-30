@@ -1,6 +1,4 @@
-# puppet-python #
-
-[![Build Status](https://travis-ci.org/stankevich/puppet-python.svg?branch=master)](https://travis-ci.org/stankevich/puppet-python)
+# puppet-python [![Build Status](https://travis-ci.org/stankevich/puppet-python.svg?branch=master)](https://travis-ci.org/stankevich/puppet-python)
 
 Puppet module for installing and managing python, pip, virtualenvs and Gunicorn virtual hosts.
 
