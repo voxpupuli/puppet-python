@@ -18,7 +18,7 @@ Currently, the changes you need to make are as follows:
 ```shell
 git submodule add https://github.com/stankevich/puppet-python.git /path/to/python
 ```
-OR
+*OR*
 
 ``` shell
 puppet module install stankevich-python
