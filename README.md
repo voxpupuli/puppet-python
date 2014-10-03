@@ -168,7 +168,7 @@ Manages Gunicorn virtual hosts.
 
 **dir** - Application directory.
 
-**bind** - Bind on: 'HOST', 'HOST:PORT', 'unix:PATH'. Default: unix:/tmp/gunicorn-$name.socket or unix:${virtualenv}/${name}.socket
+**bind** - Bind on: 'HOST', 'HOST:PORT', 'unix:PATH'. Default: `unix:/tmp/gunicorn-$name.socket` or `unix:${virtualenv}/${name}.socket`
 
 **environment** - Set ENVIRONMENT variable. Default: none
 
