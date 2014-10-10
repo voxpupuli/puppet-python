@@ -43,7 +43,7 @@ Installs and manages python, python-pip, python-dev, python-virtualenv and Gunic
 **manage_gunicorn** - Allow Installation / Removal of Gunicorn. Default: true
 
 ```puppet
-  class { 'python':
+  class { 'python' :
     version    => 'system',
     pip        => true,
     dev        => true,
@@ -78,7 +78,7 @@ Installs and manages packages from pip.
 
 **timeout** - Timeout for the pip install command. Defaults to 1800.
 ```puppet
-  python::pip { 'cx_Oracle':
+  python::pip { 'cx_Oracle' :
     pkgname       => 'cx_Oracle',
     virtualenv    => '/var/www/project1',
     owner         => 'appuser',
@@ -104,7 +104,7 @@ Installs and manages Python packages from requirements file.
 **group** - The group that was used to create the virtualenv.  This is used to create the requirements file with correct permissions if it's not present already.
 
 ```puppet
-  python::requirements { '/var/www/project1/requirements.txt':
+  python::requirements { '/var/www/project1/requirements.txt' :
     virtualenv => '/var/www/project1',
     proxy      => 'http://proxy.domain.com:3128',
     owner      => 'appuser',
@@ -141,7 +141,7 @@ Creates Python virtualenv.
 **timeout** - The maximum time in seconds the "pip install" command should take. Default: 1800
 
 ```puppet
-  python::virtualenv { '/var/www/project1':
+  python::virtualenv { '/var/www/project1' :
     ensure       => present,
     version      => 'system',
     requirements => '/var/www/project1/requirements.txt',
@@ -175,7 +175,7 @@ Manages Gunicorn virtual hosts.
 **template** - Which ERB template to use. Default: python/gunicorn.erb
 
 ```puppet
-  python::gunicorn { 'vhost':
+  python::gunicorn { 'vhost' :
     ensure      => present,
     virtualenv  => '/var/www/project1',
     mode        => 'wsgi',
