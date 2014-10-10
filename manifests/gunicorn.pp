@@ -25,6 +25,10 @@
 # [*environment*]
 #  Set ENVIRONMENT variable. Default: none
 #
+# [*appmodule*]
+#  Set the application module name for gunicorn to load when not using Django.
+#  Default: app:app
+#
 # [*template*]
 #  Which ERB template to use. Default: python/gunicorn.erb
 #
@@ -39,6 +43,7 @@
 #   environment => 'prod',
 #   owner       => 'www-data',
 #   group       => 'www-data',
+#   appmodule   => 'app:app',
 #   template    => 'python/gunicorn.erb',
 # }
 #
@@ -57,6 +62,7 @@ define python::gunicorn (
   $environment   = false,
   $owner         = 'www-data',
   $group         = 'www-data',
+  $appmodule     = 'app:app',
   $template      = 'python/gunicorn.erb',
 ) {
 
