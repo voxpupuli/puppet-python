@@ -15,11 +15,6 @@
 
 class python::install {
 
-  $valid_version = $::osfamily ? {
-    'RedHat' => ['3'],
-    'Debian' => ['3', '3.3']
-  }
-
   $python = $::python::version ? {
     'system' => 'python',
     'pypy'   => 'pypy',

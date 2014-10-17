@@ -52,14 +52,15 @@
 # Sergey Stankevich
 #
 class python (
-  $version         = 'system',
-  $pip             = true,
-  $dev             = false,
-  $virtualenv      = false,
-  $gunicorn        = false,
-  $manage_gunicorn = true,
-  $provider        = undef
-) {
+  $version                   = $python::params::version,
+  $pip                       = $python::params::pip,
+  $dev                       = $python::params::dev,
+  $virtualenv                = $python::params::virtualenv,
+  $gunicorn                  = $python::params::gunicorn,
+  $manage_gunicorn           = $python::params::manage_gunicorn,
+  $provider                  = $python::params::provider,
+  $valid_versions            = $python::params::valid_versions,
+) inherits python::params{
 
   # validate inputs
   if $provider != undef {
@@ -70,7 +71,7 @@ class python (
     validate_re($version, ['^(2\.[4-7]\.\d|3\.\d\.\d)$','^system$'])
   # this will only be checked if not pip, every other string would be rejected by provider check
   } else {
-    validate_re($version, concat(['system', 'pypy'], $::python::install::valid_versions))
+    validate_re($version, concat(['system', 'pypy'], $valid_versions))
   }
 
   validate_bool($pip)
