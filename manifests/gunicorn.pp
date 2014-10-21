@@ -63,6 +63,7 @@ define python::gunicorn (
   $owner         = 'www-data',
   $group         = 'www-data',
   $appmodule     = 'app:app',
+  $osenv         = false,
   $template      = 'python/gunicorn.erb',
 ) {
 
