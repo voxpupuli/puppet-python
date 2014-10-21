@@ -174,6 +174,8 @@ Manages Gunicorn virtual hosts.
 
 **appmodule** - Set the application module name for gunicorn to load when not using Django. Default: app:app
 
+**osenv** - Allows setting environment variables for the gunicorn service. Accepts a hash of 'key': 'value' pairs. Default: false
+
 **template** - Which ERB template to use. Default: python/gunicorn.erb
 
 ```puppet
@@ -185,6 +187,7 @@ Manages Gunicorn virtual hosts.
     bind        => 'unix:/tmp/gunicorn.socket',
     environment => 'prod',
     appmodule   => 'app:app',
+    osenv       => { 'DBHOST' => 'dbserver.example.com' },
     template    => 'python/gunicorn.erb',
   }
 ```
