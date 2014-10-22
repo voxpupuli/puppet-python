@@ -6,6 +6,9 @@ CONFIG = {
 <% end -%>
 <% if @virtualenv -%>
   'environment': {
+<% if @osenv -%><% @osenv.sort.each do |key, value| -%>
+    '<%= key %>': '<%= value %>',
+<% end -%><% end -%>
 <% if @environment -%>
     'ENVIRONMENT': '<%= @environment %>',
 <% end -%>
