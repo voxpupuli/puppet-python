@@ -1,7 +1,7 @@
 # Make virtualenv version available as a fact
 # Works with virualenv loaded and without, pip installed and package installed
 require 'puppet'
-pkg = Puppet::Type.type(:package).new(:name => "virtualenv")
+pkg = Puppet::Type.type(:package).new(:name => "virtualenv",:allow_virtual => 'false')
 Facter.add("virtualenv_version") do
   has_weight 100
   setcode do
