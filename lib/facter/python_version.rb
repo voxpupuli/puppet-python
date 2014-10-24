@@ -1,7 +1,7 @@
 # Make python versions available as facts
 # In lists default python and system python versions
 require 'puppet'
-pkg = Puppet::Type.type(:package).new(:name => "python")
+pkg = Puppet::Type.type(:package).new(:name => "python",:allow_virtual => 'false')
 
 Facter.add("system_python_version") do
   setcode do
