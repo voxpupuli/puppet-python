@@ -2,7 +2,7 @@
 
 Puppet module for installing and managing python, pip, virtualenvs and Gunicorn virtual hosts.
 
-**==> Version 1.1.x Notes**
+**Version 1.1.x Notes**
 
 Version `1.1.x` makes several fundamental changes to the core of this module, adding some additional features, improving performance and making operations more robust in general.
 
