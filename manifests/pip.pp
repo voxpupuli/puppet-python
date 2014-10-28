@@ -67,6 +67,7 @@ define python::pip (
   $install_args    = '',
   $uninstall_args  = '',
   $timeout         = 1800,
+  $log_dir         = '/',
 ) {
 
   # Parameter validation
@@ -79,7 +80,7 @@ define python::pip (
   }
 
   $cwd = $virtualenv ? {
-    'system' => '/',
+    'system' => $log_dir,
     default  => $virtualenv,
   }
 
