@@ -176,6 +176,8 @@ Manages Gunicorn virtual hosts.
 
 **osenv** - Allows setting environment variables for the gunicorn service. Accepts a hash of 'key': 'value' pairs. Default: false
 
+**timeout** - Allows setting the gunicorn idle worker process time before being killed. The unit of time is seconds. Default: 30
+
 **template** - Which ERB template to use. Default: python/gunicorn.erb
 
 ```puppet
@@ -188,6 +190,7 @@ Manages Gunicorn virtual hosts.
     environment => 'prod',
     appmodule   => 'app:app',
     osenv       => { 'DBHOST' => 'dbserver.example.com' },
+    timeout     => 30,
     template    => 'python/gunicorn.erb',
   }
 ```
