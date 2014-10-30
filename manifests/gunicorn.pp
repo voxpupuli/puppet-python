@@ -34,6 +34,11 @@
 #  hash of 'key': 'value' pairs.
 #  Default: false
 #
+# [*timeout*]
+#  Allows setting the gunicorn idle worker process time before being killed.
+#  The unit of time is seconds.
+#  Default: 30
+#
 # [*template*]
 #  Which ERB template to use. Default: python/gunicorn.erb
 #
@@ -50,6 +55,7 @@
 #   group       => 'www-data',
 #   appmodule   => 'app:app',
 #   osenv       => { 'DBHOST' => 'dbserver.example.com' },
+#   timeout     => 30,
 #   template    => 'python/gunicorn.erb',
 # }
 #
@@ -70,6 +76,7 @@ define python::gunicorn (
   $group         = 'www-data',
   $appmodule     = 'app:app',
   $osenv         = false,
+  $timeout       = 30,
   $template      = 'python/gunicorn.erb',
 ) {
 

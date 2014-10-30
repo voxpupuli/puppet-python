@@ -32,7 +32,7 @@ CONFIG = {
     '--bind=<%= @bind %>',
 <% end -%>
     '--workers=<%= @processorcount.to_i*2 %>',
-    '--timeout=30',
+    '--timeout=<%= @timeout %>',
 <% if @mode != 'django' -%>
     '<%= @appmodule %>',
 <% end -%>
