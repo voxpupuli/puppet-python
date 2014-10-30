@@ -65,7 +65,8 @@ define python::requirements (
   $forceupdate            = false,
   $cwd                    = undef,
   $extra_pip_args         = '',
-  $fix_requirements_owner = true
+  $fix_requirements_owner = true,
+  $log_dir                = '/',
 ) {
 
   if $virtualenv == 'system' and ($owner != 'root' or $group != 'root') {
@@ -81,7 +82,7 @@ define python::requirements (
   }
 
   $rootdir = $virtualenv ? {
-    'system' => '/',
+    'system' => $log_dir,
     default  => $virtualenv,
   }
 
