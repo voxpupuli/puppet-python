@@ -41,6 +41,9 @@
 # [*fix_requirements_owner*]
 # Change owner and group of requirements file. Default: true
 #
+# [*log_dir*]
+# String. Log directory.
+#
 # === Examples
 #
 # python::requirements { '/var/www/project1/requirements.txt':
@@ -66,7 +69,7 @@ define python::requirements (
   $cwd                    = undef,
   $extra_pip_args         = '',
   $fix_requirements_owner = true,
-  $log_dir                = '/',
+  $log_dir                = '/tmp',
 ) {
 
   if $virtualenv == 'system' and ($owner != 'root' or $group != 'root') {
@@ -81,7 +84,7 @@ define python::requirements (
     $group_real = undef
   }
 
-  $rootdir = $virtualenv ? {
+  $log = $virtualenv ? {
     'system' => $log_dir,
     default  => $virtualenv,
   }
@@ -117,7 +120,7 @@ define python::requirements (
 
   exec { "python_requirements${name}":
     provider    => shell,
-    command     => "${pip_env} --log ${rootdir}/pip.log install ${proxy_flag} ${src_flag} -r ${requirements} ${extra_pip_args}",
+    command     => "${pip_env} --log ${log}/pip.log install ${proxy_flag} ${src_flag} -r ${requirements} ${extra_pip_args}",
     refreshonly => !$forceupdate,
     timeout     => 1800,
     cwd         => $cwd,
