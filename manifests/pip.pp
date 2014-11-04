@@ -38,9 +38,12 @@
 #  String. Any additional installation arguments that will be supplied
 #  when running pip install.
 #
-# [*uninstall args*]
+# [*uninstall_args*]
 # String. Any additional arguments that will be supplied when running
 # pip uninstall.
+#
+# [*log_dir*]
+# String. Log directory.
 #
 # === Examples
 #
@@ -67,7 +70,7 @@ define python::pip (
   $install_args    = '',
   $uninstall_args  = '',
   $timeout         = 1800,
-  $log_dir         = '/',
+  $log_dir         = '/tmp',
 ) {
 
   # Parameter validation
@@ -80,6 +83,11 @@ define python::pip (
   }
 
   $cwd = $virtualenv ? {
+    'system' => '/',
+    default  => $virtualenv,
+  }
+
+  $log = $virtualenv ? {
     'system' => $log_dir,
     default  => $virtualenv,
   }
@@ -150,7 +158,7 @@ define python::pip (
       # Version formats as per http://guide.python-distribute.org/specification.html#standard-versioning-schemes
       # Explicit version.
       exec { "pip_install_${name}":
-        command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { ${pip_env} --log ${cwd}/pip.log install ${install_args} \$wheel_support_flag ${proxy_flag} ${install_args} ${install_editable} ${source}==${ensure} || ${pip_env} --log ${cwd}/pip.log install ${install_args} ${proxy_flag} ${install_args} ${install_editable} ${source}==${ensure} ;}",
+        command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { ${pip_env} --log ${log}/pip.log install ${install_args} \$wheel_support_flag ${proxy_flag} ${install_args} ${install_editable} ${source}==${ensure} || ${pip_env} --log ${log}/pip.log install ${install_args} ${proxy_flag} ${install_args} ${install_editable} ${source}==${ensure} ;}",
         unless      => "${pip_env} freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         cwd         => $cwd,
@@ -163,7 +171,7 @@ define python::pip (
     present: {
       # Whatever version is available.
       exec { "pip_install_${name}":
-        command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { ${pip_env} --log ${cwd}/pip.log install \$wheel_support_flag ${proxy_flag} ${install_args} ${install_editable} ${source} || ${pip_env} --log ${cwd}/pip.log install ${proxy_flag} ${install_args} ${install_editable} ${source} ;}",
+        command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { ${pip_env} --log ${log}/pip.log install \$wheel_support_flag ${proxy_flag} ${install_args} ${install_editable} ${source} || ${pip_env} --log ${log}/pip.log install ${proxy_flag} ${install_args} ${install_editable} ${source} ;}",
         unless      => "${pip_env} freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         cwd         => $cwd,
@@ -176,7 +184,7 @@ define python::pip (
     latest: {
       # Latest version.
       exec { "pip_install_${name}":
-        command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { ${pip_env} --log ${cwd}/pip.log install --upgrade \$wheel_support_flag ${proxy_flag} ${install_args} ${install_editable} ${source} || ${pip_env} --log ${cwd}/pip.log install --upgrade ${proxy_flag} ${install_args} ${install_editable} ${source} ;}",
+        command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { ${pip_env} --log ${log}/pip.log install --upgrade \$wheel_support_flag ${proxy_flag} ${install_args} ${install_editable} ${source} || ${pip_env} --log ${log}/pip.log install --upgrade ${proxy_flag} ${install_args} ${install_editable} ${source} ;}",
         unless      => "${pip_env} search ${source} | grep -i INSTALLED | grep -i latest",
         user        => $owner,
         cwd         => $cwd,
