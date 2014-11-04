@@ -1,7 +1,11 @@
 # Make pip version available as a fact
 # Works with pip loaded and without, pip installed using pip  and package installed
 require 'puppet'
-pkg = Puppet::Type.type(:package).new(:name => "python-pip")
+if Gem::Version.new(Facter.value(:puppetversion)) >= Gem::Version.new('3.6')
+  pkg = Puppet::Type.type(:package).new(:name => 'python-pip', :allow_virtual => 'false')
+else
+  pkg = Puppet::Type.type(:package).new(:name => 'python-pip')
+end
 Facter.add("pip_version") do
   has_weight 100
   setcode do
