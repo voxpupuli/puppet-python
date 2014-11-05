@@ -1,6 +1,7 @@
 # Make python versions available as facts
 # In lists default python and system python versions
 require 'puppet'
+require 'rubygems'
 if Gem::Version.new(Facter.value(:puppetversion)) >= Gem::Version.new('3.6')
   pkg = Puppet::Type.type(:package).new(:name => 'python', :allow_virtual => 'false')
 else
