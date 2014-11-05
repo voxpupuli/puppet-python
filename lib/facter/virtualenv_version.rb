@@ -1,6 +1,7 @@
 # Make virtualenv version available as a fact
 # Works with virualenv loaded and without, pip installed and package installed
 require 'puppet'
+require 'rubygems'
 if Gem::Version.new(Facter.value(:puppetversion)) >= Gem::Version.new('3.6')
   pkg = Puppet::Type.type(:package).new(:name => 'virtualenv', :allow_virtual => 'false')
 else

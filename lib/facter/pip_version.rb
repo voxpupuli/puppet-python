@@ -1,6 +1,7 @@
 # Make pip version available as a fact
 # Works with pip loaded and without, pip installed using pip  and package installed
 require 'puppet'
+require 'rubygems'
 if Gem::Version.new(Facter.value(:puppetversion)) >= Gem::Version.new('3.6')
   pkg = Puppet::Type.type(:package).new(:name => 'python-pip', :allow_virtual => 'false')
 else
