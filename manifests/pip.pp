@@ -134,8 +134,9 @@ define python::pip (
   }
 
   $source = $url ? {
-    false   => $pkgname,
-    default => "${url}#egg=${egg_name}",
+    false               => $pkgname,
+    /^(\/|[a-zA-Z]\:)/  => $url,
+    default             => "${url}#egg=${egg_name}",
   }
 
   # We need to jump through hoops to make sure we issue the correct pip command
