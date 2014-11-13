@@ -70,7 +70,7 @@ Installs and manages packages from pip.
 
 **environment** - Additional environment variables required to install the packages. Default: none
 
-**egg** - The egg name to use. Default: $name of the class, e.g. cx_Oracle
+**egg** - The egg name to use. Default: `$name` of the class, e.g. cx_Oracle
 
 **install_args** - Array of additional flags to pass to pip during installaton. Default: none
 
