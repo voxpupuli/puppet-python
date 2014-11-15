@@ -80,7 +80,7 @@ Installs and manages packages from pip.
 ```puppet
   python::pip { 'cx_Oracle' :
     pkgname       => 'cx_Oracle',
-    ensure        => '5.1.2', // Specify the version by default it's 'present' :)
+    ensure        => '5.1.2',
     virtualenv    => '/var/www/project1',
     owner         => 'appuser',
     proxy         => 'http://proxy.domain.com:3128',
