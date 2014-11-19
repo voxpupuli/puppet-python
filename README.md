@@ -66,7 +66,7 @@ Installs and manages packages from pip.
 
 **owner** - The owner of the virtualenv to ensure that packages are installed with the correct permissions (must be specified). Default: root
 
-**proxy** - Proxy server to use for outbound connections. Default: `none`
+**proxy** - Proxy server to use for outbound connections. Default: none
 
 **environment** - Additional environment variables required to install the packages. Default: none
 
