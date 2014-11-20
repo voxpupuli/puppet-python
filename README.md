@@ -173,7 +173,7 @@ Manages Gunicorn virtual hosts.
 
 **environment** - Set ENVIRONMENT variable. Default: none
 
-**appmodule** - Set the application module name for gunicorn to load when not using Django. Default: app:app
+**appmodule** - Set the application module name for gunicorn to load when not using Django. Default: `app:app`
 
 **osenv** - Allows setting environment variables for the gunicorn service. Accepts a hash of 'key': 'value' pairs. Default: false
 
