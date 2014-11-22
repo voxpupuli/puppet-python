@@ -76,7 +76,7 @@ Installs and manages packages from pip.
 
 **uninstall_args** - Array of additional flags to pass to pip during uninstall. Default: none
 
-**timeout** - Timeout for the pip install command. Defaults to 1800.
+**timeout** - Timeout for the pip install command. Defaults to `1800`.
 ```puppet
   python::pip { 'cx_Oracle' :
     pkgname       => 'cx_Oracle',
