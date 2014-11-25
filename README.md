@@ -100,7 +100,7 @@ Installs and manages Python packages from requirements file.
 
 **owner** - The owner of the virtualenv to ensure that packages are installed with the correct permissions (must be specified). Default: root
 
-**src** - The ``--src`` parameter to ``pip``, used to specify where to install ``--editable`` resources; by default no ``--src`` parameter is passed to ``pip``.
+**src** - The `--src` parameter to `pip`, used to specify where to install `--editable` resources; by default no `--src` parameter is passed to `pip`.
 
 **group** - The group that was used to create the virtualenv.  This is used to create the requirements file with correct permissions if it's not present already.
 
