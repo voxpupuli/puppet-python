@@ -8,6 +8,13 @@ project.properties
 sftp-config.json
 .idea
 
+# OS X metadata
+.DS_Store
+
+# Windows junk
+Thumbs.db
+
+# Modules
 pkg/
 Gemfile.lock
 vendor/
