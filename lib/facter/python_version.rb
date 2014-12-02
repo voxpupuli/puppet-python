@@ -1,6 +1,7 @@
 # Make python versions available as facts
 # In lists default python and system python versions
 require 'puppet'
+require 'rubygems'
 
 facter_puppet_version = Facter.value(:puppetversion)
 facter_is_pe = Facter.value(:is_pe)
