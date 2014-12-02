@@ -136,6 +136,7 @@ define python::pip (
   $source = $url ? {
     false               => $pkgname,
     /^(\/|[a-zA-Z]\:)/  => $url,
+    /^(git\+|hg\+|bzr\+|svn\+)(http|https|ssh|svn|sftp|ftp|lp)(:\/\/).+$/ => url,
     default             => "${url}#egg=${egg_name}",
   }
 
