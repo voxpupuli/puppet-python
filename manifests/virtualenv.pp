@@ -31,6 +31,9 @@
 # [*group*]
 #  The group relating to the virtualenv being manipulated. Default: root
 #
+# [*mode*]
+# Optionally specify directory mode. Default: 750
+#
 # [*proxy*]
 #  Proxy server to use for outbound connections. Default: none
 #
@@ -77,6 +80,7 @@ define python::virtualenv (
   $index            = false,
   $owner            = 'root',
   $group            = 'root',
+  $mode             = '750',
   $proxy            = false,
   $environment      = [],
   $path             = [ '/bin', '/usr/bin', '/usr/sbin' ],
@@ -144,6 +148,7 @@ define python::virtualenv (
       ensure => directory,
       owner  => $owner,
       group  => $group,
+      mode   => $mode
     }
 
 
