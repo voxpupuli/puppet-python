@@ -196,6 +196,36 @@ Manages Gunicorn virtual hosts.
   }
 ```
 
+### python::dotfile
+
+Manages arbitrary python dotiles with a simple config hash.
+
+**ensure** - present/absent. Default: present
+
+**filename** - Default: $title
+
+**mode** - Default: 0644
+
+**owner** - Default: root
+
+**group** - Default: root
+
+**config** Config hash. This will be expanded to an ini-file. Default: {}
+
+```puppet
+python::dotfile { '/var/lib/jenkins/.pip/pip.conf':
+  ensure => present,
+  owner  => 'jenkins',
+  group  => 'jenkins',
+  config => {
+    'global' => {
+      'index-url       => 'https://mypypi.acme.com/simple/'
+      'extra-index-url => https://pypi.risedev.at/simple/
+    }
+  }
+}
+```
+
 ## Authors
 
 [Sergey Stankevich](https://github.com/stankevich)
