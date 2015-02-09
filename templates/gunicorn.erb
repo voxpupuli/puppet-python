@@ -36,5 +36,8 @@ CONFIG = {
 <% if @mode != 'django' -%>
     '<%= @appmodule %>',
 <% end -%>
+<% if @accesslog -%>
+    '--access-logfile=<%= @accesslog %>',
+<% end -%>
   ),
 }
