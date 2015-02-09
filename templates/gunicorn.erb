@@ -33,11 +33,17 @@ CONFIG = {
 <% end -%>
     '--workers=<%= @processorcount.to_i*2 %>',
     '--timeout=<%= @timeout %>',
-<% if @mode != 'django' -%>
-    '<%= @appmodule %>',
+<% if @access_log_format -%>
+    '--access-logformat=<%= @access_log_format %>',
 <% end -%>
 <% if @accesslog -%>
     '--access-logfile=<%= @accesslog %>',
+<% end -%>
+<% if @errorlog -%>
+    '--error-logfile=<%= @errorlog %>',
+<% end -%>
+<% if @mode != 'django' -%>
+    '<%= @appmodule %>',
 <% end -%>
   ),
 }
