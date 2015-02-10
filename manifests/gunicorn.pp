@@ -66,18 +66,21 @@
 # Marc Fournier
 #
 define python::gunicorn (
-  $ensure        = present,
-  $virtualenv    = false,
-  $mode          = 'wsgi',
-  $dir           = false,
-  $bind          = false,
-  $environment   = false,
-  $owner         = 'www-data',
-  $group         = 'www-data',
-  $appmodule     = 'app:app',
-  $osenv         = false,
-  $timeout       = 30,
-  $template      = 'python/gunicorn.erb',
+  $ensure            = present,
+  $virtualenv        = false,
+  $mode              = 'wsgi',
+  $dir               = false,
+  $bind              = false,
+  $environment       = false,
+  $owner             = 'www-data',
+  $group             = 'www-data',
+  $appmodule         = 'app:app',
+  $osenv             = false,
+  $timeout           = 30,
+  $access_log_format = false,
+  $accesslog         = false,
+  $errorlog          = false,
+  $template          = 'python/gunicorn.erb',
 ) {
 
   # Parameter validation
