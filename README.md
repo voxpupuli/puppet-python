@@ -257,6 +257,25 @@ python::dotfile { '/var/lib/jenkins/.pip/pip.conf':
 }
 ```
 
+### hiera configuration
+
+This module supports configuration through hiera. The following example
+creates two python3 virtualenvs. The configuration also pip installs a
+package into each environment.
+
+```yaml
+python::python_pyvenvs:
+  "/opt/env1":
+    version: "system"
+  "/opt/env2":
+    version: "system"
+python::python_pips:
+  "nose":
+    virtualenv: "/opt/env1"
+  "coverage":
+    virtualenv: "/opt/env2"
+```
+
 ## Authors
 
 [Sergey Stankevich](https://github.com/stankevich)
