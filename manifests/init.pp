@@ -60,6 +60,9 @@ class python (
   $manage_gunicorn           = $python::params::manage_gunicorn,
   $provider                  = $python::params::provider,
   $valid_versions            = $python::params::valid_versions,
+  $python_pips               = { },
+  $python_virtualenvs        = { },
+  $python_pyvenvs            = { },
 ) inherits python::params{
 
   # validate inputs
@@ -91,5 +94,10 @@ class python (
   class { 'python::install': } ->
   class { 'python::config': } ->
   anchor { 'python::end': }
+
+  # Allow hiera configuration of python resources
+  create_resources('python::pip', $python_pips)
+  create_resources('python::pyvenv', $python_pyvenvs)
+  create_resources('python::virtualenv', $python_virtualenvs)
 
 }
