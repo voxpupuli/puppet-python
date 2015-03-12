@@ -157,6 +157,37 @@ Creates Python virtualenv.
   }
 ```
 
+### python::pyvenv
+
+Creates Python3 virtualenv.
+
+**ensure** - present/absent. Default: present
+
+**version** - Python version to use. Default: system default
+
+**systempkgs** - Copy system site-packages into virtualenv. Default: don't
+
+**venv_dir** - The location of the virtualenv if resource path not specified. Must be absolute path. Default: resource name
+
+**owner** - Specify the owner of this virtualenv
+
+**group** - Specify the group for this virtualenv
+
+**path** - Specify the path that contains the pyvenv executable. Default: /bin/, /usr/bin, /usr/sbin
+
+**environment** - Specify any environment variables to use when creating pyvenv
+
+```puppet
+  python::pyvenv { '/var/www/project1' :
+    ensure       => present,
+    version      => 'system',
+    systempkgs   => true,
+    venv_dir     => '/home/appuser/virtualenvs',
+    owner        => 'appuser',
+    group        => 'apps',
+  }
+```
+
 ### python::gunicorn
 
 Manages Gunicorn virtual hosts.
