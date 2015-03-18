@@ -29,10 +29,8 @@ end
 Facter.add("python_version") do
   has_weight 100
   setcode do
-    begin
-      /^.*(\d+\.\d+\.\d+)$/.match(Facter::Util::Resolution.exec('python -V 2>&1'))[1]
-    rescue
-      false
+    if Facter::Util::Resolution.which('python')
+      Facter::Util::Resolution.exec('python -V 2>&1').match(/^.*(\d+\.\d+\.\d+)$/)[1]
     end
   end
 end
