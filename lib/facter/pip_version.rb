@@ -5,7 +5,7 @@ facter_puppet_version = Facter.value(:puppetversion)
 facter_is_pe = Facter.value(:is_pe)
 
 if facter_is_pe
-    facter_puppet_version = facter_puppet_version.to_s.split(' ')[0]
+  facter_puppet_version = facter_puppet_version.to_s.split(' ')[0]
 end
 
 if (Puppet::Util::Package.versioncmp(facter_puppet_version, '3.6') >= 0)
