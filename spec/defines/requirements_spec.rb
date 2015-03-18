@@ -21,17 +21,17 @@ describe 'python::requirements', :type => :define do
         let (:params) {{ :requirements => "/requirements.txt" }}
         it { is_expected.to contain_file("/requirements.txt").with_mode('0644') }
       end
-      
+
       describe "with owner" do
         context "bob:bob" do
           let (:params) {{
               :owner => 'bob',
               :group => 'bob'
-            }} 
+            }}
           it do
             expect {
               should compile
-            }.to raise_error(Puppet::Error, /root user must be used when virtualenv is system/)
+            }.to raise_error(/root user must be used when virtualenv is system/)
           end
         end
       end
