@@ -8,11 +8,12 @@ if facter_is_pe
     facter_puppet_version = facter_puppet_version.to_s.split(' ')[0]
 end
 
-if Gem::Version.new(facter_puppet_version) >= Gem::Version.new('3.6')
-  pkg = Puppet::Type.type(:package).new(:name => 'virtualenv', :allow_virtual => 'false')
+if (Puppet::Util::Package.versioncmp(facter_puppet_version, '3.6') >= 0)
+  pkg = Puppet::Type.type(:package).new(:name => 'python-pip', :allow_virtual => 'false')
 else
-  pkg = Puppet::Type.type(:package).new(:name => 'virtualenv')
+  pkg = Puppet::Type.type(:package).new(:name => 'python-pip')
 end
+
 Facter.add("virtualenv_version") do
   has_weight 100
   setcode do
