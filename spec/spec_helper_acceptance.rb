@@ -3,18 +3,12 @@ require 'beaker-rspec'
 UNSUPPORTED_PLATFORMS = [ 'windows' ]
 
 unless ENV['RS_PROVISION'] == 'no' or ENV['BEAKER_provision'] == 'no'
-  if hosts.first.is_pe?
-    install_pe
-  else
-    install_puppet({ :version        => '3.6.2',
-                     :facter_version => '2.1.0',
-                     :hiera_version  => '1.3.4',
-                     :default_action => 'gem_install' })
-    hosts.each {|h| on h, "/bin/echo '' > #{h['hieraconf']}" }
-  end
   hosts.each do |host|
-    on host, "mkdir -p #{host['distmoduledir']}"
-    on host, 'puppet module install puppetlabs-stdlib', :acceptable_exit_codes => [0,1]
+    if host.is_pe?
+      install_pe
+    else
+      install_puppet
+    end
   end
 end
 
@@ -27,7 +21,12 @@ RSpec.configure do |c|
 
   # Configure all nodes in nodeset
   c.before :suite do
-    # Install module
-    puppet_module_install(:source => proj_root, :module_name => 'python')
+    # Install module and dependencies
+    hosts.each do |host|
+      shell("rm -rf /etc/puppet/modules/python/")
+      copy_module_to(host, :source => proj_root, :module_name => 'python')
+      shell("/bin/touch #{default['puppetpath']}/hiera.yaml")
+      on host, puppet('module install puppetlabs-stdlib'), { :acceptable_exit_codes => [0,1] }
+    end
   end
 end
