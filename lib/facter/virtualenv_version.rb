@@ -26,12 +26,8 @@ end
 Facter.add("virtualenv_version") do
   has_weight 50
   setcode do
-    begin
-      unless [:absent,'purged'].include?(pkg.retrieve[pkg.property(:ensure)])
-          /^.*(\d+\.\d+\.\d+).*$/.match(pkg.retrieve[pkg.property(:ensure)])[1]
-      end
-    rescue
-      false
+    unless [:absent,:purged].include?(pkg.retrieve[pkg.property(:ensure)])
+      pkg.retrieve[pkg.property(:ensure)]
     end
   end
 end
