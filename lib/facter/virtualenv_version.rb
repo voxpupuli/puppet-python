@@ -17,10 +17,8 @@ end
 Facter.add("virtualenv_version") do
   has_weight 100
   setcode do
-    begin
-      Facter::Util::Resolution.exec('virtualenv --version') || "absent"
-    rescue
-      false
+    if Facter::Util::Resolution.which('virtualenv')
+      Facter::Util::Resolution.exec('virtualenv --version 2>&1')
     end
   end
 end

@@ -17,10 +17,8 @@ end
 Facter.add("pip_version") do
   has_weight 100
   setcode do
-    begin
-      /^pip (\d+\.\d+\.?\d*).*$/.match(Facter::Util::Resolution.exec('pip --version 2>/dev/null'))[1]
-    rescue
-      false
+    if Facter::Util::Resolution.which('pip')
+      Facter::Util::Resolution.exec('pip --version 2>/dev/null').match(/^pip (\d+\.\d+\.?\d*).*$/)[1]
     end
   end
 end
