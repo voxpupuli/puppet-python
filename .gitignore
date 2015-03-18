@@ -22,3 +22,8 @@ spec/fixtures/
 .bundle/
 .vagrant/
 coverage/
+
+# Beaker
+.vagrant/
+log/
+junit/
