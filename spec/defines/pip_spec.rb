@@ -30,5 +30,27 @@ describe 'python::pip', :type => :define do
         it { is_expected.to contain_exec("pip_install_rpyc").with_cwd('/') }
       end
     end
+
+    describe "proxy as" do
+      context "defaults to empty" do
+        let (:params) {{ }}
+        it { is_expected.to contain_exec("pip_install_rpyc").without_command(/--proxy/) }
+      end
+      context "does not add proxy to search command if set to latest and proxy is unset" do
+        let (:params) {{ :ensure => 'latest' }}
+        it { is_expected.to contain_exec("pip_install_rpyc").without_command(/--proxy/) }
+        it { is_expected.to contain_exec("pip_install_rpyc").without_unless(/--proxy/) }
+      end
+      context "adds proxy to install command if proxy set" do
+        let (:params) {{ :proxy => "http://my.proxy:3128" }}
+        it { is_expected.to contain_exec("pip_install_rpyc").with_command("pip wheel --help > /dev/null 2>&1 && { pip wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { pip --log /tmp/pip.log install $wheel_support_flag --proxy=http://my.proxy:3128   rpyc || pip --log /tmp/pip.log install --proxy=http://my.proxy:3128   rpyc ;}") }
+      end
+      context "adds proxy to search command if set to latest" do
+        let (:params) {{ :proxy => "http://my.proxy:3128", :ensure => 'latest' }}
+        it { is_expected.to contain_exec("pip_install_rpyc").with_command("pip wheel --help > /dev/null 2>&1 && { pip wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { pip --log /tmp/pip.log install --upgrade $wheel_support_flag --proxy=http://my.proxy:3128   rpyc || pip --log /tmp/pip.log install --upgrade --proxy=http://my.proxy:3128   rpyc ;}") }
+        it { is_expected.to contain_exec("pip_install_rpyc").with_unless('pip search --proxy=http://my.proxy:3128 rpyc | grep -i INSTALLED | grep -i latest') }
+      end
+    end
+
   end
 end
