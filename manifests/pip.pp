@@ -87,6 +87,8 @@ define python::pip (
     default  => $virtualenv,
   }
 
+  validate_absolute_path($cwd)
+
   $log = $virtualenv ? {
     'system' => $log_dir,
     default  => $virtualenv,
