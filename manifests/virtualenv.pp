@@ -133,8 +133,8 @@ define python::virtualenv (
       default  => 'setuptools',
     }
     $pypi_index = $index ? {
-        false   => '',
-        default => "-i ${index}",
+      false   => '',
+      default => "-i ${index}",
     }
 
     # Python 2.6 and older does not support setuptools/distribute > 0.8 which
