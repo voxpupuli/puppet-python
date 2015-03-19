@@ -97,6 +97,6 @@ define python::pyvenv (
       purge   => true,
     }
   } else {
-    fail( "Illegal ensure value: $ensure. Expected (present or absent)")
+    fail( "Illegal ensure value: ${ensure}. Expected (present or absent)")
   }
 }
