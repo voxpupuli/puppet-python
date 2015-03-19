@@ -7,6 +7,7 @@ group :development, :test do
   gem 'puppet-lint',             :require => false
   gem 'pry',                     :require => false
   gem 'simplecov',               :require => false
+  gem 'rspec',                   '~> 2.99'
 end
 
 if facterversion = ENV['FACTER_GEM_VERSION']
