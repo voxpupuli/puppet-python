@@ -44,6 +44,9 @@
 # [*log_dir*]
 # String. Log directory.
 #
+# [*timeout*]
+#  The maximum time in seconds the "pip install" command should take. Default: 1800
+#
 # === Examples
 #
 # python::requirements { '/var/www/project1/requirements.txt':
@@ -70,6 +73,7 @@ define python::requirements (
   $extra_pip_args         = '',
   $fix_requirements_owner = true,
   $log_dir                = '/tmp',
+  $timeout                = 1800,
 ) {
 
   if $virtualenv == 'system' and ($owner != 'root' or $group != 'root') {
@@ -122,7 +126,7 @@ define python::requirements (
     provider    => shell,
     command     => "${pip_env} --log ${log}/pip.log install ${proxy_flag} ${src_flag} -r ${requirements} ${extra_pip_args}",
     refreshonly => !$forceupdate,
-    timeout     => 1800,
+    timeout     => $timeout,
     cwd         => $cwd,
     user        => $owner,
     subscribe   => File[$requirements],
