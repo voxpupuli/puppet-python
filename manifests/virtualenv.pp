@@ -86,7 +86,8 @@ define python::virtualenv (
   $path             = [ '/bin', '/usr/bin', '/usr/sbin' ],
   $cwd              = undef,
   $timeout          = 1800,
-  $extra_pip_args   = ''
+  $extra_pip_args   = '',
+  $virtualenv       = undef
 ) {
 
   if $ensure == 'present' {
@@ -97,9 +98,11 @@ define python::virtualenv (
       default  => "python${version}",
     }
 
-    $virtualenv = $version ? {
-      'system' => 'virtualenv',
-      default  => "virtualenv-${version}",
+    if $virtualenv == undef {
+      $virtualenv = $version ? {
+        'system' => 'virtualenv',
+        default  => "virtualenv-${version}",
+      }
     }
 
     $proxy_flag = $proxy ? {
