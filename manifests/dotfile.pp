@@ -55,6 +55,7 @@ define python::dotfile (
     ensure  => $ensure,
     owner   => $owner,
     group   => $group,
+    mode    => $mode,
     content => template("${module_name}/inifile.erb"),
     require => Exec["create ${title}'s parent dir"],
   }
