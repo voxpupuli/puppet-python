@@ -83,7 +83,7 @@ define python::virtualenv (
   $mode             = '0755',
   $proxy            = false,
   $environment      = [],
-  $path             = [ '/bin', '/usr/bin', '/usr/sbin' ],
+  $path             = [ '/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin' ],
   $cwd              = undef,
   $timeout          = 1800,
   $extra_pip_args   = '',
