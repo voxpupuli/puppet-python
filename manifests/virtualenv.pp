@@ -105,7 +105,7 @@ define python::virtualenv (
       }
     }
     else {
-      $used_virtualenv = $virtualenv;
+      $used_virtualenv = $virtualenv
     }
 
     $proxy_flag = $proxy ? {
