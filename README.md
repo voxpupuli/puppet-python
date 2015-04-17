@@ -279,7 +279,5 @@ python::python_pips:
 ## Authors
 
 [Sergey Stankevich](https://github.com/stankevich)
+
 [Shiva Poudel](https://github.com/shivapoudel)
-[Ashley Penney](https://github.com/apenney)
-[Marc Fournier](https://github.com/mfournier)
-[Fotis Gimian](https://github.com/fgimian)
