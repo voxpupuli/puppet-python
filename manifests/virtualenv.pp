@@ -66,9 +66,7 @@
 # === Authors
 #
 # Sergey Stankevich
-# Ashley Penney
-# Marc Fournier
-# Fotis Gimian
+# Shiva Poudel
 #
 define python::virtualenv (
   $ensure           = present,
@@ -91,7 +89,6 @@ define python::virtualenv (
 ) {
 
   if $ensure == 'present' {
-
     $python = $version ? {
       'system' => 'python',
       'pypy'   => 'pypy',
@@ -103,8 +100,7 @@ define python::virtualenv (
         'system' => 'virtualenv',
         default  => "virtualenv-${version}",
       }
-    }
-    else {
+    } else {
       $used_virtualenv = $virtualenv
     }
 
@@ -157,8 +153,6 @@ define python::virtualenv (
       mode   => $mode
     }
 
-
-
     exec { "python_virtualenv_${venv_dir}":
       command     => "true ${proxy_command} && ${used_virtualenv} ${system_pkgs_flag} -p ${python} ${venv_dir} && ${venv_dir}/bin/pip wheel --help > /dev/null 2>&1 && { ${venv_dir}/bin/pip wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { ${venv_dir}/bin/pip --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} \$wheel_support_flag --upgrade pip ${distribute_pkg} || ${venv_dir}/bin/pip --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag}  --upgrade pip ${distribute_pkg} ;}",
       user        => $owner,
@@ -193,7 +187,6 @@ define python::virtualenv (
       }
     }
   } elsif $ensure == 'absent' {
-
     file { $venv_dir:
       ensure  => absent,
       force   => true,
