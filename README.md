@@ -278,6 +278,4 @@ python::python_pips:
 
 ## Authors
 
-[Sergey Stankevich](https://github.com/stankevich)
-
-[Shiva Poudel](https://github.com/shivapoudel)
+[Sergey Stankevich](https://github.com/stankevich) | [Shiva Poudel](https://github.com/shivapoudel)
