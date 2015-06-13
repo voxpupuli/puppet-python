@@ -27,6 +27,7 @@ RSpec.configure do |c|
       copy_module_to(host, :source => proj_root, :module_name => 'python')
       shell("/bin/touch #{default['puppetpath']}/hiera.yaml")
       on host, puppet('module install puppetlabs-stdlib'), { :acceptable_exit_codes => [0,1] }
+      on host, puppet('module install stahnma-epel'), { :acceptable_exit_codes => [0,1] }
     end
   end
 end

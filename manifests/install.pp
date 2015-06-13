@@ -56,6 +56,16 @@ class python::install {
       package { "python==${python::version}": ensure => latest, provider => pip }
     }
     default: {
+      if $::osfamily == 'RedHat' {
+        if $pip_ensure == present {
+          include 'epel'
+          Class['epel'] -> Package[$pip]
+        }
+        if ($venv_ensure == present) and ($::operatingsystemrelease =~ /^6/) {
+          include 'epel'
+          Class['epel'] -> Package['python-virtualenv']
+        }
+      }
       package { 'python-virtualenv': ensure => $venv_ensure }
       package { $pip: ensure => $pip_ensure }
       package { $pythondev: ensure => $dev_ensure }

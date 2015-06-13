@@ -9,3 +9,4 @@ project_page  'https://github.com/stankevich/puppet-python'
 
 ## Add dependencies, if any:
 dependency    'puppetlabs/stdlib', '>= 4.0.0'
+dependency    'stahnma/epel', '>= 1.0.1'
