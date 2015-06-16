@@ -15,6 +15,7 @@ else
 end
 
 Facter.add("system_python_version") do
+  confine :kernel => :linux
   setcode do
     unless [:absent,:purged].include?(pkg.retrieve[pkg.property(:ensure)])
       pkg.retrieve[pkg.property(:ensure)]
@@ -23,6 +24,7 @@ Facter.add("system_python_version") do
 end
 
 Facter.add("python_version") do
+  confine :kernel => :linux
   has_weight 100
   setcode do
     if Facter::Util::Resolution.which('python')
@@ -32,6 +34,7 @@ Facter.add("python_version") do
 end
 
 Facter.add("python_version") do
+  confine :kernel => :linux
   has_weight 50
   setcode do
     unless [:absent,:purged].include?(pkg.retrieve[pkg.property(:ensure)])

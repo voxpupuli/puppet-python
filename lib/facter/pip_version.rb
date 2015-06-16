@@ -15,6 +15,7 @@ else
 end
 
 Facter.add("pip_version") do
+  confine :kernel => :linux
   has_weight 100
   setcode do
     if Facter::Util::Resolution.which('pip')
@@ -24,6 +25,7 @@ Facter.add("pip_version") do
 end
 
 Facter.add("pip_version") do
+  confine :kernel => :linux	
   has_weight 50
   setcode do
     unless [:absent,:purged].include?(pkg.retrieve[pkg.property(:ensure)])
