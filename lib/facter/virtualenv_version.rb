@@ -15,6 +15,7 @@ else
 end
 
 Facter.add("virtualenv_version") do
+  confine :kernel => :linux
   has_weight 100
   setcode do
     if Facter::Util::Resolution.which('virtualenv')
@@ -24,6 +25,7 @@ Facter.add("virtualenv_version") do
 end
 
 Facter.add("virtualenv_version") do
+  confine :kernel => :linux
   has_weight 50
   setcode do
     unless [:absent,:purged].include?(pkg.retrieve[pkg.property(:ensure)])
