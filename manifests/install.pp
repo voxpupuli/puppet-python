@@ -23,7 +23,8 @@ class python::install {
 
   $pythondev = $::osfamily ? {
     'RedHat' => "${python}-devel",
-    'Debian' => "${python}-dev"
+    'Debian' => "${python}-dev",
+    'Suse'   => "${python}-devel"
   }
 
   # pip version: use only for installation via os package manager!

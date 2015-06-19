@@ -84,7 +84,7 @@ class python (
   validate_bool($manage_gunicorn)
 
   # Module compatibility check
-  $compatible = [ 'Debian', 'RedHat']
+  $compatible = [ 'Debian', 'RedHat', 'Suse' ]
   if ! ($::osfamily in $compatible) {
     fail("Module is not compatible with ${::operatingsystem}")
   }
