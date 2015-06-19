@@ -32,6 +32,12 @@
         "12.04",
         "14.04"
       ]
+    },
+    {
+      "operatingsystem": "SLES",
+      "operatingsystemrelease": [
+        "11.3"
+      ]
     }
   ],
   "requirements": [

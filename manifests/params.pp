@@ -13,5 +13,6 @@ class python::params {
   $valid_versions = $::osfamily ? {
     'RedHat' => ['3'],
     'Debian' => ['3', '3.3'],
+    'Suse'   => [],
   }
 }
