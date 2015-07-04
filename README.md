@@ -42,6 +42,8 @@ Installs and manages python, python-pip, python-dev, python-virtualenv and Gunic
 
 **manage_gunicorn** - Allow Installation / Removal of Gunicorn. Default: true
 
+**use_epel** - Boolean to determine if the epel class is used. Default: true
+
 ```puppet
   class { 'python' :
     version    => 'system',
@@ -278,4 +280,4 @@ python::python_pips:
 
 ## Authors
 
-[Sergey Stankevich](https://github.com/stankevich) | [Shiva Poudel](https://github.com/shivapoudel)
+[Sergey Stankevich](https://github.com/stankevich) | [Shiva Poudel](https://github.com/shivapoudel) | [Garrett Honeycutt](http://learnpuppet.com)
