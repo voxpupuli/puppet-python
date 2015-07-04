@@ -3,7 +3,7 @@
   "version": "1.9.4",
   "author": "stankevich",
   "summary": "Python Module",
-  "license": "Apache License, Version 2.0",
+  "license": "Apache-2.0",
   "source": "git://github.com/stankevich/puppet-python.git",
   "project_page": "https://github.com/stankevich/puppet-python",
   "issues_url": "https://github.com/stankevich/puppet-python/issues",
