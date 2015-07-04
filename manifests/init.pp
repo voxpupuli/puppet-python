@@ -37,6 +37,9 @@
 #  Default: system default provider
 #  Allowed values: 'pip'
 #
+# [*use_epel*]
+#  Boolean to determine if the epel class is used. Default: true
+#
 # === Examples
 #
 # class { 'python':
@@ -50,6 +53,7 @@
 # === Authors
 #
 # Sergey Stankevich
+# Garrett Honeycutt <code@garretthoneycutt.com>
 #
 class python (
   $version                   = $python::params::version,
@@ -63,6 +67,7 @@ class python (
   $python_pips               = { },
   $python_virtualenvs        = { },
   $python_pyvenvs            = { },
+  $use_epel                  = $python::params::use_epel,
 ) inherits python::params{
 
   # validate inputs
@@ -82,6 +87,7 @@ class python (
   validate_bool($virtualenv)
   validate_bool($gunicorn)
   validate_bool($manage_gunicorn)
+  validate_bool($use_epel)
 
   # Module compatibility check
   $compatible = [ 'Debian', 'RedHat', 'Suse' ]

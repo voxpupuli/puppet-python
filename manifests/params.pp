@@ -1,5 +1,5 @@
-
-# Class: python::params
+# == Class: python::params
+#
 # The python Module default configuration settings.
 #
 class python::params {
@@ -15,4 +15,5 @@ class python::params {
     'Debian' => ['3', '3.3'],
     'Suse'   => [],
   }
+  $use_epel               = true
 }
