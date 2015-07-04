@@ -1,4 +1,4 @@
-# == Define: python::install
+# == Class: python::install
 #
 # Installs core python packages
 #
@@ -11,8 +11,8 @@
 # Sergey Stankevich
 # Ashley Penney
 # Fotis Gimian
+# Garrett Honeycutt <code@garretthoneycutt.com>
 #
-
 class python::install {
 
   $python = $::python::version ? {
@@ -24,7 +24,7 @@ class python::install {
   $pythondev = $::osfamily ? {
     'RedHat' => "${python}-devel",
     'Debian' => "${python}-dev",
-    'Suse'   => "${python}-devel"
+    'Suse'   => "${python}-devel",
   }
 
   # pip version: use only for installation via os package manager!
@@ -59,12 +59,16 @@ class python::install {
     default: {
       if $::osfamily == 'RedHat' {
         if $pip_ensure == present {
-          include 'epel'
-          Class['epel'] -> Package[$pip]
+          if $python::use_epel == true {
+            include 'epel'
+            Class['epel'] -> Package[$pip]
+          }
         }
         if ($venv_ensure == present) and ($::operatingsystemrelease =~ /^6/) {
-          include 'epel'
-          Class['epel'] -> Package['python-virtualenv']
+          if $python::use_epel == true {
+            include 'epel'
+            Class['epel'] -> Package['python-virtualenv']
+          }
         }
       }
       package { 'python-virtualenv': ensure => $venv_ensure }
@@ -81,5 +85,4 @@ class python::install {
     }
     package { 'gunicorn': ensure => $gunicorn_ensure }
   }
-
 }
