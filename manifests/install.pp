@@ -27,6 +27,11 @@ class python::install {
     'Suse'   => "${python}-devel",
   }
 
+  $python_virtualenv = $::lsbdistcodename ? {
+    'jessie' => 'virtualenv',
+    default  => 'python-virtualenv',
+  }
+
   # pip version: use only for installation via os package manager!
   if $::python::version =~ /^3/ {
     $pip = 'python3-pip'
@@ -67,11 +72,11 @@ class python::install {
         if ($venv_ensure == present) and ($::operatingsystemrelease =~ /^6/) {
           if $python::use_epel == true {
             include 'epel'
-            Class['epel'] -> Package['python-virtualenv']
+            Class['epel'] -> Package[$python_virtualenv]
           }
         }
       }
-      package { 'python-virtualenv': ensure => $venv_ensure }
+      package { $python_virtualenv: ensure => $venv_ensure }
       package { $pip: ensure => $pip_ensure }
       package { $pythondev: ensure => $dev_ensure }
       package { $python: ensure => present }
