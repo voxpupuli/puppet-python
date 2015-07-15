@@ -175,7 +175,7 @@ Creates Python3 virtualenv.
 
 **group** - Specify the group for this virtualenv
 
-**path** - Specify the path that contains the pyvenv executable. Default: /bin/, /usr/bin, /usr/sbin
+**path** - Specifies the PATH variable that contains `pyvenv` executable. Default: [ '/bin', '/usr/bin', '/usr/sbin' ]
 
 **environment** - Specify any environment variables to use when creating pyvenv
 
