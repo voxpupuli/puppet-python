@@ -100,6 +100,7 @@ class python (
   anchor { 'python::begin': } ->
   class { 'python::install': } ->
   class { 'python::config': } ->
+  Exec<| tag == 'python-virtualenv' |> ->
   anchor { 'python::end': }
 
   # Allow hiera configuration of python resources
