@@ -1,14 +1,19 @@
 {
   "name": "stankevich-python",
-  "version": "1.9.4",
-  "source": "git://github.com/stankevich/puppet-python.git",
+  "version": "1.9.5",
   "author": "stankevich",
-  "license": "Apache Version 2.0",
   "summary": "Python Module",
-  "description": "Puppet module for Python",
+  "license": "Apache-2.0",
+  "source": "git://github.com/stankevich/puppet-python.git",
   "project_page": "https://github.com/stankevich/puppet-python",
   "issues_url": "https://github.com/stankevich/puppet-python/issues",
-  "tags": ["python", "pip", "virtualenv", "gunicorn"],
+  "description": "Puppet module for Python",
+  "tags": [
+    "python",
+    "pip",
+    "virtualenv",
+    "gunicorn"
+  ],
   "operatingsystem_support": [
     {
       "operatingsystem": "CentOS",
@@ -22,7 +27,8 @@
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
         "6",
-        "7"
+        "7",
+        "8"
       ]
     },
     {
@@ -32,22 +38,22 @@
         "12.04",
         "14.04"
       ]
+    },
+    {
+      "operatingsystem": "SLES",
+      "operatingsystemrelease": [
+        "11.3"
+      ]
     }
   ],
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": "3.x"
+      "version_requirement": ">=3.0.0 < 4.0.0"
     }
   ],
   "dependencies": [
-    {
-      "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 4.0.0"
-    },
-    {
-      "name": "stahnma/epel",
-      "version_requirement": ">= 1.0.1"
-    }
+    {"name":"puppetlabs/stdlib","version_requirement":">= 4.0.0 < 6.0.0"},
+    {"name":"stahnma/epel","version_requirement":">= 1.0.1 < 2.0.0"}
   ]
 }
