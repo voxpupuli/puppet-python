@@ -93,7 +93,7 @@ class python::install {
         onlyif  => $pip_ensure ? {
           true    => "/bin/true",
           default => "/bin/false",
-        }
+        },
         creates => "/opt/rh/${python::version}/root/usr/bin/pip",
       }
     }
