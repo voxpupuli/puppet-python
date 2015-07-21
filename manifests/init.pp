@@ -72,12 +72,13 @@ class python (
 
   # validate inputs
   if $provider != undef {
-    validate_re($provider, ['^pip$'], 'Only "pip" is a valid provider besides the system default.')
+    validate_re($provider, ['^(pip|scl)$'], 'Only "pip" or "scl" are valid providers besides the system default.')
   }
 
   if $provider == 'pip' {
     validate_re($version, ['^(2\.[4-7]\.\d|3\.\d\.\d)$','^system$'])
-  # this will only be checked if not pip, every other string would be rejected by provider check
+  } elsif $provider == 'scl' {
+    validate_re($version, concat(['python33', 'python27', 'rh-python34'], $valid_versions))
   } else {
     validate_re($version, concat(['system', 'pypy'], $valid_versions))
   }
