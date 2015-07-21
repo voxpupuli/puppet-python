@@ -91,7 +91,7 @@ class python::install {
         command => "scl enable ${python::version} -- easy_install pip",
         path    => ["/usr/bin", "/bin"],
         onlyif  => $pip_ensure ? {
-          true    => "/bin/true",
+          present => "/bin/true",
           default => "/bin/false",
         },
         creates => "/opt/rh/${python::version}/root/usr/bin/pip",
