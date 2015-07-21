@@ -61,6 +61,37 @@ class python::install {
       package { 'pip': ensure => latest, provider => pip }
       package { "python==${python::version}": ensure => latest, provider => pip }
     }
+    scl: {
+      # SCL is only valid in the RedHat family. If RHEL, package must be
+      # enabled using the subscription manager outside of puppet. If CentOS,
+      # the centos-release-SCL will install the repository.
+      package { 'centos-release-SCL':
+        ensure => $::operatingsystem ? {
+          'CentOS' => present,
+          default  => absent,
+        },
+        before => Package['scl-utils']
+      }
+      package { 'scl-utils': ensure => latest, }
+      package { $::python::version:
+        ensure  => present,
+        require => Package['scl-utils'],
+      }
+      package { "${python::version}-python-virtualenv":
+        ensure  => $venv_ensure,
+        require => Package['scl-utils'],
+      }
+      package { "${python::version}-scldev":
+        ensure  => $dev_ensure,
+        require => Package['scl-utils'],
+      }
+      exec { 'python-scl-pip-install':
+        require => Package['scl-utils'],
+        command => "scl enable ${python::version} -- easy_install pip",
+        onlyif  => $pip_ensure,
+        creates => "/opt/rh/${python::version}/root/usr/bin/pip",
+      }
+    }
     default: {
       if $::osfamily == 'RedHat' {
         if $pip_ensure == present {
