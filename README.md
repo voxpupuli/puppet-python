@@ -288,4 +288,4 @@ the collection you want to use (e.g., 'python27', 'python33', or
 
 ## Authors
 
-[Sergey Stankevich](https://github.com/stankevich) | [Shiva Poudel](https://github.com/shivapoudel) | [Garrett Honeycutt](http://learnpuppet.com)
+[Sergey Stankevich](https://github.com/stankevich) | [Shiva Poudel](https://github.com/shivapoudel) | [Peter Souter](https://github.com/petems) | [Garrett Honeycutt](http://learnpuppet.com)
