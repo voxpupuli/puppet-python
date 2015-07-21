@@ -77,10 +77,11 @@ class python::install {
         ensure  => present,
         require => Package['scl-utils'],
       }
-      package { "${python::version}-python-virtualenv":
-        ensure  => $venv_ensure,
-        require => Package['scl-utils'],
-      }
+      # This gets installed as a dependency anyway
+      # package { "${python::version}-python-virtualenv":
+      #   ensure  => $venv_ensure,
+      #   require => Package['scl-utils'],
+      # }
       package { "${python::version}-scldev":
         ensure  => $dev_ensure,
         require => Package['scl-utils'],
@@ -89,7 +90,10 @@ class python::install {
         require => Package['scl-utils'],
         command => "scl enable ${python::version} -- easy_install pip",
         path    => ["/usr/bin", "/bin"],
-        onlyif  => "test x == x${pip_ensure}",
+        onlyif  => $pip_ensure ? {
+          true    => "/bin/true",
+          default => "/bin/false",
+        }
         creates => "/opt/rh/${python::version}/root/usr/bin/pip",
       }
     }
