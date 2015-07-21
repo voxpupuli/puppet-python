@@ -278,6 +278,14 @@ python::python_pips:
     virtualenv: "/opt/env2"
 ```
 
+### Using SCL packages from RedHat or CentOS
+
+To use this module with the Red Hat Software Collections (SCL) or the CentOS
+equivalents, set python::provider to 'scl' and python::version to the name of
+the collection you want to use (e.g., 'python27', 'python33', or
+'rh-python34').
+
+
 ## Authors
 
 [Sergey Stankevich](https://github.com/stankevich) | [Shiva Poudel](https://github.com/shivapoudel) | [Garrett Honeycutt](http://learnpuppet.com)
