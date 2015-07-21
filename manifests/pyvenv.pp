@@ -51,7 +51,6 @@ define python::pyvenv (
   $ensure           = present,
   $version          = 'system',
   $systempkgs       = false,
-  $sclname          = 'python33',
   $venv_dir         = $name,
   $owner            = 'root',
   $group            = 'root',
@@ -62,10 +61,12 @@ define python::pyvenv (
 
   if $ensure == 'present' {
 
-    $virtualenv_cmd = $version ? {
-      'system' => 'pyvenv',
-      'scl'    => "scl enable ${sclname} -- pyvenv --clear",
-      default  => "pyvenv-${version}",
+    $virtualenv_cmd = $python::provider ? {
+      'scl'   => "scl enable ${python::version} -- pyvenv --clear",
+      default => $version ? {
+        'system' => 'pyvenv',
+        default  => "pyvenv-${version}",
+      }
     }
 
     if ( $systempkgs == true ) {
