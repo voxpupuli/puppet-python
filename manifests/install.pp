@@ -88,7 +88,8 @@ class python::install {
       exec { 'python-scl-pip-install':
         require => Package['scl-utils'],
         command => "scl enable ${python::version} -- easy_install pip",
-        onlyif  => $pip_ensure,
+        path    => ["/usr/bin", "/bin"],
+        onlyif  => "test x == x${pip_ensure}",
         creates => "/opt/rh/${python::version}/root/usr/bin/pip",
       }
     }
