@@ -37,6 +37,9 @@
 #  Default: system default provider
 #  Allowed values: 'pip'
 #
+# [*use_epel*]
+#  Boolean to determine if the epel class is used. Default: true
+#
 # === Examples
 #
 # class { 'python':
@@ -50,6 +53,7 @@
 # === Authors
 #
 # Sergey Stankevich
+# Garrett Honeycutt <code@garretthoneycutt.com>
 #
 class python (
   $version                   = $python::params::version,
@@ -63,16 +67,18 @@ class python (
   $python_pips               = { },
   $python_virtualenvs        = { },
   $python_pyvenvs            = { },
+  $use_epel                  = $python::params::use_epel,
 ) inherits python::params{
 
   # validate inputs
   if $provider != undef {
-    validate_re($provider, ['^pip$'], 'Only "pip" is a valid provider besides the system default.')
+    validate_re($provider, ['^(pip|scl)$'], 'Only "pip" or "scl" are valid providers besides the system default.')
   }
 
   if $provider == 'pip' {
     validate_re($version, ['^(2\.[4-7]\.\d|3\.\d\.\d)$','^system$'])
-  # this will only be checked if not pip, every other string would be rejected by provider check
+  } elsif $provider == 'scl' {
+    validate_re($version, concat(['python33', 'python27', 'rh-python34'], $valid_versions))
   } else {
     validate_re($version, concat(['system', 'pypy'], $valid_versions))
   }
@@ -82,9 +88,10 @@ class python (
   validate_bool($virtualenv)
   validate_bool($gunicorn)
   validate_bool($manage_gunicorn)
+  validate_bool($use_epel)
 
   # Module compatibility check
-  $compatible = [ 'Debian', 'RedHat']
+  $compatible = [ 'Debian', 'RedHat', 'Suse' ]
   if ! ($::osfamily in $compatible) {
     fail("Module is not compatible with ${::operatingsystem}")
   }

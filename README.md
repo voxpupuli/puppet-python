@@ -31,6 +31,8 @@ Installs and manages python, python-pip, python-dev, python-virtualenv and Gunic
 
 **manage_gunicorn** - Allow Installation / Removal of Gunicorn. Default: true
 
+**use_epel** - Boolean to determine if the epel class is used. Default: true
+
 ```puppet
   class { 'python' :
     version    => 'system',
@@ -162,7 +164,7 @@ Creates Python3 virtualenv.
 
 **group** - Specify the group for this virtualenv
 
-**path** - Specify the path that contains the pyvenv executable. Default: /bin/, /usr/bin, /usr/sbin
+**path** - Specifies the PATH variable that contains `pyvenv` executable. Default: [ '/bin', '/usr/bin', '/usr/sbin' ]
 
 **environment** - Specify any environment variables to use when creating pyvenv
 
@@ -265,6 +267,13 @@ python::python_pips:
     virtualenv: "/opt/env2"
 ```
 
+### Using SCL packages from RedHat or CentOS
+
+To use this module with the Red Hat Software Collections (SCL) or the CentOS
+equivalents, set python::provider to 'scl' and python::version to the name of
+the collection you want to use (e.g., 'python27', 'python33', or
+'rh-python34').
+
 ## Release Notes
 
 **Version 1.7.10 Notes**
@@ -284,4 +293,4 @@ Currently, the changes you need to make are as follows:
 
 ## Authors
 
-[Sergey Stankevich](https://github.com/stankevich) | [Shiva Poudel](https://github.com/shivapoudel)
+[Sergey Stankevich](https://github.com/stankevich) | [Shiva Poudel](https://github.com/shivapoudel) | [Peter Souter](https://github.com/petems) | [Garrett Honeycutt](http://learnpuppet.com)
