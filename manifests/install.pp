@@ -65,12 +65,14 @@ class python::install {
       # SCL is only valid in the RedHat family. If RHEL, package must be
       # enabled using the subscription manager outside of puppet. If CentOS,
       # the centos-release-SCL will install the repository.
-      package { 'centos-release-SCL':
-        ensure => $::operatingsystem ? {
+      $install_scl_repo_package = $::operatingsystem ? {
           'CentOS' => present,
           default  => absent,
-        },
-        before => Package['scl-utils']
+      }
+
+      package { 'centos-release-SCL':
+        ensure => $install_scl_repo_package,
+        before => Package['scl-utils'],
       }
       package { 'scl-utils': ensure => latest, }
       package { $::python::version:
@@ -86,14 +88,16 @@ class python::install {
         ensure  => $dev_ensure,
         require => Package['scl-utils'],
       }
+      # This looks absurd but I can't figure out a better way
+      $pip_exec_onlyif = $pip_ensure ? {
+          present => '/bin/true',
+          default => '/bin/false',
+      }
       exec { 'python-scl-pip-install':
         require => Package['scl-utils'],
         command => "scl enable ${python::version} -- easy_install pip",
-        path    => ["/usr/bin", "/bin"],
-        onlyif  => $pip_ensure ? {
-          present => "/bin/true",
-          default => "/bin/false",
-        },
+        path    => ['/usr/bin', '/bin'],
+        onlyif  => $pip_exec_onlyif,
         creates => "/opt/rh/${python::version}/root/usr/bin/pip",
       }
     }
