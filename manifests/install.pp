@@ -61,6 +61,46 @@ class python::install {
       package { 'pip': ensure => latest, provider => pip }
       package { "python==${python::version}": ensure => latest, provider => pip }
     }
+    scl: {
+      # SCL is only valid in the RedHat family. If RHEL, package must be
+      # enabled using the subscription manager outside of puppet. If CentOS,
+      # the centos-release-SCL will install the repository.
+      $install_scl_repo_package = $::operatingsystem ? {
+          'CentOS' => present,
+          default  => absent,
+      }
+
+      package { 'centos-release-SCL':
+        ensure => $install_scl_repo_package,
+        before => Package['scl-utils'],
+      }
+      package { 'scl-utils': ensure => latest, }
+      package { $::python::version:
+        ensure  => present,
+        require => Package['scl-utils'],
+      }
+      # This gets installed as a dependency anyway
+      # package { "${python::version}-python-virtualenv":
+      #   ensure  => $venv_ensure,
+      #   require => Package['scl-utils'],
+      # }
+      package { "${python::version}-scldev":
+        ensure  => $dev_ensure,
+        require => Package['scl-utils'],
+      }
+      # This looks absurd but I can't figure out a better way
+      $pip_exec_onlyif = $pip_ensure ? {
+          present => '/bin/true',
+          default => '/bin/false',
+      }
+      exec { 'python-scl-pip-install':
+        require => Package['scl-utils'],
+        command => "scl enable ${python::version} -- easy_install pip",
+        path    => ['/usr/bin', '/bin'],
+        onlyif  => $pip_exec_onlyif,
+        creates => "/opt/rh/${python::version}/root/usr/bin/pip",
+      }
+    }
     default: {
       if $::osfamily == 'RedHat' {
         if $pip_ensure == present {
