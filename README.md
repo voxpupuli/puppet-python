@@ -280,10 +280,9 @@ python::python_pips:
 
 ### Using SCL packages from RedHat or CentOS
 
-To use this module with the Red Hat Software Collections (SCL) or the CentOS
-equivalents, set python::provider to 'scl' and python::version to the name of
-the collection you want to use (e.g., 'python27', 'python33', or
-'rh-python34').
+To use this module with Linux distributions in the Red Hat family and python distributions
+from softwarecollections.org, set python::provider to 'rhscl' and python::version to the name 
+of the collection you want to use (e.g., 'python27', 'python33', or 'rh-python34').
 
 
 ## Authors
