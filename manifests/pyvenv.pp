@@ -63,6 +63,7 @@ define python::pyvenv (
 
     $virtualenv_cmd = $python::provider ? {
       'scl'   => "scl enable ${python::version} -- pyvenv --clear",
+      'rhscl'   => "scl enable ${python::version} -- pyvenv --clear",
       default => $version ? {
         'system' => 'pyvenv',
         default  => "pyvenv-${version}",
