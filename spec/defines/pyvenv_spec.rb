@@ -5,7 +5,7 @@ describe 'python::pyvenv', :type => :define do
 
   it {
     should contain_file( '/opt/env')
-    should contain_exec( "python_virtualenv_/opt/env").with_command("pyvenv  /opt/env")
+    should contain_exec( "python_virtualenv_/opt/env").with_command("pyvenv --clear  /opt/env")
   }
 
   describe 'when ensure' do
