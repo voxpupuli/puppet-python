@@ -67,6 +67,7 @@ class python (
   $python_pips               = { },
   $python_virtualenvs        = { },
   $python_pyvenvs            = { },
+  $python_requirements       = { },
   $use_epel                  = $python::params::use_epel,
 ) inherits python::params{
 
@@ -107,5 +108,6 @@ class python (
   create_resources('python::pip', $python_pips)
   create_resources('python::pyvenv', $python_pyvenvs)
   create_resources('python::virtualenv', $python_virtualenvs)
+  create_resources('python::requirements', $python_requirements)
 
 }
