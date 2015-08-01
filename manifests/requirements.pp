@@ -94,8 +94,8 @@ define python::requirements (
   }
 
   $pip_env = $virtualenv ? {
-    'system' => 'pip',
-    default  => "${virtualenv}/bin/pip",
+    'system' => "${python::exec_prefix} pip",
+    default  => "${python::exec_prefix} ${virtualenv}/bin/pip",
   }
 
   $proxy_flag = $proxy ? {

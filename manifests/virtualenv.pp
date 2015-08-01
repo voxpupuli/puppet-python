@@ -153,8 +153,10 @@ define python::virtualenv (
       mode   => $mode
     }
 
+    $pip_cmd = "${python::exec_prefix}${venv_dir}/bin/pip"
+
     exec { "python_virtualenv_${venv_dir}":
-      command     => "true ${proxy_command} && ${used_virtualenv} ${system_pkgs_flag} -p ${python} ${venv_dir} && ${venv_dir}/bin/pip wheel --help > /dev/null 2>&1 && { ${venv_dir}/bin/pip wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { ${venv_dir}/bin/pip --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} \$wheel_support_flag --upgrade pip ${distribute_pkg} || ${venv_dir}/bin/pip --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag}  --upgrade pip ${distribute_pkg} ;}",
+      command     => "true ${proxy_command} && ${used_virtualenv} ${system_pkgs_flag} -p ${python} ${venv_dir} && ${pip_cmd} wheel --help > /dev/null 2>&1 && { ${pip_cmd} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { ${pip_cmd} --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} \$wheel_support_flag --upgrade pip ${distribute_pkg} || ${pip_cmd} --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag}  --upgrade pip ${distribute_pkg} ;}",
       user        => $owner,
       creates     => "${venv_dir}/bin/activate",
       path        => $path,
@@ -167,7 +169,7 @@ define python::virtualenv (
 
     if $requirements {
       exec { "python_requirements_initial_install_${requirements}_${venv_dir}":
-        command     => "${venv_dir}/bin/pip wheel --help > /dev/null 2>&1 && { ${venv_dir}/bin/pip wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; ${venv_dir}/bin/pip --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} \$wheel_support_flag -r ${requirements} ${extra_pip_args}",
+        command     => "${pip_cmd} wheel --help > /dev/null 2>&1 && { ${pip_cmd} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; ${pip_cmd} --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} \$wheel_support_flag -r ${requirements} ${extra_pip_args}",
         refreshonly => true,
         timeout     => $timeout,
         user        => $owner,
