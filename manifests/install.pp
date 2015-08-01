@@ -88,17 +88,13 @@ class python::install {
         ensure  => $dev_ensure,
         require => Package['scl-utils'],
       }
-      # This looks absurd but I can't figure out a better way
-      $pip_exec_onlyif = $pip_ensure ? {
-          present => '/bin/true',
-          default => '/bin/false',
-      }
-      exec { 'python-scl-pip-install':
-        require => Package['scl-utils'],
-        command => "scl enable ${python::version} -- easy_install pip",
-        path    => ['/usr/bin', '/bin'],
-        onlyif  => $pip_exec_onlyif,
-        creates => "/opt/rh/${python::version}/root/usr/bin/pip",
+      if  $pip_ensure  {
+        exec { 'python-scl-pip-install':
+          require => Package['scl-utils'],
+          command => "${python::params::exec_prefix}easy_install pip",
+          path    => ['/usr/bin', '/bin'],
+          creates => "/opt/rh/${python::version}/root/usr/bin/pip",
+        }
       }
     }
     rhscl: {
@@ -122,7 +118,7 @@ class python::install {
 
       if  $pip_ensure  {
         exec { 'python-scl-pip-install':
-          command => "${python::params::exec_prefix}easy_install pip",
+          command => "${python::exec_prefix}easy_install pip",
           path    => ['/usr/bin', '/bin'],
           creates => "/opt/rh/${python::version}/root/usr/bin/pip",
         }
