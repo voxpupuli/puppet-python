@@ -71,9 +71,9 @@ class python (
   $use_epel                  = $python::params::use_epel,
 ) inherits python::params{
 
-  # validate inputs
-  if $provider != undef {
-    validate_re($provider, ['^(pip|scl|rhscl)$'], 'Only "pip", "rhscl", and "scl" are valid providers besides the system default.')
+  if $provider != undef and $provider != '' {
+    validate_re($provider, ['^(pip|scl|rhscl)$'],
+      "Only 'pip', 'rhscl' and 'scl' are valid providers besides the system default. Detected provider is <${provider}>.")
   }
 
   if $provider == 'pip' {
