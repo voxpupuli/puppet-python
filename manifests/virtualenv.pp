@@ -87,6 +87,7 @@ define python::virtualenv (
   $extra_pip_args   = '',
   $virtualenv       = undef
 ) {
+  include ::python
 
   if $ensure == 'present' {
     $python = $version ? {
