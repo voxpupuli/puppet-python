@@ -106,7 +106,6 @@ class python (
   # Anchor pattern to contain dependencies
   anchor { 'python::begin': } ->
   class { 'python::install': } ->
-  Exec<| tag == 'python-virtualenv' |> ->
   class { 'python::config': } ->
   anchor { 'python::end': }
 
