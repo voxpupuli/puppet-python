@@ -6,7 +6,7 @@ Puppet module for installing and managing python, pip, virtualenvs and Gunicorn 
 
 # Compatibility #
 
-Puppet v3 with Ruby versions 1.9.3 and 2.0.0.
+Puppet v3 with Ruby versions 1.8.7, 1.9.3, 2.0.0 and 2.1.0.
 
 ## OS Distributions ##
 
