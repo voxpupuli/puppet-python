@@ -2,6 +2,29 @@
 
 Puppet module for installing and managing python, pip, virtualenvs and Gunicorn virtual hosts.
 
+===
+
+# Compatibility #
+
+Puppet v3 with Ruby versions 1.9.3 and 2.0.0.
+
+## OS Distributions ##
+
+This module has been tested to work on the following systems.
+
+* Debian 6
+* Debian 7
+* Debian 8
+* EL 5
+* EL 6
+* EL 7
+* Suse 11
+* Ubuntu 10.04
+* Ubuntu 12.04
+* Ubuntu 14.04
+
+===
+
 ## Installation
 
 ```shell
