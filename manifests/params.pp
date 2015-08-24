@@ -12,7 +12,7 @@ class python::params {
   $provider               = undef
   $valid_versions = $::osfamily ? {
     'RedHat' => ['3'],
-    'Debian' => ['3', '3.3'],
+    'Debian' => ['3', '3.3', '2.7'],
     'Suse'   => [],
   }
   $use_epel               = true
