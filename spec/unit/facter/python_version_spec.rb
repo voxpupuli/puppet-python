@@ -35,31 +35,32 @@ EOS
   end
 
   describe "python2_version" do
-    context 'returns Python 2 version when `python2` is present' do
+    context 'returns Python 2 version when `python` is present and Python 2' do
       it do
         Facter::Util::Resolution.stubs(:exec)
-        Facter::Util::Resolution.expects(:which).with("python2").returns(true)
-        Facter::Util::Resolution.expects(:exec).with("python2 -V 2>&1").returns(python2_version_output)
-        Facter.value(:python2_version).should == '2.7.9'
-      end
-    end
-
-    context 'returns Python 2 version when `python2` is absent and `python` is Python 2' do
-      it do
-        Facter::Util::Resolution.stubs(:exec)
-        Facter::Util::Resolution.expects(:which).with("python2").returns(false)
         Facter::Util::Resolution.expects(:which).with("python").returns(true)
         Facter::Util::Resolution.expects(:exec).with("python -V 2>&1").returns(python2_version_output)
         Facter.value(:python2_version).should == '2.7.9'
       end
     end
-    
-    context 'returns nil when `python2` is absent and `python` is Python 3' do
+
+    context 'returns Python 2 version when `python` is Python 3 and `python2` is present' do
       it do
         Facter::Util::Resolution.stubs(:exec)
-        Facter::Util::Resolution.expects(:which).with("python2").returns(false)
         Facter::Util::Resolution.expects(:which).with("python").returns(true)
         Facter::Util::Resolution.expects(:exec).with("python -V 2>&1").returns(python3_version_output)
+        Facter::Util::Resolution.expects(:which).with("python2").returns(true)
+        Facter::Util::Resolution.expects(:exec).with("python2 -V 2>&1").returns(python2_version_output)
+        Facter.value(:python2_version).should == '2.7.9'
+      end
+    end
+    
+    context 'returns nil when `python` is Python 3 and `python2` is absent' do
+      it do
+        Facter::Util::Resolution.stubs(:exec)
+        Facter::Util::Resolution.expects(:which).with("python").returns(true)
+        Facter::Util::Resolution.expects(:exec).with("python -V 2>&1").returns(python3_version_output)
+        Facter::Util::Resolution.expects(:which).with("python2").returns(false)
         Facter.value(:python2_version).should == nil
       end
     end
