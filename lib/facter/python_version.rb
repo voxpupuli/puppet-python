@@ -14,14 +14,12 @@ end
 
 Facter.add("python2_version") do
   setcode do
-    python2_version = get_python_version 'python2'
-    if python2_version.nil?
-      default_version = get_python_version 'python'
-      if !default_version.nil? and default_version.start_with?('2')
-        python2_version = default_version
-      end
+    default_version = get_python_version 'python'
+    if default_version.nil? or !default_version.start_with?('2')
+      get_python_version 'python2'
+    else
+      default_version
     end
-    python2_version
   end
 end
 
