@@ -44,6 +44,12 @@
       "operatingsystemrelease": [
         "11.3"
       ]
+    },
+    {
+      "operatingsystem": "FreeBSD",
+      "operatingsystemrelease": [
+        "10.2"
+      ]
     }
   ],
   "requirements": [

@@ -271,4 +271,101 @@ describe 'python', :type => :class do
       end
     end
   end
+
+  context "on FreeBSD OS" do
+    let :facts do
+      {
+          :id                     => 'root',
+          :kernel                 => 'FreeBSD',
+          :osfamily               => 'FreeBSD',
+          :operatingsystem        => 'FreeBSD',
+          :operatingsystemrelease => '10.2-RELEASE',
+          :path                   => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+          :concat_basedir         => '/dne',
+      }
+    end
+
+    it { is_expected.to contain_class("python::install") }
+    # Base debian packages.
+    it { is_expected.to contain_package("python") }
+    it { is_expected.to_not contain_package("python-dev") }
+    # Python 2.7 system packages
+    it { is_expected.to contain_package("py27-virtualenv")}
+
+    context "with python 2" do
+      context "with pip" do
+        let(:params) {{:version => 'system', :pip => true}}
+        it { is_expected.to contain_package("py27-pip") }
+      end
+    end
+
+    context "with python 3" do
+      let (:params) {{:version => '3'}}
+      it { is_expected.to contain_package('python3')}
+
+      context "with pip" do
+        let (:params) {{:version => '3', :pip => true}}
+        it { is_expected.to contain_exec('install_pip34')}
+        it { is_expected.to_not contain_package("py27-pip") }
+
+        context 'with virtualenv' do
+          let (:params) {{:version => '3', :pip => true, :virtualenv => true}}
+          it { is_expected.to contain_package("virtualenv").with_provider('pip') }
+        end
+      end
+
+      context "with virtualenv and without pip" do
+        let (:params) {{:version => '3', :pip => false, :virtualenv => true}}
+        it { is_expected.to contain_notify("freebsd_virtualenv_needs_pip") }
+      end
+    end
+
+    describe "with manage_gunicorn" do
+      context "true" do
+        let (:params) {{ :manage_gunicorn => true }}
+        it { is_expected.to contain_package("gunicorn") }
+      end
+      context "empty args" do
+        #let (:params) {{ :manage_gunicorn => '' }}
+        it { is_expected.to contain_package("gunicorn") }
+      end
+      context "false" do
+        let (:params) {{ :manage_gunicorn => false }}
+        it {is_expected.not_to contain_package("gunicorn")}
+      end
+    end
+
+    describe "with python::provider" do
+      context "pip" do
+        let (:params) {{ :provider => 'pip' }}
+        it { is_expected.to contain_package("virtualenv").with(
+                                'provider' => 'pip'
+                            )}
+        it { is_expected.to contain_package("pip").with(
+                                'provider' => 'pip'
+                            )}
+      end
+
+      # python::provider
+      context "default" do
+        let (:params) {{ :provider => '', :version => 'system' }}
+        it { is_expected.to contain_package("py27-virtualenv")}
+        it { is_expected.to contain_package("py27-pip")}
+
+        describe "with python::virtualenv" do
+          context "true" do
+            let (:params) {{ :provider => '', :virtualenv => true }}
+            it { is_expected.to contain_package("py27-virtualenv").with_ensure('present') }
+          end
+        end
+
+        describe "without python::virtualenv" do
+          context "default/empty" do
+            let (:params) {{ :provider => '' }}
+            it { is_expected.to contain_package("py27-virtualenv").with_ensure('absent') }
+          end
+        end
+      end
+    end
+  end
 end

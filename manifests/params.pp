@@ -11,9 +11,10 @@ class python::params {
   $manage_gunicorn        = true
   $provider               = undef
   $valid_versions = $::osfamily ? {
-    'RedHat' => ['3'],
-    'Debian' => ['3', '3.3', '2.7'],
-    'Suse'   => [],
+    'RedHat'  => ['3'],
+    'Debian'  => ['3', '3.3', '2.7'],
+    'Suse'    => [],
+    'FreeBSD' => ['3', '34', '2', '27']
   }
   $use_epel               = true
 }
