@@ -25,18 +25,45 @@ class python::install {
     'RedHat' => "${python}-devel",
     'Debian' => "${python}-dev",
     'Suse'   => "${python}-devel",
+    default  => undef,
   }
 
-  $python_virtualenv = $::lsbdistcodename ? {
-    'jessie' => 'virtualenv',
-    default  => 'python-virtualenv',
+  case $::kernel {
+    'Linux': {
+      $python_virtualenv = $::lsbdistcodename ? {
+        'jessie' => 'virtualenv',
+        default  => 'python-virtualenv',
+      }
+    }
+    'FreeBSD': {
+      if $::python::version =~ /^3/ {
+        if ! $::python::pip {
+          notify { 'freebsd_virtualenv_needs_pip':
+            message => 'FreeBSD with Python 3 requires pip to install virtualenv; set pip => true',
+          }
+        }
+        $python_virtualenv = 'virtualenv'
+      } else {
+        $python_virtualenv = 'py27-virtualenv'
+      }
+    }
   }
 
   # pip version: use only for installation via os package manager!
-  if $::python::version =~ /^3/ {
-    $pip = 'python3-pip'
-  } else {
-    $pip = 'python-pip'
+  case $::kernel {
+    'Linux': {
+      if $::python::version =~ /^3/ {
+        $pip = 'python3-pip'
+      } else {
+        $pip = 'python-pip'
+      }
+    }
+    'FreeBSD': {
+      if $::python::version == 'system' or $::python::version =~ /^2/ {
+        $pip = 'py27-pip'
+      }
+    }
+    default: { }
   }
 
   $dev_ensure = $python::dev ? {
@@ -142,9 +169,39 @@ class python::install {
           }
         }
       }
-      package { $python_virtualenv: ensure => $venv_ensure }
-      package { $pip: ensure => $pip_ensure }
-      package { $pythondev: ensure => $dev_ensure }
+
+      if $::osfamily == 'FreeBSD' {
+        if $pip_ensure == present and $::python::version =~ /^3/ {
+          # https://docs.python.org/3.4/library/ensurepip.html
+          exec { 'install_pip34':
+            command => '/usr/local/bin/python3.4 -m ensurepip',
+            creates => '/usr/local/bin/pip3.4',
+            require => Package[$python],
+          }
+
+          file { '/usr/local/bin/pip':
+            ensure => link,
+            target => '/usr/local/bin/pip3.4'
+          }
+        }
+      }
+
+      if $python_virtualenv {
+        if $::osfamily == 'FreeBSD' and $::python::version =~ /^3/ {
+          package { $python_virtualenv:
+            ensure   => $venv_ensure,
+            provider => 'pip',
+          }
+        } else {
+          package { $python_virtualenv: ensure => $venv_ensure }
+        }
+      }
+      if $pip {
+        package { $pip: ensure => $pip_ensure }
+      }
+      if $pythondev {
+        package { $pythondev: ensure => $dev_ensure }
+      }
       package { $python: ensure => present }
     }
   }
