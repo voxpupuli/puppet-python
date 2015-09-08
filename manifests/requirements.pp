@@ -64,7 +64,7 @@ define python::requirements (
   $requirements           = $name,
   $virtualenv             = 'system',
   $owner                  = 'root',
-  $group                  = 'root',
+  $group                  = '0',
   $proxy                  = false,
   $src                    = false,
   $environment            = [],
@@ -76,7 +76,7 @@ define python::requirements (
   $timeout                = 1800,
 ) {
 
-  if $virtualenv == 'system' and ($owner != 'root' or $group != 'root') {
+  if $virtualenv == 'system' and ($owner != 'root' or $group != '0') {
     fail('python::pip: root user must be used when virtualenv is system')
   }
 

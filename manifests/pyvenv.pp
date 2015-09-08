@@ -53,7 +53,7 @@ define python::pyvenv (
   $systempkgs       = false,
   $venv_dir         = $name,
   $owner            = 'root',
-  $group            = 'root',
+  $group            = '0',
   $mode             = '0755',
   $path             = [ '/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin' ],
   $environment      = [],

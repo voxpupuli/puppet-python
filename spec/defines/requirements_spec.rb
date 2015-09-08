@@ -38,7 +38,7 @@ describe 'python::requirements', :type => :define do
 
       describe "with owner" do
         context "default" do
-          it { is_expected.to contain_file("/requirements.txt").with_owner('root').with_group('root') }
+          it { is_expected.to contain_file("/requirements.txt").with_owner('root').with_group('0') }
         end
       end
     end
