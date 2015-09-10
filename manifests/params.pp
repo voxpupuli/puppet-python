@@ -3,6 +3,7 @@
 # The python Module default configuration settings.
 #
 class python::params {
+  $ensure                 = 'present'
   $version                = 'system'
   $pip                    = true
   $dev                    = false

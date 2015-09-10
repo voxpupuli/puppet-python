@@ -56,6 +56,7 @@
 # Garrett Honeycutt <code@garretthoneycutt.com>
 #
 class python (
+  $ensure                    = $python::params::ensure,
   $version                   = $python::params::version,
   $pip                       = $python::params::pip,
   $dev                       = $python::params::dev,
@@ -76,23 +77,14 @@ class python (
       "Only 'pip', 'rhscl' and 'scl' are valid providers besides the system default. Detected provider is <${provider}>.")
   }
 
-  if $provider == 'pip' {
-    validate_re($version, ['^(2\.[4-7]\.\d|3\.\d\.\d)$','^system$'])
-  } elsif ($provider == 'scl' or $provider == 'rhscl') {
-    validate_re($version, concat(['python33', 'python27', 'rh-python34'], $valid_versions))
-  } else {
-    validate_re($version, concat(['system', 'pypy'], $valid_versions))
-  }
-
   $exec_prefix = $provider ? {
     'scl'   => "scl enable ${version} -- ",
     'rhscl' => "scl enable ${version} -- ",
     default => '',
   }
 
-  validate_bool($pip)
-  validate_bool($dev)
-  validate_bool($virtualenv)
+  validate_re($ensure, ['^(absent|present|latest)$'])
+  validate_re($version, concat(['system', 'pypy'], $valid_versions))
   validate_bool($gunicorn)
   validate_bool($manage_gunicorn)
   validate_bool($use_epel)

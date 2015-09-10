@@ -27,58 +27,70 @@ class python::install {
     'Suse'   => "${python}-devel",
   }
 
-  $python_virtualenv = $::lsbdistcodename ? {
-    'jessie' => 'virtualenv',
-    default  => 'python-virtualenv',
-  }
-
-  # pip version: use only for installation via os package manager!
-  if $::python::version =~ /^3/ {
-    $pip = 'python3-pip'
-  } else {
-    $pip = 'python-pip'
-  }
-
   $dev_ensure = $python::dev ? {
     true    => present,
-    default => absent,
+    false   => absent,
+    default => $python::dev,
   }
 
   $pip_ensure = $python::pip ? {
     true    => present,
-    default => absent,
+    false   => absent,
+    default => $python::pip,
   }
 
   $venv_ensure = $python::virtualenv ? {
     true    => present,
-    default => absent,
+    false   => absent,
+    default => $python::virtualenv,
   }
 
-  # Install latest from pip if pip is the provider
+  package { 'python':
+    ensure => $python::ensure,
+    name   => $python,
+  }
+
+  package { 'python-dev':
+    ensure => $dev_ensure,
+    name   => $pythondev,
+  }
+
+  package { 'pip':
+    ensure => $pip_ensure,
+  }
+
+  package { 'virtualenv':
+    ensure => $venv_ensure,
+  }
+
   case $python::provider {
     pip: {
-      package { 'virtualenv': ensure => latest, provider => pip }
-      package { 'pip': ensure => latest, provider => pip }
-      package { "python==${python::version}": ensure => latest, provider => pip }
+      Package <| title == 'pip' |> {
+        name     => 'pip',
+        provider => 'pip',
+      }
+      Package <| title == 'virtualenv' |> {
+        provider => 'pip',
+      }
     }
     scl: {
       # SCL is only valid in the RedHat family. If RHEL, package must be
       # enabled using the subscription manager outside of puppet. If CentOS,
       # the centos-release-SCL will install the repository.
       $install_scl_repo_package = $::operatingsystem ? {
-          'CentOS' => present,
-          default  => absent,
+        'CentOS' => present,
+        default  => absent,
       }
 
       package { 'centos-release-SCL':
         ensure => $install_scl_repo_package,
         before => Package['scl-utils'],
       }
-      package { 'scl-utils': ensure => latest, }
-      package { $::python::version:
-        ensure  => present,
-        require => Package['scl-utils'],
+      package { 'scl-utils':
+        ensure => latest,
+        before => Package['python'],
       }
+
       # This gets installed as a dependency anyway
       # package { "${python::version}-python-virtualenv":
       #   ensure  => $venv_ensure,
@@ -106,9 +118,8 @@ class python::install {
         tag      => 'python-scl-repo',
       }
 
-      package { $::python::version:
-        ensure => present,
-        tag    => 'python-scl-package',
+      Package <| title == 'python' |> {
+        tag => 'python-scl-package',
       }
 
       package { "${python::version}-scldev":
@@ -116,36 +127,53 @@ class python::install {
         tag    => 'python-scl-package',
       }
 
-      if  $pip_ensure  {
+      if $pip_ensure  {
         exec { 'python-scl-pip-install':
           command => "${python::exec_prefix}easy_install pip",
           path    => ['/usr/bin', '/bin'],
           creates => "/opt/rh/${python::version}/root/usr/bin/pip",
         }
       }
+
       Package <| tag == 'python-scl-repo' |> ->
       Package <| tag == 'python-scl-package' |> ->
       Exec['python-scl-pip-install']
     }
+
     default: {
       if $::osfamily == 'RedHat' {
         if $pip_ensure == present {
           if $python::use_epel == true {
             include 'epel'
-            Class['epel'] -> Package[$pip]
+            Class['epel'] -> Package['pip']
           }
         }
         if ($venv_ensure == present) and ($::operatingsystemrelease =~ /^6/) {
           if $python::use_epel == true {
             include 'epel'
-            Class['epel'] -> Package[$python_virtualenv]
+            Class['epel'] -> Package['virtualenv']
           }
         }
       }
-      package { $python_virtualenv: ensure => $venv_ensure }
-      package { $pip: ensure => $pip_ensure }
-      package { $pythondev: ensure => $dev_ensure }
-      package { $python: ensure => present }
+
+      if $::python::version =~ /^3/ {
+        $pip_package = 'python3-pip'
+      } else {
+        $pip_package = 'python-pip'
+      }
+
+      $virtualenv_package = $::lsbdistcodename ? {
+        'jessie' => 'virtualenv',
+        default  => 'python-virtualenv',
+      }
+
+      Package <| title == 'pip' |> {
+        name => $pip_package,
+      }
+
+      Package <| title == 'virtualenv' |> {
+        name => $virtualenv_package,
+      }
     }
   }
 
