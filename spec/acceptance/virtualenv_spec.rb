@@ -8,20 +8,20 @@ describe 'python class' do
       pp = <<-EOS
       class { 'python' :
         version    => 'system',
-        pip        => true,
-        virtualenv => true,
+        pip        => 'present',
+        virtualenv => 'present',
       }
       ->
       python::virtualenv { 'venv' :
-        ensure => present,
+        ensure     => 'present',
         systempkgs => false,
-        venv_dir => '/opt/venv',
-        owner => 'root',
-        group => 'root',
+        venv_dir   => '/opt/venv',
+        owner      => 'root',
+        group      => 'root',
       }
       ->
       python::pip { 'rpyc' :
-        ensure => '3.2.3',
+        ensure     => '3.2.3',
         virtualenv => '/opt/venv',
       }
       EOS
