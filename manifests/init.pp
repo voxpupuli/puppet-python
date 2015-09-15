@@ -4,6 +4,10 @@
 #
 # === Parameters
 #
+# [*ensure*]
+#  Desired installation state for the Python package. Valid options are absent,
+#  present and latest. Default: present
+#
 # [*version*]
 #  Python version to install. Beware that valid values for this differ a) by
 #  the provider you choose and b) by the osfamily/operatingsystem you are using.
@@ -17,24 +21,31 @@
 #        package, if available on your osfamily.
 #
 # [*pip*]
-#  Install python-pip. Default: true
+#  Desired installation state for python-pip. Boolean values are deprecated.
+#  Default: present
+#  Allowed values: 'absent', 'present', 'latest'
 #
 # [*dev*]
-#  Install python-dev. Default: false
+#  Desired installation state for python-dev. Boolean values are deprecated.
+#  Default: absent
+#  Allowed values: 'absent', 'present', 'latest'
 #
 # [*virtualenv*]
-#  Install python-virtualenv. Default: false, also accepts 'pip' which will
-#  install latest virtualenv from pip rather than package manager
+#  Desired installation state for python-virtualenv. Boolean values are
+#  deprecated. Default: absent
+#  Allowed values: 'absent', 'present', 'latest
 #
 # [*gunicorn*]
-#  Install Gunicorn. Default: false
+#  Desired installation state for Gunicorn. Boolean values are deprecated.
+#  Default: absent
+#  Allowed values: 'absent', 'present', 'latest'
 #
 # [*manage_gunicorn*]
 #  Allow Installation / Removal of Gunicorn. Default: true
 #
 # [*provider*]
-#  What provider to use for installation of the packages, except gunicorn.
-#  Default: system default provider
+#  What provider to use for installation of the packages, except gunicorn and
+#  Python itself. Default: system default provider
 #  Allowed values: 'pip'
 #
 # [*use_epel*]
@@ -44,10 +55,10 @@
 #
 # class { 'python':
 #   version    => 'system',
-#   pip        => true,
-#   dev        => true,
-#   virtualenv => true,
-#   gunicorn   => true,
+#   pip        => 'present',
+#   dev        => 'present',
+#   virtualenv => 'present',
+#   gunicorn   => 'present',
 # }
 #
 # === Authors
@@ -85,7 +96,31 @@ class python (
 
   validate_re($ensure, ['^(absent|present|latest)$'])
   validate_re($version, concat(['system', 'pypy'], $valid_versions))
-  validate_bool($gunicorn)
+
+  if $pip == false or $pip == true {
+    warning('Use of boolean values for the $pip parameter is deprecated')
+  } else {
+    validate_re($pip, ['^(absent|present|latest)$'])
+  }
+
+  if $virtualenv == false or $virtualenv == true {
+    warning('Use of boolean values for the $virtualenv parameter is deprecated')
+  } else {
+    validate_re($virtualenv, ['^(absent|present|latest)$'])
+  }
+
+  if $virtualenv == false or $virtualenv == true {
+    warning('Use of boolean values for the $virtualenv parameter is deprecated')
+  } else {
+    validate_re($virtualenv, ['^(absent|present|latest)$'])
+  }
+
+  if $gunicorn == false or $gunicorn == true {
+    warning('Use of boolean values for the $gunicorn parameter is deprecated')
+  } else {
+    validate_re($gunicorn, ['^(absent|present|latest)$'])
+  }
+
   validate_bool($manage_gunicorn)
   validate_bool($use_epel)
 

@@ -25,7 +25,7 @@ describe 'python', :type => :class do
 
     describe "with python::dev" do
       context "true" do
-        let (:params) {{ :dev => true }}
+        let (:params) {{ :dev => 'present' }}
         it { is_expected.to contain_package("python-dev").with_ensure('present') }
       end
       context "empty/default" do
@@ -83,7 +83,7 @@ describe 'python', :type => :class do
 
     describe "with python::dev" do
       context "true" do
-        let (:params) {{ :dev => true }}
+        let (:params) {{ :dev => 'present' }}
         it { is_expected.to contain_package("python-dev").with_ensure('present') }
       end
       context "default/empty" do
@@ -114,7 +114,7 @@ describe 'python', :type => :class do
 
     describe "with python::dev" do
       context "true" do
-        let (:params) {{ :dev => true }}
+        let (:params) {{ :dev => 'present' }}
         it { is_expected.to contain_package("python-dev").with_ensure('present') }
       end
       context "empty/default" do
@@ -157,7 +157,7 @@ describe 'python', :type => :class do
 
         describe "with python::virtualenv" do
           context "true" do
-            let (:params) {{ :provider => '', :virtualenv => true }}
+            let (:params) {{ :provider => '', :virtualenv => 'present' }}
             it { is_expected.to contain_package("virtualenv").with_ensure('present') }
           end
         end
@@ -173,7 +173,7 @@ describe 'python', :type => :class do
 
     describe "with python::dev" do
       context "true" do
-        let (:params) {{ :dev => true }}
+        let (:params) {{ :dev => 'present' }}
         it { is_expected.to contain_package("python-dev").with_ensure('present') }
       end
       context "default/empty" do
@@ -204,7 +204,7 @@ describe 'python', :type => :class do
 
     describe "with python::dev" do
       context "true" do
-        let (:params) {{ :dev => true }}
+        let (:params) {{ :dev => 'present' }}
         it { is_expected.to contain_package("python-dev").with_ensure('present') }
       end
       context "empty/default" do
@@ -247,7 +247,7 @@ describe 'python', :type => :class do
 
         describe "with python::virtualenv" do
           context "true" do
-            let (:params) {{ :provider => '', :virtualenv => true }}
+            let (:params) {{ :provider => '', :virtualenv => 'present' }}
             it { is_expected.to contain_package("virtualenv").with_ensure('present') }
           end
         end
@@ -263,7 +263,7 @@ describe 'python', :type => :class do
 
     describe "with python::dev" do
       context "true" do
-        let (:params) {{ :dev => true }}
+        let (:params) {{ :dev => 'present' }}
         it { is_expected.to contain_package("python-dev").with_ensure('present') }
       end
       context "default/empty" do

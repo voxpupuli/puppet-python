@@ -5,10 +5,10 @@
 class python::params {
   $ensure                 = 'present'
   $version                = 'system'
-  $pip                    = true
-  $dev                    = false
-  $virtualenv             = false
-  $gunicorn               = false
+  $pip                    = 'present'
+  $dev                    = 'absent'
+  $virtualenv             = 'absent'
+  $gunicorn               = 'absent'
   $manage_gunicorn        = true
   $provider               = undef
   $valid_versions = $::osfamily ? {

@@ -70,6 +70,7 @@ class python::install {
         provider => 'pip',
       }
       Package <| title == 'virtualenv' |> {
+        name     => 'virtualenv',
         provider => 'pip',
       }
     }
@@ -180,7 +181,8 @@ class python::install {
   if $python::manage_gunicorn {
     $gunicorn_ensure = $python::gunicorn ? {
       true    => present,
-      default => absent,
+      false   => absent,
+      default => $python::gunicorn,
     }
     package { 'gunicorn': ensure => $gunicorn_ensure }
   }

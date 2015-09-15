@@ -50,15 +50,17 @@ puppet module install stankevich-python
 
 Installs and manages python, python-pip, python-dev, python-virtualenv and Gunicorn.
 
+**ensure** - Desired installation state for the Python package. Options are absent, present and latest. Default: present
+
 **version** - Python version to install. Default: system default
 
-**pip** - Install python-pip. Default: true
+**pip** - Desired installation state for the python-pip package. Options are absent, present and latest. Default: present
 
-**dev** - Install python-dev. Default: false
+**dev** - Desired installation state for the python-dev package. Options are absent, present and latest. Default: present
 
-**virtualenv** - Install python-virtualenv. Default: false
+**virtualenv** - Desired installation state for the virtualenv package. Options are absent, present and latest. Default: present
 
-**gunicorn** - Install Gunicorn. Default: false
+**gunicorn** - Desired installation state for Gunicorn. Options are absent, present and latest. Default: present
 
 **manage_gunicorn** - Allow Installation / Removal of Gunicorn. Default: true
 
@@ -67,10 +69,10 @@ Installs and manages python, python-pip, python-dev, python-virtualenv and Gunic
 ```puppet
   class { 'python' :
     version    => 'system',
-    pip        => true,
-    dev        => true,
-    virtualenv => true,
-    gunicorn   => true,
+    pip        => 'present',
+    dev        => 'present',
+    virtualenv => 'present',
+    gunicorn   => 'present',
   }
 ```
 
@@ -305,6 +307,9 @@ from softwarecollections.org, set python::provider to 'rhscl' and python::versio
 of the collection you want to use (e.g., 'python27', 'python33', or 'rh-python34').
 
 ## Release Notes
+
+**Version 1.9.8 Notes**
+The `pip`, `virtualenv` and `gunicorn` parameters of `Class['python']` have changed. These parameters now accept `absent`, `present` and `latest` rather than `true` and `false`. The boolean values are still supported and are equivalent to `present` and `absent` respectively. Support for these boolean parameters is deprecated and will be removed in a later release.
 
 **Version 1.7.10 Notes**
 

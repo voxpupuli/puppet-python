@@ -6,8 +6,8 @@ describe 'python class' do
     install_python = <<-EOS
       class { 'python' :
         version    => 'system',
-        pip        => true,
-        virtualenv => true,
+        pip        => 'present',
+        virtualenv => 'present',
       }
       EOS
 
