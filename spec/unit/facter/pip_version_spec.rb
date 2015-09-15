@@ -1,4 +1,4 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe Facter::Util::Fact do
   before {
@@ -10,20 +10,20 @@ pip 6.0.6 from /opt/boxen/homebrew/Cellar/python/2.7.9/Frameworks/Python.framewo
 EOS
   }
 
-  describe "pip_version" do
+  describe 'pip_version' do
     context 'returns pip version when pip present' do
       it do
         Facter::Util::Resolution.stubs(:exec)
-        Facter::Util::Resolution.expects(:which).with("pip").returns(true)
-        Facter::Util::Resolution.expects(:exec).with("pip --version 2>&1").returns(pip_version_output)
-        Facter.value(:pip_version).should == "6.0.6"
+        Facter::Util::Resolution.expects(:which).with('pip').returns(true)
+        Facter::Util::Resolution.expects(:exec).with('pip --version 2>&1').returns(pip_version_output)
+        Facter.value(:pip_version).should == '6.0.6'
       end
     end
 
     context 'returns nil when pip not present' do
       it do
         Facter::Util::Resolution.stubs(:exec)
-        Facter::Util::Resolution.expects(:which).with("pip").returns(false)
+        Facter::Util::Resolution.expects(:which).with('pip').returns(false)
         Facter.value(:pip_version).should == nil
       end
     end

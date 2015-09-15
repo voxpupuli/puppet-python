@@ -6,13 +6,13 @@ describe 'python class' do
     # Using puppet_apply as a helper
     it 'should work with no errors' do
       pp = <<-EOS
-      class { 'python' :
+      class { 'python':
         version    => 'system',
         pip        => 'present',
         virtualenv => 'present',
       }
       ->
-      python::virtualenv { 'venv' :
+      python::virtualenv { 'venv':
         ensure     => 'present',
         systempkgs => false,
         venv_dir   => '/opt/venv',
@@ -20,7 +20,7 @@ describe 'python class' do
         group      => 'root',
       }
       ->
-      python::pip { 'rpyc' :
+      python::pip { 'rpyc':
         ensure     => '3.2.3',
         virtualenv => '/opt/venv',
       }
