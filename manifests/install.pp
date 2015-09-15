@@ -1,6 +1,6 @@
 # == Class: python::install
 #
-# Installs core python packages
+# Installs core python packages,
 #
 # === Examples
 #
@@ -28,20 +28,20 @@ class python::install {
   }
 
   $dev_ensure = $python::dev ? {
-    true    => present,
-    false   => absent,
+    true    => 'present',
+    false   => 'absent',
     default => $python::dev,
   }
 
   $pip_ensure = $python::pip ? {
-    true    => present,
-    false   => absent,
+    true    => 'present',
+    false   => 'absent',
     default => $python::pip,
   }
 
   $venv_ensure = $python::virtualenv ? {
-    true    => present,
-    false   => absent,
+    true    => 'present',
+    false   => 'absent',
     default => $python::virtualenv,
   }
 
@@ -56,11 +56,13 @@ class python::install {
   }
 
   package { 'pip':
-    ensure => $pip_ensure,
+    ensure  => $pip_ensure,
+    require => Package['python'],
   }
 
   package { 'virtualenv':
-    ensure => $venv_ensure,
+    ensure  => $venv_ensure,
+    require => Package['python'],
   }
 
   case $python::provider {
@@ -87,8 +89,8 @@ class python::install {
       # enabled using the subscription manager outside of puppet. If CentOS,
       # the centos-release-SCL will install the repository.
       $install_scl_repo_package = $::operatingsystem ? {
-        'CentOS' => present,
-        default  => absent,
+        'CentOS' => 'present',
+        default  => 'absent',
       }
 
       package { 'centos-release-SCL':
@@ -96,7 +98,7 @@ class python::install {
         before => Package['scl-utils'],
       }
       package { 'scl-utils':
-        ensure => latest,
+        ensure => 'latest',
         before => Package['python'],
       }
 
@@ -109,12 +111,12 @@ class python::install {
         ensure  => $dev_ensure,
         require => Package['scl-utils'],
       }
-      if  $pip_ensure  {
+      if $pip_ensure != 'absent' {
         exec { 'python-scl-pip-install':
-          require => Package['scl-utils'],
           command => "${python::params::exec_prefix}easy_install pip",
           path    => ['/usr/bin', '/bin'],
           creates => "/opt/rh/${python::version}/root/usr/bin/pip",
+          require => Package['scl-utils'],
         }
       }
     }
@@ -136,7 +138,7 @@ class python::install {
         tag    => 'python-scl-package',
       }
 
-      if $pip_ensure  {
+      if $pip_ensure != 'absent' {
         exec { 'python-scl-pip-install':
           command => "${python::exec_prefix}easy_install pip",
           path    => ['/usr/bin', '/bin'],
@@ -151,13 +153,13 @@ class python::install {
 
     default: {
       if $::osfamily == 'RedHat' {
-        if $pip_ensure == present {
+        if $pip_ensure != 'absent' {
           if $python::use_epel == true {
             include 'epel'
             Class['epel'] -> Package['pip']
           }
         }
-        if ($venv_ensure == present) and ($::operatingsystemrelease =~ /^6/) {
+        if ($venv_ensure != 'absent') and ($::operatingsystemrelease =~ /^6/) {
           if $python::use_epel == true {
             include 'epel'
             Class['epel'] -> Package['virtualenv']
@@ -188,10 +190,13 @@ class python::install {
 
   if $python::manage_gunicorn {
     $gunicorn_ensure = $python::gunicorn ? {
-      true    => present,
-      false   => absent,
+      true    => 'present',
+      false   => 'absent',
       default => $python::gunicorn,
     }
-    package { 'gunicorn': ensure => $gunicorn_ensure }
+
+    package { 'gunicorn':
+      ensure => $gunicorn_ensure,
+    }
   }
 }
