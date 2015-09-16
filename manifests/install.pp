@@ -65,6 +65,14 @@ class python::install {
 
   case $python::provider {
     pip: {
+      # Install pip without pip, see https://pip.pypa.io/en/stable/installing/.
+      exec { 'bootstrap pip':
+        command => 'curl https://bootstrap.pypa.io/get-pip.py | python',
+        creates => '/usr/local/bin/pip',
+        require => Package['python'],
+      }
+      Exec['bootstrap pip'] -> Package <| provider == pip |>
+
       Package <| title == 'pip' |> {
         name     => 'pip',
         provider => 'pip',
