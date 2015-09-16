@@ -22,6 +22,9 @@
 # [*owner*]
 #  The owner of the virtualenv being manipulated. Default: root
 #
+# [*group*]
+#  The group of the virtualenv being manipulated. Default: root
+#
 # [*proxy*]
 #  Proxy server to use for outbound connections. Default: none
 #
@@ -63,6 +66,7 @@ define python::pip (
   $virtualenv      = 'system',
   $url             = false,
   $owner           = 'root',
+  $group           = 'root',
   $proxy           = false,
   $egg             = false,
   $editable        = false,
@@ -163,6 +167,7 @@ define python::pip (
           command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { ${pip_env} --log ${log}/pip.log install ${install_args} \$wheel_support_flag ${proxy_flag} ${install_args} ${install_editable} ${source}@${ensure}#egg=${egg_name} || ${pip_env} --log ${log}/pip.log install ${install_args} ${proxy_flag} ${install_args} ${install_editable} ${source}@${ensure}#egg=${egg_name} ;}",
           unless      => "${pip_env} freeze | grep -i -e ${grep_regex}",
           user        => $owner,
+          group       => $group,
           cwd         => $cwd,
           environment => $environment,
           path        => ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
@@ -174,6 +179,7 @@ define python::pip (
             command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { ${pip_env} --log ${log}/pip.log install ${install_args} \$wheel_support_flag ${proxy_flag} ${install_args} ${install_editable} ${source} || ${pip_env} --log ${log}/pip.log install ${install_args} ${proxy_flag} ${install_args} ${install_editable} ${source} ;}",
             unless      => "${pip_env} freeze | grep -i -e ${grep_regex}",
             user        => $owner,
+            group       => $group,
             cwd         => $cwd,
             environment => $environment,
             path        => ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
@@ -190,6 +196,7 @@ define python::pip (
           command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { ${pip_env} --log ${log}/pip.log install ${install_args} \$wheel_support_flag ${proxy_flag} ${install_args} ${install_editable} ${source}==${ensure} || ${pip_env} --log ${log}/pip.log install ${install_args} ${proxy_flag} ${install_args} ${install_editable} ${source}==${ensure} ;}",
           unless      => "${pip_env} freeze | grep -i -e ${grep_regex}",
           user        => $owner,
+          group       => $group,
           cwd         => $cwd,
           environment => $environment,
           path        => ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
@@ -203,6 +210,7 @@ define python::pip (
           command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { ${pip_env} --log ${log}/pip.log install \$wheel_support_flag ${proxy_flag} ${install_args} ${install_editable} ${source} || ${pip_env} --log ${log}/pip.log install ${proxy_flag} ${install_args} ${install_editable} ${source} ;}",
           unless      => "${pip_env} freeze | grep -i -e ${grep_regex}",
           user        => $owner,
+          group       => $group,
           cwd         => $cwd,
           environment => $environment,
           path        => ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
@@ -216,6 +224,7 @@ define python::pip (
           command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { ${pip_env} --log ${log}/pip.log install --upgrade \$wheel_support_flag ${proxy_flag} ${install_args} ${install_editable} ${source} || ${pip_env} --log ${log}/pip.log install --upgrade ${proxy_flag} ${install_args} ${install_editable} ${source} ;}",
           unless      => "${pip_env} search ${proxy_flag} ${source} | grep -i INSTALLED | grep -i latest",
           user        => $owner,
+          group       => $group,
           cwd         => $cwd,
           environment => $environment,
           path        => ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
@@ -229,6 +238,7 @@ define python::pip (
           command     => "echo y | ${pip_env} uninstall ${uninstall_args} ${proxy_flag}",
           onlyif      => "${pip_env} freeze | grep -i -e ${grep_regex}",
           user        => $owner,
+          group       => $group,
           cwd         => $cwd,
           environment => $environment,
           path        => ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
