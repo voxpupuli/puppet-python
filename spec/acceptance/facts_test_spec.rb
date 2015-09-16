@@ -4,7 +4,7 @@ describe 'python class' do
 
   context 'facts' do
     install_python = <<-EOS
-      class { 'python' :
+      class { 'python':
         version    => 'system',
         pip        => 'present',
         virtualenv => 'present',
@@ -12,10 +12,10 @@ describe 'python class' do
       EOS
 
       fact_notices = <<-EOS
-      notify{"pip_version: ${::pip_version}":}
-      notify{"system_python_version: ${::system_python_version}":}
-      notify{"python_version: ${::python_version}":}
-      notify{"virtualenv_version: ${::virtualenv_version}":}
+      notify { "pip_version: ${::pip_version}": }
+      notify { "system_python_version: ${::system_python_version}": }
+      notify { "python_version: ${::python_version}": }
+      notify { "virtualenv_version: ${::virtualenv_version}": }
       EOS
 
     it 'should output python facts when not installed' do

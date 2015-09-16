@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'python::requirements', :type => :define do
   let (:title) { '/requirements.txt' }
-  context "on Debian OS" do
+  context 'on Debian OS' do
     let :facts do
       {
         :id                     => 'root',
@@ -16,17 +16,17 @@ describe 'python::requirements', :type => :define do
       }
     end
 
-    describe "requirements as" do
-      context "/requirements.txt" do
-        let (:params) {{ :requirements => "/requirements.txt" }}
-        it { is_expected.to contain_file("/requirements.txt").with_mode('0644') }
+    describe 'requirements as' do
+      context '/requirements.txt' do
+        let (:params) {{ :requirements => '/requirements.txt' }}
+        it { is_expected.to contain_file('/requirements.txt').with_mode('0644') }
       end
 
-      describe "with owner" do
-        context "bob:bob" do
+      describe 'with owner' do
+        context 'bob:bob' do
           let (:params) {{
               :owner => 'bob',
-              :group => 'bob'
+              :group => 'bob',
             }}
           it do
             expect {
@@ -36,9 +36,9 @@ describe 'python::requirements', :type => :define do
         end
       end
 
-      describe "with owner" do
-        context "default" do
-          it { is_expected.to contain_file("/requirements.txt").with_owner('root').with_group('root') }
+      describe 'with owner' do
+        context 'default' do
+          it { is_expected.to contain_file('/requirements.txt').with_owner('root').with_group('root') }
         end
       end
     end
