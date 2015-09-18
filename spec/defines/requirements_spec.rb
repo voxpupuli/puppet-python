@@ -30,7 +30,7 @@ describe 'python::requirements', :type => :define do
             }}
           it do
             expect {
-              should compile
+              is_expected.to compile
             }.to raise_error(/root user must be used when virtualenv is system/)
           end
         end

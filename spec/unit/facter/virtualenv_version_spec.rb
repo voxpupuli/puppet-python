@@ -16,7 +16,7 @@ EOS
         Facter::Util::Resolution.stubs(:exec)
         Facter::Util::Resolution.expects(:which).with("virtualenv").returns(true)
         Facter::Util::Resolution.expects(:exec).with("virtualenv --version 2>&1").returns(virtualenv_version_output)
-        Facter.value(:virtualenv_version).should == "12.0.7"
+        expect(Facter.value(:virtualenv_version)).to eq("12.0.7")
       end
     end
 
@@ -24,7 +24,7 @@ EOS
       it do
         Facter::Util::Resolution.stubs(:exec)
         Facter::Util::Resolution.expects(:which).with("virtualenv").returns(false)
-        Facter.value(:virtualenv_version).should == nil
+        expect(Facter.value(:virtualenv_version)).to eq(nil)
       end
     end
 
