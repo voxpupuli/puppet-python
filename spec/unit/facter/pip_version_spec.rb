@@ -16,7 +16,7 @@ EOS
         Facter::Util::Resolution.stubs(:exec)
         Facter::Util::Resolution.expects(:which).with("pip").returns(true)
         Facter::Util::Resolution.expects(:exec).with("pip --version 2>&1").returns(pip_version_output)
-        Facter.value(:pip_version).should == "6.0.6"
+        expect(Facter.value(:pip_version)).to eq("6.0.6")
       end
     end
 
@@ -24,7 +24,7 @@ EOS
       it do
         Facter::Util::Resolution.stubs(:exec)
         Facter::Util::Resolution.expects(:which).with("pip").returns(false)
-        Facter.value(:pip_version).should == nil
+        expect(Facter.value(:pip_version)).to eq(nil)
       end
     end
 

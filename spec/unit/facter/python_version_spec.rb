@@ -20,7 +20,7 @@ EOS
         Facter::Util::Resolution.stubs(:exec)
         Facter::Util::Resolution.expects(:which).with("python").returns(true)
         Facter::Util::Resolution.expects(:exec).with("python -V 2>&1").returns(python2_version_output)
-        Facter.value(:python_version).should == "2.7.9"
+        expect(Facter.value(:python_version)).to eq("2.7.9")
       end
     end
 
@@ -28,7 +28,7 @@ EOS
       it do
         Facter::Util::Resolution.stubs(:exec)
         Facter::Util::Resolution.expects(:which).with("python").returns(false)
-        Facter.value(:python_version).should == nil
+        expect(Facter.value(:python_version)).to eq(nil)
       end
     end
 
@@ -40,7 +40,7 @@ EOS
         Facter::Util::Resolution.stubs(:exec)
         Facter::Util::Resolution.expects(:which).with("python").returns(true)
         Facter::Util::Resolution.expects(:exec).with("python -V 2>&1").returns(python2_version_output)
-        Facter.value(:python2_version).should == '2.7.9'
+        expect(Facter.value(:python2_version)).to eq('2.7.9')
       end
     end
 
@@ -51,38 +51,38 @@ EOS
         Facter::Util::Resolution.expects(:exec).with("python -V 2>&1").returns(python3_version_output)
         Facter::Util::Resolution.expects(:which).with("python2").returns(true)
         Facter::Util::Resolution.expects(:exec).with("python2 -V 2>&1").returns(python2_version_output)
-        Facter.value(:python2_version).should == '2.7.9'
+        expect(Facter.value(:python2_version)).to eq('2.7.9')
       end
     end
-    
+
     context 'returns nil when `python` is Python 3 and `python2` is absent' do
       it do
         Facter::Util::Resolution.stubs(:exec)
         Facter::Util::Resolution.expects(:which).with("python").returns(true)
         Facter::Util::Resolution.expects(:exec).with("python -V 2>&1").returns(python3_version_output)
         Facter::Util::Resolution.expects(:which).with("python2").returns(false)
-        Facter.value(:python2_version).should == nil
+        expect(Facter.value(:python2_version)).to eq(nil)
       end
     end
-    
+
     context 'returns nil when `python2` and `python` are absent' do
       it do
         Facter::Util::Resolution.stubs(:exec)
         Facter::Util::Resolution.expects(:which).with("python").returns(false)
         Facter::Util::Resolution.expects(:which).with("python2").returns(false)
-        Facter.value(:python2_version).should == nil
+        expect(Facter.value(:python2_version)).to eq(nil)
       end
     end
 
   end
- 
+
   describe "python3_version" do
     context 'returns Python 3 version when `python3` present' do
       it do
         Facter::Util::Resolution.stubs(:exec)
         Facter::Util::Resolution.expects(:which).with("python3").returns(true)
         Facter::Util::Resolution.expects(:exec).with("python3 -V 2>&1").returns(python3_version_output)
-        Facter.value(:python3_version).should == "3.3.0"
+        expect(Facter.value(:python3_version)).to eq("3.3.0")
       end
     end
 
@@ -90,7 +90,7 @@ EOS
       it do
         Facter::Util::Resolution.stubs(:exec)
         Facter::Util::Resolution.expects(:which).with("python3").returns(false)
-        Facter.value(:python3_version).should == nil
+        expect(Facter.value(:python3_version)).to eq(nil)
       end
     end
 
