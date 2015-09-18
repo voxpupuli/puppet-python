@@ -126,11 +126,19 @@ define python::pip (
 
   # Check if searching by explicit version.
   if $ensure =~ /^((19|20)[0-9][0-9]-(0[1-9]|1[1-2])-([0-2][1-9]|3[0-1])|[0-9]+\.[0-9]+(\.[0-9]+)?)$/ {
-    $grep_regex = "^${pkgname}==${ensure}\$"
+    if $url != false {
+      $grep_regex = $url
+    } else {
+        $grep_regex = "^${pkgname}==${ensure}\$"
+    }
   } else {
-    $grep_regex = $pkgname ? {
-      /==/    => "^${pkgname}\$",
-      default => "^${pkgname}==",
+    if $url != false {
+      $grep_regex = $url
+    } else {
+        $grep_regex = $pkgname ? {
+        /==/    => "^${pkgname}\$",
+        default => "^${pkgname}==",
+      }
     }
   }
 
