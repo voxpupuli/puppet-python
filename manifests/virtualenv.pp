@@ -60,7 +60,7 @@
 #   requirements => '/var/www/project1/requirements.txt',
 #   proxy        => 'http://proxy.domain.com:3128',
 #   systempkgs   => true,
-#   index        => 'http://www.example.com/simple/'
+#   index        => 'http://www.example.com/simple/',
 # }
 #
 # === Authors
