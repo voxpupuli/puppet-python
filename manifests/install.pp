@@ -73,7 +73,16 @@ class python::install {
         unless  => '/usr/bin/which pip',
         require => Package['python'],
       }
-      Exec['bootstrap pip'] -> Package <| provider == pip |>
+
+      # Puppet is opinionated about the pip command name
+      file { 'pip-python':
+        ensure  => link,
+        path    => '/usr/bin/pip-python',
+        target  => '/usr/bin/pip',
+        require => Exec['bootstrap pip'],
+      }
+
+      Exec['bootstrap pip'] -> File['pip-python'] -> Package <| provider == pip |>
 
       Package <| title == 'pip' |> {
         name     => 'pip',
