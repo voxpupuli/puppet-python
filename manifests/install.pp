@@ -174,17 +174,19 @@ class python::install {
             Class['epel'] -> Package['virtualenv']
           }
         }
+
+        $virtualenv_package = "${python}-virtualenv"
+      } else {
+        $virtualenv_package = $::lsbdistcodename ? {
+          'jessie' => 'virtualenv',
+          default  => 'python-virtualenv',
+        }
       }
 
       if $::python::version =~ /^3/ {
         $pip_package = 'python3-pip'
       } else {
         $pip_package = 'python-pip'
-      }
-
-      $virtualenv_package = $::lsbdistcodename ? {
-        'jessie' => 'virtualenv',
-        default  => 'python-virtualenv',
       }
 
       Package <| title == 'pip' |> {
