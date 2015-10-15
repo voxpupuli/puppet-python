@@ -67,5 +67,15 @@ describe 'python::pip', :type => :define do
       end
     end
 
+    describe 'pip install unless' do
+      context 'with url' do
+        let (:params) {{ :url => 'https://www.example.com/module.git'}}
+        it { is_expected.to contain_exec("pip_install_rpyc").with_unless(/https:\/\/www\.example\.com\/module\.git/) }
+      end
+      context 'without url' do
+        it { is_expected.to contain_exec("pip_install_rpyc").with_unless(/rpyc/) }
+      end
+    end
+
   end
 end
