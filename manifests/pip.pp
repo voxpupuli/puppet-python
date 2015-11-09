@@ -35,16 +35,18 @@
 #  Boolean. If true the package is installed as an editable resource.
 #
 # [*environment*]
-#  Additional environment variables required to install the packages. Default: none
+#  Additional environment variables required to install the packages.
+#  Default: none
 #
 # [*timeout*]
-#  The maximum time in seconds the "pip install" command should take. Default: 1800
+#  The maximum time in seconds the "pip install" command should take. 
+#  Default: 1800
 #
 # [*install_args*]
 #  String. Any additional installation arguments that will be supplied
 #  when running pip install.
 #
-# [*uninstall_args*]
+# [*uninstall args*]
 # String. Any additional arguments that will be supplied when running
 # pip uninstall.
 #
@@ -82,6 +84,8 @@ define python::pip (
   $log_dir         = '/tmp',
 ) {
 
+  $pip_freeze_pkgname = regsubst($pkgname, '_', '-', 'G')
+  notice("Pip freeze pkgname: ${pip_freeze_pkgname}")
   # Parameter validation
   if ! $virtualenv {
     fail('python::pip: virtualenv parameter must not be empty')
@@ -135,12 +139,12 @@ define python::pip (
   }
 
   # Check if searching by explicit version.
-  if $ensure =~ /^((19|20)[0-9][0-9]-(0[1-9]|1[1-2])-([0-2][1-9]|3[0-1])|[0-9]+\.[0-9]+(\.[0-9]+)?)$/ {
-    $grep_regex = "^${pkgname}==${ensure}\$"
+  if $ensure =~ /^((19|20)[0-9][0-9]-(0[1-9]|1[1-2])-([0-2][1-9]|3[0-1])|[0-9]+\.[0-9]+(\.[0-9]+)?)$/ { #lint:ignore:80chars
+    $grep_regex = "^${pip_freeze_pkgname}==${ensure}\$"
   } else {
-    $grep_regex = $pkgname ? {
-      /==/    => "^${pkgname}\$",
-      default => "^${pkgname}==",
+    $grep_regex = $pip_freeze_pkgname ? {
+      /==/    => "^${pip_freeze_pkgname}\$",
+      default => "^${pip_freeze_pkgname}==",
     }
   }
 
