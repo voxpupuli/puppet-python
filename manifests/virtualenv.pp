@@ -97,10 +97,7 @@ define python::virtualenv (
     }
 
     if $virtualenv == undef {
-      $used_virtualenv = $version ? {
-        'system' => 'virtualenv',
-        default  => "virtualenv-${version}",
-      }
+      $used_virtualenv = 'virtualenv'
     } else {
       $used_virtualenv = $virtualenv
     }
