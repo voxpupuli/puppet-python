@@ -18,7 +18,7 @@ class python::install {
   $python = $::python::version ? {
     'system' => 'python',
     'pypy'   => 'pypy',
-    default  => "python${python::version}",
+    default  => "${python::version}",
   }
 
   $pythondev = $::osfamily ? {
@@ -50,11 +50,6 @@ class python::install {
     name   => $python,
   }
 
-  package { 'pip':
-    ensure  => $pip_ensure,
-    require => Package['python'],
-  }
-
   package { 'virtualenv':
     ensure  => $venv_ensure,
     require => Package['python'],
@@ -62,6 +57,11 @@ class python::install {
 
   case $python::provider {
     pip: {
+
+      package { 'pip':
+        ensure  => $pip_ensure,
+        require => Package['python'],
+      }
 
       package { 'python-dev':
         ensure => $dev_ensure,
@@ -123,7 +123,7 @@ class python::install {
       }
       if $pip_ensure != 'absent' {
         exec { 'python-scl-pip-install':
-          command => "${python::params::exec_prefix}easy_install pip",
+          command => "${python::exec_prefix}easy_install pip",
           path    => ['/usr/bin', '/bin'],
           creates => "/opt/rh/${python::version}/root/usr/bin/pip",
           require => Package['scl-utils'],
@@ -162,6 +162,11 @@ class python::install {
     }
 
     default: {
+
+      package { 'pip':
+        ensure  => $pip_ensure,
+        require => Package['python'],
+      }
 
       package { 'python-dev':
         ensure => $dev_ensure,
