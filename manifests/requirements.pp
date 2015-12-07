@@ -38,6 +38,9 @@
 # [*extra_pip_args*]
 # Extra arguments to pass to pip after the requirements file
 #
+# [*manage_requirements*]
+# Create the requirements file if it doesn't exist. Default: true
+#
 # [*fix_requirements_owner*]
 # Change owner and group of requirements file. Default: true
 #
@@ -71,6 +74,7 @@ define python::requirements (
   $forceupdate            = false,
   $cwd                    = undef,
   $extra_pip_args         = '',
+  $manage_requirements    = true,
   $fix_requirements_owner = true,
   $log_dir                = '/tmp',
   $timeout                = 1800,
@@ -110,7 +114,7 @@ define python::requirements (
 
   # This will ensure multiple python::virtualenv definitions can share the
   # the same requirements file.
-  if !defined(File[$requirements]) {
+  if !defined(File[$requirements]) and $manage_requirements == true {
     file { $requirements:
       ensure  => present,
       mode    => '0644',
