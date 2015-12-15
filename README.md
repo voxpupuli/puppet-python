@@ -128,6 +128,8 @@ Installs and manages Python packages from requirements file.
 
 **group** - The group that was used to create the virtualenv.  This is used to create the requirements file with correct permissions if it's not present already.
 
+**manage_requirements** - Create the requirements file if it doesn't exist. Default: true
+
 ```puppet
   python::requirements { '/var/www/project1/requirements.txt' :
     virtualenv => '/var/www/project1',
