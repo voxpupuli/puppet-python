@@ -80,7 +80,7 @@ define python::gunicorn (
   $access_log_format = false,
   $accesslog         = false,
   $errorlog          = false,
-  $loglevel          = 'error',
+  $log_level          = 'error',
   $template          = 'python/gunicorn.erb',
 ) {
 
@@ -89,7 +89,7 @@ define python::gunicorn (
     fail('python::gunicorn: dir parameter must not be empty')
   }
 
-  validate_re($loglevel, 'debug|info|warning|error|critical', "Invalid \$loglevel value ${loglevel}")
+  validate_re($log_level, 'debug|info|warning|error|critical', "Invalid \$log_level value ${log_level}")
 
   file { "/etc/gunicorn.d/${name}":
     ensure  => $ensure,
