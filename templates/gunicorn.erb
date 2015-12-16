@@ -42,6 +42,9 @@ CONFIG = {
 <% if @errorlog -%>
     '--error-logfile=<%= @errorlog %>',
 <% end -%>
+<% if @log_level %>
+    '--log-level=<%= @log_level %>',
+<% end -%>
 <% if @mode != 'django' -%>
     '<%= @appmodule %>',
 <% end -%>
