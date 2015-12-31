@@ -52,15 +52,15 @@ Installs and manages python, python-pip, python-dev, python-virtualenv and Gunic
 
 **ensure** - Desired installation state for the Python package. Options are absent, present and latest. Default: present
 
-**version** - Python version to install. Default: system default
+**version** - Python version to install. Default: system
 
 **pip** - Desired installation state for the python-pip package. Options are absent, present and latest. Default: present
 
-**dev** - Desired installation state for the python-dev package. Options are absent, present and latest. Default: present
+**dev** - Desired installation state for the python-dev package. Options are absent, present and latest. Default: absent
 
-**virtualenv** - Desired installation state for the virtualenv package. Options are absent, present and latest. Default: present
+**virtualenv** - Desired installation state for the virtualenv package. Options are absent, present and latest. Default: absent
 
-**gunicorn** - Desired installation state for Gunicorn. Options are absent, present and latest. Default: present
+**gunicorn** - Desired installation state for Gunicorn. Options are absent, present and latest. Default: absent
 
 **manage_gunicorn** - Allow Installation / Removal of Gunicorn. Default: true
 
@@ -70,9 +70,9 @@ Installs and manages python, python-pip, python-dev, python-virtualenv and Gunic
   class { 'python' :
     version    => 'system',
     pip        => 'present',
-    dev        => 'present',
-    virtualenv => 'present',
-    gunicorn   => 'present',
+    dev        => 'absent',
+    virtualenv => 'absent',
+    gunicorn   => 'absent',
   }
 ```
 
