@@ -96,9 +96,9 @@ Installs and manages packages from pip.
 
 **egg** - The egg name to use. Default: `$name` of the class, e.g. cx_Oracle
 
-**install_args** - Array of additional flags to pass to pip during installaton. Default: none
+**install_args** - String of additional flags to pass to pip during installaton. Default: none
 
-**uninstall_args** - Array of additional flags to pass to pip during uninstall. Default: none
+**uninstall_args** - String of additional flags to pass to pip during uninstall. Default: none
 
 **timeout** - Timeout for the pip install command. Defaults to 1800.
 ```puppet
@@ -109,7 +109,7 @@ Installs and manages packages from pip.
     owner         => 'appuser',
     proxy         => 'http://proxy.domain.com:3128',
     environment   => 'ORACLE_HOME=/usr/lib/oracle/11.2/client64',
-    install_args  => ['-e'],
+    install_args  => '-e',
     timeout       => 1800,
    }
 ```
