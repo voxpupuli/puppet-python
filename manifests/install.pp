@@ -71,7 +71,7 @@ class python::install {
       # Install pip without pip, see https://pip.pypa.io/en/stable/installing/.
       exec { 'bootstrap pip':
         command => '/usr/bin/curl https://bootstrap.pypa.io/get-pip.py | python',
-        unless  => '/usr/bin/which pip',
+        creates => '/usr/local/bin/pip',
         require => Package['python'],
       }
 
