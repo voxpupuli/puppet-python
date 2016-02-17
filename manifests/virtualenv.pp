@@ -116,9 +116,13 @@ define python::virtualenv (
     # --system-site-packages flag, default off for prior versions
     # Prior to version 1.7 the default was equal to --system-site-packages
     # and the flag --no-site-packages had to be passed to do the opposite
-    if (( versioncmp("${::virtualenv_version}",'1.7') > 0 ) and ( $systempkgs == true )) { # lint:ignore:only_variable_string
+    $_virtualenv_version = getvar('virtualenv_version') ? {
+      /.*/ => getvar('virtualenv_version'),
+      default => '',
+    }
+    if (( versioncmp($_virtualenv_version,'1.7') > 0 ) and ( $systempkgs == true )) {
       $system_pkgs_flag = '--system-site-packages'
-    } elsif (( versioncmp("${::virtualenv_version}",'1.7') < 0 ) and ( $systempkgs == false )) { # lint:ignore:only_variable_string
+    } elsif (( versioncmp($_virtualenv_version,'1.7') < 0 ) and ( $systempkgs == false )) {
       $system_pkgs_flag = '--no-site-packages'
     } else {
       $system_pkgs_flag = $systempkgs ? {
