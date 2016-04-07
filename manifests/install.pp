@@ -58,7 +58,7 @@ class python::install {
   case $python::provider {
     pip: {
 
-      package { 'pip':
+      package { 'python-pip':
         ensure  => $pip_ensure,
         require => Package['python'],
       }
@@ -85,7 +85,7 @@ class python::install {
 
       Exec['bootstrap pip'] -> File['pip-python'] -> Package <| provider == pip |>
 
-      Package <| title == 'pip' |> {
+      Package <| title == 'python-pip' |> {
         name     => 'pip',
         provider => 'pip',
       }
@@ -163,7 +163,7 @@ class python::install {
 
     default: {
 
-      package { 'pip':
+      package { 'python-pip':
         ensure  => $pip_ensure,
         require => Package['python'],
       }
@@ -177,7 +177,7 @@ class python::install {
         if $pip_ensure != 'absent' {
           if $python::use_epel == true {
             include 'epel'
-            Class['epel'] -> Package['pip']
+            Class['epel'] -> Package['python-pip']
           }
         }
         if ($venv_ensure != 'absent') and ($::operatingsystemrelease =~ /^6/) {
@@ -201,7 +201,7 @@ class python::install {
         $pip_package = 'python-pip'
       }
 
-      Package <| title == 'pip' |> {
+      Package <| title == 'python-pip' |> {
         name => $pip_package,
       }
 
