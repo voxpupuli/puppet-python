@@ -16,5 +16,14 @@ class python::params {
     'Debian' => ['3', '3.3', '2.7'],
     'Suse'   => [],
   }
-  $use_epel               = true
+
+  if $::osfamily == 'RedHat' {
+    if $::operatingsystem != 'Fedora' {
+      $use_epel           = true
+    } else {
+      $use_epel           = false
+    }
+  } else {
+    $use_epel             = false
+  }
 }
