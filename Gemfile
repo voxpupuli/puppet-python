@@ -2,7 +2,6 @@ source ENV['GEM_SOURCE'] || "https://rubygems.org"
 
 group :development, :test do
   gem 'metadata-json-lint',      :require => false
-  gem 'rake',                    :require => false
   gem 'rspec-puppet',            :require => false
   gem 'puppetlabs_spec_helper',  :require => false
   gem 'puppet-lint',             :require => false
@@ -10,9 +9,12 @@ group :development, :test do
   gem 'simplecov',               :require => false
 end
 
-# rspec must be v2 for ruby 1.8.7
+# pin old versions for ruby 1.8.7
 if RUBY_VERSION >= '1.8.7' and RUBY_VERSION < '1.9'
   gem 'rspec', '~> 2.0'
+  gem 'rake', '~> 10.0'
+else
+  gem 'rake', :require => false
 end
 
 if facterversion = ENV['FACTER_GEM_VERSION']
