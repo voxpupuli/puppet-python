@@ -5,6 +5,6 @@ fixtures:
       ref: '4.6.0'
     'epel':
       repo: 'git://github.com/stahnma/puppet-module-epel.git'
-      ref: '1.0.2'
+      ref: '1.2.2'
   symlinks:
     python: "#{source_dir}"
