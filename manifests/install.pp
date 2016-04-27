@@ -103,7 +103,7 @@ class python::install {
         default  => 'absent',
       }
 
-      package { 'centos-release-SCL':
+      package { 'centos-release-scl':
         ensure => $install_scl_repo_package,
         before => Package['scl-utils'],
       }
