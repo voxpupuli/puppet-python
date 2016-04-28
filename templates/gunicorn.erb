@@ -32,7 +32,7 @@ CONFIG = {
     '--bind=<%= @bind %>',
 <% end -%>
 <% if @workers -%>
-    '--workers=<%= @workers %>'
+    '--workers=<%= @workers %>',
 <% else -%>
     '--workers=<%= @processorcount.to_i*2 + 1 %>',
 <% end -%>
