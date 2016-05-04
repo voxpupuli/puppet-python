@@ -77,6 +77,7 @@ define python::gunicorn (
   $appmodule         = 'app:app',
   $osenv             = false,
   $timeout           = 30,
+  $workers           = false,
   $access_log_format = false,
   $accesslog         = false,
   $errorlog          = false,

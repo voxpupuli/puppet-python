@@ -31,7 +31,11 @@ CONFIG = {
 <% else -%>
     '--bind=<%= @bind %>',
 <% end -%>
-    '--workers=<%= @processorcount.to_i*2 %>',
+<% if @workers -%>
+    '--workers=<%= @workers %>',
+<% else -%>
+    '--workers=<%= @processorcount.to_i*2 + 1 %>',
+<% end -%>
     '--timeout=<%= @timeout %>',
 <% if @access_log_format -%>
     '--access-logformat=<%= @access_log_format %>',
