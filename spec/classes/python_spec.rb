@@ -90,6 +90,13 @@ describe 'python', :type => :class do
         it { is_expected.to contain_package("python-dev").with_ensure('absent') }
       end
     end
+
+    describe "EPEL need not apply" do
+      context "default/empty" do
+        it { should_not contain_class('epel') }
+      end
+    end
+
   end
 
   context "on a Redhat 5 OS" do
@@ -111,6 +118,12 @@ describe 'python', :type => :class do
     it { is_expected.to contain_package("pip") }
     # Basic python packages (from pip)
     it { is_expected.to contain_package("virtualenv")}
+
+    describe "EPEL may be needed" do
+      context "default/empty" do
+        it { should contain_class('epel') }
+      end
+    end
 
     describe "with python::dev" do
       context "true" do
