@@ -13,6 +13,7 @@ end
 if RUBY_VERSION >= '1.8.7' and RUBY_VERSION < '1.9'
   gem 'rspec', '~> 2.0'
   gem 'rake', '~> 10.0'
+  gem 'json', '~> 1.8'
 else
   gem 'rake', :require => false
 end
