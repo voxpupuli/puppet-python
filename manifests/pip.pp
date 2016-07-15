@@ -117,7 +117,7 @@ define python::pip (
 
   $pip_env = $virtualenv ? {
     'system' => "${exec_prefix}pip",
-    default  => "${virtualenv}/bin/pip",
+    default  => "${exec_prefix}${virtualenv}/bin/pip",
   }
 
   $pypi_index = $index ? {
