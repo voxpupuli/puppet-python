@@ -85,7 +85,7 @@ define python::pip (
 
   $python_provider = getparam(Class['python'], 'provider')
   $python_version  = getparam(Class['python'], 'version')
-  
+
   # Get SCL exec prefix
   # NB: this will not work if you are running puppet from scl enabled shell
   $exec_prefix = $python_provider ? {
@@ -93,7 +93,7 @@ define python::pip (
     'rhscl' => "scl enable ${python_version} -- ",
     default => '',
   }
-  
+
   # Parameter validation
   if ! $virtualenv {
     fail('python::pip: virtualenv parameter must not be empty')

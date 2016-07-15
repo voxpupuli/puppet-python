@@ -17,6 +17,10 @@ else
   gem 'rake', :require => false
 end
 
+if RUBY_VERSION >= '1.8.7' and RUBY_VERSION < '2.0'
+  gem 'json', '~> 1.0'
+end
+
 if facterversion = ENV['FACTER_GEM_VERSION']
   gem 'facter', facterversion, :require => false
 else
