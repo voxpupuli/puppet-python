@@ -18,7 +18,7 @@ class python::install {
   $python = $::python::version ? {
     'system' => 'python',
     'pypy'   => 'pypy',
-    default  => "python${python::version}",
+    default  => "${python::version}",
   }
 
   $pythondev = $::osfamily ? {
