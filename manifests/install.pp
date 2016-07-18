@@ -219,6 +219,7 @@ class python::install {
     }
 
     package { 'gunicorn':
+      name   => $python::gunicorn_package_name,
       ensure => $gunicorn_ensure,
     }
   }
