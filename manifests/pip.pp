@@ -147,7 +147,7 @@ define python::pip (
   }
 
   # Check if searching by explicit version.
-  if $ensure =~ /^((19|20)[0-9][0-9]-(0[1-9]|1[1-2])-([0-2][1-9]|3[0-1])|[0-9]+\.[0-9]+(\.[0-9]+)?)$/ {
+  if $ensure =~ /^((19|20)[0-9][0-9]-(0[1-9]|1[1-2])-([0-2][1-9]|3[0-1])|[0-9]+\.\w+\+?\w*(\.\w+)*)$/ {
     $grep_regex = "^${pkgname}==${ensure}\$"
   } else {
     $grep_regex = $pkgname ? {
@@ -209,7 +209,7 @@ define python::pip (
     }
   } else {
     case $ensure {
-      /^((19|20)[0-9][0-9]-(0[1-9]|1[1-2])-([0-2][1-9]|3[0-1])|[0-9]+\.[0-9]+(\.[0-9]+)?)$/: {
+      /^((19|20)[0-9][0-9]-(0[1-9]|1[1-2])-([0-2][1-9]|3[0-1])|[0-9]+\.\w+\+?\w*(\.\w+)*)$/: {
         # Version formats as per http://guide.python-distribute.org/specification.html#standard-versioning-schemes
         # Explicit version.
         exec { "pip_install_${name}":
