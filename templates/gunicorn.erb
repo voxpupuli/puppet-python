@@ -24,6 +24,11 @@ CONFIG = {
   'python': '/usr/bin/python',
 <% end -%>
   'args': (
+<% if @args.any? -%>
+<% for arg in @args do -%>
+    '<%= arg %>',
+<% end -%>
+<% end -%>
 <% if !@virtualenv and !@bind -%>
     '--bind=unix:/tmp/gunicorn-<%= @name %>.socket',
 <% elsif @virtualenv and !@bind -%>
