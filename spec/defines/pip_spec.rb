@@ -48,7 +48,7 @@ describe 'python::pip', :type => :define do
       context "adds proxy to search command if set to latest" do
         let (:params) {{ :proxy => "http://my.proxy:3128", :ensure => 'latest' }}
         it { is_expected.to contain_exec("pip_install_rpyc").with_command("pip wheel --help > /dev/null 2>&1 && { pip wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { pip --log /tmp/pip.log install --upgrade $wheel_support_flag  --proxy=http://my.proxy:3128   rpyc || pip --log /tmp/pip.log install --upgrade  --proxy=http://my.proxy:3128   rpyc ;}") }
-        it { is_expected.to contain_exec("pip_install_rpyc").with_unless('pip search --proxy=http://my.proxy:3128 rpyc | grep -i INSTALLED | grep -i latest') }
+        it { is_expected.to contain_exec("pip_install_rpyc").with_unless('pip search  --proxy=http://my.proxy:3128 rpyc | grep -i INSTALLED.*latest') }
       end
     end
 

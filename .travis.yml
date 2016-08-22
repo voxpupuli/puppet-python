@@ -23,11 +23,14 @@ env:
     - PUPPET_GEM_VERSION="~> 4.0.0"
     - PUPPET_GEM_VERSION="~> 4.1.0"
     - PUPPET_GEM_VERSION="~> 4.2.0"
+    - PUPPET_GEM_VERSION="~> 4.3.0"
+    - PUPPET_GEM_VERSION="~> 4.4.0"
+    - PUPPET_GEM_VERSION="~> 4.5.0"
     - PUPPET_GEM_VERSION="~> 4"
 
 sudo: false
 
-script: 'bundle exec metadata-json-lint metadata.json && bundle exec rake validate && bundle exec rake lint && SPEC_OPTS="--format documentation" bundle exec rake spec'
+script: 'bundle exec rake validate && bundle exec rake lint && SPEC_OPTS="--format documentation" bundle exec rake spec'
 
 matrix:
   fast_finish: true
@@ -48,6 +51,12 @@ matrix:
       env: PUPPET_GEM_VERSION="~> 4.1.0"
     - rvm: 1.8.7
       env: PUPPET_GEM_VERSION="~> 4.2.0"
+    - rvm: 1.8.7
+      env: PUPPET_GEM_VERSION="~> 4.3.0"
+    - rvm: 1.8.7
+      env: PUPPET_GEM_VERSION="~> 4.4.0"
+    - rvm: 1.8.7
+      env: PUPPET_GEM_VERSION="~> 4.5.0"
     - rvm: 1.8.7
       env: PUPPET_GEM_VERSION="~> 4"
 
