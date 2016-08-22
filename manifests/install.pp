@@ -18,7 +18,7 @@ class python::install {
   $python = $::python::version ? {
     'system' => 'python',
     'pypy'   => 'pypy',
-    default  => "${python::version}",
+    default  => $python::version,
   }
 
   $pythondev = $::osfamily ? {
@@ -220,8 +220,8 @@ class python::install {
     }
 
     package { 'gunicorn':
-      name   => $python::gunicorn_package_name,
       ensure => $gunicorn_ensure,
+      name   => $python::gunicorn_package_name,
     }
   }
 }
