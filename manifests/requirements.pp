@@ -80,6 +80,8 @@ define python::requirements (
   $timeout                = 1800,
 ) {
 
+  include ::python
+
   if $virtualenv == 'system' and ($owner != 'root' or $group != 'root') {
     fail('python::pip: root user must be used when virtualenv is system')
   }
@@ -98,8 +100,8 @@ define python::requirements (
   }
 
   $pip_env = $virtualenv ? {
-    'system' => "${python::exec_prefix} pip",
-    default  => "${python::exec_prefix} ${virtualenv}/bin/pip",
+    'system' => "${::python::exec_prefix} pip",
+    default  => "${::python::exec_prefix} ${virtualenv}/bin/pip",
   }
 
   $proxy_flag = $proxy ? {
@@ -136,5 +138,4 @@ define python::requirements (
     subscribe   => File[$requirements],
     environment => $environment,
   }
-
 }

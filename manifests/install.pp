@@ -190,9 +190,10 @@ class python::install {
 
         $virtualenv_package = "${python}-virtualenv"
       } else {
-        $virtualenv_package = $::lsbdistcodename ? {
-          'jessie' => 'virtualenv',
-          default  => 'python-virtualenv',
+        if $::lsbdistcodename == 'jessie' {
+          $virtualenv_package = 'virtualenv'
+        } else {
+          $virtualenv_package = 'python-virtualenv'
         }
       }
 

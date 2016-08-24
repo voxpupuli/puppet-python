@@ -187,6 +187,7 @@ describe 'python', :type => :class do
       {
         :id => 'root',
         :kernel => 'Linux',
+        :lsbdistcodename => nil,
         :osfamily => 'Suse',
         :operatingsystem => 'SLES',
         :operatingsystemrelease => '11.3',
