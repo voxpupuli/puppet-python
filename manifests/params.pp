@@ -26,4 +26,10 @@ class python::params {
   } else {
     $use_epel             = false
   }
+
+  $gunicorn_package_name = $::osfamily ? {
+    'RedHat' => 'python-gunicorn',
+    default  => 'gunicorn',
+  }
+
 }

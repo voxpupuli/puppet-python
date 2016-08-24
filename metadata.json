@@ -1,6 +1,6 @@
 {
   "name": "stankevich-python",
-  "version": "1.12.0",
+  "version": "1.15.0",
   "author": "stankevich",
   "summary": "Python Module",
   "license": "Apache-2.0",
@@ -54,6 +54,6 @@
   ],
   "dependencies": [
     {"name":"puppetlabs/stdlib","version_requirement":">= 4.6.0 < 6.0.0"},
-    {"name":"stahnma/epel","version_requirement":">= 1.0.1 < 2.0.0"}
+    {"name":"stahnma/epel","version_requirement":">= 1.2.2 < 2.0.0"}
   ]
 }

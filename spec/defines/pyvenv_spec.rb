@@ -2,6 +2,12 @@ require 'spec_helper'
 
 describe 'python::pyvenv', :type => :define do
   let (:title) { '/opt/env' }
+  let (:facts) do
+    {
+      :lsbdistcodename => 'jessie',
+      :osfamily => 'Debian',
+    }
+  end
 
   it {
     is_expected.to contain_file( '/opt/env')

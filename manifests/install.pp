@@ -18,7 +18,7 @@ class python::install {
   $python = $::python::version ? {
     'system' => 'python',
     'pypy'   => 'pypy',
-    default  => "python${python::version}",
+    default  => "${python::version}", # lint:ignore:only_variable_string
   }
 
   $pythondev = $::osfamily ? {
@@ -71,7 +71,8 @@ class python::install {
       # Install pip without pip, see https://pip.pypa.io/en/stable/installing/.
       exec { 'bootstrap pip':
         command => '/usr/bin/curl https://bootstrap.pypa.io/get-pip.py | python',
-        creates => '/usr/local/bin/pip',
+        unless  => 'which pip',
+        path    => [ '/bin', '/usr/bin', '/usr/local/bin' ],
         require => Package['python'],
       }
 
@@ -189,9 +190,10 @@ class python::install {
 
         $virtualenv_package = "${python}-virtualenv"
       } else {
-        $virtualenv_package = $::lsbdistcodename ? {
-          'jessie' => 'virtualenv',
-          default  => 'python-virtualenv',
+        if $::lsbdistcodename == 'jessie' {
+          $virtualenv_package = 'virtualenv'
+        } else {
+          $virtualenv_package = 'python-virtualenv'
         }
       }
 
@@ -220,6 +222,7 @@ class python::install {
 
     package { 'gunicorn':
       ensure => $gunicorn_ensure,
+      name   => $python::gunicorn_package_name,
     }
   }
 }
