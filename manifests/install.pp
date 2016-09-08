@@ -50,7 +50,7 @@ class python::install {
     name   => $python,
   }
 
-  package { 'virtualenv':
+  package { "virtualenv":
     ensure  => $venv_ensure,
     require => Package['python'],
   }
@@ -140,9 +140,14 @@ class python::install {
           provider => 'rpm',
           tag      => 'python-scl-repo',
         }
-        Package <| title == 'python' |> {
+      }
+
+      Package <| title == 'python' |> {
           tag => 'python-scl-package',
         }
+
+      Package <| title == 'virtualenv' |> {
+        name => "${python}-python-virtualenv",
       }
 
       package { "${python}-scldevel":
@@ -150,12 +155,9 @@ class python::install {
         tag    => 'python-scl-package',
       }
 
-      if $pip_ensure != 'absent' {
-        exec { 'python-scl-pip-install':
-          command => "${python::exec_prefix}easy_install pip",
-          path    => ['/usr/bin', '/bin'],
-          creates => "/opt/rh/${python::version}/root/usr/bin/pip",
-        }
+      package { "${python}-python-pip":
+        ensure => $pip_ensure,
+        tag    => 'python-pip-package',
       }
 
       if $::python::rhscl_use_public_repository {
@@ -164,7 +166,7 @@ class python::install {
       }
 
       Package <| tag == 'python-scl-package' |> ->
-      Exec['python-scl-pip-install']
+      Package <| tag == 'python-pip-package' |>
     }
     default: {
 

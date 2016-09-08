@@ -91,8 +91,8 @@ class python (
   }
 
   $exec_prefix = $provider ? {
-    'scl'   => "scl enable ${version} -- ",
-    'rhscl' => "scl enable ${version} -- ",
+    'scl'   => "/usr/bin/scl enable ${version} -- ",
+    'rhscl' => "/usr/bin/scl enable ${version} -- ",
     default => '',
   }
 
