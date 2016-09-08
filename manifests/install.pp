@@ -133,15 +133,16 @@ class python::install {
     }
     rhscl: {
       # rhscl is RedHat SCLs from softwarecollections.org
-      $scl_package = "rhscl-${::python::version}-epel-${::operatingsystemmajrelease}-${::architecture}"
-      package { $scl_package:
-        source   => "https://www.softwarecollections.org/en/scls/rhscl/${::python::version}/epel-${::operatingsystemmajrelease}-${::architecture}/download/${scl_package}.noarch.rpm",
-        provider => 'rpm',
-        tag      => 'python-scl-repo',
-      }
-
-      Package <| title == 'python' |> {
-        tag => 'python-scl-package',
+      if $::python::rhscl_use_public_repository {
+        $scl_package = "rhscl-${::python::version}-epel-${::operatingsystemmajrelease}-${::architecture}"
+        package { $scl_package:
+          source   => "https://www.softwarecollections.org/en/scls/rhscl/${::python::version}/epel-${::operatingsystemmajrelease}-${::architecture}/download/${scl_package}.noarch.rpm",
+          provider => 'rpm',
+          tag      => 'python-scl-repo',
+        }
+        Package <| title == 'python' |> {
+          tag => 'python-scl-package',
+        }
       }
 
       package { "${python}-scldevel":
@@ -157,11 +158,14 @@ class python::install {
         }
       }
 
-      Package <| tag == 'python-scl-repo' |> ->
+      if $::python::rhscl_use_public_repository {
+        Package <| tag == 'python-scl-repo' |> ->
+        Package <| tag == 'python-scl-package' |>
+      }
+
       Package <| tag == 'python-scl-package' |> ->
       Exec['python-scl-pip-install']
     }
-
     default: {
 
       package { 'pip':

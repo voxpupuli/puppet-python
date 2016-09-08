@@ -82,6 +82,7 @@ class python (
   $python_pyvenvs            = { },
   $python_requirements       = { },
   $use_epel                  = $python::params::use_epel,
+  $rhscl_use_public_repository = $python::params::rhscl_use_public_repository,
 ) inherits python::params{
 
   if $provider != undef and $provider != '' {
