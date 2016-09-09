@@ -50,7 +50,7 @@ class python::install {
     name   => $python,
   }
 
-  package { "virtualenv":
+  package { 'virtualenv':
     ensure  => $venv_ensure,
     require => Package['python'],
   }
@@ -143,8 +143,8 @@ class python::install {
       }
 
       Package <| title == 'python' |> {
-          tag => 'python-scl-package',
-        }
+        tag => 'python-scl-package',
+      }
 
       Package <| title == 'virtualenv' |> {
         name => "${python}-python-virtualenv",

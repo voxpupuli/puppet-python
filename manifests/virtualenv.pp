@@ -93,7 +93,7 @@ define python::virtualenv (
     $python = $version ? {
       'system' => 'python',
       'pypy'   => 'pypy',
-      default  => "${version}",
+      default  => "python${version}",
     }
 
     if $virtualenv == undef {
