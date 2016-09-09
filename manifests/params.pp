@@ -23,4 +23,6 @@ class python::params {
     default  => 'gunicorn',
   }
 
+  $rhscl_use_public_repository = true
+
 }
