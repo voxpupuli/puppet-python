@@ -91,13 +91,35 @@ describe 'python', :type => :class do
       end
     end
 
-    describe "EPEL need not apply" do
+    describe "EPEL does not exist for Debian" do
       context "default/empty" do
         it { should_not contain_class('epel') }
       end
     end
 
   end
+
+  context "on a Fedora 22 OS" do
+    let :facts do
+      {
+        :id => 'root',
+        :kernel => 'Linux',
+        :osfamily => 'RedHat',
+        :operatingsystem => 'Fedora',
+        :operatingsystemrelease => '22',
+        :concat_basedir => '/dne',
+        :path => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+      }
+    end
+
+    describe "EPEL does not exist for Fedora" do
+      context "default/empty" do
+        it { should_not contain_class('epel') }
+      end
+    end
+
+  end
+
 
   context "on a Redhat 5 OS" do
     let :facts do
@@ -119,7 +141,7 @@ describe 'python', :type => :class do
     # Basic python packages (from pip)
     it { is_expected.to contain_package("virtualenv")}
 
-    describe "EPEL may be needed" do
+    describe "EPEL may be needed on EL" do
       context "default/empty" do
         it { should contain_class('epel') }
       end
@@ -282,6 +304,12 @@ describe 'python', :type => :class do
       end
       context "default/empty" do
         it { is_expected.to contain_package("python-dev").with_ensure('absent') }
+      end
+    end
+
+    describe "EPEL does not exist on Suse" do
+      context "default/empty" do
+        it { should_not contain_class('epel') }
       end
     end
   end
