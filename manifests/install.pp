@@ -178,7 +178,7 @@ class python::install {
       package { 'python-dev':
         ensure => $dev_ensure,
         name   => $pythondev,
-		alias  => $pythondev,
+        alias  => $pythondev,
       }
 
       if $::osfamily == 'RedHat' {
