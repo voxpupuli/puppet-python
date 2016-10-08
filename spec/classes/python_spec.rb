@@ -272,4 +272,76 @@ describe 'python', :type => :class do
       end
     end
   end
+
+  context "on a Gentoo OS" do
+    let :facts do
+      {
+        :id => 'root',
+        :kernel => 'Linux',
+        :lsbdistcodename => 'n/a',
+        :osfamily => 'Gentoo',
+        :operatingsystem => 'Gentoo',
+        :concat_basedir => '/dne',
+        :path => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+      }
+    end
+    it { is_expected.to contain_class("python::install") }
+    # Base debian packages.
+    it { is_expected.to contain_package("python") }
+    it { is_expected.to contain_package("pip").with({"category" => "dev-python"}) }
+    # Basic python packages (from pip)
+    it { is_expected.to contain_package("virtualenv")}
+    # Python::Dev
+    it { is_expected.not_to contain_package("python-dev") }
+
+    describe "with manage_gunicorn" do
+      context "true" do
+        let (:params) {{ :manage_gunicorn => true }}
+        it { is_expected.to contain_package("gunicorn") }
+      end
+      context "empty args" do
+        #let (:params) {{ :manage_gunicorn => '' }}
+        it { is_expected.to contain_package("gunicorn") }
+      end
+      context "false" do
+        let (:params) {{ :manage_gunicorn => false }}
+        it {is_expected.not_to contain_package("gunicorn")}
+      end
+    end
+
+    describe "with python::provider" do
+      context "pip" do
+        let (:params) {{ :provider => 'pip' }}
+
+        it { is_expected.to contain_package("virtualenv").with(
+          'provider' => 'pip'
+        )}
+        it { is_expected.to contain_package("pip").with(
+          'provider' => 'pip'
+        )}
+      end
+
+      # python::provider
+      context "default" do
+        let (:params) {{ :provider => '' }}
+        it { is_expected.to contain_package("virtualenv")}
+        it { is_expected.to contain_package("pip")}
+
+        describe "with python::virtualenv" do
+          context "true" do
+            let (:params) {{ :provider => '', :virtualenv => 'present' }}
+            it { is_expected.to contain_package("virtualenv").with_ensure('present') }
+          end
+        end
+
+        describe "with python::virtualenv" do
+          context "default/empty" do
+            let (:params) {{ :provider => '' }}
+            it { is_expected.to contain_package("virtualenv").with_ensure('absent') }
+          end
+        end
+      end
+    end
+  end
+
 end

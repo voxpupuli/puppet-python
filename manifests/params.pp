@@ -15,6 +15,7 @@ class python::params {
     'RedHat' => ['3','27','33'],
     'Debian' => ['3', '3.3', '2.7'],
     'Suse'   => [],
+    'Gentoo' => ['2.7', '3.3', '3.4', '3.5']
   }
   $use_epel               = true
 
