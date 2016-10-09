@@ -108,6 +108,7 @@ describe 'python', :type => :class do
     # Base debian packages.
     it { is_expected.to contain_package("python") }
     it { is_expected.to contain_package("python-dev").with_name("python-devel") }
+    it { is_expected.to contain_package("python-dev").with_alias("python-devel") }
     it { is_expected.to contain_package("pip") }
     # Basic python packages (from pip)
     it { is_expected.to contain_package("virtualenv")}
