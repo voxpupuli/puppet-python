@@ -27,6 +27,7 @@ This module has been tested to work on the following systems.
 * EL 5
 * EL 6
 * EL 7
+* Gentoo (and Sabayon)
 * Suse 11
 * Ubuntu 10.04
 * Ubuntu 12.04
