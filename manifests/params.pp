@@ -17,7 +17,16 @@ class python::params {
     'Suse'   => [],
     'Gentoo' => ['2.7', '3.3', '3.4', '3.5']
   }
-  $use_epel               = true
+
+  if $::osfamily == 'RedHat' {
+    if $::operatingsystem != 'Fedora' {
+      $use_epel           = true
+    } else {
+      $use_epel           = false
+    }
+  } else {
+    $use_epel             = false
+  }
 
   $gunicorn_package_name = $::osfamily ? {
     'RedHat' => 'python-gunicorn',

@@ -66,7 +66,7 @@ Installs and manages python, python-pip, python-dev, python-virtualenv and Gunic
 
 **manage_gunicorn** - Allow Installation / Removal of Gunicorn. Default: true
 
-**use_epel** - Boolean to determine if the epel class is used. Default: true
+**use_epel** - Boolean to determine if the epel class is used. Default: true on RHEL like systems, false otherwise
 
 ```puppet
   class { 'python' :
