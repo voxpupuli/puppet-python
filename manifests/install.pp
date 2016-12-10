@@ -216,6 +216,9 @@ class python::install {
       } elsif $::osfamily == 'Gentoo' {
         $pip_category = 'dev-python'
         $pip_package = 'pip'
+      } elsif ($::osfamily == 'RedHat') and ($::operatingsystemrelease =~ /^7/) {
+        $pip_category = undef
+        $pip_package = 'python2-pip'
       } else {
         $pip_category = undef
         $pip_package = 'python-pip'
