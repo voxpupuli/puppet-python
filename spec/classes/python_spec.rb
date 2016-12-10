@@ -217,6 +217,22 @@ describe 'python', :type => :class do
     end
   end
 
+  context "on a Redhat 7 OS" do
+    let :facts do
+      {
+        :id => 'root',
+        :kernel => 'Linux',
+        :osfamily => 'RedHat',
+        :operatingsystem => 'RedHat',
+        :operatingsystemmajrelease => '7',
+        :concat_basedir => '/dne',
+        :path => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+      }
+    end
+    it { is_expected.to contain_class("python::install") }
+    it { is_expected.to contain_package("pip").with_name('python2-pip') }
+  end
+
   context "on a SLES 11 SP3" do
     let :facts do
       {
