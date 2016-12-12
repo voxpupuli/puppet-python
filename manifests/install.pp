@@ -213,7 +213,7 @@ class python::install {
       if $::python::version =~ /^3/ {
         $pip_category = undef
         $pip_package = 'python3-pip'
-      } elsif ($::osfamily == 'RedHat') and (versioncmp($::operatingsystemmajrelease, '7') >= 0) and ($python::use_epel == true) {
+      } elsif ($::osfamily == 'RedHat') and (versioncmp($::operatingsystemmajrelease, '7') >= 0) {
         $pip_category = undef
         $pip_package = 'python2-pip'
       } elsif $::osfamily == 'Gentoo' {
