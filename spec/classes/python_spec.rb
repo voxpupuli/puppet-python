@@ -138,6 +138,7 @@ describe 'python', :type => :class do
     it { is_expected.to contain_package("python") }
     it { is_expected.to contain_package("python-dev").with_name("python-devel") }
     it { is_expected.to contain_package("pip") }
+    it { is_expected.to contain_package("pip").with_name('python-pip') }
     # Basic python packages (from pip)
     it { is_expected.to contain_package("virtualenv")}
 
@@ -215,6 +216,38 @@ describe 'python', :type => :class do
         it { is_expected.to contain_package("python-dev").with_ensure('absent') }
       end
     end
+  end
+
+  context "on a Redhat 6 OS" do
+    let :facts do
+      {
+        :id => 'root',
+        :kernel => 'Linux',
+        :osfamily => 'RedHat',
+        :operatingsystem => 'RedHat',
+        :operatingsystemmajrelease => '6',
+        :concat_basedir => '/dne',
+        :path => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+      }
+    end
+    it { is_expected.to contain_class("python::install") }
+    it { is_expected.to contain_package("pip").with_name('python-pip') }
+  end
+
+  context "on a Redhat 7 OS" do
+    let :facts do
+      {
+        :id => 'root',
+        :kernel => 'Linux',
+        :osfamily => 'RedHat',
+        :operatingsystem => 'RedHat',
+        :operatingsystemmajrelease => '7',
+        :concat_basedir => '/dne',
+        :path => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+      }
+    end
+    it { is_expected.to contain_class("python::install") }
+    it { is_expected.to contain_package("pip").with_name('python2-pip') }
   end
 
   context "on a SLES 11 SP3" do
