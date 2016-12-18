@@ -25,6 +25,10 @@
 #  Default: present
 #  Allowed values: 'absent', 'present', 'latest'
 #
+# [*pip_package*]
+#  Name of the package to install pip with.
+#  Default: undef
+#
 # [*dev*]
 #  Desired installation state for python-dev. Boolean values are deprecated.
 #  Default: absent
@@ -70,6 +74,7 @@ class python (
   $ensure                    = $python::params::ensure,
   $version                   = $python::params::version,
   $pip                       = $python::params::pip,
+  $pip_package               = $python::params::pip_package,
   $dev                       = $python::params::dev,
   $virtualenv                = $python::params::virtualenv,
   $gunicorn                  = $python::params::gunicorn,

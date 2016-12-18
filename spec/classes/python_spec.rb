@@ -97,6 +97,13 @@ describe 'python', :type => :class do
       end
     end
 
+    describe "with python::pip_package" do
+      context "dummy-package" do
+        let (:params) {{ :pip_package => 'dummy-package' }}
+        it { is_expected.to contain_package("pip").with_name('dummy-package') }
+      end
+    end
+
   end
 
   context "on a Fedora 22 OS" do
@@ -115,6 +122,13 @@ describe 'python', :type => :class do
     describe "EPEL does not exist for Fedora" do
       context "default/empty" do
         it { should_not contain_class('epel') }
+      end
+    end
+
+    describe "with python::pip_package" do
+      context "dummy-package" do
+        let (:params) {{ :pip_package => 'dummy-package' }}
+        it { is_expected.to contain_package("pip").with_name('dummy-package') }
       end
     end
 
@@ -216,6 +230,13 @@ describe 'python', :type => :class do
         it { is_expected.to contain_package("python-dev").with_ensure('absent') }
       end
     end
+
+    describe "with python::pip_package" do
+      context "dummy-package" do
+        let (:params) {{ :pip_package => 'dummy-package' }}
+        it { is_expected.to contain_package("pip").with_name('dummy-package') }
+      end
+    end
   end
 
   context "on a Redhat 6 OS" do
@@ -232,6 +253,13 @@ describe 'python', :type => :class do
     end
     it { is_expected.to contain_class("python::install") }
     it { is_expected.to contain_package("pip").with_name('python-pip') }
+
+    describe "with python::pip_package" do
+      context "dummy-package" do
+        let (:params) {{ :pip_package => 'dummy-package' }}
+        it { is_expected.to contain_package("pip").with_name('dummy-package') }
+      end
+    end
   end
 
   context "on a Redhat 7 OS" do
@@ -248,6 +276,13 @@ describe 'python', :type => :class do
     end
     it { is_expected.to contain_class("python::install") }
     it { is_expected.to contain_package("pip").with_name('python2-pip') }
+
+    describe "with python::pip_package" do
+      context "dummy-package" do
+        let (:params) {{ :pip_package => 'dummy-package' }}
+        it { is_expected.to contain_package("pip").with_name('dummy-package') }
+      end
+    end
   end
 
   context "on a SLES 11 SP3" do
@@ -345,6 +380,13 @@ describe 'python', :type => :class do
         it { should_not contain_class('epel') }
       end
     end
+
+    describe "with python::pip_package" do
+      context "dummy-package" do
+        let (:params) {{ :pip_package => 'dummy-package' }}
+        it { is_expected.to contain_package("pip").with_name('dummy-package') }
+      end
+    end
   end
 
   context "on a Gentoo OS" do
@@ -414,6 +456,13 @@ describe 'python', :type => :class do
             it { is_expected.to contain_package("virtualenv").with_ensure('absent') }
           end
         end
+      end
+    end
+
+    describe "with python::pip_package" do
+      context "dummy-package" do
+        let (:params) {{ :pip_package => 'dummy-package' }}
+        it { is_expected.to contain_package("pip").with_name('dummy-package') }
       end
     end
   end

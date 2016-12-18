@@ -235,6 +235,12 @@ class python::install {
     }
   }
 
+  if $::python::pip_package != undef {
+    Package <| title == 'pip' |> {
+      name => $::python::pip_package
+    }
+  }
+
   if $python::manage_gunicorn {
     $gunicorn_ensure = $python::gunicorn ? {
       true    => 'present',
