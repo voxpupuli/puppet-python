@@ -213,6 +213,9 @@ class python::install {
       if "${::python::version}" =~ /^3/ { #lint:ignore:only_variable_string
         $pip_category = undef
         $pip_package = 'python3-pip'
+      } elsif $::operatingsystem == "Amazon" {
+        $pip_category = undef
+        $pip_package = 'python27-pip'
       } elsif ($::osfamily == 'RedHat') and (versioncmp($::operatingsystemmajrelease, '7') >= 0) {
         $pip_category = undef
         $pip_package = 'python2-pip'
