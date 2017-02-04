@@ -159,7 +159,7 @@ define python::virtualenv (
     $pip_cmd = "${python::exec_prefix}${venv_dir}/bin/pip"
 
     exec { "python_virtualenv_${venv_dir}":
-      command     => "true ${proxy_command} && ${virtualenv_cmd} ${system_pkgs_flag} -p ${python} ${venv_dir} && ${pip_cmd} wheel --help > /dev/null 2>&1 && { ${pip_cmd} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { ${pip_cmd} --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} \$wheel_support_flag --upgrade pip ${distribute_pkg} || ${pip_cmd} --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag}  --upgrade pip ${distribute_pkg} ;}",
+      command     => "true ${proxy_command} && ${virtualenv_cmd} ${system_pkgs_flag} -p ${python} ${venv_dir} && ${pip_cmd} wheel --help > /dev/null 2>&1 && { ${pip_cmd} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { ${pip_cmd} --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} \$wheel_support_flag --upgrade pip || ${pip_cmd} --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} --upgrade pip; } && ${pip_cmd} install ${pypi_index} ${proxy_flag} --upgrade ${distribute_pkg}",
       user        => $owner,
       creates     => "${venv_dir}/bin/activate",
       path        => $path,
