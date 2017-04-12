@@ -111,12 +111,6 @@ class python (
     validate_re($virtualenv, ['^(absent|present|latest)$'])
   }
 
-  if $virtualenv == false or $virtualenv == true {
-    warning('Use of boolean values for the $virtualenv parameter is deprecated')
-  } else {
-    validate_re($virtualenv, ['^(absent|present|latest)$'])
-  }
-
   if $gunicorn == false or $gunicorn == true {
     warning('Use of boolean values for the $gunicorn parameter is deprecated')
   } else {
