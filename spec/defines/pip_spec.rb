@@ -68,4 +68,30 @@ describe 'python::pip', :type => :define do
     end
 
   end
+  context "Installing Non PEP-440 developpement  package" do
+	  let :facts do
+		  {
+			  :id                     => 'root',
+			  :kernel                 => 'Linux',
+			  :lsbdistcodename        => 'squeeze',
+			  :osfamily               => 'Debian',
+			  :operatingsystem        => 'Debian',
+			  :operatingsystemrelease => '6',
+			  :path                   => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+			  :concat_basedir         => '/dne',
+		  }
+	  end
+	  describe "dev_package false for dev package version (ensure)" do
+		  context "do not perform any install if dev_version = false" do
+			  let (:params) {{ :ensure => '0.0.1.dev0+d2da957',
+			                   :dev_version => false }} # explicit
+			  it { is_expected.to_not contain_exec("pip_install_rpyc") }
+		  end
+		  context "Perform install if dev_version = true" do
+			  let (:params) {{ :ensure => '0.0.1.dev0+d2da957',
+							   :dev_version => true }} # explicit
+			  it { is_expected.to contain_exec("pip_install_rpyc") }
+		  end
+	  end
+  end
 end

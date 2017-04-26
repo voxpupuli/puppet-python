@@ -51,6 +51,9 @@
 # [*log_dir*]
 # String. Log directory.
 #
+# [*dev_version*]
+# bool. permits to install developpemnt version with non PEP-440 complient not handled by the default regex. default to false
+#
 # === Examples
 #
 # python::pip { 'flask':
@@ -81,8 +84,12 @@ define python::pip (
   $timeout         = 1800,
   $log_dir         = '/tmp',
   $path            = ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
+  $dev_version     = false,
 ) {
-
+  $version_regex = $dev_version ? {
+		true  => /^(.*)$/,
+	    false => /^((19|20)[0-9][0-9]-(0[1-9]|1[1-2])-([0-2][1-9]|3[0-1])|[0-9]+\.\w+\+?\w*(\.\w+)*)$/
+  }
   $python_provider = getparam(Class['python'], 'provider')
   $python_version  = getparam(Class['python'], 'version')
 
@@ -152,7 +159,7 @@ define python::pip (
   }
 
   # Check if searching by explicit version.
-  if $ensure =~ /^((19|20)[0-9][0-9]-(0[1-9]|1[1-2])-([0-2][1-9]|3[0-1])|[0-9]+\.\w+\+?\w*(\.\w+)*)$/ {
+  if $ensure =~ $version_regex {
     $grep_regex = "^${pkgname}==${ensure}\$"
   } else {
     $grep_regex = $pkgname ? {
@@ -214,7 +221,7 @@ define python::pip (
     }
   } else {
     case $ensure {
-      /^((19|20)[0-9][0-9]-(0[1-9]|1[1-2])-([0-2][1-9]|3[0-1])|[0-9]+\.\w+\+?\w*(\.\w+)*)$/: {
+      $version_regex: {
         # Version formats as per http://guide.python-distribute.org/specification.html#standard-versioning-schemes
         # Explicit version.
         exec { "pip_install_${name}":
@@ -228,7 +235,7 @@ define python::pip (
           path        => $path,
         }
       }
-# 
+#
       present: {
         # Whatever version is available.
         exec { "pip_install_${name}":
