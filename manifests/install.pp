@@ -203,6 +203,8 @@ class python::install {
       } else {
         if $::lsbdistcodename == 'jessie' {
           $virtualenv_package = 'virtualenv'
+        } elsif $::lsbdistcodename == 'xenial' {
+          $virtualenv_package = 'python3-venv'
         } elsif $::osfamily == 'Gentoo' {
           $virtualenv_package = 'virtualenv'
         } else {
