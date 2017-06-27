@@ -18,7 +18,9 @@ else
   gem 'facter', :require => false
 end
 
-gem 'puppetlabs_spec_helper', '>= 1.2.0', :require => false
+gem 'puppetlabs_spec_helper', '2.0.2',    :require => false if RUBY_VERSION >= '1.8.7' && RUBY_VERSION < '1.9'
+gem 'puppetlabs_spec_helper', '>= 2.0.0', :require => false if RUBY_VERSION >= '1.9'
+
 gem 'rspec-puppet', :require => false
 gem 'puppet-lint', '~> 2.0', :require => false
 gem 'simplecov', :require => false
