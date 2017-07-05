@@ -164,12 +164,12 @@ class python::install {
       }
 
       if $::python::rhscl_use_public_repository {
-        Package <| tag == 'python-scl-repo' |> ->
-        Package <| tag == 'python-scl-package' |>
+        Package <| tag == 'python-scl-repo' |>
+        -> Package <| tag == 'python-scl-package' |>
       }
 
-      Package <| tag == 'python-scl-package' |> ->
-      Package <| tag == 'python-pip-package' |>
+      Package <| tag == 'python-scl-package' |>
+      -> Package <| tag == 'python-pip-package' |>
     }
     default: {
 
