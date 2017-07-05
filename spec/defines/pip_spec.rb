@@ -34,11 +34,11 @@ describe 'python::pip', :type => :define do
     describe "proxy as" do
       context "defaults to empty" do
         let (:params) {{ }}
-        it { is_expected.to contain_exec("pip_install_rpyc").without_command(/--proxy/) }
+        it { should_not contain_exec("pip_install_rpyc").with_command(/--proxy/) }
       end
       context "does not add proxy to search command if set to latest and proxy is unset" do
         let (:params) {{ :ensure => 'latest' }}
-        it { is_expected.to contain_exec("pip_install_rpyc").without_command(/--proxy/) }
+        it { should_not contain_exec("pip_install_rpyc").with_command(/--proxy/) }
         it { is_expected.to contain_exec("pip_install_rpyc").without_unless(/--proxy/) }
       end
       context "adds proxy to install command if proxy set" do
@@ -55,7 +55,7 @@ describe 'python::pip', :type => :define do
     describe 'index as' do
       context 'defaults to empty' do
         let (:params) {{ }}
-        it { is_expected.to contain_exec('pip_install_rpyc').without_command(/--index-url/) }
+        it { should_not contain_exec('pip_install_rpyc').with_command(/--index-url/) }
       end
       context 'adds index to install command if index set' do
         let (:params) {{ :index => 'http://www.example.com/simple/' }}
