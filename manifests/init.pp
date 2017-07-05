@@ -133,10 +133,10 @@ class python (
   }
 
   # Anchor pattern to contain dependencies
-  anchor { 'python::begin': } ->
-  class { 'python::install': } ->
-  class { 'python::config': } ->
-  anchor { 'python::end': }
+  anchor { 'python::begin': }
+  -> class { 'python::install': }
+  -> class { 'python::config': }
+  -> anchor { 'python::end': }
 
   # Allow hiera configuration of python resources
   create_resources('python::pip', $python_pips)
