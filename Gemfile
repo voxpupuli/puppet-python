@@ -18,8 +18,7 @@ else
   gem 'facter', :require => false
 end
 
-gem 'puppetlabs_spec_helper', '>= 1.2.0', :require => false
-gem 'rspec-puppet', :require => false
+gem 'rspec-puppet', '~> 2.0', :require => false
 gem 'puppet-lint', '~> 2.0', :require => false
 gem 'simplecov', :require => false
 
@@ -27,7 +26,12 @@ gem 'rspec',     '~> 2.0', :require => false          if RUBY_VERSION >= '1.8.7'
 gem 'rake',      '~> 10.0', :require => false         if RUBY_VERSION >= '1.8.7' && RUBY_VERSION < '1.9'
 gem 'json',      '<= 1.8', :require => false          if RUBY_VERSION < '2.0.0'
 gem 'json_pure', '<= 2.0.1', :require => false        if RUBY_VERSION < '2.0.0'
-gem 'metadata-json-lint', '0.0.11', :require => false if RUBY_VERSION < '1.9'
-gem 'metadata-json-lint', :require => false           if RUBY_VERSION >= '1.9'
+gem 'metadata-json-lint',     '0.0.11'   if RUBY_VERSION >= '1.8.7' && RUBY_VERSION < '1.9'
+gem 'metadata-json-lint',     '1.0.0'    if RUBY_VERSION >= '1.9' && RUBY_VERSION < '2.0'
+gem 'metadata-json-lint' if RUBY_VERSION >= '2.0'
+
+gem 'puppetlabs_spec_helper', '2.0.2',    :require => false if RUBY_VERSION >= '1.8.7' && RUBY_VERSION < '1.9'
+gem 'puppetlabs_spec_helper', '>= 2.0.0', :require => false if RUBY_VERSION >= '1.9'
+gem 'parallel_tests',         '<= 2.9.0', :require => false if RUBY_VERSION < '2.0.0'
 
 # vim:ft=ruby
