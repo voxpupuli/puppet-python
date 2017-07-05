@@ -6,16 +6,17 @@ Puppet module for installing and managing python, pip, virtualenvs and Gunicorn 
 
 # Compatibility #
 
-* Puppet v3 (with and without the future parser)
+See `.travis.yml` for compatibility matrix.
+
+* Puppet v3 (with the future parser)
 * Puppet v4
 
 ## Ruby versions
 
-* 1.8.7
-* 1.9.3
-* 2.0.0
-* 2.1.0
-* 2.3.1
+* 1.8.7 - Puppet 3
+* 1.9.3 - Puppet 3
+* 2.0.0 - Puppet 3
+* 2.1.9 - Puppet 3 & 4
 
 ## OS Distributions ##
 

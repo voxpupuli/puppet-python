@@ -11,90 +11,33 @@ before_install:
   - gem --version
   - bundle -v
 
-rvm:
-  - 1.8.7
-  - 1.9.3
-  - 2.0.0
-  - 2.1.0
-  - 2.3.1
-
-env:
-  matrix:
-    - PUPPET_GEM_VERSION="~> 3.1.0"
-    - PUPPET_GEM_VERSION="~> 3.2.0"
-    - PUPPET_GEM_VERSION="~> 3.3.0"
-    - PUPPET_GEM_VERSION="~> 3.4.0"
-    - PUPPET_GEM_VERSION="~> 3.5.0"
-    - PUPPET_GEM_VERSION="~> 3.6.0"
-    - PUPPET_GEM_VERSION="~> 3.7.0"
-    - PUPPET_GEM_VERSION="~> 3.8.0"
-    - PUPPET_GEM_VERSION="~> 3" FUTURE_PARSER="yes"
-    - PUPPET_GEM_VERSION="~> 4.0.0"
-    - PUPPET_GEM_VERSION="~> 4.1.0"
-    - PUPPET_GEM_VERSION="~> 4.2.0"
-    - PUPPET_GEM_VERSION="~> 4.3.0"
-    - PUPPET_GEM_VERSION="~> 4.4.0"
-    - PUPPET_GEM_VERSION="~> 4.5.0"
-    - PUPPET_GEM_VERSION="~> 4.6.0"
-    - PUPPET_GEM_VERSION="~> 4.7.0"
-    - PUPPET_GEM_VERSION="~> 4.8.0"
-    - PUPPET_GEM_VERSION="~> 4"
-
 sudo: false
 
 script: 'SPEC_OPTS="--format documentation" bundle exec rake validate lint spec'
 
 matrix:
   fast_finish: true
-  exclude:
-    - rvm: 2.0.0
-      env: PUPPET_GEM_VERSION="~> 3.1.0"
-    - rvm: 2.1.0
-      env: PUPPET_GEM_VERSION="~> 3.1.0"
-    - rvm: 2.1.0
-      env: PUPPET_GEM_VERSION="~> 3.2.0"
-    - rvm: 2.1.0
-      env: PUPPET_GEM_VERSION="~> 3.3.0"
-    - rvm: 2.1.0
-      env: PUPPET_GEM_VERSION="~> 3.4.0"
+  include:
     - rvm: 1.8.7
-      env: PUPPET_GEM_VERSION="~> 4.0.0"
-    - rvm: 1.8.7
-      env: PUPPET_GEM_VERSION="~> 4.1.0"
-    - rvm: 1.8.7
-      env: PUPPET_GEM_VERSION="~> 4.2.0"
-    - rvm: 1.8.7
-      env: PUPPET_GEM_VERSION="~> 4.3.0"
-    - rvm: 1.8.7
-      env: PUPPET_GEM_VERSION="~> 4.4.0"
-    - rvm: 1.8.7
-      env: PUPPET_GEM_VERSION="~> 4.5.0"
-    - rvm: 1.8.7
-      env: PUPPET_GEM_VERSION="~> 4.6.0"
-    - rvm: 1.8.7
-      env: PUPPET_GEM_VERSION="~> 4.7.0"
-    - rvm: 1.8.7
-      env: PUPPET_GEM_VERSION="~> 4.8.0"
-    - rvm: 1.8.7
-      env: PUPPET_GEM_VERSION="~> 4"
-    - rvm: 2.3.1
-      env: PUPPET_GEM_VERSION="~> 3.1.0"
-    - rvm: 2.3.1
-      env: PUPPET_GEM_VERSION="~> 3.2.0"
-    - rvm: 2.3.1
-      env: PUPPET_GEM_VERSION="~> 3.3.0"
-    - rvm: 2.3.1
-      env: PUPPET_GEM_VERSION="~> 3.4.0"
-    - rvm: 2.3.1
-      env: PUPPET_GEM_VERSION="~> 3.5.0"
-    - rvm: 2.3.1
-      env: PUPPET_GEM_VERSION="~> 3.6.0"
-    - rvm: 2.3.1
-      env: PUPPET_GEM_VERSION="~> 3.7.0"
-    - rvm: 2.3.1
-      env: PUPPET_GEM_VERSION="~> 3.8.0"
-    - rvm: 2.3.1
       env: PUPPET_GEM_VERSION="~> 3" FUTURE_PARSER="yes"
+    - rvm: 1.9.3
+      env: PUPPET_GEM_VERSION="~> 3" FUTURE_PARSER="yes"
+    - rvm: 2.0.0
+      env: PUPPET_GEM_VERSION="~> 3" FUTURE_PARSER="yes"
+    - rvm: 2.1.9
+      env: PUPPET_GEM_VERSION="~> 3" FUTURE_PARSER="yes"
+    - rvm: 2.1.9
+      env: PUPPET_GEM_VERSION="~> 4.6.0"
+    - rvm: 2.1.9
+      env: PUPPET_GEM_VERSION="~> 4.7.0"
+    - rvm: 2.1.9
+      env: PUPPET_GEM_VERSION="~> 4.8.0"
+    - rvm: 2.1.9
+      env: PUPPET_GEM_VERSION="~> 4.9.0"
+    - rvm: 2.1.9
+      env: PUPPET_GEM_VERSION="~> 4.10.0"
+    - rvm: 2.1.9
+      env: PUPPET_GEM_VERSION="~> 4"
 
 notifications:
   email: false
