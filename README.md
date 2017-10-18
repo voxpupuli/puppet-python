@@ -25,6 +25,7 @@ This module has been tested to work on the following systems.
 * Debian 6
 * Debian 7
 * Debian 8
+* Debian 9
 * EL 5
 * EL 6
 * EL 7

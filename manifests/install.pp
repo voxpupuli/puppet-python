@@ -203,6 +203,8 @@ class python::install {
       } else {
         if $::lsbdistcodename == 'jessie' {
           $virtualenv_package = 'virtualenv'
+        } elsif $::lsbdistcodename == 'stretch' {
+          $virtualenv_package = 'virtualenv'
         } elsif $::osfamily == 'Gentoo' {
           $virtualenv_package = 'virtualenv'
         } else {
