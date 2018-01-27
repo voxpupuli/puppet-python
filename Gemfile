@@ -7,7 +7,6 @@ group :development, :test do
   gem 'puppet-lint',             :require => false
   gem 'pry',                     :require => false
   gem 'simplecov',               :require => false
-  gem 'rspec-puppet-facts',      :require => false
 end
 
 # pin old versions for ruby 1.8.7
