@@ -127,16 +127,16 @@ class python (
   validate_bool($use_epel)
 
   # Module compatibility check
-  $compatible = [ 'Debian', 'RedHat', 'Suse' ]
+  $compatible = [ 'Debian', 'RedHat', 'Suse', 'Gentoo' ]
   if ! ($::osfamily in $compatible) {
     fail("Module is not compatible with ${::operatingsystem}")
   }
 
   # Anchor pattern to contain dependencies
-  anchor { 'python::begin': } ->
-  class { 'python::install': } ->
-  class { 'python::config': } ->
-  anchor { 'python::end': }
+  anchor { 'python::begin': }
+  -> class { 'python::install': }
+  -> class { 'python::config': }
+  -> anchor { 'python::end': }
 
   # Allow hiera configuration of python resources
   create_resources('python::pip', $python_pips)

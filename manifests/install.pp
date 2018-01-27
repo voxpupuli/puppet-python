@@ -25,6 +25,7 @@ class python::install {
     'RedHat' => "${python}-devel",
     'Debian' => "${python}-dev",
     'Suse'   => "${python}-devel",
+    'Gentoo' => undef,
   }
 
   $dev_ensure = $python::dev ? {
@@ -63,9 +64,11 @@ class python::install {
         require => Package['python'],
       }
 
-      package { 'python-dev':
-        ensure => $dev_ensure,
-        name   => $pythondev,
+      if $pythondev {
+        package { 'python-dev':
+          ensure => $dev_ensure,
+          name   => $pythondev,
+        }
       }
 
       # Install pip without pip, see https://pip.pypa.io/en/stable/installing/.
@@ -161,12 +164,12 @@ class python::install {
       }
 
       if $::python::rhscl_use_public_repository {
-        Package <| tag == 'python-scl-repo' |> ->
-        Package <| tag == 'python-scl-package' |>
+        Package <| tag == 'python-scl-repo' |>
+        -> Package <| tag == 'python-scl-package' |>
       }
 
-      Package <| tag == 'python-scl-package' |> ->
-      Package <| tag == 'python-pip-package' |>
+      Package <| tag == 'python-scl-package' |>
+      -> Package <| tag == 'python-pip-package' |>
     }
     default: {
 
@@ -175,10 +178,12 @@ class python::install {
         require => Package['python'],
       }
 
-      package { 'python-dev':
-        ensure => $dev_ensure,
-        name   => $pythondev,
-        alias  => $pythondev,
+      if $pythondev {
+        package { 'python-dev':
+          ensure => $dev_ensure,
+          name   => $pythondev,
+          alias  => $pythondev,
+        }
       }
 
       if $::osfamily == 'RedHat' {
@@ -199,19 +204,30 @@ class python::install {
       } else {
         if $::lsbdistcodename == 'jessie' {
           $virtualenv_package = 'virtualenv'
+        } elsif $::osfamily == 'Gentoo' {
+          $virtualenv_package = 'virtualenv'
         } else {
           $virtualenv_package = 'python-virtualenv'
         }
       }
 
-      if $::python::version =~ /^3/ {
+      if "${::python::version}" =~ /^3/ { #lint:ignore:only_variable_string
+        $pip_category = undef
         $pip_package = 'python3-pip'
+      } elsif ($::osfamily == 'RedHat') and (versioncmp($::operatingsystemmajrelease, '7') >= 0) {
+        $pip_category = undef
+        $pip_package = 'python2-pip'
+      } elsif $::osfamily == 'Gentoo' {
+        $pip_category = 'dev-python'
+        $pip_package = 'pip'
       } else {
+        $pip_category = undef
         $pip_package = 'python-pip'
       }
 
       Package <| title == 'pip' |> {
-        name => $pip_package,
+        name     => $pip_package,
+        category => $pip_category,
       }
 
       Package <| title == 'virtualenv' |> {
