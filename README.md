@@ -303,6 +303,12 @@ python::python_pips:
     virtualenv: "/opt/env1"
   "coverage":
     virtualenv: "/opt/env2"
+python::python_dotfiles:
+  "/var/lib/jenkins/.pip/pip.conf":
+    config:
+      global:
+        index-url: "https://mypypi.acme.com/simple/"
+        extra-index-url: "https://pypi.risedev.at/simple/"
 ```
 
 ### Using SCL packages from RedHat or CentOS

@@ -81,6 +81,7 @@ class python (
   $python_virtualenvs        = { },
   $python_pyvenvs            = { },
   $python_requirements       = { },
+  $python_dotfiles           = { },
   $use_epel                  = $python::params::use_epel,
   $rhscl_use_public_repository = $python::params::rhscl_use_public_repository,
 ) inherits python::params{
@@ -123,6 +124,7 @@ class python (
     validate_re($gunicorn, ['^(absent|present|latest)$'])
   }
 
+  validate_hash($python_dotfiles)
   validate_bool($manage_gunicorn)
   validate_bool($use_epel)
 
@@ -143,5 +145,6 @@ class python (
   create_resources('python::pyvenv', $python_pyvenvs)
   create_resources('python::virtualenv', $python_virtualenvs)
   create_resources('python::requirements', $python_requirements)
+  create_resources('python::dotfile', $python_dotfiles)
 
 }
