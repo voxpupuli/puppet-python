@@ -24,6 +24,7 @@ gem 'simplecov', :require => false
 
 gem 'rspec',     '~> 2.0', :require => false          if RUBY_VERSION >= '1.8.7' && RUBY_VERSION < '1.9'
 gem 'rake',      '~> 10.0', :require => false         if RUBY_VERSION >= '1.8.7' && RUBY_VERSION < '1.9'
+gem 'rake',      '<= 12.2.1', :require => false       if RUBY_VERSION >= '1.9' && RUBY_VERSION < '2.0.0'
 gem 'json',      '<= 1.8', :require => false          if RUBY_VERSION < '2.0.0'
 gem 'json_pure', '<= 2.0.1', :require => false        if RUBY_VERSION < '2.0.0'
 gem 'metadata-json-lint',     '0.0.11'   if RUBY_VERSION >= '1.8.7' && RUBY_VERSION < '1.9'

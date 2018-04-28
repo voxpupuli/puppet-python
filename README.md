@@ -34,6 +34,7 @@ This module has been tested to work on the following systems.
 * Ubuntu 10.04
 * Ubuntu 12.04
 * Ubuntu 14.04
+* Ubuntu 16.04
 
 ===
 
