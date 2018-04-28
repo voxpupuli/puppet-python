@@ -49,6 +49,9 @@
 # [*timeout*]
 #  The maximum time in seconds the "pip install" command should take. Default: 1800
 #
+# [*pip_args*]
+#  Arguments to pass to pip during initialization.  Default: blank
+#
 # [*extra_pip_args*]
 #  Extra arguments to pass to pip after requirements file.  Default: blank
 #
@@ -84,6 +87,7 @@ define python::virtualenv (
   $path             = [ '/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin' ],
   $cwd              = undef,
   $timeout          = 1800,
+  $pip_args         = '',
   $extra_pip_args   = '',
   $virtualenv       = undef
 ) {
@@ -156,10 +160,12 @@ define python::virtualenv (
     }
 
     $virtualenv_cmd = "${python::exec_prefix}${used_virtualenv}"
-    $pip_cmd = "${python::exec_prefix}${venv_dir}/bin/pip"
+
+    $pip_cmd   = "${python::exec_prefix}${venv_dir}/bin/pip"
+    $pip_flags = "${pypi_index} ${proxy_flag} ${pip_args}"
 
     exec { "python_virtualenv_${venv_dir}":
-      command     => "true ${proxy_command} && ${virtualenv_cmd} ${system_pkgs_flag} -p ${python} ${venv_dir} && ${pip_cmd} wheel --help > /dev/null 2>&1 && { ${pip_cmd} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { ${pip_cmd} --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} \$wheel_support_flag --upgrade pip ${distribute_pkg} || ${pip_cmd} --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag}  --upgrade pip ${distribute_pkg} ;}",
+      command     => "true ${proxy_command} && ${virtualenv_cmd} ${system_pkgs_flag} -p ${python} ${venv_dir} && ${pip_cmd} --log ${venv_dir}/pip.log install ${pip_flags} --upgrade pip && ${pip_cmd} install ${pip_flags} --upgrade ${distribute_pkg}",
       user        => $owner,
       creates     => "${venv_dir}/bin/activate",
       path        => $path,
@@ -171,7 +177,7 @@ define python::virtualenv (
 
     if $requirements {
       exec { "python_requirements_initial_install_${requirements}_${venv_dir}":
-        command     => "${pip_cmd} wheel --help > /dev/null 2>&1 && { ${pip_cmd} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; ${pip_cmd} --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} \$wheel_support_flag -r ${requirements} ${extra_pip_args}",
+        command     => "${pip_cmd} --log ${venv_dir}/pip.log install ${pypi_index} ${proxy_flag} --no-binary :all: -r ${requirements} ${extra_pip_args}",
         refreshonly => true,
         timeout     => $timeout,
         user        => $owner,
