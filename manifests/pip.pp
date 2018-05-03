@@ -186,7 +186,7 @@ define python::pip (
   # To check for this we test for wheel parameter using help and then using
   # show, this makes sure we only use wheels if they are supported and
   # installed
-  $wheel_check = "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} show wheel > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; }"
+  $wheel_check = "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} show wheel > /dev/null 2>&1 || wheel_support_flag='--no-binary :all:'; }"
 
   $pip_install = "${pip_env} --log ${log}/pip.log install"
   $pip_common_args = "${pypi_index} ${proxy_flag} ${install_args} ${install_editable} ${source}"
