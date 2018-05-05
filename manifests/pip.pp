@@ -184,14 +184,18 @@ define python::pip (
   # Versions prior to 1.5 don't support the --no-use-wheel flag
   #
   # To check for this we test for wheel parameter using help and then using
-  # version, this makes sure we only use wheels if they are supported and
+  # show, this makes sure we only use wheels if they are supported and
   # installed
+  $wheel_check = "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} show wheel > /dev/null 2>&1 || wheel_support_flag='--no-binary :all:'; }"
+
+  $pip_install = "${pip_env} --log ${log}/pip.log install"
+  $pip_common_args = "${pypi_index} ${proxy_flag} ${install_args} ${install_editable} ${source}"
 
   # Explicit version out of VCS when PIP supported URL is provided
   if $source =~ /^(git\+|hg\+|bzr\+|svn\+)(http|https|ssh|svn|sftp|ftp|lp)(:\/\/).+$/ {
     if $ensure != present and $ensure != latest {
       exec { "pip_install_${name}":
-        command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { ${pip_env} --log ${log}/pip.log install ${install_args} \$wheel_support_flag ${pypi_index} ${proxy_flag} ${install_args} ${install_editable} ${source}@${ensure}#egg=${egg_name} || ${pip_env} --log ${log}/pip.log install ${install_args} ${pypi_index} ${proxy_flag} ${install_args} ${install_editable} ${source}@${ensure}#egg=${egg_name} ;}",
+        command     => "${wheel_check} ; { ${pip_install} ${install_args} \$wheel_support_flag ${pip_common_args}@${ensure}#egg=${egg_name} || ${pip_install} ${install_args} ${pip_common_args}@${ensure}#egg=${egg_name} ;}",
         unless      => "${pip_env} freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         group       => $group,
@@ -202,7 +206,7 @@ define python::pip (
       }
     } else {
       exec { "pip_install_${name}":
-        command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { ${pip_env} --log ${log}/pip.log install ${install_args} \$wheel_support_flag ${pypi_index} ${proxy_flag} ${install_args} ${install_editable} ${source} || ${pip_env} --log ${log}/pip.log install ${install_args} ${pypi_index} ${proxy_flag} ${install_args} ${install_editable} ${source} ;}",
+        command     => "${wheel_check} ; { ${pip_install} ${install_args} \$wheel_support_flag ${pip_common_args} || ${pip_install} ${install_args} ${pip_common_args} ;}",
         unless      => "${pip_env} freeze | grep -i -e ${grep_regex}",
         user        => $owner,
         group       => $group,
@@ -218,7 +222,7 @@ define python::pip (
         # Version formats as per http://guide.python-distribute.org/specification.html#standard-versioning-schemes
         # Explicit version.
         exec { "pip_install_${name}":
-          command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { ${pip_env} --log ${log}/pip.log install ${install_args} \$wheel_support_flag ${pypi_index} ${proxy_flag} ${install_args} ${install_editable} ${source}==${ensure} || ${pip_env} --log ${log}/pip.log install ${install_args} ${pypi_index} ${proxy_flag} ${install_args} ${install_editable} ${source}==${ensure} ;}",
+          command     => "${wheel_check} ; { ${pip_install} ${install_args} \$wheel_support_flag ${pip_common_args}==${ensure} || ${pip_install} ${install_args} ${pip_common_args}==${ensure} ;}",
           unless      => "${pip_env} freeze | grep -i -e ${grep_regex} || ${pip_env} list | sed -e 's/[ ]\\+/==/' -e 's/[()]//g' | grep -i -e ${grep_regex}",
           user        => $owner,
           group       => $group,
@@ -228,11 +232,11 @@ define python::pip (
           path        => $path,
         }
       }
-# 
+#
       present: {
         # Whatever version is available.
         exec { "pip_install_${name}":
-          command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { ${pip_env} --log ${log}/pip.log install \$wheel_support_flag ${pypi_index} ${proxy_flag} ${install_args} ${install_editable} ${source} || ${pip_env} --log ${log}/pip.log install ${pypi_index} ${proxy_flag} ${install_args} ${install_editable} ${source} ;}",
+          command     => "${wheel_check} ; { ${pip_install} \$wheel_support_flag ${pip_common_args} || ${pip_install} ${pip_common_args} ;}",
           unless      => "${pip_env} freeze | grep -i -e ${grep_regex} || ${pip_env} list | sed -e 's/[ ]\\+/==/' -e 's/[()]//g' | grep -i -e ${grep_regex}",
           user        => $owner,
           group       => $group,
@@ -246,7 +250,7 @@ define python::pip (
       latest: {
         # Latest version.
         exec { "pip_install_${name}":
-          command     => "${pip_env} wheel --help > /dev/null 2>&1 && { ${pip_env} wheel --version > /dev/null 2>&1 || wheel_support_flag='--no-use-wheel'; } ; { ${pip_env} --log ${log}/pip.log install --upgrade \$wheel_support_flag ${pypi_index} ${proxy_flag} ${install_args} ${install_editable} ${source} || ${pip_env} --log ${log}/pip.log install --upgrade ${pypi_index} ${proxy_flag} ${install_args} ${install_editable} ${source} ;}",
+          command     => "${wheel_check} ; { ${pip_install} --upgrade \$wheel_support_flag ${pip_common_args} || ${pip_install} --upgrade ${pip_common_args} ;}",
           unless      => "${pip_env} search ${pypi_search_index} ${proxy_flag} ${source} | grep -i INSTALLED.*latest",
           user        => $owner,
           group       => $group,
