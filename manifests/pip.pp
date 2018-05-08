@@ -37,6 +37,9 @@
 # [*environment*]
 #  Additional environment variables required to install the packages. Default: none
 #
+# [*extras*]
+#  Extra features provided by the package which should be installed. Default: none
+#
 # [*timeout*]
 #  The maximum time in seconds the "pip install" command should take. Default: 1800
 #
@@ -76,6 +79,7 @@ define python::pip (
   $egg             = false,
   $editable        = false,
   $environment     = [],
+  $extras          = [],
   $install_args    = '',
   $uninstall_args  = '',
   $timeout         = 1800,
@@ -161,13 +165,18 @@ define python::pip (
     }
   }
 
+  $extras_string = empty($extras) ? {
+    true    => '',
+    default => sprintf('[%s]',join($extras,',')),
+  }
+
   $egg_name = $egg ? {
-    false   => $pkgname,
+    false   => "${pkgname}${extras_string}",
     default => $egg
   }
 
   $source = $url ? {
-    false               => $pkgname,
+    false               => "${pkgname}${extras_string}",
     /^(\/|[a-zA-Z]\:)/  => $url,
     /^(git\+|hg\+|bzr\+|svn\+)(http|https|ssh|svn|sftp|ftp|lp)(:\/\/).+$/ => $url,
     default             => "${url}#egg=${egg_name}",
