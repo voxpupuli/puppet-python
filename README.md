@@ -99,6 +99,8 @@ Installs and manages packages from pip.
 
 **environment** - Additional environment variables required to install the packages. Default: none
 
+**extras** - Extra features provided by the package which should be installed. Default: none
+
 **egg** - The egg name to use. Default: `$name` of the class, e.g. cx_Oracle
 
 **install_args** - String of additional flags to pass to pip during installaton. Default: none
@@ -316,7 +318,7 @@ python::python_dotfiles:
 ### Using SCL packages from RedHat or CentOS
 
 To use this module with Linux distributions in the Red Hat family and python distributions
-from softwarecollections.org, set python::provider to 'rhscl' and python::version to the name 
+from softwarecollections.org, set python::provider to 'rhscl' and python::version to the name
 of the collection you want to use (e.g., 'python27', 'python33', or 'rh-python34').
 
 ## Release Notes

@@ -69,3 +69,32 @@ describe 'python::pip', :type => :define do
 
   end
 end
+
+describe 'python::pip', :type => :define do
+  let (:title) { 'requests' }
+  context "on Debian OS" do
+    let :facts do
+      {
+        :id                     => 'root',
+        :kernel                 => 'Linux',
+        :lsbdistcodename        => 'squeeze',
+        :osfamily               => 'Debian',
+        :operatingsystem        => 'Debian',
+        :operatingsystemrelease => '6',
+        :path                   => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+        :concat_basedir         => '/dne',
+      }
+    end
+
+    describe "extras as" do
+      context "suceeds with no extras" do
+        let (:params) {{ }}
+        it { is_expected.to contain_exec("pip_install_requests").with_command("pip wheel --help > /dev/null 2>&1 && { pip show wheel > /dev/null 2>&1 || wheel_support_flag='--no-binary :all:'; } ; { pip --log /tmp/pip.log install $wheel_support_flag     requests || pip --log /tmp/pip.log install     requests ;}") }
+      end
+      context "succeeds with extras" do
+        let (:params) {{ :extras => ['security'] }}
+        it { is_expected.to contain_exec("pip_install_requests").with_command("pip wheel --help > /dev/null 2>&1 && { pip show wheel > /dev/null 2>&1 || wheel_support_flag='--no-binary :all:'; } ; { pip --log /tmp/pip.log install $wheel_support_flag     requests[security] || pip --log /tmp/pip.log install     requests[security] ;}") }
+      end
+    end
+  end
+end
