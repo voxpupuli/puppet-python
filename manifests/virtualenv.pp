@@ -16,8 +16,12 @@
 # [*systempkgs*]
 #  Copy system site-packages into virtualenv. Default: don't
 #  If virtualenv version < 1.7 this flag has no effect since
+#
 # [*venv_dir*]
 #  Directory to install virtualenv to. Default: $name
+#
+# [*ensure_venv_dir*]
+# Create $venv_dir. Default: true
 #
 # [*distribute*]
 #  Include distribute in the virtualenv. Default: true
@@ -77,6 +81,7 @@ define python::virtualenv (
   $requirements     = false,
   $systempkgs       = false,
   $venv_dir         = $name,
+  $ensure_venv_dir  = true,
   $distribute       = true,
   $index            = false,
   $owner            = 'root',
@@ -152,11 +157,13 @@ define python::virtualenv (
     # To check for this we test for wheel parameter using help and then using
     # version, this makes sure we only use wheels if they are supported
 
-    file { $venv_dir:
-      ensure => directory,
-      owner  => $owner,
-      group  => $group,
-      mode   => $mode
+    if $ensure_venv_dir {
+      file { $venv_dir:
+        ensure => directory,
+        owner  => $owner,
+        group  => $group,
+        mode   => $mode
+      }
     }
 
     $virtualenv_cmd = "${python::exec_prefix}${used_virtualenv}"
