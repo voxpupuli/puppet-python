@@ -1,12 +1,12 @@
 {
-  "name": "stankevich-python",
+  "name": "puppet-python",
   "version": "1.19.0",
   "author": "stankevich",
   "summary": "Python Module",
   "license": "Apache-2.0",
-  "source": "git://github.com/stankevich/puppet-python.git",
-  "project_page": "https://github.com/stankevich/puppet-python",
-  "issues_url": "https://github.com/stankevich/puppet-python/issues",
+  "source": "git://github.com/voxpupuli/puppet-python.git",
+  "project_page": "https://github.com/voxpupuli/puppet-python",
+  "issues_url": "https://github.com/voxpupuli/puppet-python/issues",
   "description": "Puppet module for Python",
   "tags": [
     "python",
