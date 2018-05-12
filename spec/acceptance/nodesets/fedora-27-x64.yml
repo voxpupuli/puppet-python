@@ -2,14 +2,17 @@
 # This file is managed via modulesync
 # https://github.com/voxpupuli/modulesync
 # https://github.com/voxpupuli/modulesync_config
+#
+# platform is fedora 26 because there is no puppet-agent
+# for fedora 27 as of 2017-11-17
 HOSTS:
-  ubuntu-server-1404-x64:
+  fedora-27-x64:
     roles:
       - master
-    platform: ubuntu-14.04-amd64
-    box: puppetlabs/ubuntu-14.04-64-nocm
+    platform: fedora-26-x86_64
+    box: fedora/27-cloud-base
     hypervisor: vagrant
 CONFIG:
-  type: foss
+  type: aio
 ...
 # vim: syntax=yaml
