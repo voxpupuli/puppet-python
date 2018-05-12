@@ -202,13 +202,13 @@ class python::install {
 
         $virtualenv_package = "${python}-virtualenv"
       } else {
-        if $::lsbdistcodename == 'jessie' {
+        if fact('lsbdistcodename') == 'jessie' {
           $virtualenv_package = 'virtualenv'
-        } elsif $::lsbdistcodename == 'stretch' {
+        } elsif fact('lsbdistcodename') == 'stretch' {
           $virtualenv_package = 'virtualenv'
-        } elsif $::lsbdistcodename == 'xenial' {
+        } elsif fact('lsbdistcodename') == 'xenial' {
           $virtualenv_package = 'virtualenv'
-        } elsif $::osfamily == 'Gentoo' {
+        } elsif $facts['os']['family'] == 'Gentoo' {
           $virtualenv_package = 'virtualenv'
         } else {
           $virtualenv_package = 'python-virtualenv'
