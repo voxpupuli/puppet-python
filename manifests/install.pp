@@ -57,7 +57,7 @@ class python::install {
   }
 
   case $python::provider {
-    pip: {
+    'pip': {
 
       package { 'pip':
         ensure  => $pip_ensure,
@@ -98,7 +98,7 @@ class python::install {
         provider => 'pip',
       }
     }
-    scl: {
+    'scl': {
       # SCL is only valid in the RedHat family. If RHEL, package must be
       # enabled using the subscription manager outside of puppet. If CentOS,
       # the centos-release-SCL will install the repository.
@@ -134,7 +134,7 @@ class python::install {
         }
       }
     }
-    rhscl: {
+    'rhscl': {
       # rhscl is RedHat SCLs from softwarecollections.org
       if $::python::rhscl_use_public_repository {
         $scl_package = "rhscl-${::python::version}-epel-${::operatingsystemmajrelease}-${::architecture}"

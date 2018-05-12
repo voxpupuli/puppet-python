@@ -242,7 +242,7 @@ define python::pip (
         }
       }
 #
-      present: {
+      'present': {
         # Whatever version is available.
         exec { "pip_install_${name}":
           command     => "${wheel_check} ; { ${pip_install} \$wheel_support_flag ${pip_common_args} || ${pip_install} ${pip_common_args} ;}",
@@ -256,7 +256,7 @@ define python::pip (
         }
       }
 
-      latest: {
+      'latest': {
         # Latest version.
         exec { "pip_install_${name}":
           command     => "${wheel_check} ; { ${pip_install} --upgrade \$wheel_support_flag ${pip_common_args} || ${pip_install} --upgrade ${pip_common_args} ;}",
