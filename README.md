@@ -1,24 +1,24 @@
-# puppet-python [![Build Status](https://travis-ci.org/stankevich/puppet-python.svg?branch=master)](https://travis-ci.org/stankevich/puppet-python)
+# puppet-python [![Build Status](https://travis-ci.org/voxpupuli/puppet-python.svg?branch=master)](https://travis-ci.org/voxpupuli/puppet-python)
 
 Puppet module for installing and managing python, pip, virtualenvs and Gunicorn virtual hosts.
 
-===
+**Please note:** The module [stankevich/python](https://forge.puppet.com/stankevich/python) has been deprecated and is now available under Vox Pupuli: [puppet/python](https://forge.puppet.com/puppet/python).
 
-# Compatibility #
+## Compatibility #
 
 See `.travis.yml` for compatibility matrix.
 
 * Puppet v3 (with the future parser)
 * Puppet v4
 
-## Ruby versions
+### Ruby versions
 
 * 1.8.7 - Puppet 3
 * 1.9.3 - Puppet 3
 * 2.0.0 - Puppet 3
 * 2.1.9 - Puppet 3 & 4
 
-## OS Distributions ##
+### OS Distributions ##
 
 This module has been tested to work on the following systems.
 
@@ -35,8 +35,6 @@ This module has been tested to work on the following systems.
 * Ubuntu 12.04
 * Ubuntu 14.04
 * Ubuntu 16.04
-
-===
 
 ## Installation
 
@@ -341,6 +339,6 @@ Currently, the changes you need to make are as follows:
 * All pip definitions MUST include the owner field which specifies which user owns the virtualenv that packages will be installed in.  Adding this greatly improves performance and efficiency of this module.
 * You must explicitly specify pip => true in the python class if you want pip installed.  As such, the pip package is now independent of the dev package and so one can exist without the other.
 
-## Authors
+## Contributors
 
-[Sergey Stankevich](https://github.com/stankevich) | [Shiva Poudel](https://github.com/shivapoudel) | [Peter Souter](https://github.com/petems) | [Garrett Honeycutt](http://learnpuppet.com)
+Check out [Github contributors](https://github.com/voxpupuli/puppet-python/graphs/contributors).
