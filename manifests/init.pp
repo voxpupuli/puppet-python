@@ -66,30 +66,26 @@
 # Sergey Stankevich
 # Garrett Honeycutt <code@garretthoneycutt.com>
 #
-class python (
-  $ensure                    = $python::params::ensure,
-  $version                   = $python::params::version,
-  $pip                       = $python::params::pip,
-  $dev                       = $python::params::dev,
-  $virtualenv                = $python::params::virtualenv,
-  $gunicorn                  = $python::params::gunicorn,
-  $manage_gunicorn           = $python::params::manage_gunicorn,
-  $gunicorn_package_name     = $python::params::gunicorn_package_name,
-  $provider                  = $python::params::provider,
-  $valid_versions            = $python::params::valid_versions,
-  $python_pips               = { },
-  $python_virtualenvs        = { },
-  $python_pyvenvs            = { },
-  $python_requirements       = { },
-  $python_dotfiles           = { },
-  $use_epel                  = $python::params::use_epel,
-  $rhscl_use_public_repository = $python::params::rhscl_use_public_repository,
-) inherits python::params{
 
-  if $provider != undef and $provider != '' {
-    validate_re($provider, ['^(pip|scl|rhscl)$'],
-      "Only 'pip', 'rhscl' and 'scl' are valid providers besides the system default. Detected provider is <${provider}>.")
-  }
+class python (
+  Enum['absent', 'present', 'latest'] $ensure     = $python::params::ensure,
+  $version                                        = $python::params::version,
+  Enum['absent', 'present', 'latest'] $pip        = $python::params::pip,
+  $dev                                            = $python::params::dev,
+  Enum['absent', 'present', 'latest'] $virtualenv = $python::params::virtualenv,
+  Enum['absent', 'present', 'latest'] $gunicorn   = $python::params::gunicorn,
+  Boolean $manage_gunicorn                        = $python::params::manage_gunicorn,
+  $gunicorn_package_name                          = $python::params::gunicorn_package_name,
+  Optional[Enum['pip', 'scl', 'rhscl', '']] $provider = $python::params::provider,
+  $valid_versions                                 = $python::params::valid_versions,
+  Hash $python_pips                               = { },
+  Hash $python_virtualenvs                        = { },
+  Hash $python_pyvenvs                            = { },
+  Hash $python_requirements                       = { },
+  Hash $python_dotfiles                           = { },
+  Boolean $use_epel                               = $python::params::use_epel,
+  $rhscl_use_public_repository                    = $python::params::rhscl_use_public_repository,
+) inherits python::params {
 
   $exec_prefix = $provider ? {
     'scl'   => "/usr/bin/scl enable ${version} -- ",
@@ -97,40 +93,15 @@ class python (
     default => '',
   }
 
-  validate_re($ensure, ['^(absent|present|latest)$'])
+  #$allowed_versions = concat(['system', 'pypy'], $valid_versions)
+  #unless $version =~ Enum[allowed_versions] {
+    #fail("version needs to be within${allowed_versions}")
+    #}
   validate_re($version, concat(['system', 'pypy'], $valid_versions))
-
-  if $pip == false or $pip == true {
-    warning('Use of boolean values for the $pip parameter is deprecated')
-  } else {
-    validate_re($pip, ['^(absent|present|latest)$'])
-  }
-
-  if $virtualenv == false or $virtualenv == true {
-    warning('Use of boolean values for the $virtualenv parameter is deprecated')
-  } else {
-    validate_re($virtualenv, ['^(absent|present|latest)$'])
-  }
-
-  if $virtualenv == false or $virtualenv == true {
-    warning('Use of boolean values for the $virtualenv parameter is deprecated')
-  } else {
-    validate_re($virtualenv, ['^(absent|present|latest)$'])
-  }
-
-  if $gunicorn == false or $gunicorn == true {
-    warning('Use of boolean values for the $gunicorn parameter is deprecated')
-  } else {
-    validate_re($gunicorn, ['^(absent|present|latest)$'])
-  }
-
-  validate_hash($python_dotfiles)
-  validate_bool($manage_gunicorn)
-  validate_bool($use_epel)
 
   # Module compatibility check
   $compatible = [ 'Debian', 'RedHat', 'Suse', 'Gentoo' ]
-  if ! ($::osfamily in $compatible) {
+  if ! ($facts['os']['family'] in $compatible) {
     fail("Module is not compatible with ${::operatingsystem}")
   }
 

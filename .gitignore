@@ -1,29 +1,20 @@
-# Editors
-project.xml
-project.properties
-/nbproject/private/
-.buildpath
-.project
-.settings*
-sftp-config.json
-.idea
-
-# Modules
 pkg/
 Gemfile.lock
+Gemfile.local
 vendor/
-spec/fixtures/
+.vendor/
+spec/fixtures/manifests/
+spec/fixtures/modules/
+.vagrant/
 .bundle/
-.vagrant/
+.ruby-version
 coverage/
-
-# Beaker
-.vagrant/
 log/
-junit/
-
-# OS X metadata
-.DS_Store
-
-# Windows junk
-Thumbs.db
+.idea/
+.dependencies/
+.librarian/
+Puppetfile.lock
+*.iml
+.*.sw?
+.yardoc/
+Guardfile

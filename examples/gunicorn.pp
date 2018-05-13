@@ -13,7 +13,7 @@ python::gunicorn { 'vhost':
   environment => 'prod',
   appmodule   => 'app:app',
   osenv       => {
-    'DBHOST' => 'dbserver.example.com'
+    'DBHOST' => 'dbserver.example.com',
   },
   timeout     => 30,
   template    => 'python/gunicorn.erb',

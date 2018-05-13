@@ -1,9 +1,9 @@
 # Make pip version available as a fact
 
-Facter.add("pip_version") do
+Facter.add('pip_version') do
   setcode do
     if Facter::Util::Resolution.which('pip')
-      Facter::Util::Resolution.exec('pip --version 2>&1').match(/^pip (\d+\.\d+\.?\d*).*$/)[1]
+      Facter::Util::Resolution.exec('pip --version 2>&1').match(%r{^pip (\d+\.\d+\.?\d*).*$})[1]
     end
   end
 end

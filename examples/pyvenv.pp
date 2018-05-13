@@ -8,5 +8,5 @@ python::pyvenv { '/opt/uwsgi':
 
 python::pip { 'uwsgi':
   ensure     => 'latest',
-  virtualenv => '/opt/uwsgi'
+  virtualenv => '/opt/uwsgi',
 }

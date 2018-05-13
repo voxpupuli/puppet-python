@@ -162,7 +162,7 @@ define python::virtualenv (
         ensure => directory,
         owner  => $owner,
         group  => $group,
-        mode   => $mode
+        mode   => $mode,
       }
     }
 
@@ -190,7 +190,7 @@ define python::virtualenv (
         user        => $owner,
         subscribe   => Exec["python_virtualenv_${venv_dir}"],
         environment => $environment,
-        cwd         => $cwd
+        cwd         => $cwd,
       }
 
       python::requirements { "${requirements}_${venv_dir}":

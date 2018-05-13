@@ -126,6 +126,9 @@ define python::requirements (
       replace => false,
       content => '# Puppet will install and/or update pip packages listed here',
     }
+    $subscribe = File[$requirements]
+  } else {
+    $subscribe = undef
   }
 
   exec { "python_requirements${name}":
@@ -135,7 +138,7 @@ define python::requirements (
     timeout     => $timeout,
     cwd         => $cwd,
     user        => $owner,
-    subscribe   => File[$requirements],
+    subscribe   => $subscribe,
     environment => $environment,
   }
 }
