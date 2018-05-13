@@ -8,31 +8,19 @@ Puppet module for installing and managing python, pip, virtualenvs and Gunicorn 
 
 See `.travis.yml` for compatibility matrix.
 
-* Puppet v3 (with the future parser)
 * Puppet v4
-
-### Ruby versions
-
-* 1.8.7 - Puppet 3
-* 1.9.3 - Puppet 3
-* 2.0.0 - Puppet 3
-* 2.1.9 - Puppet 3 & 4
+* Puppet v5
 
 ### OS Distributions ##
 
 This module has been tested to work on the following systems.
 
-* Debian 6
-* Debian 7
 * Debian 8
 * Debian 9
-* EL 5
 * EL 6
 * EL 7
 * Gentoo (and Sabayon)
 * Suse 11
-* Ubuntu 10.04
-* Ubuntu 12.04
 * Ubuntu 14.04
 * Ubuntu 16.04
 
