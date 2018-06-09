@@ -9,6 +9,9 @@ describe 'python::pip', type: :define do # rubocop:disable RSpec/MultipleDescrib
         id: 'root',
         kernel: 'Linux',
         lsbdistcodename: 'squeeze',
+        os: {
+          family: 'Debian'
+        },
         osfamily: 'Debian',
         operatingsystem: 'Debian',
         operatingsystemrelease: '6',
@@ -77,6 +80,15 @@ describe 'python::pip', type: :define do # rubocop:disable RSpec/MultipleDescrib
         it { is_expected.to contain_exec('pip_install_rpyc').with_command("pip wheel --help > /dev/null 2>&1 && { pip show wheel > /dev/null 2>&1 || wheel_support_flag='--no-binary :all:'; } ; { pip --log /tmp/pip.log install --upgrade $wheel_support_flag --index-url=http://www.example.com/simple/    rpyc || pip --log /tmp/pip.log install --upgrade --index-url=http://www.example.com/simple/    rpyc ;}") }
       end
     end
+
+    describe 'path as' do
+      context 'adds anaconda path to pip invocation if provider is anaconda' do
+        let(:params) { {} }
+        let(:pre_condition) { 'class {"::python": provider => "anaconda", anaconda_install_path => "/opt/python3"}' }
+
+        it { is_expected.to contain_exec('pip_install_rpyc').with_path(['/opt/python3/bin', '/usr/local/bin', '/usr/bin', '/bin', '/usr/sbin']) }
+      end
+    end
   end
 end
 
@@ -89,6 +101,9 @@ describe 'python::pip', type: :define do
         id: 'root',
         kernel: 'Linux',
         lsbdistcodename: 'squeeze',
+        os: {
+          family: 'Debian'
+        },
         osfamily: 'Debian',
         operatingsystem: 'Debian',
         operatingsystemrelease: '6',

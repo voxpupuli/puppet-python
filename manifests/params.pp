@@ -35,4 +35,6 @@ class python::params {
 
   $rhscl_use_public_repository = true
 
+  $anaconda_installer_url = 'https://repo.anaconda.com/archive/Anaconda3-5.2.0-Linux-x86_64.sh'
+  $anaconda_install_path = '/opt/python'
 }

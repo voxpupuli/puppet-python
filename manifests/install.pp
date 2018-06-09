@@ -171,6 +171,23 @@ class python::install {
       Package <| tag == 'python-scl-package' |>
       -> Package <| tag == 'python-pip-package' |>
     }
+    'anaconda': {
+      $installer_path = '/var/tmp/anaconda_installer.sh'
+
+      file { $installer_path:
+        source => $::python::anaconda_installer_url,
+        mode   => '0700',
+      }
+      -> exec { 'install_anaconda_python':
+        command   => "${installer_path} -b -p ${::python::anaconda_install_path}",
+        creates   => $::python::anaconda_install_path,
+        logoutput => true,
+      }
+      -> exec { 'install_anaconda_virtualenv':
+        command => "${::python::anaconda_install_path}/bin/pip install virtualenv",
+        creates => "${::python::anaconda_install_path}/bin/virtualenv",
+      }
+    }
     default: {
 
       package { 'pip':
