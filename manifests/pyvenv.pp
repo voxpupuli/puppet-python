@@ -68,6 +68,11 @@ define python::pyvenv (
       default  => "${python::exec_prefix}pyvenv-${version}",
     }
 
+    $_path = $::python::provider ? {
+      'anaconda' => concat(["${::python::anaconda_install_path}/bin"], $path),
+      default    => $path,
+    }
+
     if ( $systempkgs == true ) {
       $system_pkgs_flag = '--system-site-packages'
     } else {
@@ -85,7 +90,7 @@ define python::pyvenv (
       command     => "${virtualenv_cmd} --clear ${system_pkgs_flag} ${venv_dir}",
       user        => $owner,
       creates     => "${venv_dir}/bin/activate",
-      path        => $path,
+      path        => $_path,
       cwd         => '/tmp',
       environment => $environment,
       unless      => "grep '^[\\t ]*VIRTUAL_ENV=[\\\\'\\\"]*${venv_dir}[\\\"\\\\'][\\t ]*$' ${venv_dir}/bin/activate", #Unless activate exists and VIRTUAL_ENV is correct we re-create the virtualenv

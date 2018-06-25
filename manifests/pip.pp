@@ -87,7 +87,6 @@ define python::pip (
   $log_dir         = '/tmp',
   $path            = ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
 ) {
-
   $python_provider = getparam(Class['python'], 'provider')
   $python_version  = getparam(Class['python'], 'version')
 
@@ -97,6 +96,11 @@ define python::pip (
     'scl'   => "scl enable ${python_version} -- ",
     'rhscl' => "scl enable ${python_version} -- ",
     default => '',
+  }
+
+  $_path = $python_provider ? {
+    'anaconda' => concat(["${::python::anaconda_install_path}/bin"], $path),
+    default    => $path,
   }
 
   # Parameter validation
@@ -213,7 +217,7 @@ define python::pip (
         cwd         => $cwd,
         environment => $environment,
         timeout     => $timeout,
-        path        => $path,
+        path        => $_path,
       }
     } else {
       exec { "pip_install_${name}":
@@ -225,7 +229,7 @@ define python::pip (
         cwd         => $cwd,
         environment => $environment,
         timeout     => $timeout,
-        path        => $path,
+        path        => $_path,
       }
     }
   } else {
@@ -242,7 +246,7 @@ define python::pip (
           cwd         => $cwd,
           environment => $environment,
           timeout     => $timeout,
-          path        => $path,
+          path        => $_path,
         }
       }
 #
@@ -257,7 +261,7 @@ define python::pip (
           cwd         => $cwd,
           environment => $environment,
           timeout     => $timeout,
-          path        => $path,
+          path        => $_path,
         }
       }
 
@@ -272,7 +276,7 @@ define python::pip (
           cwd         => $cwd,
           environment => $environment,
           timeout     => $timeout,
-          path        => $path,
+          path        => $_path,
         }
       }
 
@@ -287,7 +291,7 @@ define python::pip (
           cwd         => $cwd,
           environment => $environment,
           timeout     => $timeout,
-          path        => $path,
+          path        => $_path,
         }
       }
     }

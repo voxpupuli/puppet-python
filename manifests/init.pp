@@ -76,7 +76,7 @@ class python (
   Enum['absent', 'present', 'latest'] $gunicorn   = $python::params::gunicorn,
   Boolean $manage_gunicorn                        = $python::params::manage_gunicorn,
   $gunicorn_package_name                          = $python::params::gunicorn_package_name,
-  Optional[Enum['pip', 'scl', 'rhscl', '']] $provider = $python::params::provider,
+  Optional[Enum['pip', 'scl', 'rhscl', 'anaconda', '']] $provider = $python::params::provider,
   $valid_versions                                 = $python::params::valid_versions,
   Hash $python_pips                               = { },
   Hash $python_virtualenvs                        = { },
@@ -85,6 +85,8 @@ class python (
   Hash $python_dotfiles                           = { },
   Boolean $use_epel                               = $python::params::use_epel,
   $rhscl_use_public_repository                    = $python::params::rhscl_use_public_repository,
+  Stdlib::Httpurl $anaconda_installer_url         = $python::params::anaconda_installer_url,
+  Stdlib::Absolutepath $anaconda_install_path     = $python::params::anaconda_install_path,
 ) inherits python::params {
 
   $exec_prefix = $provider ? {

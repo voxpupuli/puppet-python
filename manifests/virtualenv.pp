@@ -97,12 +97,19 @@ define python::virtualenv (
   $virtualenv       = undef
 ) {
   include ::python
+  $python_provider = getparam(Class['python'], 'provider')
+  $anaconda_path = getparam(Class['python'], 'anaconda_install_path')
 
   if $ensure == 'present' {
     $python = $version ? {
       'system' => 'python',
       'pypy'   => 'pypy',
       default  => "python${version}",
+    }
+
+    $_path = $python_provider ? {
+      'anaconda' => concat(["${anaconda_path}/bin"], $path),
+      default    => $path,
     }
 
     if $virtualenv == undef {
@@ -175,7 +182,7 @@ define python::virtualenv (
       command     => "true ${proxy_command} && ${virtualenv_cmd} ${system_pkgs_flag} -p ${python} ${venv_dir} && ${pip_cmd} --log ${venv_dir}/pip.log install ${pip_flags} --upgrade pip && ${pip_cmd} install ${pip_flags} --upgrade ${distribute_pkg}",
       user        => $owner,
       creates     => "${venv_dir}/bin/activate",
-      path        => $path,
+      path        => $_path,
       cwd         => '/tmp',
       environment => $environment,
       unless      => "grep '^[\\t ]*VIRTUAL_ENV=[\\\\'\\\"]*${venv_dir}[\\\"\\\\'][\\t ]*$' ${venv_dir}/bin/activate", #Unless activate exists and VIRTUAL_ENV is correct we re-create the virtualenv

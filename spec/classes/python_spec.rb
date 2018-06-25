@@ -183,6 +183,16 @@ describe 'python', type: :class do
                   }
                 end
 
+                context 'anaconda' do
+                  let(:params) { { provider: 'anaconda', anaconda_install_path: '/opt/test_path' } }
+
+                  it {
+                    is_expected.to contain_file('/var/tmp/anaconda_installer.sh')
+                    is_expected.to contain_exec('install_anaconda_python').with_command('/var/tmp/anaconda_installer -b -p /opt/test_path')
+                    is_expected.to contain_exec('install_anaconda_virtualenv').with_command('/opt/test_path/bin/pip install virtualenv')
+                  }
+                end
+
                 # python::provider
                 context 'default' do
                   let(:params) { { provider: '' } }
