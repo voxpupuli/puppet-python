@@ -62,10 +62,12 @@
 # Sergey Stankevich
 # Ashley Penney
 # Fotis Gimian
+# Daniel Quackenbush
 #
 define python::requirements (
   $requirements           = $name,
   $virtualenv             = 'system',
+  $pip_provider           = 'pip',
   $owner                  = 'root',
   $group                  = 'root',
   $proxy                  = false,
@@ -100,8 +102,8 @@ define python::requirements (
   }
 
   $pip_env = $virtualenv ? {
-    'system' => "${::python::exec_prefix} pip",
-    default  => "${::python::exec_prefix} ${virtualenv}/bin/pip",
+    'system' => "${::python::exec_prefix} ${pip_provider}",
+    default  => "${::python::exec_prefix} ${virtualenv}/bin/${pip_provider}",
   }
 
   $proxy_flag = $proxy ? {

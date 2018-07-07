@@ -16,6 +16,9 @@
 # [*virtualenv*]
 #  virtualenv to run pip in.
 #
+# [*pip_provider*]
+#  version of pip you wish to use. Default: present
+#
 # [*url*]
 #  URL to install from. Default: none
 #
@@ -66,11 +69,13 @@
 #
 # Sergey Stankevich
 # Fotis Gimian
+# Daniel Quackenbush
 #
 define python::pip (
   $pkgname         = $name,
   $ensure          = present,
   $virtualenv      = 'system',
+  $pip_proivder    = 'pip',
   $url             = false,
   $owner           = 'root',
   $group           = 'root',
@@ -125,8 +130,8 @@ define python::pip (
   }
 
   $pip_env = $virtualenv ? {
-    'system' => "${exec_prefix}pip",
-    default  => "${exec_prefix}${virtualenv}/bin/pip",
+    'system' => "${exec_prefix}${pip_proivder}",
+    default  => "${exec_prefix}${virtualenv}/bin/${pip_proivder}",
   }
 
   $pypi_index = $index ? {
