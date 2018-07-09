@@ -75,7 +75,7 @@ define python::pip (
   $pkgname                             = $name,
   $ensure                              = present,
   $virtualenv                          = 'system',
-  Enum['pip', 'pip3'] $pip_proivder    = 'pip',
+  Enum['pip', 'pip3'] $pip_provider    = 'pip',
   $url                                 = false,
   $owner                               = 'root',
   $group                               = 'root',
@@ -130,8 +130,8 @@ define python::pip (
   }
 
   $pip_env = $virtualenv ? {
-    'system' => "${exec_prefix}${pip_proivder}",
-    default  => "${exec_prefix}${virtualenv}/bin/${pip_proivder}",
+    'system' => "${exec_prefix}${pip_provider}",
+    default  => "${exec_prefix}${virtualenv}/bin/${pip_provider}",
   }
 
   $pypi_index = $index ? {
