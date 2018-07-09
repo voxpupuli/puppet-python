@@ -10,6 +10,9 @@
 # [*virtualenv*]
 #  virtualenv to run pip in. Default: system-wide
 #
+# [*pip_provider*]
+#  version of pip you wish to use. Default: pip
+#
 # [*owner*]
 #  The owner of the virtualenv being manipulated. Default: root
 #

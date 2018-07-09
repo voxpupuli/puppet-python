@@ -87,7 +87,7 @@ Installs and manages packages from pip.
 
 **virtualenv** - virtualenv to run pip in. Default: system (no virtualenv)
 
-**pip_provider** - pip provder to execute pip with. Default: pip.
+**pip_provider** - pip provider to execute pip with. Default: pip.
 
 **url** - URL to install from. Default: none
 

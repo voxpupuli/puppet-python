@@ -17,7 +17,7 @@
 #  virtualenv to run pip in.
 #
 # [*pip_provider*]
-#  version of pip you wish to use. Default: present
+#  version of pip you wish to use. Default: pip
 #
 # [*url*]
 #  URL to install from. Default: none
