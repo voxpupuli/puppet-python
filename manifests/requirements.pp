@@ -68,21 +68,21 @@
 # Daniel Quackenbush
 #
 define python::requirements (
-  $requirements           = $name,
-  $virtualenv             = 'system',
-  $pip_provider           = 'pip',
-  $owner                  = 'root',
-  $group                  = 'root',
-  $proxy                  = false,
-  $src                    = false,
-  $environment            = [],
-  $forceupdate            = false,
-  $cwd                    = undef,
-  $extra_pip_args         = '',
-  $manage_requirements    = true,
-  $fix_requirements_owner = true,
-  $log_dir                = '/tmp',
-  $timeout                = 1800,
+  $requirements                       = $name,
+  $virtualenv                         = 'system',
+  Enum['pip', 'pip3'] $pip_provider   = 'pip',
+  $owner                              = 'root',
+  $group                              = 'root',
+  $proxy                              = false,
+  $src                                = false,
+  $environment                        = [],
+  $forceupdate                        = false,
+  $cwd                                = undef,
+  $extra_pip_args                     = '',
+  $manage_requirements                = true,
+  $fix_requirements_owner             = true,
+  $log_dir                            = '/tmp',
+  $timeout                            = 1800,
 ) {
 
   include ::python
