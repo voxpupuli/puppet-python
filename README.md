@@ -57,6 +57,7 @@ Installs and manages python, python-pip, python-dev, python-virtualenv and Gunic
 
 **use_epel** - Boolean to determine if the epel class is used. Default: true on RHEL like systems, false otherwise
 
+*Install Python from system python*
 ```puppet
   class { 'python' :
     version    => 'system',
@@ -64,6 +65,15 @@ Installs and manages python, python-pip, python-dev, python-virtualenv and Gunic
     dev        => 'absent',
     virtualenv => 'absent',
     gunicorn   => 'absent',
+  }
+```
+*Install Python 3 from the scl repo*
+```puppet
+  class { 'python' :
+    ensure      => 'present',
+    version     => 'rh-python36-python',
+    dev         => 'present',
+    virtualenv  => 'present',
   }
 ```
 
@@ -76,6 +86,8 @@ Installs and manages packages from pip.
 **ensure** - present/latest/absent. You can also specify the version. Default: present
 
 **virtualenv** - virtualenv to run pip in. Default: system (no virtualenv)
+
+**pip_provider** - pip provider to execute pip with. Default: pip.
 
 **url** - URL to install from. Default: none
 
@@ -94,6 +106,8 @@ Installs and manages packages from pip.
 **uninstall_args** - String of additional flags to pass to pip during uninstall. Default: none
 
 **timeout** - Timeout for the pip install command. Defaults to 1800.
+
+*Install cx_Oracle with pip*
 ```puppet
   python::pip { 'cx_Oracle' :
     pkgname       => 'cx_Oracle',
@@ -105,6 +119,17 @@ Installs and manages packages from pip.
     install_args  => '-e',
     timeout       => 1800,
    }
+```
+*Install Requests with pip3*
+```puppet
+  python::pip { 'requests' :
+    ensure        => 'present',
+    pkgname       => 'requests',
+    pip_provider  => 'pip3',
+    virtualenv    => '/var/www/project1',
+    owner         => 'root',
+    timeout       => 1800
+  }
 ```
 
 ### python::requirements

@@ -38,6 +38,26 @@ describe 'python::pip', type: :define do # rubocop:disable RSpec/MultipleDescrib
       end
     end
 
+    describe 'pip_provide as' do
+      context 'defaults to pip' do
+        let(:params) { {} }
+
+        it { is_expected.to contain_exec('pip_install_rpyc').with_command(%r{pip}) }
+        it { is_expected.not_to contain_exec('pip_install_rpyc').with_command(%r{pip3}) }
+      end
+      context 'use pip instead of pip3 when specified' do
+        let(:params) { { pip_provider: 'pip' } }
+
+        it { is_expected.to contain_exec('pip_install_rpyc').with_command(%r{pip}) }
+        it { is_expected.not_to contain_exec('pip_install_rpyc').with_command(%r{pip3}) }
+      end
+      context 'use pip3 instead of pip when specified' do
+        let(:params) { { pip_provider: 'pip3' } }
+
+        it { is_expected.to contain_exec('pip_install_rpyc').with_command(%r{pip3}) }
+      end
+    end
+
     describe 'proxy as' do
       context 'defaults to empty' do
         let(:params) { {} }
