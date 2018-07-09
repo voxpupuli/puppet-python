@@ -10,6 +10,9 @@
 # [*virtualenv*]
 #  virtualenv to run pip in. Default: system-wide
 #
+# [*pip_provider*]
+#  version of pip you wish to use. Default: pip
+#
 # [*owner*]
 #  The owner of the virtualenv being manipulated. Default: root
 #
@@ -62,22 +65,24 @@
 # Sergey Stankevich
 # Ashley Penney
 # Fotis Gimian
+# Daniel Quackenbush
 #
 define python::requirements (
-  $requirements           = $name,
-  $virtualenv             = 'system',
-  $owner                  = 'root',
-  $group                  = 'root',
-  $proxy                  = false,
-  $src                    = false,
-  $environment            = [],
-  $forceupdate            = false,
-  $cwd                    = undef,
-  $extra_pip_args         = '',
-  $manage_requirements    = true,
-  $fix_requirements_owner = true,
-  $log_dir                = '/tmp',
-  $timeout                = 1800,
+  $requirements                       = $name,
+  $virtualenv                         = 'system',
+  Enum['pip', 'pip3'] $pip_provider   = 'pip',
+  $owner                              = 'root',
+  $group                              = 'root',
+  $proxy                              = false,
+  $src                                = false,
+  $environment                        = [],
+  $forceupdate                        = false,
+  $cwd                                = undef,
+  $extra_pip_args                     = '',
+  $manage_requirements                = true,
+  $fix_requirements_owner             = true,
+  $log_dir                            = '/tmp',
+  $timeout                            = 1800,
 ) {
 
   include ::python
@@ -100,8 +105,8 @@ define python::requirements (
   }
 
   $pip_env = $virtualenv ? {
-    'system' => "${::python::exec_prefix} pip",
-    default  => "${::python::exec_prefix} ${virtualenv}/bin/pip",
+    'system' => "${::python::exec_prefix} ${pip_provider}",
+    default  => "${::python::exec_prefix} ${virtualenv}/bin/${pip_provider}",
   }
 
   $proxy_flag = $proxy ? {

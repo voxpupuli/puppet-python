@@ -16,6 +16,9 @@
 # [*virtualenv*]
 #  virtualenv to run pip in.
 #
+# [*pip_provider*]
+#  version of pip you wish to use. Default: pip
+#
 # [*url*]
 #  URL to install from. Default: none
 #
@@ -66,26 +69,28 @@
 #
 # Sergey Stankevich
 # Fotis Gimian
+# Daniel Quackenbush
 #
 define python::pip (
-  $pkgname         = $name,
-  $ensure          = present,
-  $virtualenv      = 'system',
-  $url             = false,
-  $owner           = 'root',
-  $group           = 'root',
-  $umask           = undef,
-  $index           = false,
-  $proxy           = false,
-  $egg             = false,
-  $editable        = false,
-  $environment     = [],
-  $extras          = [],
-  $install_args    = '',
-  $uninstall_args  = '',
-  $timeout         = 1800,
-  $log_dir         = '/tmp',
-  $path            = ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
+  $pkgname                             = $name,
+  $ensure                              = present,
+  $virtualenv                          = 'system',
+  Enum['pip', 'pip3'] $pip_provider    = 'pip',
+  $url                                 = false,
+  $owner                               = 'root',
+  $group                               = 'root',
+  $umask                               = undef,
+  $index                               = false,
+  $proxy                               = false,
+  $egg                                 = false,
+  $editable                            = false,
+  $environment                         = [],
+  $extras                              = [],
+  $install_args                        = '',
+  $uninstall_args                      = '',
+  $timeout                             = 1800,
+  $log_dir                             = '/tmp',
+  $path                                = ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
 ) {
   $python_provider = getparam(Class['python'], 'provider')
   $python_version  = getparam(Class['python'], 'version')
@@ -125,8 +130,8 @@ define python::pip (
   }
 
   $pip_env = $virtualenv ? {
-    'system' => "${exec_prefix}pip",
-    default  => "${exec_prefix}${virtualenv}/bin/pip",
+    'system' => "${exec_prefix}${pip_provider}",
+    default  => "${exec_prefix}${virtualenv}/bin/${pip_provider}",
   }
 
   $pypi_index = $index ? {
