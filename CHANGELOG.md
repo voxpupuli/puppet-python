@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v2.1.0](https://github.com/voxpupuli/puppet-python/tree/v2.1.0) (2018-07-09)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v2.0.0...v2.1.0)
+
+**Implemented enhancements:**
+
+- support for providing pip3 provider w/ tests. Modified readme 4 examples [\#414](https://github.com/voxpupuli/puppet-python/pull/414) ([danquack](https://github.com/danquack))
+
+**Closed issues:**
+
+- How to deploy pip package to rhscl python34 [\#377](https://github.com/voxpupuli/puppet-python/issues/377)
+- CentOS 7 with Python3 does not work [\#303](https://github.com/voxpupuli/puppet-python/issues/303)
+
 ## [v2.0.0](https://github.com/voxpupuli/puppet-python/tree/v2.0.0) (2018-06-25)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/1.19.0...v2.0.0)
@@ -20,6 +33,7 @@ These should not affect the functionality of the module.
 
 **Implemented enhancements:**
 
+- Add Debian 9 Support [\#398](https://github.com/voxpupuli/puppet-python/issues/398)
 - Add support for Anaconda [\#409](https://github.com/voxpupuli/puppet-python/pull/409) ([grsakea](https://github.com/grsakea))
 - Add umask parameter to pip execs [\#368](https://github.com/voxpupuli/puppet-python/pull/368) ([jstaph](https://github.com/jstaph))
 

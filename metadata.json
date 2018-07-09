@@ -1,7 +1,7 @@
 {
   "name": "puppet-python",
-  "version": "2.0.1-rc0",
-  "author": "stankevich",
+  "version": "2.1.0",
+  "author": "Vox Pupuli",
   "summary": "Python Module",
   "license": "Apache-2.0",
   "source": "git://github.com/voxpupuli/puppet-python.git",
