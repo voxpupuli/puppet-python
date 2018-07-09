@@ -1,1 +1,8 @@
 ---
+.travis.yml:
+  secret: "D0l5n9nSaR4BTQ/fB95EWk0CuiSjLCaYDo6W5hesyaehBACbQqexEGBW2XLRlAIGz4QHgA6z87gu1Y7FMuot7xJXqgur4NU4pbrdzjz/gLuVPRxxWEmAp68yBwkwO2QoC3ISfzgRJjOMlTfAjM7dROpAoRPuNDMFGdAoC259ggA="
+  docker_sets:
+    - set: ubuntu1404-64
+    - set: ubuntu1604-64
+    - set: centos7-64
+    - set: debian8-64
