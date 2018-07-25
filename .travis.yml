@@ -3,11 +3,8 @@ sudo: false
 dist: trusty
 language: ruby
 cache: bundler
-# related to https://github.com/rubygems/rubygems/issues/2123
 before_install:
-  - 'rm -f Gemfile.lock'
-  - 'gem update --system'
-  - 'gem install bundler'
+  - rm -f Gemfile.lock
 script:
   - 'bundle exec rake $CHECK'
 matrix:
@@ -43,7 +40,7 @@ deploy:
   provider: puppetforge
   user: puppet
   password:
-    secure: "D0l5n9nSaR4BTQ/fB95EWk0CuiSjLCaYDo6W5hesyaehBACbQqexEGBW2XLRlAIGz4QHgA6z87gu1Y7FMuot7xJXqgur4NU4pbrdzjz/gLuVPRxxWEmAp68yBwkwO2QoC3ISfzgRJjOMlTfAjM7dROpAoRPuNDMFGdAoC259ggA="
+    secure: ""
   on:
     tags: true
     # all_branches is required to use tags
