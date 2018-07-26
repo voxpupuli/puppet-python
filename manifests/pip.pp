@@ -215,7 +215,7 @@ define python::pip (
     if $ensure != present and $ensure != latest {
       exec { "pip_install_${name}":
         command     => "${wheel_check} ; { ${pip_install} ${install_args} \$wheel_support_flag ${pip_common_args}@${ensure}#egg=${egg_name} || ${pip_install} ${install_args} ${pip_common_args}@${ensure}#egg=${egg_name} ;}",
-        unless      => "${pip_env} freeze | grep -i -e ${grep_regex}",
+        unless      => "${pip_env} freeze --all | grep -i -e ${grep_regex}",
         user        => $owner,
         group       => $group,
         umask       => $umask,
@@ -227,7 +227,7 @@ define python::pip (
     } else {
       exec { "pip_install_${name}":
         command     => "${wheel_check} ; { ${pip_install} ${install_args} \$wheel_support_flag ${pip_common_args} || ${pip_install} ${install_args} ${pip_common_args} ;}",
-        unless      => "${pip_env} freeze | grep -i -e ${grep_regex}",
+        unless      => "${pip_env} freeze --all | grep -i -e ${grep_regex}",
         user        => $owner,
         group       => $group,
         umask       => $umask,
@@ -244,7 +244,7 @@ define python::pip (
         # Explicit version.
         exec { "pip_install_${name}":
           command     => "${wheel_check} ; { ${pip_install} ${install_args} \$wheel_support_flag ${pip_common_args}==${ensure} || ${pip_install} ${install_args} ${pip_common_args}==${ensure} ;}",
-          unless      => "${pip_env} freeze | grep -i -e ${grep_regex} || ${pip_env} list | sed -e 's/[ ]\\+/==/' -e 's/[()]//g' | grep -i -e ${grep_regex}",
+          unless      => "${pip_env} freeze --all | grep -i -e ${grep_regex} || ${pip_env} list | sed -e 's/[ ]\\+/==/' -e 's/[()]//g' | grep -i -e ${grep_regex}",
           user        => $owner,
           group       => $group,
           umask       => $umask,
@@ -259,7 +259,7 @@ define python::pip (
         # Whatever version is available.
         exec { "pip_install_${name}":
           command     => "${wheel_check} ; { ${pip_install} \$wheel_support_flag ${pip_common_args} || ${pip_install} ${pip_common_args} ;}",
-          unless      => "${pip_env} freeze | grep -i -e ${grep_regex} || ${pip_env} list | sed -e 's/[ ]\\+/==/' -e 's/[()]//g' | grep -i -e ${grep_regex}",
+          unless      => "${pip_env} freeze --all | grep -i -e ${grep_regex} || ${pip_env} list | sed -e 's/[ ]\\+/==/' -e 's/[()]//g' | grep -i -e ${grep_regex}",
           user        => $owner,
           group       => $group,
           umask       => $umask,
@@ -289,7 +289,7 @@ define python::pip (
         # Anti-action, uninstall.
         exec { "pip_uninstall_${name}":
           command     => "echo y | ${pip_env} uninstall ${uninstall_args} ${proxy_flag} ${name}",
-          onlyif      => "${pip_env} freeze | grep -i -e ${grep_regex}",
+          onlyif      => "${pip_env} freeze --all | grep -i -e ${grep_regex}",
           user        => $owner,
           group       => $group,
           umask       => $umask,
