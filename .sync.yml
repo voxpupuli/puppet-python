@@ -1,3 +1,8 @@
 ---
 .travis.yml:
-  secret: "D0l5n9nSaR4BTQ/fB95EWk0CuiSjLCaYDo6W5hesyaehBACbQqexEGBW2XLRlAIGz4QHgA6z87gu1Y7FMuot7xJXqgur4NU4pbrdzjz/gLuVPRxxWEmAp68yBwkwO2QoC3ISfzgRJjOMlTfAjM7dROpAoRPuNDMFGdAoC259ggA="
+  secret: "bBDDSSz8OQwK0zxJ4EjM01bE4uoNMzTXyxp2lllXdv6PYAJCI4bCCcdRF7OKLAWaRtm6c0HJGnfMXzmwqHF/pJSUZzfTGe4uwZrrmaGvdalP4fXtLWpviAoez8La0Nx7JYqwPPprP7nySBD8M3rUuOZJetXQM6yGgj4YSs2lKMo="
+  docker_sets:
+    - set: ubuntu1404-64
+    - set: ubuntu1604-64
+    - set: debian8-64
+    - set: debian9-64
