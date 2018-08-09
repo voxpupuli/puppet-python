@@ -167,37 +167,52 @@ Creates Python virtualenv.
 
 **requirements** - Path to pip requirements.txt file. Default: none
 
-**proxy** - Proxy server to use for outbound connections. Default: none
-
 **systempkgs** - Copy system site-packages into virtualenv. Default: don't
+
+**venv_dir** - The location of the virtualenv if resource path not specified. Must be absolute path. Default: resource name
+
+**ensure_venv_dir** - Create virtualenv directory. Default: true
 
 **distribute** - Include distribute in the virtualenv. Default: true
 
-**venv_dir** - The location of the virtualenv if resource path not specified. Must be absolute path. Default: resource name
+**index** - Base URL of Python package index. Default: none
 
 **owner** - Specify the owner of this virtualenv
 
 **group** - Specify the group for this virtualenv
 
-**index** - Base URL of Python package index. Default: none
+**mode** - Specify the directory mode. Default: 0755
+
+**proxy** - Proxy server to use for outbound connections. Default: none
+
+**environment** - Additional environment variables required to install the packages. Default: none
+
+**path** - Set the $PATH environment variable. Default: [ '/bin', '/usr/bin', '/usr/sbin' ]
 
 **cwd** - The directory from which to run the "pip install" command. Default: undef
 
 **timeout** - The maximum time in seconds the "pip install" command should take. Default: 1800
 
+**pip_args** - Arguments to pass to pip during installation. Default: blank
+
+**extra_pip_args** - Arguments to pass to pip for package install.  These are included in the pip command *after* the requirements file.  Default: blank
+
 ```puppet
   python::virtualenv { '/var/www/project1' :
-    ensure       => present,
-    version      => 'system',
-    requirements => '/var/www/project1/requirements.txt',
-    proxy        => 'http://proxy.domain.com:3128',
-    systempkgs   => true,
-    distribute   => false,
-    venv_dir     => '/home/appuser/virtualenvs',
-    owner        => 'appuser',
-    group        => 'apps',
-    cwd          => '/var/www/project1',
-    timeout      => 0,
+    ensure          => present,
+    version         => 'system',
+    requirements    => '/var/www/project1/requirements.txt',
+    systempkgs      => true,
+    venv_dir        => '/home/appuser/virtualenvs',
+    ensure_venv_dir => false,
+    distribute      => false,
+    index           => 'appuser',
+    owner           => 'appuser',
+    group           => 'apps',
+    proxy           => 'http://proxy.domain.com:3128',
+    cwd             => '/var/www/project1',
+    timeout         => 0,
+    extra_pip_args  => '--no-binary :none:',
   }
 ```
 
