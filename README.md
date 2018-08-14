@@ -19,6 +19,7 @@ This module has been tested to work on the following systems.
 * Debian 9
 * EL 6
 * EL 7
+* CentOS 7
 * Gentoo (and Sabayon)
 * Suse 11
 * Ubuntu 14.04
