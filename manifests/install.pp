@@ -40,9 +40,9 @@ class python::install {
     default => $python::virtualenv,
   }
 
-  if ($venv_ensure == 'present') {
+  if $venv_ensure == 'present' {
     $dev_ensure = 'present'
-    if ! $python::dev {
+    unless $python::dev {
       # Error: python2-devel is needed by (installed) python-virtualenv-15.1.0-2.el7.noarch
       # Python dev is required for virtual environment, but python environment is not required for python dev.
       notify { 'Python virtual environment is dependent on python dev': }
