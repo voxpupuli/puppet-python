@@ -33,7 +33,8 @@ describe 'python', type: :class do
 
           describe 'with python::virtualenv, without python::dev' do
             context 'true' do
-              let(:params) { { dev: 'absent',  virtualenv: 'present' } }
+              let(:params) { { dev: 'absent', virtualenv: 'present' } }
+
               it { is_expected.to contain_package('python-dev').with_ensure('present') }
             end
             context 'empty/default' do
