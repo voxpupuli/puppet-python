@@ -28,12 +28,6 @@ class python::install {
     'Gentoo' => undef,
   }
 
-  $dev_ensure = $python::dev ? {
-    true    => 'present',
-    false   => 'absent',
-    default => $python::dev,
-  }
-
   $pip_ensure = $python::pip ? {
     true    => 'present',
     false   => 'absent',
@@ -44,6 +38,21 @@ class python::install {
     true    => 'present',
     false   => 'absent',
     default => $python::virtualenv,
+  }
+
+  if $venv_ensure == 'present' {
+    $dev_ensure = 'present'
+    unless $python::dev {
+      # Error: python2-devel is needed by (installed) python-virtualenv-15.1.0-2.el7.noarch
+      # Python dev is required for virtual environment, but python environment is not required for python dev.
+      notify { 'Python virtual environment is dependent on python dev': }
+    }
+  } else {
+    $dev_ensure = $python::dev ? {
+      true    => 'present',
+      false   => 'absent',
+      default => $python::dev,
+    }
   }
 
   package { 'python':
@@ -96,6 +105,7 @@ class python::install {
       Package <| title == 'virtualenv' |> {
         name     => 'virtualenv',
         provider => 'pip',
+        require  => Package['python-dev']
       }
     }
     'scl': {

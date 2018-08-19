@@ -31,6 +31,17 @@ describe 'python', type: :class do
             end
           end
 
+          describe 'with python::virtualenv, without python::dev' do
+            context 'true' do
+              let(:params) { { dev: 'absent', virtualenv: 'present' } }
+
+              it { is_expected.to contain_package('python-dev').with_ensure('present') }
+            end
+            context 'empty/default' do
+              it { is_expected.to contain_package('python-dev').with_ensure('absent') }
+            end
+          end
+
           describe 'with manage_gunicorn' do
             context 'true' do
               let(:params) { { manage_gunicorn: true } }
