@@ -75,7 +75,7 @@ define python::pip (
   $pkgname                             = $name,
   $ensure                              = present,
   $virtualenv                          = 'system',
-  Enum['pip', 'pip3'] $pip_provider    = 'pip',
+  $pip_provider                        = 'pip',
   $url                                 = false,
   $owner                               = 'root',
   $group                               = 'root',
