@@ -187,9 +187,9 @@ define python::pip (
 
   $source = $url ? {
     false               => "${pkgname}${extras_string}",
-    /^(\/|[a-zA-Z]\:)/  => $url,
-    /^(git\+|hg\+|bzr\+|svn\+)(http|https|ssh|svn|sftp|ftp|lp)(:\/\/).+$/ => $url,
-    default             => "${url}#egg=${egg_name}",
+    /^(\/|[a-zA-Z]\:)/  => "'${url}'",
+    /^(git\+|hg\+|bzr\+|svn\+)(http|https|ssh|svn|sftp|ftp|lp)(:\/\/).+$/ => "'${url}'",
+    default             => "'${url}#egg=${egg_name}'",
   }
 
   # We need to jump through hoops to make sure we issue the correct pip command
