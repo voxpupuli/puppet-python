@@ -235,6 +235,8 @@ class python::install {
           $virtualenv_package = 'virtualenv'
         } elsif fact('lsbdistcodename') == 'xenial' {
           $virtualenv_package = 'virtualenv'
+        } elsif fact('lsbdistcodename') == 'bionic' {
+          $virtualenv_package = 'virtualenv'
         } elsif $facts['os']['family'] == 'Gentoo' {
           $virtualenv_package = 'virtualenv'
         } else {
