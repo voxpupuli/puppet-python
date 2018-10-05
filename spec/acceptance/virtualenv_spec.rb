@@ -55,5 +55,61 @@ describe 'python class' do
       apply_manifest(pp, catch_failures: true)
       apply_manifest(pp, catch_changes: true)
     end
+    it 'works with ensure=>latest' do
+      pp = <<-EOS
+      class { 'python' :
+        version    => 'system',
+        pip        => 'present',
+        virtualenv => 'present',
+      }
+      ->
+      python::virtualenv { 'venv' :
+        ensure     => 'present',
+        systempkgs => false,
+        venv_dir   => '/opt/venv3',
+        owner      => 'root',
+        group      => 'root',
+      }
+      ->
+      python::pip { 'rpyc' :
+        ensure     => 'latest',
+        virtualenv => '/opt/venv3',
+      }
+      EOS
+
+      # Run it twice and test for idempotency
+      apply_manifest(pp, catch_failures: true)
+      # Of course this test will fail if between the applies a new version of the package will be released,
+      # but probability of this happening is minimal, so it should be acceptable.
+      apply_manifest(pp, catch_changes: true)
+    end
+    it 'works with ensure=>latest for package with underscore in its name' do
+      pp = <<-EOS
+      class { 'python' :
+        version    => 'system',
+        pip        => 'present',
+        virtualenv => 'present',
+      }
+      ->
+      python::virtualenv { 'venv' :
+        ensure     => 'present',
+        systempkgs => false,
+        venv_dir   => '/opt/venv4',
+        owner      => 'root',
+        group      => 'root',
+      }
+      ->
+      python::pip { 'Randomized_Requests' :
+        ensure     => 'latest',
+        virtualenv => '/opt/venv4',
+      }
+      EOS
+
+      # Run it twice and test for idempotency
+      apply_manifest(pp, catch_failures: true)
+      # Of course this test will fail if between the applies a new version of the package will be released,
+      # but probability of this happening is minimal, so it should be acceptable.
+      apply_manifest(pp, catch_changes: true)
+    end
   end
 end
