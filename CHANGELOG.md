@@ -4,7 +4,24 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v2.1.1](https://github.com/voxpupuli/puppet-python/tree/v2.1.1) (2018-08-19)
+## [v2.2.0](https://github.com/voxpupuli/puppet-python/tree/v2.2.0) (2018-10-19)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v2.1.1...v2.2.0)
+
+**Implemented enhancements:**
+
+- Add Ubuntu 18.04 support [\#399](https://github.com/voxpupuli/puppet-python/issues/399)
+- Add ubuntu 18.04 support [\#426](https://github.com/voxpupuli/puppet-python/pull/426) ([danquack](https://github.com/danquack))
+
+**Fixed bugs:**
+
+- Pip: freeze all to be able to control setuptools, distribute, wheel, pip [\#418](https://github.com/voxpupuli/puppet-python/pull/418) ([Feandil](https://github.com/Feandil))
+
+**Merged pull requests:**
+
+- modulesync 2.2.0 and allow puppet 6.x [\#435](https://github.com/voxpupuli/puppet-python/pull/435) ([bastelfreak](https://github.com/bastelfreak))
+
+## [v2.1.1](https://github.com/voxpupuli/puppet-python/tree/v2.1.1) (2018-08-20)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v2.1.0...v2.1.1)
 
