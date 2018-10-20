@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v2.2.2](https://github.com/voxpupuli/puppet-python/tree/v2.2.2) (2018-10-20)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v2.2.0...v2.2.2)
+
+**Closed issues:**
+
+- Make a new release to the forge [\#437](https://github.com/voxpupuli/puppet-python/issues/437)
+
 ## [v2.2.0](https://github.com/voxpupuli/puppet-python/tree/v2.2.0) (2018-10-19)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v2.1.1...v2.2.0)
