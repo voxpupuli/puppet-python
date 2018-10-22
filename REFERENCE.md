@@ -5,25 +5,39 @@
 
 **Classes**
 
-* [`python`](#python): 
-* [`python::config`](#pythonconfig): 
-* [`python::install`](#pythoninstall): == Class: python::install  Installs core python packages,  === Examples  include python::install  === Authors  Sergey Stankevich Ashley Penne
-* [`python::params`](#pythonparams): == Class: python::params  The python Module default configuration settings.
+* [`python`](#python): Installs and manages python, python-dev, python-virtualenv and gunicorn.
+* [`python::config`](#pythonconfig): Optionally installs the gunicorn service
+* [`python::install`](#pythoninstall): Installs core python packages
+* [`python::params`](#pythonparams): The python Module default configuration settings.
 
 **Defined types**
 
-* [`python::dotfile`](#pythondotfile): == Define: python::dotfile  Manages any python dotfiles with a simple config hash.  === Parameters  [*ensure*]  present|absent. Default: pres
-* [`python::gunicorn`](#pythongunicorn): == Define: python::gunicorn  Manages Gunicorn virtual hosts.  === Parameters  [*ensure*]  present|absent. Default: present  [*config_dir*]  C
+* [`python::dotfile`](#pythondotfile): Manages any python dotfiles with a simple config hash.
+* [`python::gunicorn`](#pythongunicorn): Manages Gunicorn virtual hosts.
 * [`python::pip`](#pythonpip): Installs and manages packages from pip.
-* [`python::pyvenv`](#pythonpyvenv): [*environment*] Optionally specify environment variables for pyvenv  === Examples  python::venv { '/var/www/project1':   ensure       => pres
-* [`python::requirements`](#pythonrequirements): == Define: python::requirements  Installs and manages Python packages from requirements file.  === Parameters  [*requirements*]  Path to the 
-* [`python::virtualenv`](#pythonvirtualenv): == Define: python::virtualenv  Creates Python virtualenv.  === Parameters  [*ensure*]  present|absent. Default: present  [*version*]  Python 
+* [`python::pyvenv`](#pythonpyvenv): 
+* [`python::requirements`](#pythonrequirements): Installs and manages Python packages from requirements file.
+* [`python::virtualenv`](#pythonvirtualenv): Creates Python virtualenv.
 
 ## Classes
 
 ### python
 
-The python class.
+Installs and manages python, python-dev, python-virtualenv and gunicorn.
+
+#### Examples
+
+##### ensure system python is installed, with pip,dev, virtualenv, and gunicorn packages present
+
+```puppet
+class { 'python':
+  version    => 'system',
+  pip        => 'present',
+  dev        => 'present',
+  virtualenv => 'present',
+  gunicorn   => 'present',
+}
+```
 
 #### Parameters
 
@@ -33,7 +47,8 @@ The following parameters are available in the `python` class.
 
 Data type: `Enum['absent', 'present', 'latest']`
 
-
+Desired installation state for the Python package.
+Allowed values: absent, present and latest
 
 Default value: $python::params::ensure
 
@@ -41,7 +56,14 @@ Default value: $python::params::ensure
 
 Data type: `Any`
 
-
+Python version to install. Beware that valid values for this differ a) by the provider you choose and b) by the osfamily/operatingsystem you are using.
+Allowed values:
+ - provider == pip: everything pip allows as a version after the 'python=='
+ - else: 'system', 'pypy', 3/3.3/...
+    - Be aware that 'system' usually means python 2.X.
+    - 'pypy' actually lets us use pypy as python.
+    - 3/3.3/... means you are going to install the python3/python3.3/...
+      package, if available on your osfamily.
 
 Default value: $python::params::version
 
@@ -49,7 +71,8 @@ Default value: $python::params::version
 
 Data type: `Enum['absent', 'present', 'latest']`
 
-
+Desired installation state for python-pip. Boolean values are deprecated.
+Allowed values: 'absent', 'present', 'latest'
 
 Default value: $python::params::pip
 
@@ -57,7 +80,8 @@ Default value: $python::params::pip
 
 Data type: `Any`
 
-
+Desired installation state for python-dev. Boolean values are deprecated.
+Allowed values: 'absent', 'present', 'latest'
 
 Default value: $python::params::dev
 
@@ -65,7 +89,8 @@ Default value: $python::params::dev
 
 Data type: `Enum['absent', 'present', 'latest']`
 
-
+Desired installation state for python-virtualenv. Boolean values are deprecated
+Allowed values: 'absent', 'present', 'latest
 
 Default value: $python::params::virtualenv
 
@@ -73,7 +98,8 @@ Default value: $python::params::virtualenv
 
 Data type: `Enum['absent', 'present', 'latest']`
 
-
+Desired installation state for Gunicorn. Boolean values are deprecated.
+Allowed values: 'absent', 'present', 'latest'
 
 Default value: $python::params::gunicorn
 
@@ -81,9 +107,26 @@ Default value: $python::params::gunicorn
 
 Data type: `Boolean`
 
-
+Allow Installation / Removal of Gunicorn. Default: true
 
 Default value: $python::params::manage_gunicorn
+
+##### `provider`
+
+Data type: `Optional[Enum['pip', 'scl', 'rhscl', 'anaconda', '']]`
+
+What provider to use for installation of the packages, except gunicorn and Python itself.
+Allowed values: 'pip'
+
+Default value: $python::params::provider
+
+##### `use_epel`
+
+Data type: `Boolean`
+
+to determine if the epel class is used.
+
+Default value: $python::params::use_epel
 
 ##### `gunicorn_package_name`
 
@@ -92,14 +135,6 @@ Data type: `Any`
 
 
 Default value: $python::params::gunicorn_package_name
-
-##### `provider`
-
-Data type: `Optional[Enum['pip', 'scl', 'rhscl', 'anaconda', '']]`
-
-
-
-Default value: $python::params::provider
 
 ##### `valid_versions`
 
@@ -149,14 +184,6 @@ Data type: `Hash`
 
 Default value: { }
 
-##### `use_epel`
-
-Data type: `Boolean`
-
-
-
-Default value: $python::params::use_epel
-
 ##### `rhscl_use_public_repository`
 
 Data type: `Any`
@@ -183,28 +210,29 @@ Default value: $python::params::anaconda_install_path
 
 ### python::config
 
-The python::config class.
+Optionally installs the gunicorn service
+
+#### Examples
+
+##### 
+
+```puppet
+include python::config
+```
 
 ### python::install
 
-== Class: python::install
+Installs core python packages
 
-Installs core python packages,
+#### Examples
 
-=== Examples
+##### 
 
+```puppet
 include python::install
-
-=== Authors
-
-Sergey Stankevich
-Ashley Penney
-Fotis Gimian
-Garrett Honeycutt <code@garretthoneycutt.com>
+```
 
 ### python::params
-
-== Class: python::params
 
 The python Module default configuration settings.
 
@@ -212,30 +240,13 @@ The python Module default configuration settings.
 
 ### python::dotfile
 
-== Define: python::dotfile
-
-Manages any python dotfiles with a simple config hash.
-
-=== Parameters
-
-[*ensure*]
- present|absent. Default: present
-
-[*filename*]
- Filename. Default: $title
-
-[*mode*]
- File mode. Default: 0644
-
-[*owner*]
-[*group*]
- Owner/group. Default: `root`/`root`
-
-[*config*]
- Config hash. This will be expanded to an ini-file. Default: {}
-
 === Examples
 
+#### Examples
+
+##### Create a pip config in /var/lib/jenkins/.pip/
+
+```puppet
 python::dotfile { '/var/lib/jenkins/.pip/pip.conf':
   ensure => present,
   owner  => 'jenkins',
@@ -247,6 +258,7 @@ python::dotfile { '/var/lib/jenkins/.pip/pip.conf':
     }
   }
 }
+```
 
 #### Parameters
 
@@ -256,7 +268,7 @@ The following parameters are available in the `python::dotfile` defined type.
 
 Data type: `Any`
 
-
+present|absent. Default: present
 
 Default value: 'present'
 
@@ -264,15 +276,23 @@ Default value: 'present'
 
 Data type: `Any`
 
-
+Filename. Default: $title
 
 Default value: $title
+
+##### `mode`
+
+Data type: `Any`
+
+File mode. Default: 0644
+
+Default value: '0644'
 
 ##### `owner`
 
 Data type: `Any`
 
-
+user owner of dotfile
 
 Default value: 'root'
 
@@ -280,83 +300,27 @@ Default value: 'root'
 
 Data type: `Any`
 
-
+group owner of dotfile
 
 Default value: 'root'
-
-##### `mode`
-
-Data type: `Any`
-
-
-
-Default value: '0644'
 
 ##### `config`
 
 Data type: `Any`
 
-
+Config hash. This will be expanded to an ini-file. Default: {}
 
 Default value: {}
 
 ### python::gunicorn
 
-== Define: python::gunicorn
-
 Manages Gunicorn virtual hosts.
 
-=== Parameters
+#### Examples
 
-[*ensure*]
- present|absent. Default: present
+##### run gunicorn on vhost in virtualenv /var/www/project1
 
-[*config_dir*]
- Configure the gunicorn config directory path. Default: /etc/gunicorn.d
-
-[*manage_config_dir*]
- Set if the gunicorn config directory should be created. Default: false
-
-[*virtualenv*]
- Run in virtualenv, specify directory. Default: disabled
-
-[*mode*]
- Gunicorn mode.
- wsgi|django. Default: wsgi
-
-[*dir*]
- Application directory.
-
-[*bind*]
- Bind on: 'HOST', 'HOST:PORT', 'unix:PATH'.
- Default: system-wide: unix:/tmp/gunicorn-$name.socket
-          virtualenv:  unix:${virtualenv}/${name}.socket
-
-[*environment*]
- Set ENVIRONMENT variable. Default: none
-
-[*appmodule*]
- Set the application module name for gunicorn to load when not using Django.
- Default: app:app
-
-[*osenv*]
- Allows setting environment variables for the gunicorn service. Accepts a
- hash of 'key': 'value' pairs.
- Default: false
-
-[*timeout*]
- Allows setting the gunicorn idle worker process time before being killed.
- The unit of time is seconds.
- Default: 30
-
-[*template*]
- Which ERB template to use. Default: python/gunicorn.erb
-
-[*args*]
- Custom arguments to add in gunicorn config file. Default: []
-
-=== Examples
-
+```puppet
 python::gunicorn { 'vhost':
   ensure      => present,
   virtualenv  => '/var/www/project1',
@@ -371,12 +335,7 @@ python::gunicorn { 'vhost':
   timeout     => 30,
   template    => 'python/gunicorn.erb',
 }
-
-=== Authors
-
-Sergey Stankevich
-Ashley Penney
-Marc Fournier
+```
 
 #### Parameters
 
@@ -394,7 +353,7 @@ Default value: present
 
 Data type: `Any`
 
-
+Configure the gunicorn config directory path. Default: /etc/gunicorn.d
 
 Default value: '/etc/gunicorn.d'
 
@@ -402,7 +361,7 @@ Default value: '/etc/gunicorn.d'
 
 Data type: `Any`
 
-
+Set if the gunicorn config directory should be created. Default: false
 
 Default value: `false`
 
@@ -410,7 +369,7 @@ Default value: `false`
 
 Data type: `Any`
 
-
+Run in virtualenv, specify directory. Default: disabled
 
 Default value: `false`
 
@@ -418,7 +377,8 @@ Default value: `false`
 
 Data type: `Any`
 
-
+Gunicorn mode.
+wsgi|django. Default: wsgi
 
 Default value: 'wsgi'
 
@@ -426,7 +386,7 @@ Default value: 'wsgi'
 
 Data type: `Any`
 
-
+Application directory.
 
 Default value: `false`
 
@@ -434,7 +394,9 @@ Default value: `false`
 
 Data type: `Any`
 
-
+Bind on: 'HOST', 'HOST:PORT', 'unix:PATH'.
+Default: system-wide: unix:/tmp/gunicorn-$name.socket
+         virtualenv:  unix:${virtualenv}/${name}.socket
 
 Default value: `false`
 
@@ -442,9 +404,54 @@ Default value: `false`
 
 Data type: `Any`
 
-
+Set ENVIRONMENT variable. Default: none
 
 Default value: `false`
+
+##### `appmodule`
+
+Data type: `Any`
+
+Set the application module name for gunicorn to load when not using Django.
+Default: app:app
+
+Default value: 'app:app'
+
+##### `osenv`
+
+Data type: `Any`
+
+Allows setting environment variables for the gunicorn service. Accepts a
+hash of 'key': 'value' pairs.
+Default: false
+
+Default value: `false`
+
+##### `timeout`
+
+Data type: `Any`
+
+Allows setting the gunicorn idle worker process time before being killed.
+The unit of time is seconds.
+Default: 30
+
+Default value: 30
+
+##### `template`
+
+Data type: `Any`
+
+Which ERB template to use. Default: python/gunicorn.erb
+
+Default value: 'python/gunicorn.erb'
+
+##### `args`
+
+Data type: `Any`
+
+Custom arguments to add in gunicorn config file. Default: []
+
+Default value: []
 
 ##### `owner`
 
@@ -461,30 +468,6 @@ Data type: `Any`
 
 
 Default value: 'www-data'
-
-##### `appmodule`
-
-Data type: `Any`
-
-
-
-Default value: 'app:app'
-
-##### `osenv`
-
-Data type: `Any`
-
-
-
-Default value: `false`
-
-##### `timeout`
-
-Data type: `Any`
-
-
-
-Default value: 30
 
 ##### `workers`
 
@@ -525,22 +508,6 @@ Data type: `Any`
 
 
 Default value: 'error'
-
-##### `template`
-
-Data type: `Any`
-
-
-
-Default value: 'python/gunicorn.erb'
-
-##### `args`
-
-Data type: `Any`
-
-
-
-Default value: []
 
 ### python::pip
 
@@ -726,24 +693,19 @@ Default value: ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin']
 
 ### python::pyvenv
 
-[*environment*]
-Optionally specify environment variables for pyvenv
+The python::pyvenv class.
 
-=== Examples
+#### Examples
 
+##### 
+
+```puppet
 python::venv { '/var/www/project1':
   ensure       => present,
   version      => 'system',
   systempkgs   => true,
 }
-
-=== Authors
-
-Sergey Stankevich
-Ashley Penney
-Marc Fournier
-Fotis Gimian
-Seth Cleveland
+```
 
 #### Parameters
 
@@ -761,7 +723,7 @@ Default value: present
 
 Data type: `Any`
 
-
+Python version to use. Default: system default
 
 Default value: 'system'
 
@@ -769,7 +731,7 @@ Default value: 'system'
 
 Data type: `Any`
 
-
+Copy system site-packages into virtualenv
 
 Default value: `false`
 
@@ -777,7 +739,7 @@ Default value: `false`
 
 Data type: `Any`
 
-
+Directory to install virtualenv to
 
 Default value: $name
 
@@ -785,7 +747,7 @@ Default value: $name
 
 Data type: `Any`
 
-
+The owner of the virtualenv being manipulated
 
 Default value: 'root'
 
@@ -793,7 +755,7 @@ Default value: 'root'
 
 Data type: `Any`
 
-
+The group relating to the virtualenv being manipulated
 
 Default value: 'root'
 
@@ -801,7 +763,7 @@ Default value: 'root'
 
 Data type: `Any`
 
-
+Optionally specify directory mode
 
 Default value: '0755'
 
@@ -809,7 +771,7 @@ Default value: '0755'
 
 Data type: `Any`
 
-
+Specifies the PATH variable. Default: [ '/bin', '/usr/bin', '/usr/sbin' ]
 
 Default value: [ '/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin' ]
 
@@ -817,80 +779,24 @@ Default value: [ '/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin' ]
 
 Data type: `Any`
 
-
+Optionally specify environment variables for pyvenv
 
 Default value: []
 
 ### python::requirements
 
-== Define: python::requirements
-
 Installs and manages Python packages from requirements file.
 
-=== Parameters
+#### Examples
 
-[*requirements*]
- Path to the requirements file. Defaults to the resource name
+##### install pip requirements from /var/www/project1/requirements.txt
 
-[*virtualenv*]
- virtualenv to run pip in. Default: system-wide
-
-[*pip_provider*]
- version of pip you wish to use. Default: pip
-
-[*owner*]
- The owner of the virtualenv being manipulated. Default: root
-
-[*group*]
- The group relating to the virtualenv being manipulated. Default: root
-
-[*proxy*]
- Proxy server to use for outbound connections. Default: none
-
-[*src*]
-Pip --src parameter; if the requirements file contains --editable resources,
-this parameter specifies where they will be installed. See the pip
-documentation for more. Default: none (i.e. use the pip default).
-
-[*environment*]
- Additional environment variables required to install the packages. Default: none
-
-[*forceupdate*]
- Run a pip install requirements even if we don't receive an event from the
-requirements file - Useful for when the requirements file is written as part of a
-resource other than file (E.g vcsrepo)
-
-[*cwd*]
- The directory from which to run the "pip install" command. Default: undef
-
-[*extra_pip_args*]
-Extra arguments to pass to pip after the requirements file
-
-[*manage_requirements*]
-Create the requirements file if it doesn't exist. Default: true
-
-[*fix_requirements_owner*]
-Change owner and group of requirements file. Default: true
-
-[*log_dir*]
-String. Log directory.
-
-[*timeout*]
- The maximum time in seconds the "pip install" command should take. Default: 1800
-
-=== Examples
-
+```puppet
 python::requirements { '/var/www/project1/requirements.txt':
   virtualenv => '/var/www/project1',
   proxy      => 'http://proxy.domain.com:3128',
 }
-
-=== Authors
-
-Sergey Stankevich
-Ashley Penney
-Fotis Gimian
-Daniel Quackenbush
+```
 
 #### Parameters
 
@@ -900,7 +806,7 @@ The following parameters are available in the `python::requirements` defined typ
 
 Data type: `Any`
 
-
+Path to the requirements file. Defaults to the resource name
 
 Default value: $name
 
@@ -908,7 +814,7 @@ Default value: $name
 
 Data type: `Any`
 
-
+virtualenv to run pip in. Default: system-wide
 
 Default value: 'system'
 
@@ -916,7 +822,7 @@ Default value: 'system'
 
 Data type: `Enum['pip', 'pip3']`
 
-
+version of pip you wish to use. Default: pip
 
 Default value: 'pip'
 
@@ -924,7 +830,7 @@ Default value: 'pip'
 
 Data type: `Any`
 
-
+The owner of the virtualenv being manipulated.
 
 Default value: 'root'
 
@@ -932,7 +838,7 @@ Default value: 'root'
 
 Data type: `Any`
 
-
+The group relating to the virtualenv being manipulated.
 
 Default value: 'root'
 
@@ -940,7 +846,7 @@ Default value: 'root'
 
 Data type: `Any`
 
-
+Proxy server to use for outbound connections.
 
 Default value: `false`
 
@@ -948,7 +854,7 @@ Default value: `false`
 
 Data type: `Any`
 
-
+Pip --src parameter; if the requirements file contains --editable resources, this parameter specifies where they will be installed. See the pip documentation for more.
 
 Default value: `false`
 
@@ -956,7 +862,7 @@ Default value: `false`
 
 Data type: `Any`
 
-
+Additional environment variables required to install the packages.
 
 Default value: []
 
@@ -964,7 +870,7 @@ Default value: []
 
 Data type: `Any`
 
-
+Run a pip install requirements even if we don't receive an event from the requirements file - Useful for when the requirements file is written as part of a resource other than file (E.g vcsrepo)
 
 Default value: `false`
 
@@ -972,7 +878,7 @@ Default value: `false`
 
 Data type: `Any`
 
-
+The directory from which to run the "pip install" command.
 
 Default value: `undef`
 
@@ -980,7 +886,7 @@ Default value: `undef`
 
 Data type: `Any`
 
-
+Extra arguments to pass to pip after the requirements file
 
 Default value: ''
 
@@ -988,7 +894,7 @@ Default value: ''
 
 Data type: `Any`
 
-
+Create the requirements file if it doesn't exist.
 
 Default value: `true`
 
@@ -996,7 +902,7 @@ Default value: `true`
 
 Data type: `Any`
 
-
+Change owner and group of requirements file.
 
 Default value: `true`
 
@@ -1004,7 +910,7 @@ Default value: `true`
 
 Data type: `Any`
 
-
+Log directory.
 
 Default value: '/tmp'
 
@@ -1012,75 +918,19 @@ Default value: '/tmp'
 
 Data type: `Any`
 
-
+The maximum time in seconds the "pip install" command should take.
 
 Default value: 1800
 
 ### python::virtualenv
 
-== Define: python::virtualenv
-
 Creates Python virtualenv.
 
-=== Parameters
+#### Examples
 
-[*ensure*]
- present|absent. Default: present
+##### install a virtual env at /var/www/project1
 
-[*version*]
- Python version to use. Default: system default
-
-[*requirements*]
- Path to pip requirements.txt file. Default: none
-
-[*systempkgs*]
- Copy system site-packages into virtualenv. Default: don't
- If virtualenv version < 1.7 this flag has no effect since
-
-[*venv_dir*]
- Directory to install virtualenv to. Default: $name
-
-[*ensure_venv_dir*]
-Create $venv_dir. Default: true
-
-[*distribute*]
- Include distribute in the virtualenv. Default: true
-
-[*index*]
- Base URL of Python package index. Default: none (http://pypi.python.org/simple/)
-
-[*owner*]
- The owner of the virtualenv being manipulated. Default: root
-
-[*group*]
- The group relating to the virtualenv being manipulated. Default: root
-
-[*mode*]
-Optionally specify directory mode. Default: 0755
-
-[*proxy*]
- Proxy server to use for outbound connections. Default: none
-
-[*environment*]
- Additional environment variables required to install the packages. Default: none
-
-[*path*]
- Specifies the PATH variable. Default: [ '/bin', '/usr/bin', '/usr/sbin' ]
-
-[*cwd*]
- The directory from which to run the "pip install" command. Default: undef
-
-[*timeout*]
- The maximum time in seconds the "pip install" command should take. Default: 1800
-
-[*pip_args*]
- Arguments to pass to pip during initialization.  Default: blank
-
-[*extra_pip_args*]
- Extra arguments to pass to pip after requirements file.  Default: blank
-
-=== Examples
-
+```puppet
 python::virtualenv { '/var/www/project1':
   ensure       => present,
   version      => 'system',
@@ -1089,11 +939,7 @@ python::virtualenv { '/var/www/project1':
   systempkgs   => true,
   index        => 'http://www.example.com/simple/',
 }
-
-=== Authors
-
-Sergey Stankevich
-Shiva Poudel
+```
 
 #### Parameters
 
@@ -1111,7 +957,7 @@ Default value: present
 
 Data type: `Any`
 
-
+Python version to use.
 
 Default value: 'system'
 
@@ -1119,7 +965,7 @@ Default value: 'system'
 
 Data type: `Any`
 
-
+Path to pip requirements.txt file
 
 Default value: `false`
 
@@ -1127,7 +973,7 @@ Default value: `false`
 
 Data type: `Any`
 
-
+Copy system site-packages into virtualenv. Default: don't If virtualenv version < 1.7 this flag has no effect since
 
 Default value: `false`
 
@@ -1135,7 +981,7 @@ Default value: `false`
 
 Data type: `Any`
 
-
+Directory to install virtualenv to
 
 Default value: $name
 
@@ -1143,7 +989,7 @@ Default value: $name
 
 Data type: `Any`
 
-
+reate $venv_dir
 
 Default value: `true`
 
@@ -1151,7 +997,7 @@ Default value: `true`
 
 Data type: `Any`
 
-
+Include distribute in the virtualenv
 
 Default value: `true`
 
@@ -1159,7 +1005,7 @@ Default value: `true`
 
 Data type: `Any`
 
-
+Base URL of Python package index
 
 Default value: `false`
 
@@ -1167,7 +1013,7 @@ Default value: `false`
 
 Data type: `Any`
 
-
+The owner of the virtualenv being manipulated
 
 Default value: 'root'
 
@@ -1175,7 +1021,7 @@ Default value: 'root'
 
 Data type: `Any`
 
-
+The group relating to the virtualenv being manipulated
 
 Default value: 'root'
 
@@ -1183,7 +1029,7 @@ Default value: 'root'
 
 Data type: `Any`
 
-
+Optionally specify directory mode
 
 Default value: '0755'
 
@@ -1191,7 +1037,7 @@ Default value: '0755'
 
 Data type: `Any`
 
-
+Proxy server to use for outbound connections
 
 Default value: `false`
 
@@ -1199,7 +1045,7 @@ Default value: `false`
 
 Data type: `Any`
 
-
+Additional environment variables required to install the packages
 
 Default value: []
 
@@ -1207,7 +1053,7 @@ Default value: []
 
 Data type: `Any`
 
-
+Specifies the PATH variable
 
 Default value: [ '/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin' ]
 
@@ -1215,7 +1061,7 @@ Default value: [ '/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin' ]
 
 Data type: `Any`
 
-
+The directory from which to run the "pip install" command
 
 Default value: `undef`
 
@@ -1223,7 +1069,7 @@ Default value: `undef`
 
 Data type: `Any`
 
-
+The maximum time in seconds the "pip install" command should take
 
 Default value: 1800
 
@@ -1231,7 +1077,7 @@ Default value: 1800
 
 Data type: `Any`
 
-
+Arguments to pass to pip during initialization
 
 Default value: ''
 
@@ -1239,7 +1085,7 @@ Default value: ''
 
 Data type: `Any`
 
-
+Extra arguments to pass to pip after requirements file
 
 Default value: ''
 

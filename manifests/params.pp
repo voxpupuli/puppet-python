@@ -1,6 +1,5 @@
-# == Class: python::params
 #
-# The python Module default configuration settings.
+# @summary The python Module default configuration settings.
 #
 class python::params {
   $ensure                 = 'present'

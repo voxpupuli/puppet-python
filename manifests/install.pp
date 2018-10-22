@@ -1,17 +1,8 @@
-# == Class: python::install
 #
-# Installs core python packages,
+# @summary Installs core python packages
 #
-# === Examples
-#
-# include python::install
-#
-# === Authors
-#
-# Sergey Stankevich
-# Ashley Penney
-# Fotis Gimian
-# Garrett Honeycutt <code@garretthoneycutt.com>
+# @example
+#  include python::install
 #
 class python::install {
 

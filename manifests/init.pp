@@ -1,17 +1,8 @@
-# == Class: python
+# @summary Installs and manages python, python-dev, python-virtualenv and gunicorn.
 #
-# Installs and manages python, python-dev, python-virtualenv and Gunicorn.
-#
-# === Parameters
-#
-# [*ensure*]
-#  Desired installation state for the Python package. Valid options are absent,
-#  present and latest. Default: present
-#
-# [*version*]
-#  Python version to install. Beware that valid values for this differ a) by
-#  the provider you choose and b) by the osfamily/operatingsystem you are using.
-#  Default: system default
+# @param ensure Desired installation state for the Python package.
+#   Allowed values: absent, present and latest
+# @param version Python version to install. Beware that valid values for this differ a) by the provider you choose and b) by the osfamily/operatingsystem you are using.
 #  Allowed values:
 #   - provider == pip: everything pip allows as a version after the 'python=='
 #   - else: 'system', 'pypy', 3/3.3/...
@@ -19,54 +10,28 @@
 #      - 'pypy' actually lets us use pypy as python.
 #      - 3/3.3/... means you are going to install the python3/python3.3/...
 #        package, if available on your osfamily.
-#
-# [*pip*]
-#  Desired installation state for python-pip. Boolean values are deprecated.
-#  Default: present
+# @param pip  Desired installation state for python-pip. Boolean values are deprecated.
 #  Allowed values: 'absent', 'present', 'latest'
-#
-# [*dev*]
-#  Desired installation state for python-dev. Boolean values are deprecated.
-#  Default: absent
+# @param dev Desired installation state for python-dev. Boolean values are deprecated.
 #  Allowed values: 'absent', 'present', 'latest'
-#
-# [*virtualenv*]
-#  Desired installation state for python-virtualenv. Boolean values are
-#  deprecated. Default: absent
+# @param virtualenv Desired installation state for python-virtualenv. Boolean values are deprecated
 #  Allowed values: 'absent', 'present', 'latest
-#
-# [*gunicorn*]
-#  Desired installation state for Gunicorn. Boolean values are deprecated.
-#  Default: absent
+# @param gunicorn Desired installation state for Gunicorn. Boolean values are deprecated.
 #  Allowed values: 'absent', 'present', 'latest'
-#
-# [*manage_gunicorn*]
-#  Allow Installation / Removal of Gunicorn. Default: true
-#
-# [*provider*]
-#  What provider to use for installation of the packages, except gunicorn and
-#  Python itself. Default: system default provider
+# @param manage_gunicorn Allow Installation / Removal of Gunicorn. Default: true
+# @param provider What provider to use for installation of the packages, except gunicorn and Python itself.
 #  Allowed values: 'pip'
+# @param use_epel to determine if the epel class is used.
 #
-# [*use_epel*]
-#  Boolean to determine if the epel class is used. Default: true
+# @example ensure system python is installed, with pip,dev, virtualenv, and gunicorn packages present
+#   class { 'python':
+#     version    => 'system',
+#     pip        => 'present',
+#     dev        => 'present',
+#     virtualenv => 'present',
+#     gunicorn   => 'present',
+#   }
 #
-# === Examples
-#
-# class { 'python':
-#   version    => 'system',
-#   pip        => 'present',
-#   dev        => 'present',
-#   virtualenv => 'present',
-#   gunicorn   => 'present',
-# }
-#
-# === Authors
-#
-# Sergey Stankevich
-# Garrett Honeycutt <code@garretthoneycutt.com>
-#
-
 class python (
   Enum['absent', 'present', 'latest'] $ensure     = $python::params::ensure,
   $version                                        = $python::params::version,

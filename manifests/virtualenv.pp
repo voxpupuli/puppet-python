@@ -1,79 +1,34 @@
-# == Define: python::virtualenv
 #
-# Creates Python virtualenv.
+# @summary Creates Python virtualenv.
 #
-# === Parameters
+# @param ensure
+# @param version Python version to use.
+# @param requirements Path to pip requirements.txt file
+# @param systempkgs Copy system site-packages into virtualenv. Default: don't If virtualenv version < 1.7 this flag has no effect since
+# @param venv_dir  Directory to install virtualenv to
+# @param ensure_venv_dir reate $venv_dir
+# @param distribute Include distribute in the virtualenv
+# @param index Base URL of Python package index
+# @param owner The owner of the virtualenv being manipulated
+# @param group  The group relating to the virtualenv being manipulated
+# @param mode  Optionally specify directory mode
+# @param proxy Proxy server to use for outbound connections
+# @param environment Additional environment variables required to install the packages
+# @param path  Specifies the PATH variable
+# @param cwd The directory from which to run the "pip install" command
+# @param timeout  The maximum time in seconds the "pip install" command should take
+# @param pip_args  Arguments to pass to pip during initialization
+# @param extra_pip_args Extra arguments to pass to pip after requirements file
 #
-# [*ensure*]
-#  present|absent. Default: present
-#
-# [*version*]
-#  Python version to use. Default: system default
-#
-# [*requirements*]
-#  Path to pip requirements.txt file. Default: none
-#
-# [*systempkgs*]
-#  Copy system site-packages into virtualenv. Default: don't
-#  If virtualenv version < 1.7 this flag has no effect since
-#
-# [*venv_dir*]
-#  Directory to install virtualenv to. Default: $name
-#
-# [*ensure_venv_dir*]
-# Create $venv_dir. Default: true
-#
-# [*distribute*]
-#  Include distribute in the virtualenv. Default: true
-#
-# [*index*]
-#  Base URL of Python package index. Default: none (http://pypi.python.org/simple/)
-#
-# [*owner*]
-#  The owner of the virtualenv being manipulated. Default: root
-#
-# [*group*]
-#  The group relating to the virtualenv being manipulated. Default: root
-#
-# [*mode*]
-# Optionally specify directory mode. Default: 0755
-#
-# [*proxy*]
-#  Proxy server to use for outbound connections. Default: none
-#
-# [*environment*]
-#  Additional environment variables required to install the packages. Default: none
-#
-# [*path*]
-#  Specifies the PATH variable. Default: [ '/bin', '/usr/bin', '/usr/sbin' ]
-#
-# [*cwd*]
-#  The directory from which to run the "pip install" command. Default: undef
-#
-# [*timeout*]
-#  The maximum time in seconds the "pip install" command should take. Default: 1800
-#
-# [*pip_args*]
-#  Arguments to pass to pip during initialization.  Default: blank
-#
-# [*extra_pip_args*]
-#  Extra arguments to pass to pip after requirements file.  Default: blank
-#
-# === Examples
-#
-# python::virtualenv { '/var/www/project1':
-#   ensure       => present,
-#   version      => 'system',
-#   requirements => '/var/www/project1/requirements.txt',
-#   proxy        => 'http://proxy.domain.com:3128',
-#   systempkgs   => true,
-#   index        => 'http://www.example.com/simple/',
-# }
-#
-# === Authors
-#
-# Sergey Stankevich
-# Shiva Poudel
+# @example install a virtual env at /var/www/project1
+#  python::virtualenv { '/var/www/project1':
+#    ensure       => present,
+#    version      => 'system',
+#    requirements => '/var/www/project1/requirements.txt',
+#    proxy        => 'http://proxy.domain.com:3128',
+#    systempkgs   => true,
+#    index        => 'http://www.example.com/simple/',
+#  }
 #
 define python::virtualenv (
   $ensure           = present,

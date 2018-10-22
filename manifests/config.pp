@@ -1,18 +1,9 @@
-# == Define: python::config
 #
-# Optionally installs the gunicorn service
+# @summary Optionally installs the gunicorn service
 #
-# === Examples
+# @example
+#  include python::config
 #
-# include python::config
-#
-# === Authors
-#
-# Sergey Stankevich
-# Ashley Penney
-# Fotis Gimian
-#
-
 class python::config {
 
   Class['python::install'] -> Python::Pip <| |>

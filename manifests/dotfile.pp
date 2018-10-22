@@ -1,38 +1,27 @@
-# == Define: python::dotfile
 #
-# Manages any python dotfiles with a simple config hash.
+# @summary Manages any python dotfiles with a simple config hash.
 #
-# === Parameters
-#
-# [*ensure*]
-#  present|absent. Default: present
-#
-# [*filename*]
-#  Filename. Default: $title
-#
-# [*mode*]
-#  File mode. Default: 0644
-#
-# [*owner*]
-# [*group*]
-#  Owner/group. Default: `root`/`root`
-#
-# [*config*]
-#  Config hash. This will be expanded to an ini-file. Default: {}
+# @param ensure present|absent. Default: present
+# @param filename Filename. Default: $title
+# @param mode File mode. Default: 0644
+# @param owner user owner of dotfile
+# @param group group owner of dotfile
+# @param config Config hash. This will be expanded to an ini-file. Default: {}
 #
 # === Examples
 #
-# python::dotfile { '/var/lib/jenkins/.pip/pip.conf':
-#   ensure => present,
-#   owner  => 'jenkins',
-#   group  => 'jenkins',
-#   config => {
-#     'global' => {
-#       'index-url       => 'https://mypypi.acme.com/simple/'
-#       'extra-index-url => https://pypi.risedev.at/simple/
+# @example Create a pip config in /var/lib/jenkins/.pip/
+#   python::dotfile { '/var/lib/jenkins/.pip/pip.conf':
+#     ensure => present,
+#     owner  => 'jenkins',
+#     group  => 'jenkins',
+#     config => {
+#       'global' => {
+#         'index-url       => 'https://mypypi.acme.com/simple/'
+#         'extra-index-url => https://pypi.risedev.at/simple/
+#       }
 #     }
 #   }
-# }
 #
 #
 define python::dotfile (
