@@ -8,10 +8,10 @@
 _Public Classes_
 
 * [`python`](#python): Installs and manages python, python-dev, python-virtualenv and gunicorn.
-* [`python::config`](#pythonconfig): Optionally installs the gunicorn service
 
 _Private Classes_
 
+* `python::config`: Optionally installs the gunicorn service
 * `python::install`: Installs core python packages
 * `python::params`: The python Module default configuration settings.
 
@@ -53,7 +53,6 @@ The following parameters are available in the `python` class.
 Data type: `Enum['absent', 'present', 'latest']`
 
 Desired installation state for the Python package.
-Allowed values: absent, present and latest
 
 Default value: $python::params::ensure
 
@@ -208,18 +207,6 @@ Data type: `Stdlib::Absolutepath`
 
 Default value: $python::params::anaconda_install_path
 
-### python::config
-
-Optionally installs the gunicorn service
-
-#### Examples
-
-##### 
-
-```puppet
-include python::config
-```
-
 ## Defined types
 
 ### python::dotfile
@@ -237,8 +224,8 @@ python::dotfile { '/var/lib/jenkins/.pip/pip.conf':
   group  => 'jenkins',
   config => {
     'global' => {
-      'index-url       => 'https://mypypi.acme.com/simple/'
-      'extra-index-url => https://pypi.risedev.at/simple/
+      'index-url'       => 'https://mypypi.acme.com/simple/'
+      'extra-index-url' => 'https://pypi.risedev.at/simple/'
     }
   }
 }
@@ -250,9 +237,9 @@ The following parameters are available in the `python::dotfile` defined type.
 
 ##### `ensure`
 
-Data type: `Any`
+Data type: `Enum['absent', 'present']`
 
-present|absent. Default: present
+
 
 Default value: 'present'
 
@@ -260,21 +247,21 @@ Default value: 'present'
 
 Data type: `Any`
 
-Filename. Default: $title
+Filename.
 
 Default value: $title
 
 ##### `mode`
 
-Data type: `Any`
+Data type: `String`
 
-File mode. Default: 0644
+File mode.
 
 Default value: '0644'
 
 ##### `owner`
 
-Data type: `Any`
+Data type: `String`
 
 user owner of dotfile
 
@@ -282,7 +269,7 @@ Default value: 'root'
 
 ##### `group`
 
-Data type: `Any`
+Data type: `String`
 
 group owner of dotfile
 
@@ -292,7 +279,7 @@ Default value: 'root'
 
 Data type: `Any`
 
-Config hash. This will be expanded to an ini-file. Default: {}
+Config hash. This will be expanded to an ini-file.
 
 Default value: {}
 
@@ -337,7 +324,7 @@ Default value: present
 
 Data type: `Any`
 
-Configure the gunicorn config directory path. Default: /etc/gunicorn.d
+Configure the gunicorn config directory path.
 
 Default value: '/etc/gunicorn.d'
 
@@ -345,7 +332,7 @@ Default value: '/etc/gunicorn.d'
 
 Data type: `Any`
 
-Set if the gunicorn config directory should be created. Default: false
+Set if the gunicorn config directory should be created.
 
 Default value: `false`
 
@@ -353,7 +340,7 @@ Default value: `false`
 
 Data type: `Any`
 
-Run in virtualenv, specify directory. Default: disabled
+Run in virtualenv, specify directory.
 
 Default value: `false`
 
@@ -387,7 +374,7 @@ Default value: `false`
 
 Data type: `Any`
 
-Set ENVIRONMENT variable. Default: none
+Set ENVIRONMENT variable.
 
 Default value: `false`
 
@@ -419,7 +406,7 @@ Default value: 30
 
 Data type: `Any`
 
-Which ERB template to use. Default: python/gunicorn.erb
+Which ERB template to use.
 
 Default value: 'python/gunicorn.erb'
 
@@ -427,7 +414,7 @@ Default value: 'python/gunicorn.erb'
 
 Data type: `Any`
 
-Custom arguments to add in gunicorn config file. Default: []
+Custom arguments to add in gunicorn config file.
 
 Default value: []
 
@@ -784,7 +771,7 @@ The following parameters are available in the `python::requirements` defined typ
 
 Data type: `Any`
 
-Path to the requirements file. Defaults to the resource name
+Path to the requirements file.
 
 Default value: $name
 
@@ -792,7 +779,7 @@ Default value: $name
 
 Data type: `Any`
 
-virtualenv to run pip in. Default: system-wide
+virtualenv to run pip in.
 
 Default value: 'system'
 
@@ -800,7 +787,7 @@ Default value: 'system'
 
 Data type: `Enum['pip', 'pip3']`
 
-version of pip you wish to use. Default: pip
+version of pip you wish to use.
 
 Default value: 'pip'
 
@@ -951,7 +938,7 @@ Default value: `false`
 
 Data type: `Any`
 
-Copy system site-packages into virtualenv. Default: don't If virtualenv version < 1.7 this flag has no effect since
+Copy system site-packages into virtualenv.
 
 Default value: `false`
 
@@ -967,7 +954,7 @@ Default value: $name
 
 Data type: `Any`
 
-reate $venv_dir
+Create $venv_dir
 
 Default value: `true`
 

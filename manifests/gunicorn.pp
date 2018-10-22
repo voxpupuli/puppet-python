@@ -2,20 +2,20 @@
 # @summary Manages Gunicorn virtual hosts.
 #
 # @param ensure
-# @param config_dir Configure the gunicorn config directory path. Default: /etc/gunicorn.d
-# @param manage_config_dir Set if the gunicorn config directory should be created. Default: false
-# @param virtualenv Run in virtualenv, specify directory. Default: disabled
+# @param config_dir Configure the gunicorn config directory path.
+# @param manage_config_dir Set if the gunicorn config directory should be created.
+# @param virtualenv Run in virtualenv, specify directory.
 # @param mode Gunicorn mode.
 # @param dir Application directory.
 # @param bind Bind on: 'HOST', 'HOST:PORT', 'unix:PATH'.
 #  Default: system-wide: unix:/tmp/gunicorn-$name.socket
 #           virtualenv:  unix:${virtualenv}/${name}.socket
-# @param environment Set ENVIRONMENT variable. Default: none
+# @param environment Set ENVIRONMENT variable.
 # @param appmodule Set the application module name for gunicorn to load when not using Django.
 # @param osenv Allows setting environment variables for the gunicorn service. Accepts a hash of 'key': 'value' pairs.
 # @param timeout Allows setting the gunicorn idle worker process time before being killed. The unit of time is seconds.
-# @param template Which ERB template to use. Default: python/gunicorn.erb
-# @param args Custom arguments to add in gunicorn config file. Default: []
+# @param template Which ERB template to use.
+# @param args Custom arguments to add in gunicorn config file.
 #
 # @example run gunicorn on vhost in virtualenv /var/www/project1
 #  python::gunicorn { 'vhost':

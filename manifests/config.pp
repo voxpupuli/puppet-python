@@ -1,4 +1,4 @@
-#
+# @api private
 # @summary Optionally installs the gunicorn service
 #
 # @example

@@ -1,7 +1,6 @@
 # @summary Installs and manages python, python-dev, python-virtualenv and gunicorn.
 #
 # @param ensure Desired installation state for the Python package.
-#   Allowed values: absent, present and latest
 # @param version Python version to install. Beware that valid values for this differ a) by the provider you choose and b) by the osfamily/operatingsystem you are using.
 #  Allowed values:
 #   - provider == pip: everything pip allows as a version after the 'python=='

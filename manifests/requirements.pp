@@ -1,9 +1,9 @@
 #
 # @summary Installs and manages Python packages from requirements file.
 #
-# @param requirements Path to the requirements file. Defaults to the resource name
-# @param virtualenv virtualenv to run pip in. Default: system-wide
-# @param pip_provider version of pip you wish to use. Default: pip
+# @param requirements Path to the requirements file.
+# @param virtualenv virtualenv to run pip in.
+# @param pip_provider version of pip you wish to use.
 # @param owner The owner of the virtualenv being manipulated.
 # @param group  The group relating to the virtualenv being manipulated.
 # @param proxy Proxy server to use for outbound connections.

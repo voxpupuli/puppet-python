@@ -1,12 +1,12 @@
 #
 # @summary Manages any python dotfiles with a simple config hash.
 #
-# @param ensure present|absent. Default: present
-# @param filename Filename. Default: $title
-# @param mode File mode. Default: 0644
+# @param ensure
+# @param filename Filename.
+# @param mode File mode.
 # @param owner user owner of dotfile
 # @param group group owner of dotfile
-# @param config Config hash. This will be expanded to an ini-file. Default: {}
+# @param config Config hash. This will be expanded to an ini-file.
 #
 # === Examples
 #
@@ -17,20 +17,20 @@
 #     group  => 'jenkins',
 #     config => {
 #       'global' => {
-#         'index-url       => 'https://mypypi.acme.com/simple/'
-#         'extra-index-url => https://pypi.risedev.at/simple/
+#         'index-url'       => 'https://mypypi.acme.com/simple/'
+#         'extra-index-url' => 'https://pypi.risedev.at/simple/'
 #       }
 #     }
 #   }
 #
 #
 define python::dotfile (
-  $ensure   = 'present',
-  $filename = $title,
-  $owner    = 'root',
-  $group    = 'root',
-  $mode     = '0644',
-  $config   = {},
+  Enum['absent', 'present'] $ensure   = 'present',
+  $filename                           = $title,
+  String $owner                       = 'root',
+  String $group                       = 'root',
+  String $mode                        = '0644',
+  $config                             = {},
 ) {
   $parent_dir = dirname($filename)
 

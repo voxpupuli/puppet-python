@@ -4,9 +4,9 @@
 # @param ensure
 # @param version Python version to use.
 # @param requirements Path to pip requirements.txt file
-# @param systempkgs Copy system site-packages into virtualenv. Default: don't If virtualenv version < 1.7 this flag has no effect since
+# @param systempkgs Copy system site-packages into virtualenv.
 # @param venv_dir  Directory to install virtualenv to
-# @param ensure_venv_dir reate $venv_dir
+# @param ensure_venv_dir Create $venv_dir
 # @param distribute Include distribute in the virtualenv
 # @param index Base URL of Python package index
 # @param owner The owner of the virtualenv being manipulated
