@@ -5,10 +5,15 @@
 
 **Classes**
 
+_Public Classes_
+
 * [`python`](#python): Installs and manages python, python-dev, python-virtualenv and gunicorn.
 * [`python::config`](#pythonconfig): Optionally installs the gunicorn service
-* [`python::install`](#pythoninstall): Installs core python packages
-* [`python::params`](#pythonparams): The python Module default configuration settings.
+
+_Private Classes_
+
+* `python::install`: Installs core python packages
+* `python::params`: The python Module default configuration settings.
 
 **Defined types**
 
@@ -71,17 +76,15 @@ Default value: $python::params::version
 
 Data type: `Enum['absent', 'present', 'latest']`
 
-Desired installation state for python-pip. Boolean values are deprecated.
-Allowed values: 'absent', 'present', 'latest'
+Desired installation state for python-pip.
 
 Default value: $python::params::pip
 
 ##### `dev`
 
-Data type: `Any`
+Data type: `Enum['absent', 'present', 'latest']`
 
-Desired installation state for python-dev. Boolean values are deprecated.
-Allowed values: 'absent', 'present', 'latest'
+Desired installation state for python-dev.
 
 Default value: $python::params::dev
 
@@ -89,8 +92,7 @@ Default value: $python::params::dev
 
 Data type: `Enum['absent', 'present', 'latest']`
 
-Desired installation state for python-virtualenv. Boolean values are deprecated
-Allowed values: 'absent', 'present', 'latest
+Desired installation state for python-virtualenv.
 
 Default value: $python::params::virtualenv
 
@@ -98,8 +100,7 @@ Default value: $python::params::virtualenv
 
 Data type: `Enum['absent', 'present', 'latest']`
 
-Desired installation state for Gunicorn. Boolean values are deprecated.
-Allowed values: 'absent', 'present', 'latest'
+Desired installation state for Gunicorn.
 
 Default value: $python::params::gunicorn
 
@@ -107,7 +108,7 @@ Default value: $python::params::gunicorn
 
 Data type: `Boolean`
 
-Allow Installation / Removal of Gunicorn. Default: true
+Allow Installation / Removal of Gunicorn.
 
 Default value: $python::params::manage_gunicorn
 
@@ -116,7 +117,6 @@ Default value: $python::params::manage_gunicorn
 Data type: `Optional[Enum['pip', 'scl', 'rhscl', 'anaconda', '']]`
 
 What provider to use for installation of the packages, except gunicorn and Python itself.
-Allowed values: 'pip'
 
 Default value: $python::params::provider
 
@@ -219,22 +219,6 @@ Optionally installs the gunicorn service
 ```puppet
 include python::config
 ```
-
-### python::install
-
-Installs core python packages
-
-#### Examples
-
-##### 
-
-```puppet
-include python::install
-```
-
-### python::params
-
-The python Module default configuration settings.
 
 ## Defined types
 
@@ -375,10 +359,9 @@ Default value: `false`
 
 ##### `mode`
 
-Data type: `Any`
+Data type: `Enum['wsgi', 'django']`
 
 Gunicorn mode.
-wsgi|django. Default: wsgi
 
 Default value: 'wsgi'
 
@@ -413,7 +396,6 @@ Default value: `false`
 Data type: `Any`
 
 Set the application module name for gunicorn to load when not using Django.
-Default: app:app
 
 Default value: 'app:app'
 
@@ -421,9 +403,7 @@ Default value: 'app:app'
 
 Data type: `Any`
 
-Allows setting environment variables for the gunicorn service. Accepts a
-hash of 'key': 'value' pairs.
-Default: false
+Allows setting environment variables for the gunicorn service. Accepts a hash of 'key': 'value' pairs.
 
 Default value: `false`
 
@@ -431,9 +411,7 @@ Default value: `false`
 
 Data type: `Any`
 
-Allows setting the gunicorn idle worker process time before being killed.
-The unit of time is seconds.
-Default: 30
+Allows setting the gunicorn idle worker process time before being killed. The unit of time is seconds.
 
 Default value: 30
 
@@ -723,7 +701,7 @@ Default value: present
 
 Data type: `Any`
 
-Python version to use. Default: system default
+Python version to use.
 
 Default value: 'system'
 
@@ -771,7 +749,7 @@ Default value: '0755'
 
 Data type: `Any`
 
-Specifies the PATH variable. Default: [ '/bin', '/usr/bin', '/usr/sbin' ]
+Specifies the PATH variable.
 
 Default value: [ '/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin' ]
 

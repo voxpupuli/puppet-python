@@ -1,4 +1,4 @@
-#
+# @api private
 # @summary The python Module default configuration settings.
 #
 class python::params {

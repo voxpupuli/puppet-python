@@ -10,17 +10,12 @@
 #      - 'pypy' actually lets us use pypy as python.
 #      - 3/3.3/... means you are going to install the python3/python3.3/...
 #        package, if available on your osfamily.
-# @param pip  Desired installation state for python-pip. Boolean values are deprecated.
-#  Allowed values: 'absent', 'present', 'latest'
-# @param dev Desired installation state for python-dev. Boolean values are deprecated.
-#  Allowed values: 'absent', 'present', 'latest'
-# @param virtualenv Desired installation state for python-virtualenv. Boolean values are deprecated
-#  Allowed values: 'absent', 'present', 'latest
-# @param gunicorn Desired installation state for Gunicorn. Boolean values are deprecated.
-#  Allowed values: 'absent', 'present', 'latest'
-# @param manage_gunicorn Allow Installation / Removal of Gunicorn. Default: true
+# @param pip Desired installation state for python-pip.
+# @param dev Desired installation state for python-dev.
+# @param virtualenv Desired installation state for python-virtualenv.
+# @param gunicorn Desired installation state for Gunicorn.
+# @param manage_gunicorn Allow Installation / Removal of Gunicorn.
 # @param provider What provider to use for installation of the packages, except gunicorn and Python itself.
-#  Allowed values: 'pip'
 # @param use_epel to determine if the epel class is used.
 #
 # @example ensure system python is installed, with pip,dev, virtualenv, and gunicorn packages present
@@ -36,7 +31,7 @@ class python (
   Enum['absent', 'present', 'latest'] $ensure     = $python::params::ensure,
   $version                                        = $python::params::version,
   Enum['absent', 'present', 'latest'] $pip        = $python::params::pip,
-  $dev                                            = $python::params::dev,
+  Enum['absent', 'present', 'latest'] $dev        = $python::params::dev,
   Enum['absent', 'present', 'latest'] $virtualenv = $python::params::virtualenv,
   Enum['absent', 'present', 'latest'] $gunicorn   = $python::params::gunicorn,
   Boolean $manage_gunicorn                        = $python::params::manage_gunicorn,

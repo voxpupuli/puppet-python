@@ -2,13 +2,13 @@
 # @summary Create a Python3 virtualenv using pyvenv.
 #
 # @param ensure
-# @param version Python version to use. Default: system default
+# @param version Python version to use.
 # @param systempkgs Copy system site-packages into virtualenv
 # @param venv_dir  Directory to install virtualenv to
 # @param owner The owner of the virtualenv being manipulated
 # @param group The group relating to the virtualenv being manipulated
 # @param mode  Optionally specify directory mode
-# @param path Specifies the PATH variable. Default: [ '/bin', '/usr/bin', '/usr/sbin' ]
+# @param path Specifies the PATH variable.
 # @param environment Optionally specify environment variables for pyvenv
 #
 # @example

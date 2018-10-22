@@ -1,4 +1,4 @@
-#
+# @api private
 # @summary Installs core python packages
 #
 # @example

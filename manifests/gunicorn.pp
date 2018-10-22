@@ -6,20 +6,14 @@
 # @param manage_config_dir Set if the gunicorn config directory should be created. Default: false
 # @param virtualenv Run in virtualenv, specify directory. Default: disabled
 # @param mode Gunicorn mode.
-#  wsgi|django. Default: wsgi
 # @param dir Application directory.
 # @param bind Bind on: 'HOST', 'HOST:PORT', 'unix:PATH'.
 #  Default: system-wide: unix:/tmp/gunicorn-$name.socket
 #           virtualenv:  unix:${virtualenv}/${name}.socket
 # @param environment Set ENVIRONMENT variable. Default: none
 # @param appmodule Set the application module name for gunicorn to load when not using Django.
-#  Default: app:app
-# @param osenv Allows setting environment variables for the gunicorn service. Accepts a
-#  hash of 'key': 'value' pairs.
-#  Default: false
-# @param timeout Allows setting the gunicorn idle worker process time before being killed.
-#  The unit of time is seconds.
-#  Default: 30
+# @param osenv Allows setting environment variables for the gunicorn service. Accepts a hash of 'key': 'value' pairs.
+# @param timeout Allows setting the gunicorn idle worker process time before being killed. The unit of time is seconds.
 # @param template Which ERB template to use. Default: python/gunicorn.erb
 # @param args Custom arguments to add in gunicorn config file. Default: []
 #
@@ -40,26 +34,26 @@
 #  }
 #
 define python::gunicorn (
-  $ensure            = present,
-  $config_dir        = '/etc/gunicorn.d',
-  $manage_config_dir = false,
-  $virtualenv        = false,
-  $mode              = 'wsgi',
-  $dir               = false,
-  $bind              = false,
-  $environment       = false,
-  $owner             = 'www-data',
-  $group             = 'www-data',
-  $appmodule         = 'app:app',
-  $osenv             = false,
-  $timeout           = 30,
-  $workers           = false,
-  $access_log_format = false,
-  $accesslog         = false,
-  $errorlog          = false,
-  $log_level          = 'error',
-  $template          = 'python/gunicorn.erb',
-  $args              = [],
+  $ensure                       = present,
+  $config_dir                   = '/etc/gunicorn.d',
+  $manage_config_dir            = false,
+  $virtualenv                   = false,
+  Enum['wsgi', 'django'] $mode  = 'wsgi',
+  $dir                          = false,
+  $bind                         = false,
+  $environment                  = false,
+  $owner                        = 'www-data',
+  $group                        = 'www-data',
+  $appmodule                    = 'app:app',
+  $osenv                        = false,
+  $timeout                      = 30,
+  $workers                      = false,
+  $access_log_format            = false,
+  $accesslog                    = false,
+  $errorlog                     = false,
+  $log_level                     = 'error',
+  $template                     = 'python/gunicorn.erb',
+  $args                         = [],
 ) {
 
   # Parameter validation
