@@ -15,7 +15,7 @@
 * [`python::dotfile`](#pythondotfile): Manages any python dotfiles with a simple config hash.
 * [`python::gunicorn`](#pythongunicorn): Manages Gunicorn virtual hosts.
 * [`python::pip`](#pythonpip): Installs and manages packages from pip.
-* [`python::pyvenv`](#pythonpyvenv): 
+* [`python::pyvenv`](#pythonpyvenv): Create a Python3 virtualenv using pyvenv.
 * [`python::requirements`](#pythonrequirements): Installs and manages Python packages from requirements file.
 * [`python::virtualenv`](#pythonvirtualenv): Creates Python virtualenv.
 
@@ -543,7 +543,7 @@ Default value: $name
 
 ##### `ensure`
 
-Data type: `Enum[present, absent, latest]`
+Data type: `Variant[Enum[present, absent, latest], String]`
 
 Require pip to be available.
 
@@ -693,7 +693,7 @@ Default value: ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin']
 
 ### python::pyvenv
 
-The python::pyvenv class.
+Create a Python3 virtualenv using pyvenv.
 
 #### Examples
 
