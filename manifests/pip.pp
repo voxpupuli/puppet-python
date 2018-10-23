@@ -3,7 +3,7 @@
 # @summary Installs and manages packages from pip.
 #
 # @param name must be unique
-# @param pkgname name of the package.
+# @param pkgname the name of the package.
 # @param ensure Require pip to be available.
 # @param virtualenv virtualenv to run pip in.
 # @param pip_provider version of pip you wish to use.
@@ -19,9 +19,8 @@
 # @param install_args Any additional installation arguments that will be supplied when running pip install.
 # @param uninstall_args Any additional arguments that will be supplied when running pip uninstall.
 # @param log_dir Log directory
-# @param egg
+# @param egg The egg name to use
 # @param umask
-# @param egg
 #
 # @example Install Flask to /var/www/project1 using a proxy
 #   python::pip { 'flask':
@@ -29,7 +28,26 @@
 #     proxy      => 'http://proxy.domain.com:3128',
 #     index      => 'http://www.example.com/simple/',
 #   }
-#
+# @example Install cx_Oracle with pip
+#   python::pip { 'cx_Oracle' :
+#     pkgname       => 'cx_Oracle',
+#     ensure        => '5.1.2',
+#     virtualenv    => '/var/www/project1',
+#     owner         => 'appuser',
+#     proxy         => 'http://proxy.domain.com:3128',
+#     environment   => 'ORACLE_HOME=/usr/lib/oracle/11.2/client64',
+#     install_args  => '-e',
+#     timeout       => 1800,
+#   }
+# @example Install Requests with pip3
+#   python::pip { 'requests' :
+#     ensure        => 'present',
+#     pkgname       => 'requests',
+#     pip_provider  => 'pip3',
+#     virtualenv    => '/var/www/project1',
+#     owner         => 'root',
+#     timeout       => 1800
+#   }
 #
 define python::pip (
   String $pkgname                                         = $name,

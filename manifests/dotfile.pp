@@ -8,8 +8,6 @@
 # @param group group owner of dotfile
 # @param config Config hash. This will be expanded to an ini-file.
 #
-# === Examples
-#
 # @example Create a pip config in /var/lib/jenkins/.pip/
 #   python::dotfile { '/var/lib/jenkins/.pip/pip.conf':
 #     ensure => present,

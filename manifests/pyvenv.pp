@@ -12,10 +12,13 @@
 # @param environment Optionally specify environment variables for pyvenv
 #
 # @example
-#   python::venv { '/var/www/project1':
+#   python::pyvenv { '/var/www/project1' :
 #     ensure       => present,
 #     version      => 'system',
 #     systempkgs   => true,
+#     venv_dir     => '/home/appuser/virtualenvs',
+#     owner        => 'appuser',
+#     group        => 'apps',
 #   }
 #
 define python::pyvenv (

@@ -7,7 +7,7 @@
 # @param owner The owner of the virtualenv being manipulated.
 # @param group  The group relating to the virtualenv being manipulated.
 # @param proxy Proxy server to use for outbound connections.
-# @param src Pip --src parameter; if the requirements file contains --editable resources, this parameter specifies where they will be installed. See the pip documentation for more.
+# @param src Pip --src parameter to; if the requirements file contains --editable resources, this parameter specifies where they will be installed. See the pip documentation for more.
 # @param environment Additional environment variables required to install the packages.
 # @param forceupdate Run a pip install requirements even if we don't receive an event from the requirements file - Useful for when the requirements file is written as part of a resource other than file (E.g vcsrepo)
 # @param cwd  The directory from which to run the "pip install" command.
@@ -18,9 +18,11 @@
 # @param timeout The maximum time in seconds the "pip install" command should take.
 #
 # @example install pip requirements from /var/www/project1/requirements.txt
-#   python::requirements { '/var/www/project1/requirements.txt':
+#   python::requirements { '/var/www/project1/requirements.txt' :
 #     virtualenv => '/var/www/project1',
 #     proxy      => 'http://proxy.domain.com:3128',
+#     owner      => 'appuser',
+#     group      => 'apps',
 #   }
 #
 define python::requirements (

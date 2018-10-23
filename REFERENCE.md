@@ -32,7 +32,7 @@ Installs and manages python, python-dev, python-virtualenv and gunicorn.
 
 #### Examples
 
-##### ensure system python is installed, with pip,dev, virtualenv, and gunicorn packages present
+##### install python from system python
 
 ```puppet
 class { 'python':
@@ -41,6 +41,17 @@ class { 'python':
   dev        => 'present',
   virtualenv => 'present',
   gunicorn   => 'present',
+}
+```
+
+##### install python3 from scl report
+
+```puppet
+class { 'python' :
+  ensure      => 'present',
+  version     => 'rh-python36-python',
+  dev         => 'present',
+  virtualenv  => 'present',
 }
 ```
 
@@ -75,7 +86,7 @@ Default value: $python::params::version
 
 Data type: `Enum['absent', 'present', 'latest']`
 
-Desired installation state for python-pip.
+Desired installation state for the python-pip package.
 
 Default value: $python::params::pip
 
@@ -83,7 +94,7 @@ Default value: $python::params::pip
 
 Data type: `Enum['absent', 'present', 'latest']`
 
-Desired installation state for python-dev.
+Desired installation state for the python-dev package.
 
 Default value: $python::params::dev
 
@@ -91,7 +102,7 @@ Default value: $python::params::dev
 
 Data type: `Enum['absent', 'present', 'latest']`
 
-Desired installation state for python-virtualenv.
+Desired installation state for the virtualenv package
 
 Default value: $python::params::virtualenv
 
@@ -211,7 +222,7 @@ Default value: $python::params::anaconda_install_path
 
 ### python::dotfile
 
-=== Examples
+Manages any python dotfiles with a simple config hash.
 
 #### Examples
 
@@ -314,7 +325,7 @@ The following parameters are available in the `python::gunicorn` defined type.
 
 ##### `ensure`
 
-Data type: `Any`
+Data type: `Enum['present', 'abesent']`
 
 
 
@@ -490,6 +501,34 @@ python::pip { 'flask':
 }
 ```
 
+##### Install cx_Oracle with pip
+
+```puppet
+python::pip { 'cx_Oracle' :
+  pkgname       => 'cx_Oracle',
+  ensure        => '5.1.2',
+  virtualenv    => '/var/www/project1',
+  owner         => 'appuser',
+  proxy         => 'http://proxy.domain.com:3128',
+  environment   => 'ORACLE_HOME=/usr/lib/oracle/11.2/client64',
+  install_args  => '-e',
+  timeout       => 1800,
+}
+```
+
+##### Install Requests with pip3
+
+```puppet
+python::pip { 'requests' :
+  ensure        => 'present',
+  pkgname       => 'requests',
+  pip_provider  => 'pip3',
+  virtualenv    => '/var/www/project1',
+  owner         => 'root',
+  timeout       => 1800
+}
+```
+
 #### Parameters
 
 The following parameters are available in the `python::pip` defined type.
@@ -502,7 +541,7 @@ must be unique
 
 Data type: `String`
 
-name of the package.
+the name of the package.
 
 Default value: $name
 
@@ -630,7 +669,7 @@ Default value: '/tmp'
 
 Data type: `Any`
 
-
+The egg name to use
 
 Default value: `false`
 
@@ -641,12 +680,6 @@ Data type: `Any`
 
 
 Default value: `undef`
-
-##### `egg`
-
-
-
-Default value: `false`
 
 ##### `path`
 
@@ -665,10 +698,13 @@ Create a Python3 virtualenv using pyvenv.
 ##### 
 
 ```puppet
-python::venv { '/var/www/project1':
+python::pyvenv { '/var/www/project1' :
   ensure       => present,
   version      => 'system',
   systempkgs   => true,
+  venv_dir     => '/home/appuser/virtualenvs',
+  owner        => 'appuser',
+  group        => 'apps',
 }
 ```
 
@@ -757,9 +793,11 @@ Installs and manages Python packages from requirements file.
 ##### install pip requirements from /var/www/project1/requirements.txt
 
 ```puppet
-python::requirements { '/var/www/project1/requirements.txt':
+python::requirements { '/var/www/project1/requirements.txt' :
   virtualenv => '/var/www/project1',
   proxy      => 'http://proxy.domain.com:3128',
+  owner      => 'appuser',
+  group      => 'apps',
 }
 ```
 
@@ -819,7 +857,7 @@ Default value: `false`
 
 Data type: `Any`
 
-Pip --src parameter; if the requirements file contains --editable resources, this parameter specifies where they will be installed. See the pip documentation for more.
+Pip --src parameter to; if the requirements file contains --editable resources, this parameter specifies where they will be installed. See the pip documentation for more.
 
 Default value: `false`
 

@@ -9,21 +9,28 @@
 #      - 'pypy' actually lets us use pypy as python.
 #      - 3/3.3/... means you are going to install the python3/python3.3/...
 #        package, if available on your osfamily.
-# @param pip Desired installation state for python-pip.
-# @param dev Desired installation state for python-dev.
-# @param virtualenv Desired installation state for python-virtualenv.
+# @param pip Desired installation state for the python-pip package.
+# @param dev Desired installation state for the python-dev package.
+# @param virtualenv Desired installation state for the virtualenv package
 # @param gunicorn Desired installation state for Gunicorn.
 # @param manage_gunicorn Allow Installation / Removal of Gunicorn.
 # @param provider What provider to use for installation of the packages, except gunicorn and Python itself.
 # @param use_epel to determine if the epel class is used.
 #
-# @example ensure system python is installed, with pip,dev, virtualenv, and gunicorn packages present
+# @example install python from system python
 #   class { 'python':
 #     version    => 'system',
 #     pip        => 'present',
 #     dev        => 'present',
 #     virtualenv => 'present',
 #     gunicorn   => 'present',
+#   }
+# @example install python3 from scl report
+#   class { 'python' :
+#     ensure      => 'present',
+#     version     => 'rh-python36-python',
+#     dev         => 'present',
+#     virtualenv  => 'present',
 #   }
 #
 class python (
