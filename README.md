@@ -38,7 +38,7 @@ puppet module install puppet-python
 ```
 
 ## Usage
-For class usage refer to the <a href="https://github.com/voxpupuli/puppet-python/blob/master/REFERENCE.md">REFERENCE.md</a>. If contributing, this is updated with
+For class usage refer to the [Reference]("https://github.com/voxpupuli/puppet-python/blob/master/REFERENCE.md). If contributing, this is updated with
 ```shell
 bundle exec rake strings:generate\[',,,,false,true']
 ```
@@ -75,24 +75,7 @@ from softwarecollections.org, set python::provider to 'rhscl' and python::versio
 of the collection you want to use (e.g., 'python27', 'python33', or 'rh-python34').
 
 ## Release Notes
-
-**Version 1.9.8 Notes**
-The `pip`, `virtualenv` and `gunicorn` parameters of `Class['python']` have changed. These parameters now accept `absent`, `present` and `latest` rather than `true` and `false`. The boolean values are still supported and are equivalent to `present` and `absent` respectively. Support for these boolean parameters is deprecated and will be removed in a later release.
-
-**Version 1.7.10 Notes**
-
-Installation of python-pip previously defaulted to `false` and was not installed. This default is now `true` and python-pip is installed. To prevent the installation of python-pip specify `pip => false` as a parameter when instantiating the `python` puppet class.
-
-**Version 1.1.x Notes**
-
-Version `1.1.x` makes several fundamental changes to the core of this module, adding some additional features, improving performance and making operations more robust in general.
-
-Please note that several changes have been made in `v1.1.x` which make manifests incompatible with the previous version.  However, modifying your manifests to suit is trivial.  Please see the notes below.
-
-Currently, the changes you need to make are as follows:
-
-* All pip definitions MUST include the owner field which specifies which user owns the virtualenv that packages will be installed in.  Adding this greatly improves performance and efficiency of this module.
-* You must explicitly specify pip => true in the python class if you want pip installed.  As such, the pip package is now independent of the dev package and so one can exist without the other.
+See [Changelog](https://github.com/voxpupuli/puppet-python/blob/master/CHANGELOG.md)
 
 ## Contributors
 
