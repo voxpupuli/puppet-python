@@ -256,7 +256,7 @@ Default value: 'present'
 
 ##### `filename`
 
-Data type: `Any`
+Data type: `Stdlib::Filemode`
 
 Filename.
 
@@ -264,7 +264,7 @@ Default value: $title
 
 ##### `mode`
 
-Data type: `String`
+Data type: `String[1]`
 
 File mode.
 
@@ -272,7 +272,7 @@ Default value: '0644'
 
 ##### `owner`
 
-Data type: `String`
+Data type: `String[1]`
 
 user owner of dotfile
 
@@ -280,7 +280,7 @@ Default value: 'root'
 
 ##### `group`
 
-Data type: `String`
+Data type: `String[1]`
 
 group owner of dotfile
 
@@ -288,7 +288,7 @@ Default value: 'root'
 
 ##### `config`
 
-Data type: `Any`
+Data type: `Hash`
 
 Config hash. This will be expanded to an ini-file.
 
@@ -547,7 +547,7 @@ Default value: $name
 
 ##### `ensure`
 
-Data type: `Variant[Enum[present, absent, latest], String]`
+Data type: `Variant[Enum[present, absent, latest], String[1]]`
 
 Require pip to be available.
 
@@ -579,7 +579,7 @@ Default value: `false`
 
 ##### `owner`
 
-Data type: `String`
+Data type: `String[1]`
 
 The owner of the virtualenv being manipulated.
 
@@ -587,7 +587,7 @@ Default value: 'root'
 
 ##### `group`
 
-Data type: `String`
+Data type: `String[1]`
 
 The group of the virtualenv being manipulated.
 
@@ -659,7 +659,7 @@ Default value: ''
 
 ##### `log_dir`
 
-Data type: `String`
+Data type: `String[1]`
 
 Log directory
 

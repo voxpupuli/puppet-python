@@ -75,6 +75,7 @@ from softwarecollections.org, set python::provider to 'rhscl' and python::versio
 of the collection you want to use (e.g., 'python27', 'python33', or 'rh-python34').
 
 ## Release Notes
+
 See [Changelog](https://github.com/voxpupuli/puppet-python/blob/master/CHANGELOG.md)
 
 ## Contributors
