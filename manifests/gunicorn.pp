@@ -34,7 +34,7 @@
 #  }
 #
 define python::gunicorn (
-  Enum['present', 'abesent'] $ensure  = present,
+  Enum['present', 'absent'] $ensure   = present,
   $config_dir                         = '/etc/gunicorn.d',
   $manage_config_dir                  = false,
   $virtualenv                         = false,
@@ -51,7 +51,7 @@ define python::gunicorn (
   $access_log_format                  = false,
   $accesslog                          = false,
   $errorlog                           = false,
-  $log_level                           = 'error',
+  $log_level                          = 'error',
   $template                           = 'python/gunicorn.erb',
   $args                               = [],
 ) {

@@ -34,7 +34,7 @@ git submodule add https://github.com/stankevich/puppet-python.git /path/to/pytho
 OR
 
 ``` shell
-puppet module install stankevich-python
+puppet module install puppet-python
 ```
 
 ## Usage

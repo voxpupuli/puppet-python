@@ -325,7 +325,7 @@ The following parameters are available in the `python::gunicorn` defined type.
 
 ##### `ensure`
 
-Data type: `Enum['present', 'abesent']`
+Data type: `Enum['present', 'absent']`
 
 
 
