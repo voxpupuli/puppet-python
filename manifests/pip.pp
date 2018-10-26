@@ -1,96 +1,74 @@
-# == Define: python::pip
+
 #
-# Installs and manages packages from pip.
+# @summary Installs and manages packages from pip.
 #
-# === Parameters
+# @param name must be unique
+# @param pkgname the name of the package.
+# @param ensure Require pip to be available.
+# @param virtualenv virtualenv to run pip in.
+# @param pip_provider version of pip you wish to use.
+# @param url URL to install from.
+# @param owner The owner of the virtualenv being manipulated.
+# @param group The group of the virtualenv being manipulated.
+# @param index Base URL of Python package index.
+# @param proxy Proxy server to use for outbound connections.
+# @param editable If true the package is installed as an editable resource.
+# @param environment Additional environment variables required to install the packages.
+# @param extras Extra features provided by the package which should be installed.
+# @param timeout The maximum time in seconds the "pip install" command should take.
+# @param install_args Any additional installation arguments that will be supplied when running pip install.
+# @param uninstall_args Any additional arguments that will be supplied when running pip uninstall.
+# @param log_dir Log directory
+# @param egg The egg name to use
+# @param umask
 #
-# [*name]
-#  must be unique
-#
-# [*pkgname]
-#  name of the package. If pkgname is not specified, use name (title) instead.
-#
-# [*ensure*]
-#  present|absent. Default: present
-#
-# [*virtualenv*]
-#  virtualenv to run pip in.
-#
-# [*pip_provider*]
-#  version of pip you wish to use. Default: pip
-#
-# [*url*]
-#  URL to install from. Default: none
-#
-# [*owner*]
-#  The owner of the virtualenv being manipulated. Default: root
-#
-# [*group*]
-#  The group of the virtualenv being manipulated. Default: root
-#
-# [*index*]
-#  Base URL of Python package index. Default: none (http://pypi.python.org/simple/)
-#
-# [*proxy*]
-#  Proxy server to use for outbound connections. Default: none
-#
-# [*editable*]
-#  Boolean. If true the package is installed as an editable resource.
-#
-# [*environment*]
-#  Additional environment variables required to install the packages. Default: none
-#
-# [*extras*]
-#  Extra features provided by the package which should be installed. Default: none
-#
-# [*timeout*]
-#  The maximum time in seconds the "pip install" command should take. Default: 1800
-#
-# [*install_args*]
-#  String. Any additional installation arguments that will be supplied
-#  when running pip install.
-#
-# [*uninstall_args*]
-# String. Any additional arguments that will be supplied when running
-# pip uninstall.
-#
-# [*log_dir*]
-# String. Log directory.
-#
-# === Examples
-#
-# python::pip { 'flask':
-#   virtualenv => '/var/www/project1',
-#   proxy      => 'http://proxy.domain.com:3128',
-#   index      => 'http://www.example.com/simple/',
-# }
-#
-# === Authors
-#
-# Sergey Stankevich
-# Fotis Gimian
-# Daniel Quackenbush
+# @example Install Flask to /var/www/project1 using a proxy
+#   python::pip { 'flask':
+#     virtualenv => '/var/www/project1',
+#     proxy      => 'http://proxy.domain.com:3128',
+#     index      => 'http://www.example.com/simple/',
+#   }
+# @example Install cx_Oracle with pip
+#   python::pip { 'cx_Oracle' :
+#     pkgname       => 'cx_Oracle',
+#     ensure        => '5.1.2',
+#     virtualenv    => '/var/www/project1',
+#     owner         => 'appuser',
+#     proxy         => 'http://proxy.domain.com:3128',
+#     environment   => 'ORACLE_HOME=/usr/lib/oracle/11.2/client64',
+#     install_args  => '-e',
+#     timeout       => 1800,
+#   }
+# @example Install Requests with pip3
+#   python::pip { 'requests' :
+#     ensure        => 'present',
+#     pkgname       => 'requests',
+#     pip_provider  => 'pip3',
+#     virtualenv    => '/var/www/project1',
+#     owner         => 'root',
+#     timeout       => 1800
+#   }
 #
 define python::pip (
-  $pkgname                             = $name,
-  $ensure                              = present,
-  $virtualenv                          = 'system',
-  Enum['pip', 'pip3'] $pip_provider    = 'pip',
-  $url                                 = false,
-  $owner                               = 'root',
-  $group                               = 'root',
-  $umask                               = undef,
-  $index                               = false,
-  $proxy                               = false,
-  $egg                                 = false,
-  $editable                            = false,
-  $environment                         = [],
-  $extras                              = [],
-  $install_args                        = '',
-  $uninstall_args                      = '',
-  $timeout                             = 1800,
-  $log_dir                             = '/tmp',
-  $path                                = ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
+  String $pkgname                                            = $name,
+  Variant[Enum[present, absent, latest], String[1]] $ensure  = present,
+  String $virtualenv                                         = 'system',
+  Enum['pip', 'pip3'] $pip_provider                          = 'pip',
+  Variant[Boolean, String] $url                              = false,
+  String[1] $owner                                           = 'root',
+  String[1] $group                                           = 'root',
+  $umask                                                     = undef,
+  $index                                                     = false,
+  Variant[Boolean, String] $proxy                            = false,
+  $egg                                                       = false,
+  Boolean $editable                                          = false,
+  $environment                                               = [],
+  $extras                                                    = [],
+  String $install_args                                       = '',
+  String $uninstall_args                                     = '',
+  Numeric $timeout                                           = 1800,
+  String[1] $log_dir                                         = '/tmp',
+  Array[String] $path                                        = ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
 ) {
   $python_provider = getparam(Class['python'], 'provider')
   $python_version  = getparam(Class['python'], 'version')
