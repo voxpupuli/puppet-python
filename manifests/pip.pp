@@ -52,7 +52,7 @@
 define python::pip (
   String $pkgname                                            = $name,
   Variant[Enum[present, absent, latest], String[1]] $ensure  = present,
-  String $virtualenv                                         = 'system',
+  Variant[Enum['system'], Stdlib::Absolutepath] $virtualenv  = 'system',
   Enum['pip', 'pip3'] $pip_provider                          = 'pip',
   Variant[Boolean, String] $url                              = false,
   String[1] $owner                                           = 'root',
@@ -87,10 +87,6 @@ define python::pip (
   }
 
   # Parameter validation
-  if ! $virtualenv {
-    fail('python::pip: virtualenv parameter must not be empty')
-  }
-
   if $virtualenv == 'system' and $owner != 'root' {
     fail('python::pip: root user must be used when virtualenv is system')
   }
@@ -99,8 +95,6 @@ define python::pip (
     'system' => '/',
     default  => $virtualenv,
   }
-
-  validate_absolute_path($cwd)
 
   $log = $virtualenv ? {
     'system' => $log_dir,
