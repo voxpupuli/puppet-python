@@ -233,7 +233,7 @@ class python::install {
         }
       }
 
-      if "${::python::version}" =~ /^python3/ and ($::osfamily == 'RedHat') and (versioncmp($::operatingsystemmajrelease, '7') >= 0) { #lint:ignore:only_variable_string
+      if "${python::version}" =~ /^python3/ and ($facts['os']['family'] == 'RedHat') and (versioncmp($facts['os']['release']['major'], '7') >= 0) { #lint:ignore:only_variable_string
         $pip_category = undef
         $pip_package = 'python34-pip'
       } elsif "${::python::version}" =~ /^python3/ {
