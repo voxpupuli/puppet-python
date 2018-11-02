@@ -24,7 +24,7 @@ describe 'python::pip', type: :define do # rubocop:disable RSpec/MultipleDescrib
       context 'fails with non qualified path' do
         let(:params) { { virtualenv: 'venv' } }
 
-        it { is_expected.to raise_error(%r{"venv" is not an absolute path.}) }
+        it { is_expected.to raise_error(%r{expects a match for Variant\[Enum\['system'\].*Stdlib::Windowspath = Pattern\[\/.*\/\], Stdlib::Unixpath = Pattern\[\/.*\/\]\]}) }
       end
       context 'suceeds with qualified path' do
         let(:params) { { virtualenv: '/opt/venv' } }

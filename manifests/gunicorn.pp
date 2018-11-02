@@ -34,35 +34,27 @@
 #  }
 #
 define python::gunicorn (
-  Enum['present', 'absent'] $ensure   = present,
-  $config_dir                         = '/etc/gunicorn.d',
-  $manage_config_dir                  = false,
-  $virtualenv                         = false,
-  Enum['wsgi', 'django'] $mode        = 'wsgi',
-  $dir                                = false,
-  $bind                               = false,
-  $environment                        = false,
-  $owner                              = 'www-data',
-  $group                              = 'www-data',
-  $appmodule                          = 'app:app',
-  $osenv                              = false,
-  $timeout                            = 30,
-  $workers                            = false,
-  $access_log_format                  = false,
-  $accesslog                          = false,
-  $errorlog                           = false,
-  $log_level                          = 'error',
-  $template                           = 'python/gunicorn.erb',
-  $args                               = [],
+  Stdlib::Absolutepath $dir,
+  Enum['present', 'absent'] $ensure                                = present,
+  $config_dir                                                      = '/etc/gunicorn.d',
+  $manage_config_dir                                               = false,
+  $virtualenv                                                      = false,
+  Enum['wsgi', 'django'] $mode                                     = 'wsgi',
+  $bind                                                            = false,
+  $environment                                                     = false,
+  $owner                                                           = 'www-data',
+  $group                                                           = 'www-data',
+  $appmodule                                                       = 'app:app',
+  $osenv                                                           = false,
+  $timeout                                                         = 30,
+  $workers                                                         = false,
+  $access_log_format                                               = false,
+  $accesslog                                                       = false,
+  $errorlog                                                        = false,
+  Enum['debug', 'info', 'warning', 'error', 'critical'] $log_level = 'error',
+  $template                                                        = 'python/gunicorn.erb',
+  $args                                                            = [],
 ) {
-
-  # Parameter validation
-  if ! $dir {
-    fail('python::gunicorn: dir parameter must not be empty')
-  }
-
-  validate_re($log_level, 'debug|info|warning|error|critical', "Invalid \$log_level value ${log_level}")
-
   if $manage_config_dir {
     file { $config_dir:
       ensure => directory,

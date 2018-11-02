@@ -61,11 +61,10 @@ class python (
     default => '',
   }
 
-  #$allowed_versions = concat(['system', 'pypy'], $valid_versions)
-  #unless $version =~ Enum[allowed_versions] {
-    #fail("version needs to be within${allowed_versions}")
-    #}
-  validate_re($version, concat(['system', 'pypy'], $valid_versions))
+  $allowed_versions = concat(['system', 'pypy'], $valid_versions)
+  unless $version =~ Enum[$allowed_versions] {
+    fail("version needs to be within${allowed_versions}")
+  }
 
   # Module compatibility check
   $compatible = [ 'Debian', 'RedHat', 'Suse', 'Gentoo' ]

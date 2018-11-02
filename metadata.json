@@ -56,7 +56,7 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 4.6.0 < 6.0.0"
+      "version_requirement": ">= 4.13.1 < 6.0.0"
     },
     {
       "name": "stahnma/epel",
