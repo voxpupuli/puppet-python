@@ -233,10 +233,10 @@ class python::install {
         }
       }
 
-      if "${python::version}" =~ /^python3/ and ($facts['os']['family'] == 'RedHat') and (versioncmp($facts['os']['release']['major'], '7') >= 0) {
+      if ${python::version} =~ /^python3/ and ($facts['os']['family'] == 'RedHat') and (versioncmp($facts['os']['release']['major'], '7') >= 0) {
         $pip_category = undef
         $pip_package = 'python34-pip'
-      } elsif "${python::version}" =~ /^python3/ {
+      } elsif ${python::version} =~ /^python3/ {
         $pip_category = undef
         $pip_package = '1'
       } elsif ($::osfamily == 'RedHat') and (versioncmp($::operatingsystemmajrelease, '7') >= 0) {
