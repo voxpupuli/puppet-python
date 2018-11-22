@@ -37,9 +37,31 @@ define python::pyvenv (
 
   if $ensure == 'present' {
 
-    $virtualenv_cmd = $version ? {
-      'system' => "${python::exec_prefix}pyvenv",
-      default  => "${python::exec_prefix}pyvenv-${version}",
+    # Debian splits the venv module into a seperate package
+    if ( $facts['os']['family'] == 'Debian'){
+      $python3_venv_package="python${version}-venv"
+      case $facts['os']['distro']['codename'] {
+         'xenial','bionic','cosmic','disco',
+        'jessie','stretch','buster': {
+          package {$python3_venv_package:
+            before => File[$venv_dir],
+          }
+        }
+          default: {}
+      }
+    }
+
+    # pyvenv is deprecated since 3.6 and will be removed in 3.8
+    if (versioncmp($::python3_version, '3.6') >=0) {
+      $virtualenv_cmd = $version ? {
+        'system' => "${python::exec_prefix}python3 -m venv",
+        default  => "${python::exec_prefix}python${version} -m venv",
+      }
+    } else {
+      $virtualenv_cmd = $version ? {
+        'system' => "${python::exec_prefix}pyvenv",
+        default  => "${python::exec_prefix}pyvenv-${version}",
+      }
     }
 
     $_path = $::python::provider ? {
