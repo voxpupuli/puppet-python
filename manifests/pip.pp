@@ -111,11 +111,6 @@ define python::pip (
       default => "--index-url=${index}",
     }
 
-  $pypi_search_index = $index ? {
-      false   => '',
-      default => "--index=${index}",
-    }
-
   $proxy_flag = $proxy ? {
     false    => '',
     default  => "--proxy=${proxy}",
@@ -243,10 +238,26 @@ define python::pip (
       }
 
       'latest': {
+        # Unfortunately this is the smartest way of getting the latest available package version with pip as of now
+        # Note: we DO need to repeat ourselves with "from version" in both grep and sed as on some systems pip returns
+        # more than one line with paretheses.
+        $latest_version = join(["${pip_env} install ${proxy_flag} ${pkgname}==notreallyaversion 2>&1",
+                                ' | grep -oP "\(from versions: .*\)" | sed -E "s/\(from versions: (.*?, )*(.*)\)/\2/g"',
+                                ' | tr -d "[:space:]"'])
+
+        # Packages with underscores in their names are listed with dashes in their place in `pip freeze` output
+        $pkgname_with_dashes = regsubst($pkgname, '_', '-', 'G')
+        $grep_regex_pkgname_with_dashes = "^${pkgname_with_dashes}=="
+        $installed_version = join(["${pip_env} freeze --all",
+                                  " | grep -i -e ${grep_regex_pkgname_with_dashes} | cut -d= -f3",
+                                  " | tr -d '[:space:]'"])
+
+        $unless_command = "[ \$(${latest_version}) = \$(${installed_version}) ]"
+
         # Latest version.
         exec { "pip_install_${name}":
           command     => "${wheel_check} ; { ${pip_install} --upgrade \$wheel_support_flag ${pip_common_args} || ${pip_install} --upgrade ${pip_common_args} ;}",
-          unless      => "${pip_env} search ${pypi_search_index} ${proxy_flag} ${source} | grep -i INSTALLED.*latest",
+          unless      => $unless_command,
           user        => $owner,
           group       => $group,
           umask       => $umask,
