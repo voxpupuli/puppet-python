@@ -47,8 +47,6 @@ define python::pyvenv (
       case $facts['os']['distro']['codename'] {
          'xenial','bionic','cosmic','disco',
         'jessie','stretch','buster': {
-          notify {"python3_venv_package: $python3_venv_package":
-          }
           package {$python3_venv_package:
             before => File[$venv_dir],
           }
