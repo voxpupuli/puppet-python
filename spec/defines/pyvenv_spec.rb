@@ -4,7 +4,10 @@ describe 'python::pyvenv', type: :define do
   on_supported_os.each do |os, facts|
     context("on #{os} ") do
       let :facts do
-        facts
+        # python3 is required to use pyvenv
+        facts.merge(
+          python3_version: '3.4'
+        )
       end
       let :title do
         '/opt/env'
@@ -12,7 +15,7 @@ describe 'python::pyvenv', type: :define do
 
       it {
         is_expected.to contain_file('/opt/env')
-        is_expected.to contain_exec('python_virtualenv_/opt/env').with_command('pyvenv --clear  /opt/env')
+        is_expected.to contain_exec('python_virtualenv_/opt/env').with_command('pyvenv-3.4 --clear  /opt/env')
       }
 
       describe 'when ensure' do
@@ -28,6 +31,6 @@ describe 'python::pyvenv', type: :define do
           }
         end
       end
-    end
+    end # context
   end
 end
