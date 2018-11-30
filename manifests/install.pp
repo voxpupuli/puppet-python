@@ -10,7 +10,8 @@ class python::install {
   $python = $python_version ? {
     'system' => 'python',
     'pypy'   => 'pypy',
-    default  => "${python_version}", # lint:ignore:only_variable_string
+    /\A(python)?([0-9](\.?[0-9])+)/ => "python${1}",
+    default  => "python${python::version}",
   }
 
   $pythondev = $facts['os']['family'] ? {
