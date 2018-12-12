@@ -4,28 +4,6 @@ Puppet module for installing and managing python, pip, virtualenvs and Gunicorn 
 
 **Please note:** The module [stankevich/python](https://forge.puppet.com/stankevich/python) has been deprecated and is now available under Vox Pupuli: [puppet/python](https://forge.puppet.com/puppet/python).
 
-## Compatibility #
-
-See `.travis.yml` for compatibility matrix.
-
-* Puppet v4
-* Puppet v5
-
-### OS Distributions ##
-
-This module has been tested to work on the following systems.
-
-* Debian 8
-* Debian 9
-* EL 6
-* EL 7
-* CentOS 7
-* Gentoo (and Sabayon)
-* Suse 11
-* Ubuntu 14.04
-* Ubuntu 16.04
-* Ubuntu 18.04
-
 ## Usage
 For class usage refer to the [Reference]("https://github.com/voxpupuli/puppet-python/blob/master/REFERENCE.md). If contributing, this is updated with
 ```shell
