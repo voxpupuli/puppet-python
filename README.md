@@ -26,17 +26,6 @@ This module has been tested to work on the following systems.
 * Ubuntu 16.04
 * Ubuntu 18.04
 
-## Installation
-
-```shell
-git submodule add https://github.com/stankevich/puppet-python.git /path/to/python
-```
-OR
-
-``` shell
-puppet module install puppet-python
-```
-
 ## Usage
 For class usage refer to the [Reference]("https://github.com/voxpupuli/puppet-python/blob/master/REFERENCE.md). If contributing, this is updated with
 ```shell
