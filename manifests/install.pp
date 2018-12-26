@@ -96,7 +96,7 @@ class python::install {
       Package <| title == 'virtualenv' |> {
         name     => 'virtualenv',
         provider => 'pip',
-        require  => Package['python-dev']
+        require  => Package[$pythondev],
       }
     }
     'scl': {
