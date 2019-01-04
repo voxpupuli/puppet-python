@@ -40,7 +40,7 @@ define python::virtualenv (
   $distribute       = true,
   $index            = false,
   $owner            = 'root',
-  $group            = 'root',
+  $group            = $python::params::group,
   $mode             = '0755',
   $proxy            = false,
   $environment      = [],

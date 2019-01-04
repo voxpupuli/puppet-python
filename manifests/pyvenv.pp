@@ -27,7 +27,7 @@ define python::pyvenv (
   $systempkgs       = false,
   $venv_dir         = $name,
   $owner            = 'root',
-  $group            = 'root',
+  $group            = $python::params::group,
   $mode             = '0755',
   $path             = [ '/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin' ],
   $environment      = [],

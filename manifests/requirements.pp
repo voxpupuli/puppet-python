@@ -30,7 +30,7 @@ define python::requirements (
   $virtualenv                         = 'system',
   Enum['pip', 'pip3'] $pip_provider   = 'pip',
   $owner                              = 'root',
-  $group                              = 'root',
+  $group                              = $python::params::group,
   $proxy                              = false,
   $src                                = false,
   $environment                        = [],

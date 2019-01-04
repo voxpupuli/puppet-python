@@ -13,6 +13,7 @@ class python::install {
   }
 
   $pythondev = $::osfamily ? {
+    'AIX' => "${python}-devel",
     'RedHat' => "${python}-devel",
     'Debian' => "${python}-dev",
     'Suse'   => "${python}-devel",

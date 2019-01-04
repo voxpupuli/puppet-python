@@ -1,5 +1,6 @@
-# @api private
-# @summary The python Module default configuration settings.
+# == Class: python::params
+#
+# The python Module default configuration settings.
 #
 class python::params {
   $ensure                 = 'present'
@@ -14,6 +15,7 @@ class python::params {
     'RedHat' => ['3','27','33'],
     'Debian' => ['3', '3.3', '2.7'],
     'Suse'   => [],
+    'AIX'   => [],
     'Gentoo' => ['2.7', '3.3', '3.4', '3.5']
   }
 
@@ -25,6 +27,11 @@ class python::params {
     }
   } else {
     $use_epel             = false
+  }
+
+  $group = $::osfamily ? {
+    'AIX' => 'system',
+    default => 'root'
   }
 
   $gunicorn_package_name = $::osfamily ? {

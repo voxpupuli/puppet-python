@@ -56,7 +56,7 @@ define python::pip (
   Enum['pip', 'pip3'] $pip_provider                          = 'pip',
   Variant[Boolean, String] $url                              = false,
   String[1] $owner                                           = 'root',
-  String[1] $group                                           = 'root',
+  String[1] $group                                           = $python::params::group,
   $umask                                                     = undef,
   $index                                                     = false,
   Variant[Boolean, String] $proxy                            = false,
