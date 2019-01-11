@@ -72,7 +72,7 @@ class python::install {
       }
 
       class { 'python::pip::bootstrap':
-        version => 'pip'
+        version => 'pip',
       }
 
       Exec['bootstrap pip'] -> File['pip-python'] -> Package <| provider == pip |>
