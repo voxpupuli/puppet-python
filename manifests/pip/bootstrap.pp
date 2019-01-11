@@ -49,4 +49,4 @@ class python::pip::bootstrap (
         }
     }
   }
-
+}
