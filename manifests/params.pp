@@ -27,6 +27,11 @@ class python::params {
     $use_epel             = false
   }
 
+  $pip_lookup_path = $::osfamily ? {
+    'AIX' => [ '/bin', '/usr/bin', '/usr/local/bin', '/opt/freeware/bin/' ],
+    default => [ '/bin', '/usr/bin', '/usr/local/bin' ]
+  }
+
   $gunicorn_package_name = $::osfamily ? {
     'RedHat' => 'python-gunicorn',
     default  => 'gunicorn',
