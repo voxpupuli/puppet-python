@@ -27,7 +27,7 @@ class python::params {
     $use_epel             = false
   }
 
-  $pip_lookup_path = $::osfamily ? {
+  $pip_lookup_path = $facts['os']['family'] ? {
     'AIX' => [ '/bin', '/usr/bin', '/usr/local/bin', '/opt/freeware/bin/' ],
     default => [ '/bin', '/usr/bin', '/usr/local/bin' ]
   }
