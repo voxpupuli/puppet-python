@@ -15,7 +15,7 @@ class python::pip::bootstrap (
   if $manage_python {
     ::include python
   } else {
-    $target_src_pip_path = $osfamily ? {
+    $target_src_pip_path = $::osfamily ? {
       'AIX' => '/opt/freeware/bin',
       default => '/usr/bin'
     }
