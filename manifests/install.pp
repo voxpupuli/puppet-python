@@ -72,19 +72,8 @@ class python::install {
       }
 
       # Install pip without pip, see https://pip.pypa.io/en/stable/installing/.
-      exec { 'bootstrap pip':
-        command => '/usr/bin/curl https://bootstrap.pypa.io/get-pip.py | python',
-        unless  => 'which pip',
-        path    => [ '/bin', '/usr/bin', '/usr/local/bin' ],
-        require => Package['python'],
-      }
-
-      # Puppet is opinionated about the pip command name
-      file { 'pip-python':
-        ensure  => link,
-        path    => '/usr/bin/pip-python',
-        target  => '/usr/bin/pip',
-        require => Exec['bootstrap pip'],
+      class { 'python::pip::boostrap':
+        version => 'pip',
       }
 
       Exec['bootstrap pip'] -> File['pip-python'] -> Package <| provider == pip |>
