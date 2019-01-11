@@ -13,7 +13,7 @@ class python::pip::bootstrap (
   Variant[Boolean, String] $manage_python = false,
 ) inherits ::python::params {
   if $manage_python {
-    ::include python
+    include ::python
   } else {
     $target_src_pip_path = $::osfamily ? {
       'AIX' => '/opt/freeware/bin',
