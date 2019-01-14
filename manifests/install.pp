@@ -72,7 +72,7 @@ class python::install {
       }
 
       # Install pip without pip, see https://pip.pypa.io/en/stable/installing/.
-      include 'python::pip::boostrap'
+      include 'python::pip::bootstrap'
 
       Exec['bootstrap pip'] -> File['pip-python'] -> Package <| provider == pip |>
 
