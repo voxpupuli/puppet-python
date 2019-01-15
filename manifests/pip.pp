@@ -55,7 +55,7 @@ define python::pip (
   Enum['pip', 'pip3'] $pip_provider                          = 'pip',
   Variant[Boolean, String] $url                              = false,
   String[1] $owner                                           = 'root',
-  $group                                                     = undef,
+  $group                                                     = getparam(Class['python'], 'group'),
   $umask                                                     = undef,
   $index                                                     = false,
   Variant[Boolean, String] $proxy                            = false,
@@ -71,11 +71,7 @@ define python::pip (
 ){
   $python_provider = getparam(Class['python'], 'provider')
   $python_version  = getparam(Class['python'], 'version')
-  if $group {
-    $_group = $group
-  } else {
-    $_group = getparam(Class['python'], 'group')
-  }
+
   # Get SCL exec prefix
   # NB: this will not work if you are running puppet from scl enabled shell
   $exec_prefix = $python_provider ? {
@@ -187,7 +183,7 @@ define python::pip (
         command     => "${wheel_check} ; { ${pip_install} ${install_args} \$wheel_support_flag ${pip_common_args}@${ensure}#egg=${egg_name} || ${pip_install} ${install_args} ${pip_common_args}@${ensure}#egg=${egg_name} ;}",
         unless      => "${pip_env} freeze --all | grep -i -e ${grep_regex}",
         user        => $owner,
-        group       => $_group,
+        group       => $group,
         umask       => $umask,
         cwd         => $cwd,
         environment => $environment,
@@ -199,7 +195,7 @@ define python::pip (
         command     => "${wheel_check} ; { ${pip_install} ${install_args} \$wheel_support_flag ${pip_common_args} || ${pip_install} ${install_args} ${pip_common_args} ;}",
         unless      => "${pip_env} freeze --all | grep -i -e ${grep_regex}",
         user        => $owner,
-        group       => $_group,
+        group       => $group,
         umask       => $umask,
         cwd         => $cwd,
         environment => $environment,
@@ -216,7 +212,7 @@ define python::pip (
           command     => "${wheel_check} ; { ${pip_install} ${install_args} \$wheel_support_flag ${pip_common_args}==${ensure} || ${pip_install} ${install_args} ${pip_common_args}==${ensure} ;}",
           unless      => "${pip_env} freeze --all | grep -i -e ${grep_regex} || ${pip_env} list | sed -e 's/[ ]\\+/==/' -e 's/[()]//g' | grep -i -e ${grep_regex}",
           user        => $owner,
-          group       => $_group,
+          group       => $group,
           umask       => $umask,
           cwd         => $cwd,
           environment => $environment,
@@ -231,7 +227,7 @@ define python::pip (
           command     => "${wheel_check} ; { ${pip_install} \$wheel_support_flag ${pip_common_args} || ${pip_install} ${pip_common_args} ;}",
           unless      => "${pip_env} freeze --all | grep -i -e ${grep_regex} || ${pip_env} list | sed -e 's/[ ]\\+/==/' -e 's/[()]//g' | grep -i -e ${grep_regex}",
           user        => $owner,
-          group       => $_group,
+          group       => $group,
           umask       => $umask,
           cwd         => $cwd,
           environment => $environment,
@@ -262,7 +258,7 @@ define python::pip (
           command     => "${wheel_check} ; { ${pip_install} --upgrade \$wheel_support_flag ${pip_common_args} || ${pip_install} --upgrade ${pip_common_args} ;}",
           unless      => $unless_command,
           user        => $owner,
-          group       => $_group,
+          group       => $group,
           umask       => $umask,
           cwd         => $cwd,
           environment => $environment,
@@ -277,7 +273,7 @@ define python::pip (
           command     => "echo y | ${pip_env} uninstall ${uninstall_args} ${proxy_flag} ${name}",
           onlyif      => "${pip_env} freeze --all | grep -i -e ${grep_regex}",
           user        => $owner,
-          group       => $_group,
+          group       => $group,
           umask       => $umask,
           cwd         => $cwd,
           environment => $environment,
