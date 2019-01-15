@@ -67,7 +67,7 @@ class python (
   }
 
   # Module compatibility check
-  $compatible = [ 'Debian', 'RedHat', 'Suse', 'Gentoo' ]
+  $compatible = [ 'Debian', 'RedHat', 'Suse', 'Gentoo', 'AIX' ]
   if ! ($facts['os']['family'] in $compatible) {
     fail("Module is not compatible with ${::operatingsystem}")
   }
