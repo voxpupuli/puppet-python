@@ -16,6 +16,9 @@
   ],
   "operatingsystem_support": [
     {
+      "operatingsystem": "AIX"
+    },
+    {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
         "6",
