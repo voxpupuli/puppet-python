@@ -1,5 +1,6 @@
-# @api private
-# @summary The python Module default configuration settings.
+# == Class: python::params
+#
+# The python Module default configuration settings.
 #
 class python::params {
   $ensure                 = 'present'
@@ -14,6 +15,7 @@ class python::params {
     'RedHat' => ['3','27','33'],
     'Debian' => ['3', '3.3', '2.7'],
     'Suse'   => [],
+    'AIX'   => ['python3'],
     'Gentoo' => ['2.7', '3.3', '3.4', '3.5']
   }
 
@@ -27,12 +29,17 @@ class python::params {
     $use_epel             = false
   }
 
+  $group = $facts['os']['family'] ? {
+    'AIX' => 'system',
+    default => 'root'
+  }
+
   $pip_lookup_path = $facts['os']['family'] ? {
     'AIX' => [ '/bin', '/usr/bin', '/usr/local/bin', '/opt/freeware/bin/' ],
     default => [ '/bin', '/usr/bin', '/usr/local/bin' ]
   }
 
-  $gunicorn_package_name = $::osfamily ? {
+  $gunicorn_package_name = $facts['os']['family'] ? {
     'RedHat' => 'python-gunicorn',
     default  => 'gunicorn',
   }

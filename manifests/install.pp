@@ -12,7 +12,8 @@ class python::install {
     default  => "${python::version}", # lint:ignore:only_variable_string
   }
 
-  $pythondev = $::osfamily ? {
+  $pythondev = $facts['os']['family'] ? {
+    'AIX' => "${python}-devel",
     'RedHat' => "${python}-devel",
     'Debian' => "${python}-dev",
     'Suse'   => "${python}-devel",
@@ -83,7 +84,7 @@ class python::install {
       Package <| title == 'virtualenv' |> {
         name     => 'virtualenv',
         provider => 'pip',
-        require  => Package[$pythondev],
+        require  => Package['python-dev'],
       }
     }
     'scl': {
@@ -177,17 +178,42 @@ class python::install {
       }
     }
     default: {
+      case $facts['os']['family'] {
+        'AIX': {
+          if "${::python::version}" =~ /^python3/ { #lint:ignore:only_variable_string
+            class { 'python::pip::bootstap':
+                    version => 'pip3',
+            }
+          } else {
+            package { 'python-pip':
+              ensure   => $pip_ensure,
+              require  => Package['python'],
+              provider => 'yum',
+            }
+          }
+          if $pythondev {
+            package { 'python-dev':
+              ensure   => $dev_ensure,
+              name     => $pythondev,
+              alias    => $pythondev,
+              provider => 'yum',
+            }
+          }
 
-      package { 'pip':
-        ensure  => $pip_ensure,
-        require => Package['python'],
-      }
+        }
+        default: {
+          package { 'pip':
+            ensure  => $pip_ensure,
+            require => Package['python'],
+          }
+          if $pythondev {
+            package { 'python-dev':
+              ensure => $dev_ensure,
+              name   => $pythondev,
+              alias  => $pythondev,
+            }
+          }
 
-      if $pythondev {
-        package { 'python-dev':
-          ensure => $dev_ensure,
-          name   => $pythondev,
-          alias  => $pythondev,
         }
       }
 
