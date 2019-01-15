@@ -1,4 +1,4 @@
-
+getparam(Class['python'], 'version')
 # @summary Installs and manages packages from pip.
 #
 # @param name must be unique
@@ -74,8 +74,7 @@ define python::pip (
   if $group {
     $_group = $group
   } else {
-    include ::python::params
-    $_group = $python::params::group
+    $_group = getparam(Class['python'], 'group')
   }
   # Get SCL exec prefix
   # NB: this will not work if you are running puppet from scl enabled shell

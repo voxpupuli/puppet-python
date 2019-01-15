@@ -13,7 +13,7 @@ class python::install {
   }
 
   $pythondev = $facts['os']['family'] ? {
-    'AIX' => "${python}-devel",
+    'AIX'    => "${python}-devel",
     'RedHat' => "${python}-devel",
     'Debian' => "${python}-dev",
     'Suse'   => "${python}-devel",

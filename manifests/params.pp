@@ -1,4 +1,5 @@
-# == Class: python::params
+# @api private
+# @summary The python Module default configuration settings.
 #
 # The python Module default configuration settings.
 #
