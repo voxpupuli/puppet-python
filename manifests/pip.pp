@@ -1,5 +1,4 @@
 
-#
 # @summary Installs and manages packages from pip.
 #
 # @param name must be unique
@@ -56,7 +55,7 @@ define python::pip (
   Enum['pip', 'pip3'] $pip_provider                          = 'pip',
   Variant[Boolean, String] $url                              = false,
   String[1] $owner                                           = 'root',
-  String[1] $group                                           = 'root',
+  $group                                                     = undef,
   $umask                                                     = undef,
   $index                                                     = false,
   Variant[Boolean, String] $proxy                            = false,
@@ -69,10 +68,15 @@ define python::pip (
   Numeric $timeout                                           = 1800,
   String[1] $log_dir                                         = '/tmp',
   Array[String] $path                                        = ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
-) {
+){
   $python_provider = getparam(Class['python'], 'provider')
   $python_version  = getparam(Class['python'], 'version')
-
+  if $group {
+    $_group = $group
+  } else {
+    include ::python::params
+    $_group = $python::params::group
+  }
   # Get SCL exec prefix
   # NB: this will not work if you are running puppet from scl enabled shell
   $exec_prefix = $python_provider ? {
@@ -184,7 +188,7 @@ define python::pip (
         command     => "${wheel_check} ; { ${pip_install} ${install_args} \$wheel_support_flag ${pip_common_args}@${ensure}#egg=${egg_name} || ${pip_install} ${install_args} ${pip_common_args}@${ensure}#egg=${egg_name} ;}",
         unless      => "${pip_env} freeze --all | grep -i -e ${grep_regex}",
         user        => $owner,
-        group       => $group,
+        group       => $_group,
         umask       => $umask,
         cwd         => $cwd,
         environment => $environment,
@@ -196,7 +200,7 @@ define python::pip (
         command     => "${wheel_check} ; { ${pip_install} ${install_args} \$wheel_support_flag ${pip_common_args} || ${pip_install} ${install_args} ${pip_common_args} ;}",
         unless      => "${pip_env} freeze --all | grep -i -e ${grep_regex}",
         user        => $owner,
-        group       => $group,
+        group       => $_group,
         umask       => $umask,
         cwd         => $cwd,
         environment => $environment,
@@ -213,7 +217,7 @@ define python::pip (
           command     => "${wheel_check} ; { ${pip_install} ${install_args} \$wheel_support_flag ${pip_common_args}==${ensure} || ${pip_install} ${install_args} ${pip_common_args}==${ensure} ;}",
           unless      => "${pip_env} freeze --all | grep -i -e ${grep_regex} || ${pip_env} list | sed -e 's/[ ]\\+/==/' -e 's/[()]//g' | grep -i -e ${grep_regex}",
           user        => $owner,
-          group       => $group,
+          group       => $_group,
           umask       => $umask,
           cwd         => $cwd,
           environment => $environment,
@@ -228,7 +232,7 @@ define python::pip (
           command     => "${wheel_check} ; { ${pip_install} \$wheel_support_flag ${pip_common_args} || ${pip_install} ${pip_common_args} ;}",
           unless      => "${pip_env} freeze --all | grep -i -e ${grep_regex} || ${pip_env} list | sed -e 's/[ ]\\+/==/' -e 's/[()]//g' | grep -i -e ${grep_regex}",
           user        => $owner,
-          group       => $group,
+          group       => $_group,
           umask       => $umask,
           cwd         => $cwd,
           environment => $environment,
@@ -259,7 +263,7 @@ define python::pip (
           command     => "${wheel_check} ; { ${pip_install} --upgrade \$wheel_support_flag ${pip_common_args} || ${pip_install} --upgrade ${pip_common_args} ;}",
           unless      => $unless_command,
           user        => $owner,
-          group       => $group,
+          group       => $_group,
           umask       => $umask,
           cwd         => $cwd,
           environment => $environment,
@@ -274,7 +278,7 @@ define python::pip (
           command     => "echo y | ${pip_env} uninstall ${uninstall_args} ${proxy_flag} ${name}",
           onlyif      => "${pip_env} freeze --all | grep -i -e ${grep_regex}",
           user        => $owner,
-          group       => $group,
+          group       => $_group,
           umask       => $umask,
           cwd         => $cwd,
           environment => $environment,
