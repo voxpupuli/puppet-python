@@ -6,10 +6,11 @@
 #
 class python::install {
 
-  $python = $::python::version ? {
+  $python_version = getparam(Class['python'], 'version')
+  $python = $python_version ? {
     'system' => 'python',
     'pypy'   => 'pypy',
-    default  => "${python::version}", # lint:ignore:only_variable_string
+    default  => "${python_version}", # lint:ignore:only_variable_string
   }
 
   $pythondev = $facts['os']['family'] ? {
@@ -180,7 +181,7 @@ class python::install {
     default: {
       case $facts['os']['family'] {
         'AIX': {
-          if "${python::version}" =~ /^python3/ { #lint:ignore:only_variable_string
+          if "${python_version}" =~ /^python3/ { #lint:ignore:only_variable_string
             class { 'python::pip::bootstap':
                     version => 'pip3',
             }
