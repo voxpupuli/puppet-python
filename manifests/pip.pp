@@ -1,4 +1,3 @@
-getparam(Class['python'], 'version')
 # @summary Installs and manages packages from pip.
 #
 # @param name must be unique
