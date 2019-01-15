@@ -180,7 +180,7 @@ class python::install {
     default: {
       case $facts['os']['family'] {
         'AIX': {
-          if "${::python::version}" =~ /^python3/ { #lint:ignore:only_variable_string
+          if "${python::version}" =~ /^python3/ { #lint:ignore:only_variable_string
             class { 'python::pip::bootstap':
                     version => 'pip3',
             }
