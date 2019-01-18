@@ -1,5 +1,3 @@
-
-#
 # @summary Installs and manages packages from pip.
 #
 # @param name must be unique
@@ -56,7 +54,7 @@ define python::pip (
   Enum['pip', 'pip3'] $pip_provider                          = 'pip',
   Variant[Boolean, String] $url                              = false,
   String[1] $owner                                           = 'root',
-  String[1] $group                                           = 'root',
+  $group                                                     = getvar('python::params::group'),
   $umask                                                     = undef,
   $index                                                     = false,
   Variant[Boolean, String] $proxy                            = false,
@@ -69,7 +67,7 @@ define python::pip (
   Numeric $timeout                                           = 1800,
   String[1] $log_dir                                         = '/tmp',
   Array[String] $path                                        = ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
-) {
+){
   $python_provider = getparam(Class['python'], 'provider')
   $python_version  = getparam(Class['python'], 'version')
 
