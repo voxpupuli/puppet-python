@@ -47,9 +47,9 @@ define python::pyvenv (
       case $facts['lsbdistcodename'] {
         'xenial','bionic','cosmic','disco',
         'jessie','stretch','buster': {
-          package {$python3_venv_package:
+          ensure_packages ($python3_venv_package, {
             before => File[$venv_dir],
-          }
+          })
         }
           default: {}
       }
