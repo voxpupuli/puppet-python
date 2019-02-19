@@ -61,9 +61,9 @@ class python (
     default => '',
   }
 
-  $allowed_versions = concat(['system', 'pypy'], $valid_versions)
-  unless $version =~ Enum[$allowed_versions] {
-    fail("version needs to be within${allowed_versions}")
+  unless $version =~ Pattern[/\A(python)?[0-9](\.[0-9])+/,
+        /\Apypy\Z/, /\Asystem\Z/] {
+    fail("version needs to be pypy, system or a version string like '3.5' or 'python3.5)")
   }
 
   # Module compatibility check

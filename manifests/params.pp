@@ -12,13 +12,7 @@ class python::params {
   $gunicorn               = 'absent'
   $manage_gunicorn        = true
   $provider               = undef
-  $valid_versions = $::osfamily ? {
-    'RedHat' => ['3','27','33'],
-    'Debian' => ['3', '3.3', '2.7'],
-    'Suse'   => [],
-    'AIX'   => ['python3'],
-    'Gentoo' => ['2.7', '3.3', '3.4', '3.5']
-  }
+  $valid_versions         = undef
 
   if $::osfamily == 'RedHat' {
     if $::operatingsystem != 'Fedora' {

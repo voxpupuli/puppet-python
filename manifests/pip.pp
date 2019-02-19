@@ -71,6 +71,11 @@ define python::pip (
   $python_provider = getparam(Class['python'], 'provider')
   $python_version  = getparam(Class['python'], 'version')
 
+  if $virtualenv != 'system' {
+    Python::Pyvenv <| |> -> Python::Pip[$name]
+    Python::Virtualenv <| |> -> Python::Pip[$name]
+  }
+
   # Get SCL exec prefix
   # NB: this will not work if you are running puppet from scl enabled shell
   $exec_prefix = $python_provider ? {
