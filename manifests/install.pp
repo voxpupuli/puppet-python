@@ -103,18 +103,26 @@ class python::install {
       # SCL is only valid in the RedHat family. If RHEL, package must be
       # enabled using the subscription manager outside of puppet. If CentOS,
       # the centos-release-SCL will install the repository.
-      $install_scl_repo_package = $::operatingsystem ? {
-        'CentOS' => 'present',
-        default  => 'absent',
-      }
+      if $python::manage_scl {
+        $install_scl_repo_package = $facts['os']['name'] ? {
+          'CentOS' => 'present',
+          default  => 'absent',
+        }
 
-      package { 'centos-release-scl':
-        ensure => $install_scl_repo_package,
-        before => Package['scl-utils'],
-      }
-      package { 'scl-utils':
-        ensure => 'latest',
-        before => Package['python'],
+        package { 'centos-release-scl':
+          ensure => $install_scl_repo_package,
+          before => Package['scl-utils'],
+        }
+        package { 'scl-utils':
+          ensure => 'present',
+          before => Package['python'],
+        }
+
+        Package['scl-utils'] -> Package["${python}-scldevel"]
+
+        if $pip_ensure != 'absent' {
+          Package['scl-utils'] -> Exec['python-scl-pip-install']
+        }
       }
 
       # This gets installed as a dependency anyway
@@ -123,15 +131,13 @@ class python::install {
       #   require => Package['scl-utils'],
       # }
       package { "${python}-scldevel":
-        ensure  => $dev_ensure,
-        require => Package['scl-utils'],
+        ensure => $dev_ensure,
       }
       if $pip_ensure != 'absent' {
         exec { 'python-scl-pip-install':
           command => "${python::exec_prefix}easy_install pip",
           path    => ['/usr/bin', '/bin'],
           creates => "/opt/rh/${python::version}/root/usr/bin/pip",
-          require => Package['scl-utils'],
         }
       }
     }
