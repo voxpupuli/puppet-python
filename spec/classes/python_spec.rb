@@ -204,6 +204,23 @@ describe 'python', type: :class do
                   }
                 end
 
+                context 'scl' do
+                  describe 'with manage_scl' do
+                    context 'true' do
+                      let(:params) { { provider: 'scl', manage_scl: true } }
+
+                      it { is_expected.to contain_package('centos-release-scl') }
+                      it { is_expected.to contain_package('scl-utils') }
+                    end
+                    context 'false' do
+                      let(:params) { { provider: 'scl', manage_scl: false } }
+
+                      it { is_expected.not_to contain_package('centos-release-scl') }
+                      it { is_expected.not_to contain_package('scl-utils') }
+                    end
+                  end
+                end
+
                 # python::provider
                 context 'default' do
                   let(:params) { { provider: '' } }
