@@ -6,7 +6,7 @@ describe 'python::pyvenv', type: :define do
       let :facts do
         # python3 is required to use pyvenv
         facts.merge(
-          python3_version: '3.4'
+          python3_version: '3.5.1'
         )
       end
       let :title do
@@ -15,7 +15,7 @@ describe 'python::pyvenv', type: :define do
 
       it {
         is_expected.to contain_file('/opt/env')
-        is_expected.to contain_exec('python_virtualenv_/opt/env').with_command('pyvenv-3.4 --clear  /opt/env')
+        is_expected.to contain_exec('python_virtualenv_/opt/env').with_command('pyvenv-3.5 --clear  /opt/env')
       }
 
       describe 'when ensure' do
