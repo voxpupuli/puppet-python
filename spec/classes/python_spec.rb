@@ -61,7 +61,7 @@ describe 'python', type: :class do
 
           describe 'with python::provider' do
             context 'pip' do
-              let(:params) { { provider: 'pip' } }
+              let(:params) { { pip: 'present', provider: 'pip' } }
 
               it {
                 is_expected.to contain_package('virtualenv').with(
@@ -384,7 +384,7 @@ describe 'python', type: :class do
 
           describe 'with python::provider' do
             context 'pip' do
-              let(:params) { { provider: 'pip' } }
+              let(:params) { { pip: 'present', provider: 'pip' } }
 
               it {
                 is_expected.to contain_package('virtualenv').with(

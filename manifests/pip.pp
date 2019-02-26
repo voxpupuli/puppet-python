@@ -244,7 +244,7 @@ define python::pip (
         # Unfortunately this is the smartest way of getting the latest available package version with pip as of now
         # Note: we DO need to repeat ourselves with "from version" in both grep and sed as on some systems pip returns
         # more than one line with paretheses.
-        $latest_version = join(["${pip_env} install ${proxy_flag} ${pkgname}==notreallyaversion 2>&1",
+        $latest_version = join(["${pip_install} ${pypi_index} ${proxy_flag} ${install_args} ${install_editable} ${pkgname}==notreallyaversion 2>&1",
                                 ' | grep -oP "\(from versions: .*\)" | sed -E "s/\(from versions: (.*?, )*(.*)\)/\2/g"',
                                 ' | tr -d "[:space:]"'])
 
