@@ -10,7 +10,7 @@ class python::install {
   $python = $python_version ? {
     'system' => 'python',
     'pypy'   => 'pypy',
-    /\A(python)?([0-9](\.?[0-9])+)/ => "python${1}",
+    /\A(python)?([0-9](\.?[0-9])+)/ => "python${2}",
     default  => "python${python::version}",
   }
 
@@ -74,19 +74,29 @@ class python::install {
         }
       }
 
-      # Install pip without pip, see https://pip.pypa.io/en/stable/installing/.
-      include 'python::pip::bootstrap'
+      # Respect the $pip_ensure setting
+      unless $pip_ensure == 'absent' {
+        # Install pip without pip, see https://pip.pypa.io/en/stable/installing/.
+        include 'python::pip::bootstrap'
 
-      Exec['bootstrap pip'] -> File['pip-python'] -> Package <| provider == pip |>
+        Exec['bootstrap pip'] -> File['pip-python'] -> Package <| provider == pip |>
 
-      Package <| title == 'pip' |> {
-        name     => 'pip',
-        provider => 'pip',
-      }
-      Package <| title == 'virtualenv' |> {
-        name     => 'virtualenv',
-        provider => 'pip',
-        require  => Package[$pythondev],
+        Package <| title == 'pip' |> {
+          name     => 'pip',
+          provider => 'pip',
+        }
+        if $pythondev {
+          Package <| title == 'virtualenv' |> {
+            name     => 'virtualenv',
+            provider => 'pip',
+            require  => Package['python-dev'],
+          }
+        } else {
+          Package <| title == 'virtualenv' |> {
+            name     => 'virtualenv',
+            provider => 'pip',
+          }
+        }
       }
     }
     'scl': {
