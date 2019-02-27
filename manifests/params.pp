@@ -13,6 +13,7 @@ class python::params {
   $manage_gunicorn        = true
   $provider               = undef
   $valid_versions         = undef
+  $manage_scl             = true
 
   if $::osfamily == 'RedHat' {
     if $::operatingsystem != 'Fedora' {
