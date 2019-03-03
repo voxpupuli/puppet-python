@@ -51,7 +51,7 @@ define python::virtualenv (
   $extra_pip_args   = '',
   $virtualenv       = undef
 ) {
-  include ::python
+  include python
   $python_provider = getparam(Class['python'], 'provider')
   $anaconda_path = getparam(Class['python'], 'anaconda_install_path')
 
