@@ -43,7 +43,7 @@ define python::requirements (
   $timeout                            = 1800,
 ) {
 
-  include ::python
+  include python
 
   if $virtualenv == 'system' and ($owner != 'root' or $group != 'root') {
     fail('python::pip: root user must be used when virtualenv is system')

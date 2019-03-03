@@ -33,7 +33,7 @@ define python::pyvenv (
   $environment      = [],
 ) {
 
-  include ::python
+  include python
 
   if $ensure == 'present' {
     $python_version = $version ? {
