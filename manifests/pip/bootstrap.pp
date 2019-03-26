@@ -11,6 +11,7 @@
 class python::pip::bootstrap (
   Enum['pip', 'pip3'] $version            = 'pip',
   Variant[Boolean, String] $manage_python = false,
+  String $http_proxy                      = '',
 ) inherits ::python::params {
   if $manage_python {
     include python
@@ -22,6 +23,7 @@ class python::pip::bootstrap (
     if $version == 'pip3' {
       exec { 'bootstrap pip3':
         command => '/usr/bin/curl https://bootstrap.pypa.io/get-pip.py | python3',
+        environment = [ "HTTP_PROXY=${http_proxy}", "HTTPS_PROXY=${http_proxy}" ],
         unless  => 'which pip3',
         path    => $python::params::pip_lookup_path,
         require => Package['python3'],
@@ -36,6 +38,7 @@ class python::pip::bootstrap (
     } else {
         exec { 'bootstrap pip':
           command => '/usr/bin/curl https://bootstrap.pypa.io/get-pip.py | python',
+          environment = [ "HTTP_PROXY=${http_proxy}", "HTTPS_PROXY=${http_proxy}" ],
           unless  => 'which pip',
           path    => $python::params::pip_lookup_path,
           require => Package['python'],
