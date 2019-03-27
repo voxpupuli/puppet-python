@@ -23,7 +23,7 @@ class python::pip::bootstrap (
     if $version == 'pip3' {
       exec { 'bootstrap pip3':
         command     => '/usr/bin/curl https://bootstrap.pypa.io/get-pip.py | python3',
-        environment => [ "HTTP_PROXY=${http_proxy}", "HTTPS_PROXY=${http_proxy}" ],
+        environment => [ "HTTP_PROXY=${http_proxy}", "HTTPS_PROXY=${http_proxy}", "http_proxy=${http_proxy}", "https_proxy=${http_proxy}" ],
         unless      => 'which pip3',
         path        => $python::params::pip_lookup_path,
         require     => Package['python3'],
@@ -38,7 +38,7 @@ class python::pip::bootstrap (
     } else {
         exec { 'bootstrap pip':
           command     => '/usr/bin/curl https://bootstrap.pypa.io/get-pip.py | python',
-          environment => [ "HTTP_PROXY=${http_proxy}", "HTTPS_PROXY=${http_proxy}" ],
+          environment => [ "HTTP_PROXY=${http_proxy}", "HTTPS_PROXY=${http_proxy}", "http_proxy=${http_proxy}", "https_proxy=${http_proxy}" ],
           unless      => 'which pip',
           path        => $python::params::pip_lookup_path,
           require     => Package['python'],
