@@ -22,11 +22,11 @@ class python::pip::bootstrap (
     }
     if $version == 'pip3' {
       exec { 'bootstrap pip3':
-        command => '/usr/bin/curl https://bootstrap.pypa.io/get-pip.py | python3',
+        command     => '/usr/bin/curl https://bootstrap.pypa.io/get-pip.py | python3',
         environment => [ "HTTP_PROXY=${http_proxy}", "HTTPS_PROXY=${http_proxy}" ],
-        unless  => 'which pip3',
-        path    => $python::params::pip_lookup_path,
-        require => Package['python3'],
+        unless      => 'which pip3',
+        path        => $python::params::pip_lookup_path,
+        require     => Package['python3'],
       }
       # puppet is opinionated about the pip command name
       -> file { 'pip3-python':
@@ -37,11 +37,11 @@ class python::pip::bootstrap (
       }
     } else {
         exec { 'bootstrap pip':
-          command => '/usr/bin/curl https://bootstrap.pypa.io/get-pip.py | python',
+          command     => '/usr/bin/curl https://bootstrap.pypa.io/get-pip.py | python',
           environment => [ "HTTP_PROXY=${http_proxy}", "HTTPS_PROXY=${http_proxy}" ],
-          unless  => 'which pip',
-          path    => $python::params::pip_lookup_path,
-          require => Package['python'],
+          unless      => 'which pip',
+          path        => $python::params::pip_lookup_path,
+          require     => Package['python'],
         }
         # puppet is opinionated about the pip command name
         file { 'pip-python':
