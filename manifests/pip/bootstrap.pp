@@ -23,7 +23,7 @@ class python::pip::bootstrap (
 
     $environ = $facts['os']['family'] ? {
       'AIX' => [ "http_proxy=${http_proxy}", "https_proxy=${http_proxy}" ],
-      default => [ "HTTP_PROXY=${http_proxy}", "HTTPS_PROXY=${http_proxy}" ] 
+      default => [ "HTTP_PROXY=${http_proxy}", "HTTPS_PROXY=${http_proxy}" ]
     }
 
     if $version == 'pip3' {
