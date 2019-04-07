@@ -1,6 +1,10 @@
 # This file is managed via modulesync
 # https://github.com/voxpupuli/modulesync
 # https://github.com/voxpupuli/modulesync_config
+RSpec.configure do |c|
+  c.mock_with :mocha
+end
+
 require 'puppetlabs_spec_helper/module_spec_helper'
 require 'rspec-puppet-facts'
 include RspecPuppetFacts
