@@ -129,7 +129,7 @@ describe 'python', type: :class do
               end
             end
           end
-        when 'RedHat'
+        when 'RedHat', 'CentOS'
           case facts[:os]['release']['major']
           when '5'
             # written for RHEL 5
@@ -204,23 +204,6 @@ describe 'python', type: :class do
                   }
                 end
 
-                context 'scl' do
-                  describe 'with manage_scl' do
-                    context 'true' do
-                      let(:params) { { provider: 'scl', manage_scl: true } }
-
-                      it { is_expected.to contain_package('centos-release-scl') }
-                      it { is_expected.to contain_package('scl-utils') }
-                    end
-                    context 'false' do
-                      let(:params) { { provider: 'scl', manage_scl: false } }
-
-                      it { is_expected.not_to contain_package('centos-release-scl') }
-                      it { is_expected.not_to contain_package('scl-utils') }
-                    end
-                  end
-                end
-
                 # python::provider
                 context 'default' do
                   let(:params) { { provider: '' } }
@@ -262,12 +245,65 @@ describe 'python', type: :class do
             context 'on a Redhat 6 OS' do
               it { is_expected.to contain_class('python::install') }
               it { is_expected.to contain_package('pip').with_name('python-pip') }
+
+              describe 'with python::provider' do
+                context 'scl' do
+                  describe 'with version' do
+                    context '3.6 SCL package' do
+                      let(:params) { { version: 'rh-python36' } }
+
+                      it { is_expected.to compile }
+                    end
+                  end
+                  describe 'with manage_scl' do
+                    context 'true' do
+                      let(:params) { { provider: 'scl', manage_scl: true } }
+
+                      it { is_expected.to contain_package('centos-release-scl') }
+                      it { is_expected.to contain_package('scl-utils') }
+                    end
+                    context 'false' do
+                      let(:params) { { provider: 'scl', manage_scl: false } }
+
+                      it { is_expected.not_to contain_package('centos-release-scl') }
+                      it { is_expected.not_to contain_package('scl-utils') }
+                    end
+                  end
+                end
+              end
             end
+
           when '7'
 
             context 'on a Redhat 7 OS' do
               it { is_expected.to contain_class('python::install') }
               it { is_expected.to contain_package('pip').with_name('python2-pip') }
+
+              describe 'with python::provider' do
+                context 'scl' do
+                  describe 'with version' do
+                    context '3.6 SCL package' do
+                      let(:params) { { version: 'rh-python36' } }
+
+                      it { is_expected.to compile }
+                    end
+                  end
+                  describe 'with manage_scl' do
+                    context 'true' do
+                      let(:params) { { provider: 'scl', manage_scl: true } }
+
+                      it { is_expected.to contain_package('centos-release-scl') }
+                      it { is_expected.to contain_package('scl-utils') }
+                    end
+                    context 'false' do
+                      let(:params) { { provider: 'scl', manage_scl: false } }
+
+                      it { is_expected.not_to contain_package('centos-release-scl') }
+                      it { is_expected.not_to contain_package('scl-utils') }
+                    end
+                  end
+                end
+              end
             end
           end
         end
