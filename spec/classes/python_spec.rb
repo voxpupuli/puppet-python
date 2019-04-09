@@ -252,7 +252,7 @@ describe 'python', type: :class do
                     context '3.6 SCL package' do
                       let(:params) { { version: 'rh-python36' } }
 
-                      it { is_expected.to compile }
+                      it { is_expected.to compile.with_all_deps }
                     end
                   end
                   describe 'with manage_scl' do
@@ -285,7 +285,7 @@ describe 'python', type: :class do
                     context '3.6 SCL package' do
                       let(:params) { { version: 'rh-python36' } }
 
-                      it { is_expected.to compile }
+                      it { is_expected.to compile.with_all_deps }
                     end
                   end
                   describe 'with manage_scl' do
