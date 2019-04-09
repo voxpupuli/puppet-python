@@ -29,7 +29,7 @@
 # @example install python3 from scl repo
 #   class { 'python' :
 #     ensure      => 'present',
-#     version     => 'rh-python36',
+#     version     => 'rh-python36-python',
 #     dev         => 'present',
 #     virtualenv  => 'present',
 #   }
@@ -64,7 +64,7 @@ class python (
   }
 
   unless $version =~ Pattern[/\A(python)?[0-9](\.[0-9])+/,
-        /\Apypy\Z/, /\Asystem\Z/, /\Arh-python[0-9]{2}\Z/] {
+        /\Apypy\Z/, /\Asystem\Z/, /\Arh-python[0-9]{2}(?:-python)?\Z/] {
     fail("version needs to be pypy, system or a version string like '3.5' or 'python3.5)")
   }
 

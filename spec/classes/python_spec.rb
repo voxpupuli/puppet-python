@@ -249,8 +249,13 @@ describe 'python', type: :class do
               describe 'with python::provider' do
                 context 'scl' do
                   describe 'with version' do
-                    context '3.6 SCL package' do
+                    context '3.6 SCL meta package' do
                       let(:params) { { version: 'rh-python36' } }
+
+                      it { is_expected.to compile.with_all_deps }
+                    end
+                    context '3.6 SCL python package' do
+                      let(:params) { { version: 'rh-python36-python' } }
 
                       it { is_expected.to compile.with_all_deps }
                     end
@@ -282,8 +287,13 @@ describe 'python', type: :class do
               describe 'with python::provider' do
                 context 'scl' do
                   describe 'with version' do
-                    context '3.6 SCL package' do
+                    context '3.6 SCL meta package' do
                       let(:params) { { version: 'rh-python36' } }
+
+                      it { is_expected.to compile.with_all_deps }
+                    end
+                    context '3.6 SCL python package' do
+                      let(:params) { { version: 'rh-python36-python' } }
 
                       it { is_expected.to compile.with_all_deps }
                     end
