@@ -8,10 +8,11 @@ class python::install {
 
   $python_version = getparam(Class['python'], 'version')
   $python = $python_version ? {
-    'system' => 'python',
-    'pypy'   => 'pypy',
+    'system'                        => 'python',
+    'pypy'                          => 'pypy',
     /\A(python)?([0-9](\.?[0-9])+)/ => "python${2}",
-    default  => "python${python::version}",
+    /\Arh-python[0-9]{2}/           => $python_version,
+    default                         => "python${python::version}",
   }
 
   $pythondev = $facts['os']['family'] ? {

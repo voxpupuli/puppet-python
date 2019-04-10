@@ -59,7 +59,7 @@ define python::pyvenv (
     }
 
     # pyvenv is deprecated since 3.6 and will be removed in 3.8
-    if (versioncmp($facts['python3_version'], '3.6') >=0) {
+    if (versioncmp($normalized_python_version, '3.6') >=0) {
       $virtualenv_cmd = "${python::exec_prefix}python${normalized_python_version} -m venv"
     } else {
       $virtualenv_cmd = "${python::exec_prefix}pyvenv-${normalized_python_version}"
