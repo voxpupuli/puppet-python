@@ -23,9 +23,9 @@ group :test do
   gem 'puppet-lint-absolute_classname-check',                       :require => false
   gem 'metadata-json-lint',                                         :require => false
   gem 'redcarpet',                                                  :require => false
-  gem 'rubocop', '~> 0.49.1',                                       :require => false
-  gem 'rubocop-rspec', '~> 1.15.0',                                 :require => false
-  gem 'mocha', '~> 1.4.0',                                          :require => false
+  gem 'rubocop', '~> 0.68.1',                                       :require => false
+  gem 'rubocop-rspec', '~> 1.32.0',                                 :require => false
+  gem 'mocha', '~> 1.8.0',                                          :require => false
   gem 'coveralls',                                                  :require => false
   gem 'simplecov-console',                                          :require => false
   gem 'parallel_tests',                                             :require => false
