@@ -51,7 +51,7 @@ define python::pip (
   String $pkgname                                            = $name,
   Variant[Enum[present, absent, latest], String[1]] $ensure  = present,
   Variant[Enum['system'], Stdlib::Absolutepath] $virtualenv  = 'system',
-  Enum['pip', 'pip3'] $pip_provider                          = 'pip',
+  String[1] $pip_provider                                    = 'pip',
   Variant[Boolean, String] $url                              = false,
   String[1] $owner                                           = 'root',
   $group                                                     = getvar('python::params::group'),
