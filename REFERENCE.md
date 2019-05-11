@@ -529,6 +529,19 @@ python::pip { 'requests' :
 }
 ```
 
+##### Install Requests with pip module
+
+```puppet
+python::pip { 'requests' :
+  ensure        => 'present',
+  pkgname       => 'requests',
+  pip_provider  => 'python3 -m pip',
+  virtualenv    => '/var/www/project1',
+  owner         => 'root',
+  timeout       => 1800
+}
+```
+
 #### Parameters
 
 The following parameters are available in the `python::pip` defined type.
@@ -563,7 +576,7 @@ Default value: 'system'
 
 ##### `pip_provider`
 
-Data type: `Enum['pip', 'pip3']`
+Data type: `String[1]`
 
 version of pip you wish to use.
 
