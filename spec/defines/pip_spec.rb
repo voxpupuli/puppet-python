@@ -67,7 +67,7 @@ describe 'python::pip', type: :define do # rubocop:disable RSpec/MultipleDescrib
       context 'adds proxy to install command if proxy set' do
         let(:params) { { proxy: 'http://my.proxy:3128' } }
 
-        it { is_expected.to contain_exec('pip_install_rpyc').with_command("pip wheel --help > /dev/null 2>&1 && { pip show wheel > /dev/null 2>&1 || wheel_support_flag='--no-binary :all:'; } ; { pip --log /tmp/pip.log install $wheel_support_flag  --proxy=http://my.proxy:3128   rpyc || pip --log /tmp/pip.log install  --proxy=http://my.proxy:3128   rpyc ;}") }
+        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install  --proxy=http://my.proxy:3128   rpyc') }
       end
     end
 
@@ -80,7 +80,7 @@ describe 'python::pip', type: :define do # rubocop:disable RSpec/MultipleDescrib
       context 'adds index to install command if index set' do
         let(:params) { { index: 'http://www.example.com/simple/' } }
 
-        it { is_expected.to contain_exec('pip_install_rpyc').with_command("pip wheel --help > /dev/null 2>&1 && { pip show wheel > /dev/null 2>&1 || wheel_support_flag='--no-binary :all:'; } ; { pip --log /tmp/pip.log install $wheel_support_flag --index-url=http://www.example.com/simple/    rpyc || pip --log /tmp/pip.log install --index-url=http://www.example.com/simple/    rpyc ;}") }
+        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install --index-url=http://www.example.com/simple/    rpyc') }
       end
     end
 
@@ -133,12 +133,12 @@ describe 'python::pip', type: :define do
       context 'suceeds with no extras' do
         let(:params) { {} }
 
-        it { is_expected.to contain_exec('pip_install_requests').with_command("pip wheel --help > /dev/null 2>&1 && { pip show wheel > /dev/null 2>&1 || wheel_support_flag='--no-binary :all:'; } ; { pip --log /tmp/pip.log install $wheel_support_flag     requests || pip --log /tmp/pip.log install     requests ;}") }
+        it { is_expected.to contain_exec('pip_install_requests').with_command('pip --log /tmp/pip.log install     requests') }
       end
       context 'succeeds with extras' do
         let(:params) { { extras: ['security'] } }
 
-        it { is_expected.to contain_exec('pip_install_requests').with_command("pip wheel --help > /dev/null 2>&1 && { pip show wheel > /dev/null 2>&1 || wheel_support_flag='--no-binary :all:'; } ; { pip --log /tmp/pip.log install $wheel_support_flag     requests[security] || pip --log /tmp/pip.log install     requests[security] ;}") }
+        it { is_expected.to contain_exec('pip_install_requests').with_command('pip --log /tmp/pip.log install     requests[security]') }
       end
     end
   end
