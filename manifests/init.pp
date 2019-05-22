@@ -17,6 +17,7 @@
 # @param provider What provider to use for installation of the packages, except gunicorn and Python itself.
 # @param use_epel to determine if the epel class is used.
 # @param manage_scl Whether to manage core SCL packages or not.
+# @param umask The default umask for invoked exec calls.
 #
 # @example install python from system python
 #   class { 'python':
@@ -55,6 +56,7 @@ class python (
   Stdlib::Httpurl $anaconda_installer_url         = $python::params::anaconda_installer_url,
   Stdlib::Absolutepath $anaconda_install_path     = $python::params::anaconda_install_path,
   Boolean $manage_scl                             = $python::params::manage_scl,
+  Optional[Pattern[/[0-7]{1,4}/]] $umask          = undef,
 ) inherits python::params {
 
   $exec_prefix = $provider ? {
@@ -79,6 +81,11 @@ class python (
   -> class { 'python::install': }
   -> class { 'python::config': }
   -> anchor { 'python::end': }
+
+  # Set default umask.
+  if $umask != undef {
+    Exec { umask => $umask }
+  }
 
   # Allow hiera configuration of python resources
   create_resources('python::pip', $python_pips)

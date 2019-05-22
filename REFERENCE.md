@@ -8,6 +8,7 @@
 _Public Classes_
 
 * [`python`](#python): Installs and manages python, python-dev, python-virtualenv and gunicorn.
+* [`python::pip::bootstrap`](#pythonpipbootstrap): allow to bootstrap pip when python is managed from other module
 
 _Private Classes_
 
@@ -44,7 +45,7 @@ class { 'python':
 }
 ```
 
-##### install python3 from scl report
+##### install python3 from scl repo
 
 ```puppet
 class { 'python' :
@@ -138,6 +139,22 @@ to determine if the epel class is used.
 
 Default value: $python::params::use_epel
 
+##### `manage_scl`
+
+Data type: `Boolean`
+
+Whether to manage core SCL packages or not.
+
+Default value: $python::params::manage_scl
+
+##### `umask`
+
+Data type: `Optional[Pattern[/[0-7]{1,4}/]]`
+
+The default umask for invoked exec calls.
+
+Default value: `undef`
+
 ##### `gunicorn_package_name`
 
 Data type: `Any`
@@ -218,6 +235,40 @@ Data type: `Stdlib::Absolutepath`
 
 Default value: $python::params::anaconda_install_path
 
+### python::pip::bootstrap
+
+allow to bootstrap pip when python is managed from other module
+
+#### Examples
+
+##### 
+
+```puppet
+class { 'python::pip::bootstrap':
+  version => 'pip',
+}
+```
+
+#### Parameters
+
+The following parameters are available in the `python::pip::bootstrap` class.
+
+##### `version`
+
+Data type: `Enum['pip', 'pip3']`
+
+should be pip or pip3
+
+Default value: 'pip'
+
+##### `manage_python`
+
+Data type: `Variant[Boolean, String]`
+
+if python module will manage deps
+
+Default value: `false`
+
 ## Defined types
 
 ### python::dotfile
@@ -256,7 +307,7 @@ Default value: 'present'
 
 ##### `filename`
 
-Data type: `Stdlib::Filemode`
+Data type: `String[1]`
 
 Filename.
 
@@ -264,7 +315,7 @@ Default value: $title
 
 ##### `mode`
 
-Data type: `String[1]`
+Data type: `Stdlib::Filemode`
 
 File mode.
 
@@ -365,11 +416,9 @@ Default value: 'wsgi'
 
 ##### `dir`
 
-Data type: `Any`
+Data type: `Stdlib::Absolutepath`
 
 Application directory.
-
-Default value: `false`
 
 ##### `bind`
 
@@ -479,7 +528,7 @@ Default value: `false`
 
 ##### `log_level`
 
-Data type: `Any`
+Data type: `Enum['debug', 'info', 'warning', 'error', 'critical']`
 
 
 
@@ -529,19 +578,6 @@ python::pip { 'requests' :
 }
 ```
 
-##### Install Requests with pip module
-
-```puppet
-python::pip { 'requests' :
-  ensure        => 'present',
-  pkgname       => 'requests',
-  pip_provider  => 'python3 -m pip',
-  virtualenv    => '/var/www/project1',
-  owner         => 'root',
-  timeout       => 1800
-}
-```
-
 #### Parameters
 
 The following parameters are available in the `python::pip` defined type.
@@ -568,7 +604,7 @@ Default value: present
 
 ##### `virtualenv`
 
-Data type: `String`
+Data type: `Variant[Enum['system'], Stdlib::Absolutepath]`
 
 virtualenv to run pip in.
 
@@ -600,11 +636,11 @@ Default value: 'root'
 
 ##### `group`
 
-Data type: `String[1]`
+Data type: `Any`
 
 The group of the virtualenv being manipulated.
 
-Default value: 'root'
+Default value: getvar('python::params::group')
 
 ##### `index`
 
