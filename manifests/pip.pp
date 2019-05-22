@@ -57,7 +57,7 @@ define python::pip (
   $group                                                     = getvar('python::params::group'),
   $umask                                                     = undef,
   $index                                                     = false,
-  Variant[Boolean, String] $proxy                            = false,
+  Optional[Stdlib::HTTPUrl] $proxy                           = undef,
   $egg                                                       = false,
   Boolean $editable                                          = false,
   $environment                                               = [],
@@ -115,7 +115,7 @@ define python::pip (
     }
 
   $proxy_flag = $proxy ? {
-    false    => '',
+    undef    => '',
     default  => "--proxy=${proxy}",
   }
 

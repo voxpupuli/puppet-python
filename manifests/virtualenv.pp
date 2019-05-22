@@ -31,25 +31,25 @@
 #  }
 #
 define python::virtualenv (
-  $ensure           = present,
-  $version          = 'system',
-  $requirements     = false,
-  $systempkgs       = false,
-  $venv_dir         = $name,
-  $ensure_venv_dir  = true,
-  $distribute       = true,
-  $index            = false,
-  $owner            = 'root',
-  $group            = 'root',
-  $mode             = '0755',
-  $proxy            = false,
-  $environment      = [],
-  $path             = [ '/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin' ],
-  $cwd              = undef,
-  $timeout          = 1800,
-  $pip_args         = '',
-  $extra_pip_args   = '',
-  $virtualenv       = undef
+  $ensure                          = 'present',
+  $version                         = 'system',
+  $requirements                    = false,
+  $systempkgs                      = false,
+  $venv_dir                        = $name,
+  $ensure_venv_dir                 = true,
+  $distribute                      = true,
+  $index                           = false,
+  $owner                           = 'root',
+  $group                           = 'root',
+  $mode                            = '0755',
+  Optional[Stdlib::HTTPUrl] $proxy = undef,
+  $environment                     = [],
+  $path                            = [ '/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin' ],
+  $cwd                             = undef,
+  $timeout                         = 1800,
+  $pip_args                        = '',
+  $extra_pip_args                  = '',
+  $virtualenv                      = undef,
 ) {
   include python
   $python_provider = getparam(Class['python'], 'provider')
@@ -78,9 +78,12 @@ define python::virtualenv (
       default  => "--proxy=${proxy}",
     }
 
-    $proxy_command = $proxy ? {
-      false   => '',
-      default => "&& export http_proxy=${proxy}",
+    $proxy_hash = $proxy ? {
+      undef   => {},
+      default => $facts['os']['family'] ? {
+        'AIX'   => { 'http_proxy' => $proxy, 'https_proxy' => $proxy },
+        default => { 'HTTP_PROXY' => $proxy, 'HTTPS_PROXY' => $proxy },
+      }
     }
 
     # Virtualenv versions prior to 1.7 do not support the
@@ -134,12 +137,12 @@ define python::virtualenv (
     $pip_flags = "${pypi_index} ${proxy_flag} ${pip_args}"
 
     exec { "python_virtualenv_${venv_dir}":
-      command     => "true ${proxy_command} && ${virtualenv_cmd} ${system_pkgs_flag} -p ${python} ${venv_dir} && ${pip_cmd} --log ${venv_dir}/pip.log install ${pip_flags} --upgrade pip && ${pip_cmd} install ${pip_flags} --upgrade ${distribute_pkg}",
+      command     => "${virtualenv_cmd} ${system_pkgs_flag} -p ${python} ${venv_dir} && ${pip_cmd} --log ${venv_dir}/pip.log install ${pip_flags} --upgrade pip && ${pip_cmd} install ${pip_flags} --upgrade ${distribute_pkg}",
       user        => $owner,
       creates     => "${venv_dir}/bin/activate",
       path        => $_path,
       cwd         => '/tmp',
-      environment => $environment,
+      environment => (Hash($environment.map |$val| { $val.split(/=|$/) }) + $proxy_hash).map|$key, $val| { "${key}=${val}" },
       unless      => "grep '^[\\t ]*VIRTUAL_ENV=[\\\\'\\\"]*${venv_dir}[\\\"\\\\'][\\t ]*$' ${venv_dir}/bin/activate", #Unless activate exists and VIRTUAL_ENV is correct we re-create the virtualenv
       require     => File[$venv_dir],
     }
