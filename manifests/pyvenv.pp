@@ -65,8 +65,8 @@ define python::pyvenv (
       $virtualenv_cmd = "${python::exec_prefix}pyvenv-${normalized_python_version}"
     }
 
-    $_path = $::python::provider ? {
-      'anaconda' => concat(["${::python::anaconda_install_path}/bin"], $path),
+    $_path = $python::provider ? {
+      'anaconda' => concat(["${python::anaconda_install_path}/bin"], $path),
       default    => $path,
     }
 

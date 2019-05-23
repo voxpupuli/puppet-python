@@ -13,7 +13,7 @@ class python::pip::bootstrap (
   Enum['pip', 'pip3'] $version            = 'pip',
   Variant[Boolean, String] $manage_python = false,
   Optional[Stdlib::HTTPUrl] $http_proxy   = undef,
-) inherits ::python::params {
+) inherits python::params {
   if $manage_python {
     include python
   } else {

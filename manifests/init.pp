@@ -65,9 +65,9 @@ class python (
     default => '',
   }
 
-  unless $version =~ Pattern[/\A(python)?[0-9](\.[0-9])+/,
+  unless $version =~ Pattern[/\A(python)?[0-9](\.?[0-9])+/,
         /\Apypy\Z/, /\Asystem\Z/, /\Arh-python[0-9]{2}(?:-python)?\Z/] {
-    fail("version needs to be pypy, system or a version string like '3.5' or 'python3.5)")
+    fail("version needs to be pypy, system or a version string like '36', '3.6' or 'python3.6' )")
   }
 
   # Module compatibility check

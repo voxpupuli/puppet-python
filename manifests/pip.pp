@@ -85,7 +85,7 @@ define python::pip (
   }
 
   $_path = $python_provider ? {
-    'anaconda' => concat(["${::python::anaconda_install_path}/bin"], $path),
+    'anaconda' => concat(["${python::anaconda_install_path}/bin"], $path),
     default    => $path,
   }
 
