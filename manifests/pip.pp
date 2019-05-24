@@ -158,7 +158,7 @@ define python::pip (
   $source = $url ? {
     false               => "${pkgname}${extras_string}",
     /^(\/|[a-zA-Z]\:)/  => $url,
-    /^(git\+|hg\+|bzr\+|svn\+)(http|https|ssh|svn|sftp|ftp|lp)(:\/\/).+$/ => $url,
+    /^(git\+|hg\+|bzr\+|svn\+)(http|https|ssh|svn|sftp|ftp|lp|git)(:\/\/).+$/ => $url,
     default             => "${url}#egg=${egg_name}",
   }
 
@@ -166,7 +166,7 @@ define python::pip (
   $pip_common_args = "${pypi_index} ${proxy_flag} ${install_args} ${install_editable} ${source}"
 
   # Explicit version out of VCS when PIP supported URL is provided
-  if $source =~ /^(git\+|hg\+|bzr\+|svn\+)(http|https|ssh|svn|sftp|ftp|lp)(:\/\/).+$/ {
+  if $source =~ /^(git\+|hg\+|bzr\+|svn\+)(http|https|ssh|svn|sftp|ftp|lp|git)(:\/\/).+$/ {
     if $ensure != present and $ensure != latest {
       exec { "pip_install_${name}":
         command     => "${pip_install} ${install_args} ${pip_common_args}@${ensure}#egg=${egg_name}",
