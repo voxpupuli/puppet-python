@@ -269,6 +269,14 @@ if python module will manage deps
 
 Default value: `false`
 
+##### `http_proxy`
+
+Data type: `Optional[Stdlib::HTTPUrl]`
+
+Proxy server to use for outbound connections.
+
+Default value: `undef`
+
 ## Defined types
 
 ### python::dotfile
@@ -652,11 +660,11 @@ Default value: `false`
 
 ##### `proxy`
 
-Data type: `Variant[Boolean, String]`
+Data type: `Optional[Stdlib::HTTPUrl]`
 
 Proxy server to use for outbound connections.
 
-Default value: `false`
+Default value: `undef`
 
 ##### `editable`
 
@@ -896,11 +904,11 @@ Default value: 'root'
 
 ##### `proxy`
 
-Data type: `Any`
+Data type: `Optional[Stdlib::HTTPUrl]`
 
 Proxy server to use for outbound connections.
 
-Default value: `false`
+Default value: `undef`
 
 ##### `src`
 
@@ -1003,7 +1011,7 @@ Data type: `Any`
 
 
 
-Default value: present
+Default value: 'present'
 
 ##### `version`
 
@@ -1087,11 +1095,11 @@ Default value: '0755'
 
 ##### `proxy`
 
-Data type: `Any`
+Data type: `Optional[Stdlib::HTTPUrl]`
 
 Proxy server to use for outbound connections
 
-Default value: `false`
+Default value: `undef`
 
 ##### `environment`
 

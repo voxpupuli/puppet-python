@@ -42,6 +42,36 @@ describe 'python', type: :class do
             end
           end
 
+          describe 'with python::python_virtualenvs' do
+            context 'when `proxy` set' do
+              let(:params) do
+                {
+                  python_virtualenvs: {
+                    '/opt/env1' => {
+                      proxy: 'http://example.com:3128'
+                    }
+                  }
+                }
+              end
+
+              it { is_expected.to contain_exec('python_virtualenv_/opt/env1').with_environment(['HTTP_PROXY=http://example.com:3128', 'HTTPS_PROXY=http://example.com:3128']) }
+            end
+            context 'when `proxy` and `environment` have conflicting parameters' do
+              let(:params) do
+                {
+                  python_virtualenvs: {
+                    '/opt/env1' => {
+                      proxy: 'http://example.com:3128',
+                      environment: ['HTTP_PROXY=http://example.com:8080']
+                    }
+                  }
+                }
+              end
+
+              it { is_expected.to contain_exec('python_virtualenv_/opt/env1').with_environment(['HTTP_PROXY=http://example.com:3128', 'HTTPS_PROXY=http://example.com:3128']) }
+            end
+          end
+
           describe 'with manage_gunicorn' do
             context 'true' do
               let(:params) { { manage_gunicorn: true } }

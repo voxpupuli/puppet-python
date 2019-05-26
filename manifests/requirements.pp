@@ -31,7 +31,7 @@ define python::requirements (
   Enum['pip', 'pip3'] $pip_provider   = 'pip',
   $owner                              = 'root',
   $group                              = 'root',
-  $proxy                              = false,
+  Optional[Stdlib::HTTPUrl] $proxy    = undef,
   $src                                = false,
   $environment                        = [],
   $forceupdate                        = false,
@@ -68,8 +68,8 @@ define python::requirements (
   }
 
   $proxy_flag = $proxy ? {
-    false    => '',
-    default  => "--proxy=${proxy}",
+    undef   => '',
+    default => "--proxy=${proxy}",
   }
 
   $src_flag = $src ? {
