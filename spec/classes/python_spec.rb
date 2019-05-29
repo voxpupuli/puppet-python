@@ -314,6 +314,17 @@ describe 'python', type: :class do
               it { is_expected.to contain_class('python::install') }
               it { is_expected.to contain_package('pip').with_name('python2-pip') }
 
+              describe 'with python::version' do
+                context 'python36' do
+                  let(:params) { { version: 'python36' } }
+
+                  it { is_expected.to compile.with_all_deps }
+                  it { is_expected.to contain_package('pip').with_name('python36-pip') }
+                  it { is_expected.to contain_package('python').with_name('python36') }
+                  it { is_expected.to contain_package('python-dev').with_name('python36-devel') }
+                  it { is_expected.to contain_package('virtualenv').with_name('python36-virtualenv') }
+                end
+              end
               describe 'with python::provider' do
                 context 'scl' do
                   describe 'with version' do

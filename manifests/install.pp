@@ -6,13 +6,12 @@
 #
 class python::install {
 
-  $python_version = getparam(Class['python'], 'version')
-  $python = $python_version ? {
-    'system'                        => 'python',
-    'pypy'                          => 'pypy',
-    /\A(python)?([0-9](\.?[0-9])+)/ => "python${2}",
-    /\Arh-python[0-9]{2}/           => $python_version,
-    default                         => "python${python::version}",
+  $python = $python::version ? {
+    'system'              => 'python',
+    'pypy'                => 'pypy',
+    /\A(python)?([0-9]+)/ => "python${2}",
+    /\Arh-python[0-9]{2}/ => $python::version,
+    default               => "python${python::version}",
   }
 
   $pythondev = $facts['os']['family'] ? {
@@ -57,6 +56,7 @@ class python::install {
 
   package { 'virtualenv':
     ensure  => $venv_ensure,
+    name    => "${python}-virtualenv",
     require => Package['python'],
   }
 
@@ -144,10 +144,10 @@ class python::install {
     }
     'rhscl': {
       # rhscl is RedHat SCLs from softwarecollections.org
-      if $::python::rhscl_use_public_repository {
-        $scl_package = "rhscl-${::python::version}-epel-${::operatingsystemmajrelease}-${::architecture}"
+      if $python::rhscl_use_public_repository {
+        $scl_package = "rhscl-${python::version}-epel-${::operatingsystemmajrelease}-${::architecture}"
         package { $scl_package:
-          source   => "https://www.softwarecollections.org/en/scls/rhscl/${::python::version}/epel-${::operatingsystemmajrelease}-${::architecture}/download/${scl_package}.noarch.rpm",
+          source   => "https://www.softwarecollections.org/en/scls/rhscl/${python::version}/epel-${::operatingsystemmajrelease}-${::architecture}/download/${scl_package}.noarch.rpm",
           provider => 'rpm',
           tag      => 'python-scl-repo',
         }
@@ -171,7 +171,7 @@ class python::install {
         tag    => 'python-pip-package',
       }
 
-      if $::python::rhscl_use_public_repository {
+      if $python::rhscl_use_public_repository {
         Package <| tag == 'python-scl-repo' |>
         -> Package <| tag == 'python-scl-package' |>
       }
@@ -183,24 +183,24 @@ class python::install {
       $installer_path = '/var/tmp/anaconda_installer.sh'
 
       file { $installer_path:
-        source => $::python::anaconda_installer_url,
+        source => $python::anaconda_installer_url,
         mode   => '0700',
       }
       -> exec { 'install_anaconda_python':
-        command   => "${installer_path} -b -p ${::python::anaconda_install_path}",
-        creates   => $::python::anaconda_install_path,
+        command   => "${installer_path} -b -p ${python::anaconda_install_path}",
+        creates   => $python::anaconda_install_path,
         logoutput => true,
       }
       -> exec { 'install_anaconda_virtualenv':
-        command => "${::python::anaconda_install_path}/bin/pip install virtualenv",
-        creates => "${::python::anaconda_install_path}/bin/virtualenv",
+        command => "${python::anaconda_install_path}/bin/pip install virtualenv",
+        creates => "${python::anaconda_install_path}/bin/virtualenv",
       }
     }
     default: {
       case $facts['os']['family'] {
         'AIX': {
-          if "${python_version}" =~ /^python3/ { #lint:ignore:only_variable_string
-            class { 'python::pip::bootstap':
+          if String($python::version) =~ /^python3/ {
+            class { 'python::pip::bootstrap':
                     version => 'pip3',
             }
           } else {
@@ -268,23 +268,31 @@ class python::install {
         }
       }
 
-      if "${::python::version}" =~ /^python3/ { #lint:ignore:only_variable_string
+      if String($python::version) =~ /^python3/ {
         $pip_category = undef
-        $pip_package = 'python3-pip'
+        $pip_package = "${python}-pip"
+        $pip_provider = $python.regsubst(/^.*python3\.?/,'pip3.').regsubst(/\.$/,'')
       } elsif ($::osfamily == 'RedHat') and (versioncmp($::operatingsystemmajrelease, '7') >= 0) {
         $pip_category = undef
         $pip_package = 'python2-pip'
+        $pip_provider = pip2
       } elsif $::osfamily == 'Gentoo' {
         $pip_category = 'dev-python'
         $pip_package = 'pip'
+        $pip_provider = 'pip'
       } else {
         $pip_category = undef
         $pip_package = 'python-pip'
+        $pip_provider = 'pip'
       }
 
       Package <| title == 'pip' |> {
         name     => $pip_package,
         category => $pip_category,
+      }
+
+      Python::Pip <| |> {
+        pip_provider => $pip_provider,
       }
 
       Package <| title == 'virtualenv' |> {
