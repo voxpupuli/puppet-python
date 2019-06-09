@@ -135,14 +135,23 @@ define python::pip (
     fail('python::pip cannot provide uninstall_args with ensure => present')
   }
 
-  # Check if searching by explicit version.
-  if $ensure =~ /^((19|20)[0-9][0-9]-(0[1-9]|1[1-2])-([0-2][1-9]|3[0-1])|[0-9]+\.\w+\+?\w*(\.\w+)*)$/ {
-    $grep_regex = "^${pkgname}==${ensure}\$"
-  } else {
-    $grep_regex = $pkgname ? {
-      /==/    => "^${pkgname}\$",
-      default => "^${pkgname}==",
+  if $pkgname =~ /==/ {
+    $parts = split($pkgname, '==')
+    $real_pkgname = $parts[0]
+    $_ensure = $ensure ? {
+      'absent' => 'absent',
+      default => $parts[1],
     }
+  } else {
+    $real_pkgname = $pkgname
+    $_ensure = $ensure
+  }
+
+  # Check if searching by explicit version.
+  if $_ensure =~ /^((19|20)[0-9][0-9]-(0[1-9]|1[1-2])-([0-2][1-9]|3[0-1])|[0-9]+\.\w+\+?\w*(\.\w+)*)$/ {
+    $grep_regex = "^${real_pkgname}[[:space:]]\\+(\\?${_ensure}\\()$\\|$\\|, \\|[[:space:]]\\)"
+  } else {
+    $grep_regex = "^${real_pkgname}[[:space:]].*$"
   }
 
   $extras_string = empty($extras) ? {
@@ -151,12 +160,12 @@ define python::pip (
   }
 
   $egg_name = $egg ? {
-    false   => "${pkgname}${extras_string}",
+    false   => "${real_pkgname}${extras_string}",
     default => $egg
   }
 
   $source = $url ? {
-    false               => "${pkgname}${extras_string}",
+    false               => "${real_pkgname}${extras_string}",
     /^(\/|[a-zA-Z]\:)/  => "'${url}'",
     /^(git\+|hg\+|bzr\+|svn\+)(http|https|ssh|svn|sftp|ftp|lp|git)(:\/\/).+$/ => "'${url}'",
     default             => "'${url}#egg=${egg_name}'",
@@ -165,111 +174,70 @@ define python::pip (
   $pip_install = "${pip_env} --log ${log}/pip.log install"
   $pip_common_args = "${pypi_index} ${proxy_flag} ${install_args} ${install_editable} ${source}"
 
+  $pip_exec_name = "pip_install_${name}"
+
   # Explicit version out of VCS when PIP supported URL is provided
   if $source =~ /^'(git\+|hg\+|bzr\+|svn\+)(http|https|ssh|svn|sftp|ftp|lp|git)(:\/\/).+'$/ {
-    if $ensure != present and $ensure != latest {
-      exec { "pip_install_${name}":
-        command     => "${pip_install} ${install_args} ${pip_common_args}@${ensure}#egg=${egg_name}",
-        unless      => "${pip_env} freeze --all | grep -i -e ${grep_regex}",
-        user        => $owner,
-        group       => $group,
-        umask       => $umask,
-        cwd         => $cwd,
-        environment => $environment,
-        timeout     => $timeout,
-        path        => $_path,
-      }
+    if $_ensure != present and $_ensure != latest {
+      $command = "${pip_install} ${install_args} ${pip_common_args}@${_ensure}#egg=${egg_name}"
+      $unless_command = "${pip_env} list | grep -i -e '${grep_regex}'"
     } else {
-      exec { "pip_install_${name}":
-        command     => "${pip_install} ${install_args} ${pip_common_args}",
-        unless      => "${pip_env} freeze --all | grep -i -e ${grep_regex}",
-        user        => $owner,
-        group       => $group,
-        umask       => $umask,
-        cwd         => $cwd,
-        environment => $environment,
-        timeout     => $timeout,
-        path        => $_path,
-      }
+      $command = "${pip_install} ${install_args} ${pip_common_args}"
+      $unless_command = "${pip_env} list | grep -i -e '${grep_regex}'"
     }
   } else {
-    case $ensure {
+    case $_ensure {
       /^((19|20)[0-9][0-9]-(0[1-9]|1[1-2])-([0-2][1-9]|3[0-1])|[0-9]+\.\w+\+?\w*(\.\w+)*)$/: {
         # Version formats as per http://guide.python-distribute.org/specification.html#standard-versioning-schemes
         # Explicit version.
-        exec { "pip_install_${name}":
-          command     => "${pip_install} ${install_args} ${pip_common_args}==${ensure}",
-          unless      => "${pip_env} freeze --all | grep -i -e ${grep_regex} || ${pip_env} list | sed -e 's/[ ]\\+/==/' -e 's/[()]//g' | grep -i -e ${grep_regex}",
-          user        => $owner,
-          group       => $group,
-          umask       => $umask,
-          cwd         => $cwd,
-          environment => $environment,
-          timeout     => $timeout,
-          path        => $_path,
-        }
+        $command = "${pip_install} ${install_args} ${pip_common_args}==${_ensure}"
+        $unless_command = "${pip_env} list | grep -i -e '${grep_regex}'"
       }
-#
+
       'present': {
         # Whatever version is available.
-        exec { "pip_install_${name}":
-          command     => "${pip_install} ${pip_common_args}",
-          unless      => "${pip_env} freeze --all | grep -i -e ${grep_regex} || ${pip_env} list | sed -e 's/[ ]\\+/==/' -e 's/[()]//g' | grep -i -e ${grep_regex}",
-          user        => $owner,
-          group       => $group,
-          umask       => $umask,
-          cwd         => $cwd,
-          environment => $environment,
-          timeout     => $timeout,
-          path        => $_path,
-        }
+        $command = "${pip_install} ${pip_common_args}"
+        $unless_command = "${pip_env} list | grep -i -e '${grep_regex}'"
       }
 
       'latest': {
         # Unfortunately this is the smartest way of getting the latest available package version with pip as of now
         # Note: we DO need to repeat ourselves with "from version" in both grep and sed as on some systems pip returns
         # more than one line with paretheses.
-        $latest_version = join(["${pip_install} ${pypi_index} ${proxy_flag} ${install_args} ${install_editable} ${pkgname}==notreallyaversion 2>&1",
+        $latest_version = join(["${pip_install} ${pypi_index} ${proxy_flag} ${install_args} ${install_editable} ${real_pkgname}==notreallyaversion 2>&1",
                                 ' | grep -oP "\(from versions: .*\)" | sed -E "s/\(from versions: (.*?, )*(.*)\)/\2/g"',
                                 ' | tr -d "[:space:]"'])
 
         # Packages with underscores in their names are listed with dashes in their place in `pip freeze` output
-        $pkgname_with_dashes = regsubst($pkgname, '_', '-', 'G')
+        $pkgname_with_dashes = regsubst($real_pkgname, '_', '-', 'G')
         $grep_regex_pkgname_with_dashes = "^${pkgname_with_dashes}=="
         $installed_version = join(["${pip_env} freeze --all",
                                   " | grep -i -e ${grep_regex_pkgname_with_dashes} | cut -d= -f3",
                                   " | tr -d '[:space:]'"])
 
+        $command = "${pip_install} --upgrade ${pip_common_args}"
         $unless_command = "[ \$(${latest_version}) = \$(${installed_version}) ]"
-
-        # Latest version.
-        exec { "pip_install_${name}":
-          command     => "${pip_install} --upgrade ${pip_common_args}",
-          unless      => $unless_command,
-          user        => $owner,
-          group       => $group,
-          umask       => $umask,
-          cwd         => $cwd,
-          environment => $environment,
-          timeout     => $timeout,
-          path        => $_path,
-        }
       }
 
       default: {
         # Anti-action, uninstall.
-        exec { "pip_uninstall_${name}":
-          command     => "echo y | ${pip_env} uninstall ${uninstall_args} ${proxy_flag} ${name}",
-          onlyif      => "${pip_env} freeze --all | grep -i -e ${grep_regex}",
-          user        => $owner,
-          group       => $group,
-          umask       => $umask,
-          cwd         => $cwd,
-          environment => $environment,
-          timeout     => $timeout,
-          path        => $_path,
-        }
+        $pip_exec_name = "pip_uninstall_${name}"
+        $command = "echo y | ${pip_env} uninstall ${uninstall_args} ${proxy_flag} ${name}"
+        $unless_command = "! ${pip_env} list | grep -i -e '${grep_regex}'"
       }
     }
   }
+
+  exec { $pip_exec_name:
+    command     => $command,
+    unless      => $unless_command,
+    user        => $owner,
+    group       => $group,
+    umask       => $umask,
+    cwd         => $cwd,
+    environment => $environment,
+    timeout     => $timeout,
+    path        => $_path,
+  }
+
 }
