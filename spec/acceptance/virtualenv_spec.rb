@@ -27,6 +27,7 @@ describe 'python class' do
       apply_manifest(pp, catch_failures: true)
       apply_manifest(pp, catch_changes: true)
     end
+
     it 'maintains pip version' do
       pp = <<-EOS
       class { 'python' :
@@ -51,6 +52,7 @@ describe 'python class' do
       apply_manifest(pp, catch_failures: true)
       apply_manifest(pp, catch_changes: true)
     end
+
     it 'works with ensure=>latest' do
       pp = <<-EOS
       class { 'python' :
@@ -77,6 +79,7 @@ describe 'python class' do
       # but probability of this happening is minimal, so it should be acceptable.
       apply_manifest(pp, catch_changes: true)
     end
+
     it 'works with ensure=>latest for package with underscore in its name' do
       pp = <<-EOS
       class { 'python' :
@@ -103,6 +106,7 @@ describe 'python class' do
       # but probability of this happening is minimal, so it should be acceptable.
       apply_manifest(pp, catch_changes: true)
     end
+
     it 'works with editable=>true' do
       pp = <<-EOS
       package{ 'git' :
@@ -125,6 +129,30 @@ describe 'python class' do
         url        => 'git+https://github.com/tomerfiliba/rpyc.git',
         editable   => true,
         virtualenv => '/opt/venv5',
+      }
+      EOS
+
+      # Run it twice and test for idempotency
+      apply_manifest(pp, catch_failures: true)
+      apply_manifest(pp, catch_changes: true)
+    end
+
+    it 'works with == in pkgname' do
+      pp = <<-EOS
+      class { 'python' :
+        version    => 'system',
+        pip        => 'present',
+        virtualenv => 'present',
+      }
+      -> python::virtualenv { 'venv' :
+        ensure     => 'present',
+        systempkgs => false,
+        venv_dir   => '/opt/venv6',
+        owner      => 'root',
+        group      => 'root',
+      }
+      -> python::pip { 'rpyc==4.1.0' :
+        virtualenv => '/opt/venv6',
       }
       EOS
 
