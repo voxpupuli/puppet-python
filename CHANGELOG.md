@@ -4,6 +4,68 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v3.0.0](https://github.com/voxpupuli/puppet-python/tree/v3.0.0) (2019-06-13)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v2.2.2...v3.0.0)
+
+**Breaking changes:**
+
+- modulesync 2.5.1 and drop Puppet 4 [\#467](https://github.com/voxpupuli/puppet-python/pull/467) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Allow HTTP\_PROXY on bootstrap. [\#488](https://github.com/voxpupuli/puppet-python/pull/488) ([pillarsdotnet](https://github.com/pillarsdotnet))
+- Modern pip can install wheels without wheel installed [\#483](https://github.com/voxpupuli/puppet-python/pull/483) ([asottile](https://github.com/asottile))
+- Allow arbitrary pip providers [\#480](https://github.com/voxpupuli/puppet-python/pull/480) ([ethanhs](https://github.com/ethanhs))
+- Add manage\_scl boolean to control managing SCL [\#464](https://github.com/voxpupuli/puppet-python/pull/464) ([bodgit](https://github.com/bodgit))
+- Allow pip to work in AIX systems [\#461](https://github.com/voxpupuli/puppet-python/pull/461) ([feltra](https://github.com/feltra))
+- move pip bootstrap into a seperate class [\#460](https://github.com/voxpupuli/puppet-python/pull/460) ([feltra](https://github.com/feltra))
+- Allow custom python versions and environments [\#451](https://github.com/voxpupuli/puppet-python/pull/451) ([jradmacher](https://github.com/jradmacher))
+
+**Fixed bugs:**
+
+- Installing from git repo runs install on every Puppet run [\#193](https://github.com/voxpupuli/puppet-python/issues/193)
+- Fix python::pip installing $editable VCS packages every Puppet run [\#491](https://github.com/voxpupuli/puppet-python/pull/491) ([wolttam](https://github.com/wolttam))
+- Fix $subscribe overloading [\#490](https://github.com/voxpupuli/puppet-python/pull/490) ([nward](https://github.com/nward))
+- Fix version-check. [\#489](https://github.com/voxpupuli/puppet-python/pull/489) ([pillarsdotnet](https://github.com/pillarsdotnet))
+- Update version validation [\#472](https://github.com/voxpupuli/puppet-python/pull/472) ([bodgit](https://github.com/bodgit))
+- Normalize Python version in `python::pyvenv` [\#466](https://github.com/voxpupuli/puppet-python/pull/466) ([thaiphv](https://github.com/thaiphv))
+- Fix Ubuntu bionic package installation [\#450](https://github.com/voxpupuli/puppet-python/pull/450) ([ekohl](https://github.com/ekohl))
+- Fix $filename and $mode types in python::dotfile [\#446](https://github.com/voxpupuli/puppet-python/pull/446) ([gdubicki](https://github.com/gdubicki))
+- Stop using 'pip search' for ensure =\> latest [\#434](https://github.com/voxpupuli/puppet-python/pull/434) ([gdubicki](https://github.com/gdubicki))
+
+**Closed issues:**
+
+- Should set permissive umask before exec. [\#486](https://github.com/voxpupuli/puppet-python/issues/486)
+- When updating pip via puppet-python, an error occurs. [\#484](https://github.com/voxpupuli/puppet-python/issues/484)
+- Not possible to install Python-3 with this module [\#482](https://github.com/voxpupuli/puppet-python/issues/482)
+- Cannot install pre-commit pip. [\#481](https://github.com/voxpupuli/puppet-python/issues/481)
+- Allow the use of pip3.4 and pip3.6 [\#476](https://github.com/voxpupuli/puppet-python/issues/476)
+- python3\_version fact doesn't work on SCL [\#475](https://github.com/voxpupuli/puppet-python/issues/475)
+- missing https\_proxy when using https pypi of other https indexes [\#473](https://github.com/voxpupuli/puppet-python/issues/473)
+- Unable to use SCL version [\#471](https://github.com/voxpupuli/puppet-python/issues/471)
+- Variable $subscribe shoud not be overwritten [\#470](https://github.com/voxpupuli/puppet-python/issues/470)
+- Add switch to not manage SCL setup [\#463](https://github.com/voxpupuli/puppet-python/issues/463)
+- update dependencies to stdlib \>= 4.19 [\#458](https://github.com/voxpupuli/puppet-python/issues/458)
+- Impossible to use version number in Ubuntu 16.04 [\#448](https://github.com/voxpupuli/puppet-python/issues/448)
+- Documentation still includes the deprecated stankevich-python module for installation [\#441](https://github.com/voxpupuli/puppet-python/issues/441)
+- No puppet strings docs/class reference docs [\#439](https://github.com/voxpupuli/puppet-python/issues/439)
+- python::pip ensure =\> latest triggers refresh on each puppet run for some packages [\#433](https://github.com/voxpupuli/puppet-python/issues/433)
+- Support for Python3.6 executables [\#420](https://github.com/voxpupuli/puppet-python/issues/420)
+- Python 3 + virtualenv + centos 7 not working [\#354](https://github.com/voxpupuli/puppet-python/issues/354)
+- --no-use-wheel argument fails requirement installation [\#173](https://github.com/voxpupuli/puppet-python/issues/173)
+
+**Merged pull requests:**
+
+- 486 Set permissive umask. [\#487](https://github.com/voxpupuli/puppet-python/pull/487) ([pillarsdotnet](https://github.com/pillarsdotnet))
+- Update `puppetlabs/stdlib` dependency to allow 6.x and require at least 4.19.0 \(where the `fact\(\)` function was introduced\) [\#485](https://github.com/voxpupuli/puppet-python/pull/485) ([pillarsdotnet](https://github.com/pillarsdotnet))
+- Update pip url regex to support 'git+git://\<url\>' [\#477](https://github.com/voxpupuli/puppet-python/pull/477) ([gharper](https://github.com/gharper))
+- README.md: remove obsolete and redundant sections [\#453](https://github.com/voxpupuli/puppet-python/pull/453) ([kenyon](https://github.com/kenyon))
+- remove .DS\_Store [\#452](https://github.com/voxpupuli/puppet-python/pull/452) ([kenyon](https://github.com/kenyon))
+- Change default indent to 2 Spaces in .editorconfig [\#449](https://github.com/voxpupuli/puppet-python/pull/449) ([jradmacher](https://github.com/jradmacher))
+- Replace deprecated validate\_\* functions [\#443](https://github.com/voxpupuli/puppet-python/pull/443) ([baurmatt](https://github.com/baurmatt))
+- Update modules with defined types for variables as described in docs/Add reference.md [\#440](https://github.com/voxpupuli/puppet-python/pull/440) ([danquack](https://github.com/danquack))
+
 ## [v2.2.2](https://github.com/voxpupuli/puppet-python/tree/v2.2.2) (2018-10-20)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v2.2.0...v2.2.2)
@@ -78,7 +140,7 @@ These should not affect the functionality of the module.
 **Implemented enhancements:**
 
 - Add Debian 9 Support [\#398](https://github.com/voxpupuli/puppet-python/issues/398)
-- Add support for Anaconda [\#409](https://github.com/voxpupuli/puppet-python/pull/409) ([grsakea](https://github.com/grsakea))
+- Add support for Anaconda [\#409](https://github.com/voxpupuli/puppet-python/pull/409) ([jb-abbadie](https://github.com/jb-abbadie))
 - Add umask parameter to pip execs [\#368](https://github.com/voxpupuli/puppet-python/pull/368) ([jstaph](https://github.com/jstaph))
 
 **Closed issues:**
