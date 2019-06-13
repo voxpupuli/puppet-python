@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v3.0.1](https://github.com/voxpupuli/puppet-python/tree/v3.0.1) (2019-06-13)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v3.0.0...v3.0.1)
+
+**Merged pull requests:**
+
+- Fix travis secret [\#493](https://github.com/voxpupuli/puppet-python/pull/493) ([alexjfisher](https://github.com/alexjfisher))
+
 ## [v3.0.0](https://github.com/voxpupuli/puppet-python/tree/v3.0.0) (2019-06-13)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v2.2.2...v3.0.0)
