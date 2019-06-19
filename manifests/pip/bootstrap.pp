@@ -13,6 +13,7 @@ class python::pip::bootstrap (
   Enum['pip', 'pip3'] $version            = 'pip',
   Variant[Boolean, String] $manage_python = false,
   Optional[Stdlib::HTTPUrl] $http_proxy   = undef,
+  String[1] $exec_provider                = 'shell',
 ) inherits python::params {
   if $manage_python {
     include python
@@ -37,6 +38,7 @@ class python::pip::bootstrap (
         unless      => 'which pip3',
         path        => $python::params::pip_lookup_path,
         require     => Package['python3'],
+        provider    => $exec_provider,
       }
       # puppet is opinionated about the pip command name
       file { 'pip3-python':
@@ -52,6 +54,7 @@ class python::pip::bootstrap (
         unless      => 'which pip',
         path        => $python::params::pip_lookup_path,
         require     => Package['python'],
+        provider    => $exec_provider,
       }
       # puppet is opinionated about the pip command name
       file { 'pip-python':
