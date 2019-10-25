@@ -46,11 +46,6 @@ class python (
   $gunicorn_package_name                          = $python::params::gunicorn_package_name,
   Optional[Enum['pip', 'scl', 'rhscl', 'anaconda', '']] $provider = $python::params::provider,
   $valid_versions                                 = $python::params::valid_versions,
-  Hash $python_pips                               = { },
-  Hash $python_virtualenvs                        = { },
-  Hash $python_pyvenvs                            = { },
-  Hash $python_requirements                       = { },
-  Hash $python_dotfiles                           = { },
   Boolean $use_epel                               = $python::params::use_epel,
   $rhscl_use_public_repository                    = $python::params::rhscl_use_public_repository,
   Stdlib::Httpurl $anaconda_installer_url         = $python::params::anaconda_installer_url,
@@ -88,6 +83,12 @@ class python (
   }
 
   # Allow hiera configuration of python resources
+  $python_pips         = lookup('python::python_pips', Hash, 'deep', {})
+  $python_virtualenvs  = lookup('python::python_pyvenvs', Hash, 'deep', {})
+  $python_pyvenvs      = lookup('python::python_virtualenvs', Hash, 'deep', {})
+  $python_requirements = lookup('python::python_requirements', Hash, 'deep', {})
+  $python_dotfiles     = lookup('python::python_dotfiles', Hash, 'deep', {})
+
   create_resources('python::pip', $python_pips)
   create_resources('python::pyvenv', $python_pyvenvs)
   create_resources('python::virtualenv', $python_virtualenvs)
