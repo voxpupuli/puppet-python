@@ -81,8 +81,10 @@ define python::pyvenv (
       mode   => $mode,
     }
 
+    $pip_cmd   = "${python::exec_prefix}${venv_dir}/bin/pip"
+
     exec { "python_virtualenv_${venv_dir}":
-      command     => "${virtualenv_cmd} --clear ${system_pkgs_flag} ${venv_dir}",
+      command     => "${virtualenv_cmd} --clear ${system_pkgs_flag} ${venv_dir} && ${pip_cmd} --log ${venv_dir}/pip.log install --upgrade pip && ${pip_cmd} --log ${venv_dir}/pip.log install --upgrade setuptools",
       user        => $owner,
       creates     => "${venv_dir}/bin/activate",
       path        => $_path,
