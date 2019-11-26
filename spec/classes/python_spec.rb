@@ -72,6 +72,28 @@ describe 'python', type: :class do
             end
           end
 
+          describe 'with python::python_pyvenvs' do
+            context 'with two pyenvs' do
+              let(:params) do
+                {
+                  python_pyvenvs: {
+                    '/opt/env1' => {
+                      version: '3.8'
+                    },
+                    '/opt/env2' => {
+                      version: '3.8'
+                    }
+                  }
+                }
+              end
+
+              it { is_expected.to compile }
+
+              it { is_expected.to contain_python__pyvenv('/opt/env1').with_ensure('present') }
+              it { is_expected.to contain_python__pyvenv('/opt/env2').with_ensure('present') }
+            end
+          end
+
           describe 'with manage_gunicorn' do
             context 'true' do
               let(:params) { { manage_gunicorn: true } }

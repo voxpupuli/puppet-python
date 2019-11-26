@@ -13,10 +13,14 @@ describe 'python::pyvenv', type: :define do
         '/opt/env'
       end
 
-      it {
-        is_expected.to contain_file('/opt/env')
-        is_expected.to contain_exec('python_virtualenv_/opt/env').with_command('pyvenv-3.5 --clear  /opt/env')
-      }
+      context 'with default parameters' do
+        it { is_expected.to contain_file('/opt/env') }
+        it { is_expected.to contain_exec('python_virtualenv_/opt/env').with_command('pyvenv-3.5 --clear  /opt/env') }
+
+        if %w[xenial bionic cosmic disco jessie stretch buster].include?(facts[:lsbdistcodename])
+          it { is_expected.to contain_package('python3.5-venv').that_comes_before('File[/opt/env]') }
+        end
+      end
 
       describe 'when ensure' do
         context 'is absent' do
