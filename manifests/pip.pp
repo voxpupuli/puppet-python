@@ -174,8 +174,6 @@ define python::pip (
   $pip_install = "${pip_env} --log ${log}/pip.log install"
   $pip_common_args = "${pypi_index} ${proxy_flag} ${install_args} ${install_editable} ${source}"
 
-  $pip_exec_name = "pip_install_${name}"
-
   # Explicit version out of VCS when PIP supported URL is provided
   if $source =~ /^'(git\+|hg\+|bzr\+|svn\+)(http|https|ssh|svn|sftp|ftp|lp|git)(:\/\/).+'$/ {
     if $_ensure != present and $_ensure != latest {
@@ -221,14 +219,18 @@ define python::pip (
 
       default: {
         # Anti-action, uninstall.
-        $pip_exec_name = "pip_uninstall_${name}"
         $command = "echo y | ${pip_env} uninstall ${uninstall_args} ${proxy_flag} ${name}"
         $unless_command = "! ${pip_env} list | grep -i -e '${grep_regex}'"
       }
     }
   }
 
-  exec { $pip_exec_name:
+  $pip_installer = ($ensure == 'absent') ? {
+    true  => "pip_uninstall_${name}",
+    false => "pip_install_${name}",
+  }
+
+  exec { $pip_installer:
     command     => $command,
     unless      => $unless_command,
     user        => $owner,

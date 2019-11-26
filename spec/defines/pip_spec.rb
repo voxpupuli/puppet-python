@@ -106,6 +106,16 @@ describe 'python::pip', type: :define do # rubocop:disable RSpec/MultipleDescrib
         it { is_expected.to contain_exec('pip_install_rpyc').with_unless(%r{wordpress-json}) }
       end
     end
+
+    describe 'uninstall' do
+      context 'adds correct title' do
+        let(:params) { { ensure: 'absent' } }
+
+        it { is_expected.not_to contain_exec('pip_install_rpyc') }
+
+        it { is_expected.to contain_exec('pip_uninstall_rpyc').with_command(%r{uninstall.*rpyc$}) }
+      end
+    end
   end
 end
 
