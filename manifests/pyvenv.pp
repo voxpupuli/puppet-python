@@ -46,7 +46,7 @@ define python::pyvenv (
     # Debian splits the venv module into a seperate package
     if ( $facts['os']['family'] == 'Debian'){
       $python3_venv_package="python${normalized_python_version}-venv"
-      case $facts['lsbdistcodename'] {
+      case $facts['os']['distro']['codename'] {
         'xenial','bionic','cosmic','disco',
         'jessie','stretch','buster': {
           ensure_packages ($python3_venv_package)

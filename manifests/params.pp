@@ -15,8 +15,8 @@ class python::params {
   $valid_versions         = undef
   $manage_scl             = true
 
-  if $::osfamily == 'RedHat' {
-    if $::operatingsystem != 'Fedora' {
+  if $facts['os']['family'] == 'RedHat' {
+    if $facts['os']['name'] != 'Fedora' {
       $use_epel           = true
     } else {
       $use_epel           = false

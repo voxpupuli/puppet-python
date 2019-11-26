@@ -73,7 +73,7 @@ class python (
   # Module compatibility check
   $compatible = [ 'Debian', 'RedHat', 'Suse', 'Gentoo', 'AIX' ]
   if ! ($facts['os']['family'] in $compatible) {
-    fail("Module is not compatible with ${::operatingsystem}")
+    fail("Module is not compatible with ${facts['os']['name']}")
   }
 
   # Anchor pattern to contain dependencies
