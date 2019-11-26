@@ -94,7 +94,7 @@ describe 'python class' do
         owner      => 'root',
         group      => 'root',
       }
-      -> python::pip { 'Randomized_Requests' :
+      -> python::pip { 'int_date' :
         ensure     => 'latest',
         virtualenv => '/opt/venv4',
       }
