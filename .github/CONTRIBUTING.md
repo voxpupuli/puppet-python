@@ -75,7 +75,7 @@ BUNDLE_JOBS="$(nproc)"
 
 ### Note for OS X users
 
-`nproc` isn't a valid command unter OS x. As an alternative, you can do:
+`nproc` isn't a valid command under OS x. As an alternative, you can do:
 
 ```sh
 --jobs "$(sysctl -n hw.ncpu)"
