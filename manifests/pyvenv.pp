@@ -32,13 +32,12 @@ define python::pyvenv (
   $path             = [ '/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin' ],
   $environment      = [],
 ) {
-
   include python
 
   if $ensure == 'present' {
     $python_version = $version ? {
-        'system' => $facts['python3_version'],
-        default  => $version,
+      'system' => $facts['python3_version'],
+      default  => $version,
     }
 
     $python_version_parts = split($python_version, '[.]')
@@ -50,11 +49,10 @@ define python::pyvenv (
       case $facts['lsbdistcodename'] {
         'xenial','bionic','cosmic','disco',
         'jessie','stretch','buster': {
-          ensure_packages ($python3_venv_package, {
-            before => File[$venv_dir],
-          })
+          ensure_packages ($python3_venv_package)
+          Package[$python3_venv_package] -> File[$venv_dir]
         }
-          default: {}
+        default: {}
       }
     }
 
