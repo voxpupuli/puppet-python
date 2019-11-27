@@ -145,9 +145,9 @@ class python::install {
     'rhscl': {
       # rhscl is RedHat SCLs from softwarecollections.org
       if $python::rhscl_use_public_repository {
-        $scl_package = "rhscl-${python::version}-epel-${::operatingsystemmajrelease}-${::architecture}"
+        $scl_package = "rhscl-${python::version}-epel-${facts['os']['release']['major']}-${facts['os']['architecture']}"
         package { $scl_package:
-          source   => "https://www.softwarecollections.org/en/scls/rhscl/${python::version}/epel-${::operatingsystemmajrelease}-${::architecture}/download/${scl_package}.noarch.rpm",
+          source   => "https://www.softwarecollections.org/en/scls/rhscl/${python::version}/epel-${facts['os']['release']['major']}-${facts['os']['architecture']}/download/${scl_package}.noarch.rpm",
           provider => 'rpm',
           tag      => 'python-scl-repo',
         }
@@ -244,7 +244,7 @@ class python::install {
               Class['epel'] -> Package['pip']
             }
           }
-          if ($venv_ensure != 'absent') and ($::operatingsystemrelease =~ /^6/) {
+          if ($venv_ensure != 'absent') and ($facts['os']['release']['full'] =~ /^6/) {
             if $python::use_epel == true {
               include 'epel'
               Class['epel'] -> Package['virtualenv']
@@ -272,11 +272,11 @@ class python::install {
         $pip_category = undef
         $pip_package = "${python}-pip"
         $pip_provider = $python.regsubst(/^.*python3\.?/,'pip3.').regsubst(/\.$/,'')
-      } elsif ($::osfamily == 'RedHat') and (versioncmp($::operatingsystemmajrelease, '7') >= 0) {
+      } elsif ($facts['os']['family'] == 'RedHat') and (versioncmp($facts['os']['release']['major'], '7') >= 0) {
         $pip_category = undef
         $pip_package = 'python2-pip'
         $pip_provider = pip2
-      } elsif $::osfamily == 'Gentoo' {
+      } elsif $facts['os']['family'] == 'Gentoo' {
         $pip_category = 'dev-python'
         $pip_package = 'pip'
         $pip_provider = 'pip'

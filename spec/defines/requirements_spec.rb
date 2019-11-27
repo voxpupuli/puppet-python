@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'python::requirements', type: :define do
   on_supported_os.each do |os, facts|
+    next if os == 'gentoo-3-x86_64'
     context "on #{os}" do
       let :facts do
         facts
