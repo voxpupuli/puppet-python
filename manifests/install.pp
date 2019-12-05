@@ -7,11 +7,12 @@
 class python::install {
 
   $python = $python::version ? {
-    'system'              => 'python',
-    'pypy'                => 'pypy',
-    /\A(python)?([0-9]+)/ => "python${2}",
-    /\Arh-python[0-9]{2}/ => $python::version,
-    default               => "python${python::version}",
+    'system'                => 'python',
+    'pypy'                  => 'pypy',
+    /\A(python)?(\d)\.(\d)/ => "python${2}.${3}",
+    /\A(python)?(\d+)/      => "python${2}",
+    /\Arh-python\d{2}/      => $python::version,
+    default                 => "python${python::version}",
   }
 
   $pythondev = $facts['os']['family'] ? {

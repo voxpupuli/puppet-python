@@ -21,6 +21,15 @@ describe 'python', type: :class do
           # Basic python packages (from pip)
           it { is_expected.to contain_package('virtualenv') }
 
+          describe 'with python::version' do
+            context 'python3.7' do
+              let(:params) { { version: 'python3.7' } }
+
+              it { is_expected.to compile.with_all_deps }
+              it { is_expected.to contain_package('python').with_name('python3.7') }
+            end
+          end
+
           describe 'with python::dev' do
             context 'true' do
               let(:params) { { dev: 'present' } }
