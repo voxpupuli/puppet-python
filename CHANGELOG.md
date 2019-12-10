@@ -4,6 +4,38 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v4.0.0](https://github.com/voxpupuli/puppet-python/tree/v4.0.0) (2019-12-10)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v3.0.1...v4.0.0)
+
+**Breaking changes:**
+
+- Drop Ubuntu 14.04 support [\#515](https://github.com/voxpupuli/puppet-python/pull/515) ([bastelfreak](https://github.com/bastelfreak))
+
+**Fixed bugs:**
+
+- Allow python::version to contain a point \(e.g. python3.7\) [\#523](https://github.com/voxpupuli/puppet-python/pull/523) ([baurmatt](https://github.com/baurmatt))
+- Fix duplicate declaration for python-venv package [\#518](https://github.com/voxpupuli/puppet-python/pull/518) ([baurmatt](https://github.com/baurmatt))
+- Use shell to exec pip commands by default [\#498](https://github.com/voxpupuli/puppet-python/pull/498) ([jamebus](https://github.com/jamebus))
+- Fix a reassigned variable [\#497](https://github.com/voxpupuli/puppet-python/pull/497) ([SaschaDoering](https://github.com/SaschaDoering))
+
+**Closed issues:**
+
+- Duplicate declaration for python$version-venv [\#517](https://github.com/voxpupuli/puppet-python/issues/517)
+- Python 3.6 on ubuntu 18.04 not working [\#508](https://github.com/voxpupuli/puppet-python/issues/508)
+- Module does not recognize Debian python package name [\#506](https://github.com/voxpupuli/puppet-python/issues/506)
+- Gunicorn via Hiera [\#499](https://github.com/voxpupuli/puppet-python/issues/499)
+- Python::Pip fails if $ensure='absent' [\#496](https://github.com/voxpupuli/puppet-python/issues/496)
+
+**Merged pull requests:**
+
+- Clean up requirements\_spec.rb [\#521](https://github.com/voxpupuli/puppet-python/pull/521) ([ekohl](https://github.com/ekohl))
+- Switch to int\_date for acceptance test [\#519](https://github.com/voxpupuli/puppet-python/pull/519) ([baurmatt](https://github.com/baurmatt))
+- Upgrade pip and setuptools on venv creation [\#516](https://github.com/voxpupuli/puppet-python/pull/516) ([baurmatt](https://github.com/baurmatt))
+- Recognize Debian python package name, fixes: \#506 [\#514](https://github.com/voxpupuli/puppet-python/pull/514) ([lordievader](https://github.com/lordievader))
+- Clean up acceptance spec helper [\#512](https://github.com/voxpupuli/puppet-python/pull/512) ([ekohl](https://github.com/ekohl))
+- Add badges to README [\#495](https://github.com/voxpupuli/puppet-python/pull/495) ([alexjfisher](https://github.com/alexjfisher))
+
 ## [v3.0.1](https://github.com/voxpupuli/puppet-python/tree/v3.0.1) (2019-06-13)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v3.0.0...v3.0.1)
