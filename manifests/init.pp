@@ -76,11 +76,11 @@ class python (
     fail("Module is not compatible with ${facts['os']['name']}")
   }
 
-  # Anchor pattern to contain dependencies
-  anchor { 'python::begin': }
-  -> class { 'python::install': }
-  -> class { 'python::config': }
-  -> anchor { 'python::end': }
+  contain python::install
+  contain python::config
+
+  Class['python::install']
+  -> Class['python::config']
 
   # Set default umask.
   if $umask != undef {
