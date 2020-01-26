@@ -4,7 +4,7 @@
   "author": "Vox Pupuli",
   "summary": "Python Module",
   "license": "Apache-2.0",
-  "source": "git://github.com/voxpupuli/puppet-python.git",
+  "source": "https://github.com/voxpupuli/puppet-python.git",
   "project_page": "https://github.com/voxpupuli/puppet-python",
   "issues_url": "https://github.com/voxpupuli/puppet-python/issues",
   "description": "Puppet module for Python",
