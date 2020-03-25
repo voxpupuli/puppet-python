@@ -292,10 +292,6 @@ class python::install {
         category => $pip_category,
       }
 
-      Python::Pip <| |> {
-        pip_provider => $pip_provider,
-      }
-
       Package <| title == 'virtualenv' |> {
         name => $virtualenv_package,
       }
