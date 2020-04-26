@@ -50,23 +50,29 @@ class python::install {
     }
   }
 
-  package { 'python':
-    ensure => $python::ensure,
-    name   => $python,
+  if $python::manage_python_package {
+    package { 'python':
+      ensure => $python::ensure,
+      name   => $python,
+    }
   }
 
-  package { 'virtualenv':
-    ensure  => $venv_ensure,
-    name    => "${python}-virtualenv",
-    require => Package['python'],
+  if $python::manage_virtualenv_package {
+    package { 'virtualenv':
+      ensure  => $venv_ensure,
+      name    => "${python}-virtualenv",
+      require => Package['python'],
+    }
   }
 
   case $python::provider {
     'pip': {
 
-      package { 'pip':
-        ensure  => $pip_ensure,
-        require => Package['python'],
+      if $python::manage_pip_package {
+        package { 'pip':
+          ensure  => $pip_ensure,
+          require => Package['python'],
+        }
       }
 
       if $pythondev {
@@ -205,10 +211,12 @@ class python::install {
                     version => 'pip3',
             }
           } else {
-            package { 'python-pip':
-              ensure   => $pip_ensure,
-              require  => Package['python'],
-              provider => 'yum',
+            if $python::manage_pip_package {
+              package { 'python-pip':
+                ensure   => $pip_ensure,
+                require  => Package['python'],
+                provider => 'yum',
+              }
             }
           }
           if $pythondev {
@@ -222,9 +230,11 @@ class python::install {
 
         }
         default: {
-          package { 'pip':
-            ensure  => $pip_ensure,
-            require => Package['python'],
+          if $python::manage_pip_package {
+            package { 'pip':
+              ensure  => $pip_ensure,
+              require => Package['python'],
+            }
           }
           if $pythondev {
             package { 'python-dev':
@@ -242,8 +252,8 @@ class python::install {
           if $pip_ensure != 'absent' {
             if $python::use_epel == true {
               include 'epel'
-              Class['epel'] -> Package['pip']
-              Class['epel'] -> Package['python']
+              if $python::manage_pip_package { Class['epel'] -> Package['pip'] }
+              if $python::manage_python_package { Class['epel'] -> Package['python'] }
             }
           }
           if ($venv_ensure != 'absent') and ($facts['os']['release']['full'] =~ /^6/) {

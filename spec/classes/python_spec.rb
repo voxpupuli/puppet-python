@@ -8,6 +8,31 @@ describe 'python', type: :class do
         facts
       end
 
+      context 'with defaults' do
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.to contain_class('python::install') }
+        it { is_expected.to contain_class('python::params') }
+        it { is_expected.to contain_class('python::config') }
+        it { is_expected.to contain_package('python') }
+        it { is_expected.to contain_package('virtualenv') }
+        it { is_expected.to contain_package('pip') }
+      end
+
+      context 'without managing things' do
+        let :params do
+          {
+            manage_python_package: false,
+            manage_virtualenv_package: false,
+            manage_pip_package: false
+          }
+        end
+
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.not_to contain_package('python') }
+        it { is_expected.not_to contain_package('virtualenv') }
+        it { is_expected.not_to contain_package('pip') }
+      end
+
       case facts[:os]['family']
       when 'Debian'
 
@@ -37,9 +62,11 @@ describe 'python', type: :class do
             context 'true' do
               let(:params) { { dev: 'present' } }
 
+              it { is_expected.to compile.with_all_deps }
               it { is_expected.to contain_package('python-dev').with_ensure('present') }
             end
             context 'empty/default' do
+              it { is_expected.to compile.with_all_deps }
               it { is_expected.to contain_package('python-dev').with_ensure('absent') }
             end
           end

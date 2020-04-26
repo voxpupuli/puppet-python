@@ -4,16 +4,19 @@
 # The python Module default configuration settings.
 #
 class python::params {
-  $ensure                 = 'present'
-  $version                = 'system'
-  $pip                    = 'present'
-  $dev                    = 'absent'
-  $virtualenv             = 'absent'
-  $gunicorn               = 'absent'
-  $manage_gunicorn        = true
-  $provider               = undef
-  $valid_versions         = undef
-  $manage_scl             = true
+  $ensure                    = 'present'
+  $version                   = 'system'
+  $pip                       = 'present'
+  $dev                       = 'absent'
+  $virtualenv                = 'absent'
+  $gunicorn                  = 'absent'
+  $manage_gunicorn           = true
+  $manage_python_package     = true
+  $manage_virtualenv_package = true
+  $manage_pip_package        = true
+  $provider                  = undef
+  $valid_versions            = undef
+  $manage_scl                = true
 
   if $facts['os']['family'] == 'RedHat' {
     if $facts['os']['name'] != 'Fedora' {
