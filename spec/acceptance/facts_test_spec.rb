@@ -11,10 +11,10 @@ describe 'python class' do
       EOS
 
     fact_notices = <<-EOS
-      notify{"pip_version: ${::pip_version}":}
-      notify{"system_python_version: ${::system_python_version}":}
-      notify{"python_version: ${::python_version}":}
-      notify{"virtualenv_version: ${::virtualenv_version}":}
+      notify{"pip_version: ${facts['pip_version']}":}
+      notify{"system_python_version: ${facts['system_python_version']}":}
+      notify{"python_version: ${facts['python_version']}":}
+      notify{"virtualenv_version: ${facts['virtualenv_version']}":}
       EOS
 
     # rubocop:disable RSpec/RepeatedExample
