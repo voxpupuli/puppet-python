@@ -243,6 +243,7 @@ class python::install {
             if $python::use_epel == true {
               include 'epel'
               Class['epel'] -> Package['pip']
+              Class['epel'] -> Package['python']
             }
           }
           if ($venv_ensure != 'absent') and ($facts['os']['release']['full'] =~ /^6/) {
