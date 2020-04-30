@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v4.1.1](https://github.com/voxpupuli/puppet-python/tree/v4.1.1) (2020-04-30)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v4.1.0...v4.1.1)
+
+**Fixed bugs:**
+
+- Fixes for virtualenv\_version fact when virtualenv \> 20.x [\#537](https://github.com/voxpupuli/puppet-python/pull/537) ([pjonesIDBS](https://github.com/pjonesIDBS))
+
 ## [v4.1.0](https://github.com/voxpupuli/puppet-python/tree/v4.1.0) (2020-04-26)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v4.0.0...v4.1.0)
