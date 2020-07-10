@@ -99,10 +99,16 @@ define python::virtualenv (
     } elsif (( versioncmp($_virtualenv_version,'1.7') < 0 ) and ( $systempkgs == false )) {
       $system_pkgs_flag = '--no-site-packages'
     } else {
-      $system_pkgs_flag = $systempkgs ? {
-        true    => '--system-site-packages',
-        false   => '--no-site-packages',
-        default => fail('Invalid value for systempkgs. Boolean value is expected')
+      case $systempkgs {
+        true: { $system_pkgs_flag = '--system-site-packages' }
+        false: {
+          if ( versioncmp($_virtualenv_version, '20.0.1') < 0 ) {
+            $system_pkgs_flag = '--no-site-packages'
+          } else {
+            $system_pkgs_flag = ''
+          }
+        }
+        default: { fail('Invalid value for systempkgs. Boolean value is expected') }
       }
     }
 
