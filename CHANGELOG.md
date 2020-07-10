@@ -4,6 +4,39 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v4.1.1](https://github.com/voxpupuli/puppet-python/tree/v4.1.1) (2020-04-30)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v4.1.0...v4.1.1)
+
+**Fixed bugs:**
+
+- Fixes for virtualenv\_version fact when virtualenv \> 20.x [\#537](https://github.com/voxpupuli/puppet-python/pull/537) ([pjonesIDBS](https://github.com/pjonesIDBS))
+
+## [v4.1.0](https://github.com/voxpupuli/puppet-python/tree/v4.1.0) (2020-04-26)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v4.0.0...v4.1.0)
+
+**Implemented enhancements:**
+
+- Add option for not managing python and virtualenv packages. [\#500](https://github.com/voxpupuli/puppet-python/pull/500) ([tdukaric](https://github.com/tdukaric))
+
+**Fixed bugs:**
+
+- Wrong pip referenced inside virtualenv [\#505](https://github.com/voxpupuli/puppet-python/issues/505)
+- CentOS: Fix ordering dependency [\#546](https://github.com/voxpupuli/puppet-python/pull/546) ([bastelfreak](https://github.com/bastelfreak))
+- switch from stahnma/epel to puppet/epel / Ubuntu 16.04: Execute tests on Python 3 [\#545](https://github.com/voxpupuli/puppet-python/pull/545) ([bastelfreak](https://github.com/bastelfreak))
+- Remove resource collector overriding pip\_provider [\#511](https://github.com/voxpupuli/puppet-python/pull/511) ([jplindquist](https://github.com/jplindquist))
+
+**Closed issues:**
+
+- python3.6+  venv proper installation command [\#533](https://github.com/voxpupuli/puppet-python/issues/533)
+- Virtualenv doesn't install with the right python [\#384](https://github.com/voxpupuli/puppet-python/issues/384)
+
+**Merged pull requests:**
+
+- Use voxpupuli-acceptance [\#543](https://github.com/voxpupuli/puppet-python/pull/543) ([ekohl](https://github.com/ekohl))
+- update repo links to https [\#531](https://github.com/voxpupuli/puppet-python/pull/531) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v4.0.0](https://github.com/voxpupuli/puppet-python/tree/v4.0.0) (2019-12-10)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v3.0.1...v4.0.0)
@@ -65,7 +98,7 @@ These should not affect the functionality of the module.
 **Fixed bugs:**
 
 - Installing from git repo runs install on every Puppet run [\#193](https://github.com/voxpupuli/puppet-python/issues/193)
-- Fix python::pip installing $editable VCS packages every Puppet run [\#491](https://github.com/voxpupuli/puppet-python/pull/491) ([wolttam](https://github.com/wolttam))
+- Fix python::pip installing $editable VCS packages every Puppet run [\#491](https://github.com/voxpupuli/puppet-python/pull/491) ([mlow](https://github.com/mlow))
 - Fix $subscribe overloading [\#490](https://github.com/voxpupuli/puppet-python/pull/490) ([nward](https://github.com/nward))
 - Fix version-check. [\#489](https://github.com/voxpupuli/puppet-python/pull/489) ([pillarsdotnet](https://github.com/pillarsdotnet))
 - Update version validation [\#472](https://github.com/voxpupuli/puppet-python/pull/472) ([bodgit](https://github.com/bodgit))
@@ -98,7 +131,7 @@ These should not affect the functionality of the module.
 **Merged pull requests:**
 
 - 486 Set permissive umask. [\#487](https://github.com/voxpupuli/puppet-python/pull/487) ([pillarsdotnet](https://github.com/pillarsdotnet))
-- Update `puppetlabs/stdlib` dependency to allow 6.x and require at least 4.19.0 \(where the `fact\(\)` function was introduced\) [\#485](https://github.com/voxpupuli/puppet-python/pull/485) ([pillarsdotnet](https://github.com/pillarsdotnet))
+- Update `puppetlabs/stdlib` dependency to allow 6.x and require at least 4.19.0 \(where the `fact()` function was introduced\) [\#485](https://github.com/voxpupuli/puppet-python/pull/485) ([pillarsdotnet](https://github.com/pillarsdotnet))
 - Update pip url regex to support 'git+git://\<url\>' [\#477](https://github.com/voxpupuli/puppet-python/pull/477) ([gharper](https://github.com/gharper))
 - README.md: remove obsolete and redundant sections [\#453](https://github.com/voxpupuli/puppet-python/pull/453) ([kenyon](https://github.com/kenyon))
 - remove .DS\_Store [\#452](https://github.com/voxpupuli/puppet-python/pull/452) ([kenyon](https://github.com/kenyon))
@@ -195,7 +228,7 @@ These should not affect the functionality of the module.
 
 **Merged pull requests:**
 
-- Fix Python version regex in install.pp [\#410](https://github.com/voxpupuli/puppet-python/pull/410) ([fklajn-opera](https://github.com/fklajn-opera))
+- Fix Python version regex in install.pp [\#410](https://github.com/voxpupuli/puppet-python/pull/410) ([fklajn](https://github.com/fklajn))
 - Remove docker nodesets [\#408](https://github.com/voxpupuli/puppet-python/pull/408) ([bastelfreak](https://github.com/bastelfreak))
 - Update README compatibility section [\#405](https://github.com/voxpupuli/puppet-python/pull/405) ([rkcpi](https://github.com/rkcpi))
 - add secret for forge deployment via travis [\#404](https://github.com/voxpupuli/puppet-python/pull/404) ([bastelfreak](https://github.com/bastelfreak))
@@ -225,7 +258,7 @@ These should not affect the functionality of the module.
 - Update gunicorn.pp - Add manage\_config\_dir [\#382](https://github.com/voxpupuli/puppet-python/pull/382) ([bc-bjoern](https://github.com/bc-bjoern))
 - Support latest puppet versions [\#376](https://github.com/voxpupuli/puppet-python/pull/376) ([ghoneycutt](https://github.com/ghoneycutt))
 - Add python release as available facts [\#355](https://github.com/voxpupuli/puppet-python/pull/355) ([jcpunk](https://github.com/jcpunk))
-- Allow hiera config for dotfiles [\#344](https://github.com/voxpupuli/puppet-python/pull/344) ([PuppetNinja](https://github.com/PuppetNinja))
+- Allow hiera config for dotfiles [\#344](https://github.com/voxpupuli/puppet-python/pull/344) ([chaozhang0326](https://github.com/chaozhang0326))
 - Ensure value is a string for =~ comparison [\#342](https://github.com/voxpupuli/puppet-python/pull/342) ([ghoneycutt](https://github.com/ghoneycutt))
 - add an alias to the python-dev package [\#334](https://github.com/voxpupuli/puppet-python/pull/334) ([dannygoulder](https://github.com/dannygoulder))
 
@@ -651,7 +684,7 @@ These should not affect the functionality of the module.
 
 **Closed issues:**
 
-- Unable to customize `APP\_MODULE` variable in gunicorn template [\#127](https://github.com/voxpupuli/puppet-python/issues/127)
+- Unable to customize `APP_MODULE` variable in gunicorn template [\#127](https://github.com/voxpupuli/puppet-python/issues/127)
 - New release on the Puppet forge [\#125](https://github.com/voxpupuli/puppet-python/issues/125)
 
 ## [1.7.10](https://github.com/voxpupuli/puppet-python/tree/1.7.10) (2014-09-25)

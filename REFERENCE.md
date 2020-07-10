@@ -155,6 +155,30 @@ The default umask for invoked exec calls.
 
 Default value: `undef`
 
+##### `manage_python_package`
+
+Data type: `Boolean`
+
+
+
+Default value: $python::params::manage_python_package
+
+##### `manage_virtualenv_package`
+
+Data type: `Boolean`
+
+
+
+Default value: $python::params::manage_virtualenv_package
+
+##### `manage_pip_package`
+
+Data type: `Boolean`
+
+
+
+Default value: $python::params::manage_pip_package
+
 ##### `gunicorn_package_name`
 
 Data type: `Any`
@@ -276,6 +300,14 @@ Data type: `Optional[Stdlib::HTTPUrl]`
 Proxy server to use for outbound connections.
 
 Default value: `undef`
+
+##### `exec_provider`
+
+Data type: `String[1]`
+
+
+
+Default value: 'shell'
 
 ## Defined types
 
@@ -745,6 +777,14 @@ Data type: `Array[String]`
 
 
 Default value: ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin']
+
+##### `exec_provider`
+
+Data type: `String[1]`
+
+
+
+Default value: 'shell'
 
 ### python::pyvenv
 
