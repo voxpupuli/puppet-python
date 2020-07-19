@@ -7,7 +7,5 @@
     - set: debian8-64
     - set: debian9-64
     - set: centos7-64
-spec/spec_helper.rb:
-  mock_with: ':mocha'
 spec/spec_helper_acceptance.rb:
   unmanaged: false
