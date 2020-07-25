@@ -42,7 +42,6 @@ define python::requirements (
   $log_dir                            = '/tmp',
   $timeout                            = 1800,
 ) {
-
   include python
 
   if $virtualenv == 'system' and ($owner != 'root' or $group != 'root') {
@@ -81,7 +80,7 @@ define python::requirements (
   # the same requirements file.
   if !defined(File[$requirements]) and $manage_requirements == true {
     file { $requirements:
-      ensure  => present,
+      ensure  => file,
       mode    => '0644',
       owner   => $owner_real,
       group   => $group_real,

@@ -79,5 +79,4 @@ define python::gunicorn (
       content => template($template),
     }
   }
-
 }

@@ -34,8 +34,8 @@ class python::params {
   }
 
   $pip_lookup_path = $facts['os']['family'] ? {
-    'AIX' => [ '/bin', '/usr/bin', '/usr/local/bin', '/opt/freeware/bin/' ],
-    default => [ '/bin', '/usr/bin', '/usr/local/bin' ]
+    'AIX' => ['/bin', '/usr/bin', '/usr/local/bin', '/opt/freeware/bin/'],
+    default => ['/bin', '/usr/bin', '/usr/local/bin']
   }
 
   $gunicorn_package_name = $facts['os']['family'] ? {

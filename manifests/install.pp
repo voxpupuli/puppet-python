@@ -5,7 +5,6 @@
 #  include python::install
 #
 class python::install {
-
   $python = $python::version ? {
     'system'                 => 'python',
     'pypy'                   => 'pypy',
@@ -67,7 +66,6 @@ class python::install {
 
   case $python::provider {
     'pip': {
-
       if $python::manage_pip_package {
         package { 'pip':
           ensure  => $pip_ensure,
@@ -208,7 +206,7 @@ class python::install {
         'AIX': {
           if String($python::version) =~ /^python3/ {
             class { 'python::pip::bootstrap':
-                    version => 'pip3',
+              version => 'pip3',
             }
           } else {
             if $python::manage_pip_package {
@@ -227,7 +225,6 @@ class python::install {
               provider => 'yum',
             }
           }
-
         }
         default: {
           if $python::manage_pip_package {
@@ -243,7 +240,6 @@ class python::install {
               alias  => $pythondev,
             }
           }
-
         }
       }
 

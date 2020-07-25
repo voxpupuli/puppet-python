@@ -44,7 +44,7 @@ define python::virtualenv (
   $mode                            = '0755',
   Optional[Stdlib::HTTPUrl] $proxy = undef,
   $environment                     = [],
-  $path                            = [ '/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin' ],
+  $path                            = ['/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin'],
   $cwd                             = undef,
   $timeout                         = 1800,
   $pip_args                        = '',

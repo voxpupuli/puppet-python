@@ -49,11 +49,11 @@ class python (
   $gunicorn_package_name                          = $python::params::gunicorn_package_name,
   Optional[Enum['pip', 'scl', 'rhscl', 'anaconda', '']] $provider = $python::params::provider,
   $valid_versions                                 = $python::params::valid_versions,
-  Hash $python_pips                               = { },
-  Hash $python_virtualenvs                        = { },
-  Hash $python_pyvenvs                            = { },
-  Hash $python_requirements                       = { },
-  Hash $python_dotfiles                           = { },
+  Hash $python_pips                               = {},
+  Hash $python_virtualenvs                        = {},
+  Hash $python_pyvenvs                            = {},
+  Hash $python_requirements                       = {},
+  Hash $python_dotfiles                           = {},
   Boolean $use_epel                               = $python::params::use_epel,
   $rhscl_use_public_repository                    = $python::params::rhscl_use_public_repository,
   Stdlib::Httpurl $anaconda_installer_url         = $python::params::anaconda_installer_url,
@@ -61,7 +61,6 @@ class python (
   Boolean $manage_scl                             = $python::params::manage_scl,
   Optional[Pattern[/[0-7]{1,4}/]] $umask          = undef,
 ) inherits python::params {
-
   $exec_prefix = $provider ? {
     'scl'   => "/usr/bin/scl enable ${version} -- ",
     'rhscl' => "/usr/bin/scl enable ${version} -- ",
@@ -69,12 +68,12 @@ class python (
   }
 
   unless $version =~ Pattern[/\A(python)?[0-9](\.?[0-9])*/,
-        /\Apypy\Z/, /\Asystem\Z/, /\Arh-python[0-9]{2}(?:-python)?\Z/] {
+  /\Apypy\Z/, /\Asystem\Z/, /\Arh-python[0-9]{2}(?:-python)?\Z/] {
     fail("version needs to be pypy, system or a version string like '36', '3.6' or 'python3.6' )")
   }
 
   # Module compatibility check
-  $compatible = [ 'Debian', 'RedHat', 'Suse', 'Gentoo', 'AIX' ]
+  $compatible = ['Debian', 'RedHat', 'Suse', 'Gentoo', 'AIX']
   if ! ($facts['os']['family'] in $compatible) {
     fail("Module is not compatible with ${facts['os']['name']}")
   }
@@ -96,5 +95,4 @@ class python (
   create_resources('python::virtualenv', $python_virtualenvs)
   create_resources('python::requirements', $python_requirements)
   create_resources('python::dotfile', $python_dotfiles)
-
 }
