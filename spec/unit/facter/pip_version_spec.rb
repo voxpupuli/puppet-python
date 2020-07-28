@@ -14,17 +14,15 @@ EOS
   describe 'pip_version' do
     context 'returns pip version when pip present' do
       it do
-        Facter::Util::Resolution.stubs(:exec)
-        Facter::Util::Resolution.expects(:which).with('pip').returns(true)
-        Facter::Util::Resolution.expects(:exec).with('pip --version 2>&1').returns(pip_version_output)
+        allow(Facter::Util::Resolution).to receive(:which).with('pip').and_return(true)
+        allow(Facter::Util::Resolution).to receive(:exec).with('pip --version 2>&1').and_return(pip_version_output)
         expect(Facter.value(:pip_version)).to eq('6.0.6')
       end
     end
 
     context 'returns nil when pip not present' do
       it do
-        Facter::Util::Resolution.stubs(:exec)
-        Facter::Util::Resolution.expects(:which).with('pip').returns(false)
+        allow(Facter::Util::Resolution).to receive(:which).with('pip').and_return(false)
         expect(Facter.value(:pip_version)).to eq(nil)
       end
     end
