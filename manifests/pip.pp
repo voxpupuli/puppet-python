@@ -68,7 +68,7 @@ define python::pip (
   String[1] $log_dir                                         = '/tmp',
   Array[String] $path                                        = ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
   String[1] $exec_provider                                   = 'shell',
-){
+) {
   $python_provider = getparam(Class['python'], 'provider')
   $python_version  = getparam(Class['python'], 'version')
 
@@ -111,9 +111,9 @@ define python::pip (
   }
 
   $pypi_index = $index ? {
-      false   => '',
-      default => "--index-url=${index}",
-    }
+    false   => '',
+    default => "--index-url=${index}",
+  }
 
   $proxy_flag = $proxy ? {
     undef    => '',
@@ -204,15 +204,15 @@ define python::pip (
         # Note: we DO need to repeat ourselves with "from version" in both grep and sed as on some systems pip returns
         # more than one line with paretheses.
         $latest_version = join(["${pip_install} ${pypi_index} ${proxy_flag} ${install_args} ${install_editable} ${real_pkgname}==notreallyaversion 2>&1",
-                                ' | grep -oP "\(from versions: .*\)" | sed -E "s/\(from versions: (.*?, )*(.*)\)/\2/g"',
-                                ' | tr -d "[:space:]"'])
+            ' | grep -oP "\(from versions: .*\)" | sed -E "s/\(from versions: (.*?, )*(.*)\)/\2/g"',
+        ' | tr -d "[:space:]"'])
 
         # Packages with underscores in their names are listed with dashes in their place in `pip freeze` output
         $pkgname_with_dashes = regsubst($real_pkgname, '_', '-', 'G')
         $grep_regex_pkgname_with_dashes = "^${pkgname_with_dashes}=="
         $installed_version = join(["${pip_env} freeze --all",
-                                  " | grep -i -e ${grep_regex_pkgname_with_dashes} | cut -d= -f3",
-                                  " | tr -d '[:space:]'"])
+            " | grep -i -e ${grep_regex_pkgname_with_dashes} | cut -d= -f3",
+        " | tr -d '[:space:]'"])
 
         $command = "${pip_install} --upgrade ${pip_common_args}"
         $unless_command = "[ \$(${latest_version}) = \$(${installed_version}) ]"
@@ -243,5 +243,4 @@ define python::pip (
     path        => $_path,
     provider    => $exec_provider,
   }
-
 }

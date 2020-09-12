@@ -34,7 +34,7 @@ define python::dotfile (
 
   exec { "create ${title}'s parent dir":
     command => "install -o ${owner} -g ${group} -d ${parent_dir}",
-    path    => [ '/usr/bin', '/bin', '/usr/local/bin', ],
+    path    => ['/usr/bin', '/bin', '/usr/local/bin',],
     creates => $parent_dir,
   }
 

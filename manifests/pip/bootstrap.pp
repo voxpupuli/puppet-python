@@ -26,8 +26,8 @@ class python::pip::bootstrap (
     $environ = $http_proxy ? {
       undef   => [],
       default => $facts['os']['family'] ? {
-        'AIX'   => [ "http_proxy=${http_proxy}", "https_proxy=${http_proxy}" ],
-        default => [ "HTTP_PROXY=${http_proxy}", "HTTPS_PROXY=${http_proxy}" ],
+        'AIX'   => ["http_proxy=${http_proxy}", "https_proxy=${http_proxy}"],
+        default => ["HTTP_PROXY=${http_proxy}", "HTTPS_PROXY=${http_proxy}"],
       }
     }
 

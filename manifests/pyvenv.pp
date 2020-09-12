@@ -29,7 +29,7 @@ define python::pyvenv (
   $owner            = 'root',
   $group            = 'root',
   $mode             = '0755',
-  $path             = [ '/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin' ],
+  $path             = ['/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin'],
   $environment      = [],
 ) {
   include python
@@ -44,7 +44,7 @@ define python::pyvenv (
     $normalized_python_version = sprintf('%s.%s', $python_version_parts[0], $python_version_parts[1])
 
     # Debian splits the venv module into a seperate package
-    if ( $facts['os']['family'] == 'Debian'){
+    if ( $facts['os']['family'] == 'Debian') {
       $python3_venv_package="python${normalized_python_version}-venv"
       case $facts['os']['distro']['codename'] {
         'xenial','bionic','cosmic','disco',
