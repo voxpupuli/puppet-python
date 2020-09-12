@@ -18,7 +18,7 @@ describe 'python class' do
       EOS
 
     # rubocop:disable RSpec/RepeatedExample
-    it 'outputs python facts when not installed' do # rubocop:disable RSpec/MultipleExpectations
+    it 'outputs python facts when not installed' do
       apply_manifest(fact_notices, catch_failures: true) do |r|
         expect(r.stdout).to match(%r{python_version: \S+})
         expect(r.stdout).to match(%r{pip_version: \S+})
@@ -31,7 +31,7 @@ describe 'python class' do
       apply_manifest(install_python, catch_failures: true)
     end
 
-    it 'outputs python facts when installed' do # rubocop:disable RSpec/MultipleExpectations
+    it 'outputs python facts when installed' do
       apply_manifest(fact_notices, catch_failures: true) do |r|
         expect(r.stdout).to match(%r{python_version: \S+})
         expect(r.stdout).to match(%r{pip_version: \S+})
