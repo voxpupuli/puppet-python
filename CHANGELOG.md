@@ -4,6 +4,31 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v5.0.0](https://github.com/voxpupuli/puppet-python/tree/v5.0.0) (2020-09-23)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v4.1.1...v5.0.0)
+
+**Breaking changes:**
+
+- Drop CentOS 6 support [\#566](https://github.com/voxpupuli/puppet-python/pull/566) ([bastelfreak](https://github.com/bastelfreak))
+- Drop EOL Debian 8 [\#563](https://github.com/voxpupuli/puppet-python/pull/563) ([bastelfreak](https://github.com/bastelfreak))
+
+**Fixed bugs:**
+
+- Fix undefined method error in facts [\#555](https://github.com/voxpupuli/puppet-python/pull/555) ([wiebe](https://github.com/wiebe))
+
+**Closed issues:**
+
+- "warning: already initialized constant PIP\_VERSION" when upgrading to agent 6.15.0 [\#553](https://github.com/voxpupuli/puppet-python/issues/553)
+- "undefined method \[\]" in  pip\_version and virtualenv\_version facts  [\#527](https://github.com/voxpupuli/puppet-python/issues/527)
+- Deprecation Warnings - Mocha mock\_with [\#432](https://github.com/voxpupuli/puppet-python/issues/432)
+
+**Merged pull requests:**
+
+- delete legacy nodesets [\#562](https://github.com/voxpupuli/puppet-python/pull/562) ([bastelfreak](https://github.com/bastelfreak))
+- modulesync 3.0.0 & puppet-lint updates [\#556](https://github.com/voxpupuli/puppet-python/pull/556) ([bastelfreak](https://github.com/bastelfreak))
+- Convert unit tests to rspec rather than 'mocha' [\#554](https://github.com/voxpupuli/puppet-python/pull/554) ([KeithWard](https://github.com/KeithWard))
+
 ## [v4.1.1](https://github.com/voxpupuli/puppet-python/tree/v4.1.1) (2020-04-30)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v4.1.0...v4.1.1)
@@ -258,7 +283,7 @@ These should not affect the functionality of the module.
 - Update gunicorn.pp - Add manage\_config\_dir [\#382](https://github.com/voxpupuli/puppet-python/pull/382) ([bc-bjoern](https://github.com/bc-bjoern))
 - Support latest puppet versions [\#376](https://github.com/voxpupuli/puppet-python/pull/376) ([ghoneycutt](https://github.com/ghoneycutt))
 - Add python release as available facts [\#355](https://github.com/voxpupuli/puppet-python/pull/355) ([jcpunk](https://github.com/jcpunk))
-- Allow hiera config for dotfiles [\#344](https://github.com/voxpupuli/puppet-python/pull/344) ([chaozhang0326](https://github.com/chaozhang0326))
+- Allow hiera config for dotfiles [\#344](https://github.com/voxpupuli/puppet-python/pull/344) ([puppetninja](https://github.com/puppetninja))
 - Ensure value is a string for =~ comparison [\#342](https://github.com/voxpupuli/puppet-python/pull/342) ([ghoneycutt](https://github.com/ghoneycutt))
 - add an alias to the python-dev package [\#334](https://github.com/voxpupuli/puppet-python/pull/334) ([dannygoulder](https://github.com/dannygoulder))
 
@@ -276,7 +301,7 @@ These should not affect the functionality of the module.
 
 ## [1.18.1](https://github.com/voxpupuli/puppet-python/tree/1.18.1) (2016-12-08)
 
-[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/2.4.2...1.18.1)
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/1.18.0...1.18.1)
 
 **Closed issues:**
 
@@ -288,22 +313,14 @@ These should not affect the functionality of the module.
 - Add name of package to pip uninstall command [\#340](https://github.com/voxpupuli/puppet-python/pull/340) ([dontreboot](https://github.com/dontreboot))
 - EPEL only makes sense on RH systems but not Fedora [\#297](https://github.com/voxpupuli/puppet-python/pull/297) ([jcpunk](https://github.com/jcpunk))
 
-## [2.4.2](https://github.com/voxpupuli/puppet-python/tree/2.4.2) (2016-10-28)
-
-[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/1.18.0...2.4.2)
-
 ## [1.18.0](https://github.com/voxpupuli/puppet-python/tree/1.18.0) (2016-10-12)
 
-[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/2.4.1...1.18.0)
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/1.17.0...1.18.0)
 
 **Merged pull requests:**
 
 - Allow failure for Ruby 2.3.1 [\#337](https://github.com/voxpupuli/puppet-python/pull/337) ([ghoneycutt](https://github.com/ghoneycutt))
 - Add support, tests and documentation for Gentoo [\#335](https://github.com/voxpupuli/puppet-python/pull/335) ([optiz0r](https://github.com/optiz0r))
-
-## [2.4.1](https://github.com/voxpupuli/puppet-python/tree/2.4.1) (2016-09-19)
-
-[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/1.17.0...2.4.1)
 
 ## [1.17.0](https://github.com/voxpupuli/puppet-python/tree/1.17.0) (2016-09-16)
 
@@ -320,23 +337,11 @@ These should not affect the functionality of the module.
 
 ## [1.16.0](https://github.com/voxpupuli/puppet-python/tree/1.16.0) (2016-09-10)
 
-[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/2.4.0...1.16.0)
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/1.15.0...1.16.0)
 
 **Merged pull requests:**
 
 - RHSCL Repository installation made optional [\#328](https://github.com/voxpupuli/puppet-python/pull/328) ([diLLec](https://github.com/diLLec))
-
-## [2.4.0](https://github.com/voxpupuli/puppet-python/tree/2.4.0) (2016-09-04)
-
-[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/2.3.1...2.4.0)
-
-## [2.3.1](https://github.com/voxpupuli/puppet-python/tree/2.3.1) (2016-08-29)
-
-[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/2.3.0...2.3.1)
-
-## [2.3.0](https://github.com/voxpupuli/puppet-python/tree/2.3.0) (2016-08-29)
-
-[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/1.15.0...2.3.0)
 
 ## [1.15.0](https://github.com/voxpupuli/puppet-python/tree/1.15.0) (2016-08-24)
 
@@ -374,15 +379,11 @@ These should not affect the functionality of the module.
 
 ## [1.14.0](https://github.com/voxpupuli/puppet-python/tree/1.14.0) (2016-07-20)
 
-[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/2.2.1...1.14.0)
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/1.13.0...1.14.0)
 
 **Merged pull requests:**
 
 - Fix regex for pip package versions [\#317](https://github.com/voxpupuli/puppet-python/pull/317) ([mdean](https://github.com/mdean))
-
-## [2.2.1](https://github.com/voxpupuli/puppet-python/tree/2.2.1) (2016-07-20)
-
-[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/1.13.0...2.2.1)
 
 ## [1.13.0](https://github.com/voxpupuli/puppet-python/tree/1.13.0) (2016-07-18)
 
@@ -408,23 +409,7 @@ These should not affect the functionality of the module.
 
 ## [2.2.0](https://github.com/voxpupuli/puppet-python/tree/2.2.0) (2016-05-31)
 
-[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/2.1.0...2.2.0)
-
-## [2.1.0](https://github.com/voxpupuli/puppet-python/tree/2.1.0) (2016-05-29)
-
-[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/2.0.2...2.1.0)
-
-## [2.0.2](https://github.com/voxpupuli/puppet-python/tree/2.0.2) (2016-05-22)
-
-[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/2.0.1...2.0.2)
-
-## [2.0.1](https://github.com/voxpupuli/puppet-python/tree/2.0.1) (2016-05-19)
-
-[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/2.0.0...2.0.1)
-
-## [2.0.0](https://github.com/voxpupuli/puppet-python/tree/2.0.0) (2016-05-19)
-
-[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/1.12.0...2.0.0)
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/1.12.0...2.2.0)
 
 **Closed issues:**
 
@@ -494,12 +479,13 @@ These should not affect the functionality of the module.
 
 ## [1.9.8](https://github.com/voxpupuli/puppet-python/tree/1.9.8) (2015-09-19)
 
-[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/1.9.7...1.9.8)
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/1.9.6...1.9.8)
 
 **Closed issues:**
 
 - Unable to install pip using pip provider [\#243](https://github.com/voxpupuli/puppet-python/issues/243)
 - Not possible to install latest version of Python [\#240](https://github.com/voxpupuli/puppet-python/issues/240)
+- Exec\<| tag == 'python-virtualenv' |\> changes and breaks the API [\#230](https://github.com/voxpupuli/puppet-python/issues/230)
 
 **Merged pull requests:**
 
@@ -513,14 +499,6 @@ These should not affect the functionality of the module.
 - Allow custom versions to be installed [\#241](https://github.com/voxpupuli/puppet-python/pull/241) ([joshuaspence](https://github.com/joshuaspence))
 - Check that we have results before returning a value [\#238](https://github.com/voxpupuli/puppet-python/pull/238) ([xaque208](https://github.com/xaque208))
 - Adjust test code to pass syntax checker [\#237](https://github.com/voxpupuli/puppet-python/pull/237) ([fluential](https://github.com/fluential))
-
-## [1.9.7](https://github.com/voxpupuli/puppet-python/tree/1.9.7) (2015-08-21)
-
-[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/1.9.6...1.9.7)
-
-**Closed issues:**
-
-- Exec\<| tag == 'python-virtualenv' |\> changes and breaks the API [\#230](https://github.com/voxpupuli/puppet-python/issues/230)
 
 ## [1.9.6](https://github.com/voxpupuli/puppet-python/tree/1.9.6) (2015-08-01)
 
