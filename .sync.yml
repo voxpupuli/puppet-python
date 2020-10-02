@@ -5,6 +5,7 @@
     - set: ubuntu1604-64
     - set: ubuntu1804-64
     - set: debian9-64
+    - set: debian10-64
     - set: centos7-64
 spec/spec_helper_acceptance.rb:
   unmanaged: false
