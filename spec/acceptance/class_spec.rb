@@ -13,6 +13,7 @@ describe 'python class' do
       apply_manifest(pp, catch_changes: true)
     end
   end
+
   context 'installing python 3' do
     # Using puppet_apply as a helper
     it 'works with no errors' do
