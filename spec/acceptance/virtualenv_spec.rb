@@ -5,11 +5,8 @@ describe 'python class' do
     # Using puppet_apply as a helper
     it 'works with no errors' do
       pp = <<-EOS
-      if $facts['os']['name'] == 'Ubuntu' and $facts['os']['release']['major'] == '16.04' {
-        $version = '3'
-      } else {
-        $version = 'system'
-      }
+      $version = '3'
+
       class { 'python' :
         version    => $version,
         pip        => 'present',
@@ -19,6 +16,7 @@ describe 'python class' do
         ensure     => 'present',
         version    => $version,
         systempkgs => false,
+        distribute => false,
         venv_dir   => '/opt/venv',
       }
       -> python::pip { 'rpyc' :
