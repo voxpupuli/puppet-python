@@ -32,19 +32,12 @@ describe 'python class' do
 
     it 'maintains pip version' do
       pp = <<-EOS
-      if $facts['os']['name'] == 'Ubuntu' and $facts['os']['release']['major'] == '16.04' {
-        $version = '3'
-      } else {
-        $version = 'system'
-      }
       class { 'python' :
-        version    => $version,
         pip        => 'present',
         virtualenv => 'present',
       }
       -> python::virtualenv { 'venv' :
         ensure     => 'present',
-        version    => $version,
         systempkgs => false,
         venv_dir   => '/opt/venv2',
       }
@@ -61,19 +54,12 @@ describe 'python class' do
 
     it 'works with ensure=>latest' do
       pp = <<-EOS
-      if $facts['os']['name'] == 'Ubuntu' and $facts['os']['release']['major'] == '16.04' {
-        $version = '3'
-      } else {
-        $version = 'system'
-      }
       class { 'python' :
-        version    => $version,
         pip        => 'present',
         virtualenv => 'present',
       }
       -> python::virtualenv { 'venv' :
         ensure     => 'present',
-        version    => $version,
         systempkgs => false,
         venv_dir   => '/opt/venv3',
       }
@@ -92,19 +78,12 @@ describe 'python class' do
 
     it 'works with ensure=>latest for package with underscore in its name' do
       pp = <<-EOS
-       if $facts['os']['name'] == 'Ubuntu' and $facts['os']['release']['major'] == '16.04' {
-        $version = '3'
-      } else {
-        $version = 'system'
-      }
       class { 'python' :
-        version    => $version,
         pip        => 'present',
         virtualenv => 'present',
       }
       -> python::virtualenv { 'venv' :
         ensure     => 'present',
-        version    => $version,
         systempkgs => false,
         venv_dir   => '/opt/venv4',
       }
@@ -123,22 +102,15 @@ describe 'python class' do
 
     it 'works with editable=>true' do
       pp = <<-EOS
-      if $facts['os']['name'] == 'Ubuntu' and $facts['os']['release']['major'] == '16.04' {
-        $version = '3'
-      } else {
-        $version = 'system'
-      }
       package{ 'git' :
         ensure => 'present',
       }
       -> class { 'python' :
-        version    => $version,
         pip        => 'present',
         virtualenv => 'present',
       }
       -> python::virtualenv { 'venv' :
         ensure     => 'present',
-        version    => $version,
         systempkgs => false,
         venv_dir   => '/opt/venv5',
       }
@@ -157,19 +129,12 @@ describe 'python class' do
 
     it 'works with == in pkgname' do
       pp = <<-EOS
-      if $facts['os']['name'] == 'Ubuntu' and $facts['os']['release']['major'] == '16.04' {
-        $version = '3'
-      } else {
-        $version = 'system'
-      }
       class { 'python' :
-        version    => $version,
         pip        => 'present',
         virtualenv => 'present',
       }
       -> python::virtualenv { 'venv' :
         ensure     => 'present',
-        version    => $version,
         systempkgs => false,
         venv_dir   => '/opt/venv6',
       }
