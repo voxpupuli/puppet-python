@@ -1,11 +1,7 @@
 # puppet-python
 
-[![License](https://img.shields.io/github/license/voxpupuli/puppet-python.svg)](https://github.com/voxpupuli/puppet-python/blob/master/LICENSE)
-[![Build Status](https://travis-ci.org/voxpupuli/puppet-python.png?branch=master)](https://travis-ci.org/voxpupuli/puppet-python)
-[![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/python.svg)](https://forge.puppetlabs.com/puppet/python)
-[![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/puppet/python.svg)](https://forge.puppetlabs.com/puppet/python)
-[![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/python.svg)](https://forge.puppetlabs.com/puppet/python)
-[![Puppet Forge - scores](https://img.shields.io/puppetforge/f/puppet/python.svg)](https://forge.puppetlabs.com/puppet/python)
+This module is a fork of https://github.com/voxpupuli/puppet-python with modification to
+manifests/virtualenv.pp to support specific pip versions.
 
 Puppet module for installing and managing python, pip, virtualenvs and Gunicorn virtual hosts.
 
