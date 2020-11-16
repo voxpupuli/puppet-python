@@ -27,12 +27,12 @@
 
 ### Data types
 
-* [`Python::Loglevel`](#pythonloglevel): A version type to match all valid loglevels for python
-* [`Python::Package::Ensure`](#pythonpackageensure): A version type to match all valid package ensures for python
-* [`Python::Provider`](#pythonprovider): A version type to match all valid provider for python
-* [`Python::Umask`](#pythonumask): A version type to match valid umask for python
+* [`Python::Loglevel`](#pythonloglevel): Match all valid loglevels for python
+* [`Python::Package::Ensure`](#pythonpackageensure): Match all valid package ensures for python
+* [`Python::Provider`](#pythonprovider): Match all valid provider for python
+* [`Python::Umask`](#pythonumask): Match valid umask for python
 * [`Python::Venv::PipVersion`](#pythonvenvpipversion): A version type to ensure a specific Pip version in a virtual env.
-* [`Python::Version`](#pythonversion): A version type to match all valid versions for python
+* [`Python::Version`](#pythonversion): Match all valid versions for python
 
 ## Classes
 
@@ -77,8 +77,11 @@ The following parameters are available in the `python` class:
 * [`use_epel`](#use_epel)
 * [`manage_scl`](#manage_scl)
 * [`umask`](#umask)
+* [`manage_gunicorn`](#manage_gunicorn)
 * [`manage_python_package`](#manage_python_package)
+* [`manage_venv_package`](#manage_venv_package)
 * [`manage_pip_package`](#manage_pip_package)
+* [`venv`](#venv)
 * [`gunicorn_package_name`](#gunicorn_package_name)
 * [`python_pips`](#python_pips)
 * [`python_pyvenvs`](#python_pyvenvs)
@@ -175,21 +178,43 @@ The default umask for invoked exec calls.
 
 Default value: ``undef``
 
+##### <a name="manage_gunicorn"></a>`manage_gunicorn`
+
+manage the state for package gunicorn
+
+Default value: `$python::params::manage_gunicorn`
+
 ##### <a name="manage_python_package"></a>`manage_python_package`
 
 Data type: `Boolean`
 
-
+manage the state for package python
 
 Default value: `$python::params::manage_python_package`
+
+##### <a name="manage_venv_package"></a>`manage_venv_package`
+
+Data type: `Boolean`
+
+manage the state for package venv
+
+Default value: `$python::params::manage_venv_package`
 
 ##### <a name="manage_pip_package"></a>`manage_pip_package`
 
 Data type: `Boolean`
 
-
+manage the state for package pip
 
 Default value: `$python::params::manage_pip_package`
+
+##### <a name="venv"></a>`venv`
+
+Data type: `Python::Package::Ensure`
+
+
+
+Default value: `$python::params::venv`
 
 ##### <a name="gunicorn_package_name"></a>`gunicorn_package_name`
 
@@ -1112,7 +1137,7 @@ Default value: `1800`
 
 ### <a name="pythonloglevel"></a>`Python::Loglevel`
 
-A version type to match all valid loglevels for python
+Match all valid loglevels for python
 
 Alias of
 
@@ -1122,7 +1147,7 @@ Enum['debug', 'info', 'warning', 'error', 'critical']
 
 ### <a name="pythonpackageensure"></a>`Python::Package::Ensure`
 
-A version type to match all valid package ensures for python
+Match all valid package ensures for python
 
 Alias of
 
@@ -1132,7 +1157,7 @@ Enum['absent', 'present', 'latest']
 
 ### <a name="pythonprovider"></a>`Python::Provider`
 
-A version type to match all valid provider for python
+Match all valid provider for python
 
 Alias of
 
@@ -1142,7 +1167,7 @@ Enum['pip', 'scl', 'rhscl', 'anaconda', '']
 
 ### <a name="pythonumask"></a>`Python::Umask`
 
-A version type to match valid umask for python
+Match valid umask for python
 
 Alias of
 
@@ -1162,7 +1187,7 @@ Pattern[/^(<|>|<=|>=|==) [0-9]*(\.[0-9]+)*$/, /\Alatest\Z/]
 
 ### <a name="pythonversion"></a>`Python::Version`
 
-A version type to match all valid versions for python
+Match all valid versions for python
 
 Alias of
 

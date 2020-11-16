@@ -23,6 +23,7 @@ describe 'python class' do
         version    => '3',
         pip        => 'present',
         dev        => 'present',
+        venv       => 'present',
       }
       EOS
 

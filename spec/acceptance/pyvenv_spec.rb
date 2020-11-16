@@ -10,6 +10,7 @@ describe 'python::pyvenv defined resource with python 3' do
       class { 'python':
         version => '3',
         dev     => 'present',
+        venv    => 'present',
       }
       user { 'agent':
         ensure         => 'present',
@@ -42,6 +43,7 @@ describe 'python::pyvenv defined resource with python 3' do
       class { 'python':
         version => '3',
         dev     => 'present',
+        venv    => 'present',
       }
       user { 'agent':
         ensure         => 'present',
@@ -82,6 +84,7 @@ describe 'python::pyvenv defined resource with python 3' do
       class { 'python':
         version => '3',
         dev     => 'present',
+        venv    => 'present',
       }
       user { 'agent':
         ensure         => 'present',
@@ -119,6 +122,7 @@ describe 'python::pyvenv defined resource with python 3' do
       class { 'python':
         version => '3',
         dev     => 'present',
+        venv    => 'present',
       }
       user { 'agent':
         ensure         => 'present',
@@ -156,6 +160,7 @@ describe 'python::pyvenv defined resource with python 3' do
       class { 'python':
         version => '3',
         dev     => 'present',
+        venv    => 'present',
       }
       user { 'agent':
         ensure         => 'present',
