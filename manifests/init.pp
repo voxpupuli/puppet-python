@@ -36,46 +36,34 @@
 #   }
 #
 class python (
-  Enum['absent', 'present', 'latest'] $ensure     = $python::params::ensure,
-  $version                                        = $python::params::version,
-  Enum['absent', 'present', 'latest'] $pip        = $python::params::pip,
-  Enum['absent', 'present', 'latest'] $dev        = $python::params::dev,
-  Enum['absent', 'present', 'latest'] $virtualenv = $python::params::virtualenv,
-  Enum['absent', 'present', 'latest'] $gunicorn   = $python::params::gunicorn,
-  Boolean $manage_gunicorn                        = $python::params::manage_gunicorn,
-  Boolean $manage_python_package                  = $python::params::manage_python_package,
-  Boolean $manage_virtualenv_package              = $python::params::manage_virtualenv_package,
-  Boolean $manage_pip_package                     = $python::params::manage_pip_package,
-  $gunicorn_package_name                          = $python::params::gunicorn_package_name,
-  Optional[Enum['pip', 'scl', 'rhscl', 'anaconda', '']] $provider = $python::params::provider,
-  $valid_versions                                 = $python::params::valid_versions,
-  Hash $python_pips                               = {},
-  Hash $python_virtualenvs                        = {},
-  Hash $python_pyvenvs                            = {},
-  Hash $python_requirements                       = {},
-  Hash $python_dotfiles                           = {},
-  Boolean $use_epel                               = $python::params::use_epel,
-  $rhscl_use_public_repository                    = $python::params::rhscl_use_public_repository,
-  Stdlib::Httpurl $anaconda_installer_url         = $python::params::anaconda_installer_url,
-  Stdlib::Absolutepath $anaconda_install_path     = $python::params::anaconda_install_path,
-  Boolean $manage_scl                             = $python::params::manage_scl,
-  Optional[Pattern[/[0-7]{1,4}/]] $umask          = undef,
+  Python::Package::Ensure    $ensure                      = $python::params::ensure,
+  Python::Version            $version                     = $python::params::version,
+  Python::Package::Ensure    $pip                         = $python::params::pip,
+  Python::Package::Ensure    $dev                         = $python::params::dev,
+  Python::Package::Ensure    $virtualenv                  = $python::params::virtualenv,
+  Python::Package::Ensure    $gunicorn                    = $python::params::gunicorn,
+  Boolean                    $manage_gunicorn             = $python::params::manage_gunicorn,
+  Boolean                    $manage_python_package       = $python::params::manage_python_package,
+  Boolean                    $manage_virtualenv_package   = $python::params::manage_virtualenv_package,
+  Boolean                    $manage_pip_package          = $python::params::manage_pip_package,
+  String[1]                  $gunicorn_package_name       = $python::params::gunicorn_package_name,
+  Optional[Python::Provider] $provider                    = $python::params::provider,
+  Hash                       $python_pips                 = {},
+  Hash                       $python_virtualenvs          = {},
+  Hash                       $python_pyvenvs              = {},
+  Hash                       $python_requirements         = {},
+  Hash                       $python_dotfiles             = {},
+  Boolean                    $use_epel                    = $python::params::use_epel,
+  Boolean                    $rhscl_use_public_repository = $python::params::rhscl_use_public_repository,
+  Stdlib::Httpurl            $anaconda_installer_url      = $python::params::anaconda_installer_url,
+  Stdlib::Absolutepath       $anaconda_install_path       = $python::params::anaconda_install_path,
+  Boolean                    $manage_scl                  = $python::params::manage_scl,
+  Optional[Python::Umask]    $umask                       = undef,
 ) inherits python::params {
   $exec_prefix = $provider ? {
     'scl'   => "/usr/bin/scl enable ${version} -- ",
     'rhscl' => "/usr/bin/scl enable ${version} -- ",
     default => '',
-  }
-
-  unless $version =~ Pattern[/\A(python)?[0-9](\.?[0-9])*/,
-  /\Apypy\Z/, /\Asystem\Z/, /\Arh-python[0-9]{2}(?:-python)?\Z/] {
-    fail("version needs to be pypy, system or a version string like '36', '3.6' or 'python3.6' )")
-  }
-
-  # Module compatibility check
-  $compatible = ['Debian', 'RedHat', 'Suse', 'Gentoo', 'AIX']
-  if ! ($facts['os']['family'] in $compatible) {
-    fail("Module is not compatible with ${facts['os']['name']}")
   }
 
   contain python::install
@@ -85,8 +73,8 @@ class python (
   -> Class['python::config']
 
   # Set default umask.
-  if $umask != undef {
-    Exec { umask => $umask }
+  exec { default:
+    umask => $umask
   }
 
   # Allow hiera configuration of python resources
