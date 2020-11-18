@@ -24,11 +24,11 @@
 #
 define python::dotfile (
   Enum['absent', 'present'] $ensure   = 'present',
-  String[1] $filename                 = $title,
-  String[1] $owner                    = 'root',
-  String[1] $group                    = 'root',
-  Stdlib::Filemode $mode              = '0644',
-  Hash $config                        = {},
+  Stdlib::Absolutepath      $filename = $title,
+  String[1]                 $owner    = 'root',
+  String[1]                 $group    = 'root',
+  Stdlib::Filemode          $mode     = '0644',
+  Hash                      $config   = {},
 ) {
   $parent_dir = dirname($filename)
 

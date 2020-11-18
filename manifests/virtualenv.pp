@@ -31,29 +31,30 @@
 #  }
 #
 define python::virtualenv (
-  $ensure                          = 'present',
-  $version                         = 'system',
-  $requirements                    = false,
-  $systempkgs                      = false,
-  $venv_dir                        = $name,
-  $ensure_venv_dir                 = true,
-  $distribute                      = true,
-  $index                           = false,
-  $owner                           = 'root',
-  $group                           = 'root',
-  $mode                            = '0755',
-  Optional[Stdlib::HTTPUrl] $proxy = undef,
-  $environment                     = [],
-  $path                            = ['/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin'],
-  $cwd                             = undef,
-  $timeout                         = 1800,
-  $pip_args                        = '',
-  $extra_pip_args                  = '',
-  $virtualenv                      = undef,
+  Python::Package::Ensure               $ensure          = 'present',
+  Python::Version                       $version         = 'system',
+  Variant[Boolean,Stdlib::Absolutepath] $requirements    = false,
+  Boolean                               $systempkgs      = false,
+  Stdlib::Absolutepath                  $venv_dir        = $name,
+  Boolean                               $ensure_venv_dir = true,
+  Boolean                               $distribute      = true,
+  Variant[Boolean,Stdlib::HTTPUrl]      $index           = false,
+  String[1]                             $owner           = 'root',
+  String[1]                             $group           = 'root',
+  Stdlib::Filemode                      $mode            = '0755',
+  Optional[Stdlib::HTTPUrl]             $proxy           = undef,
+  Array                                 $environment     = [],
+  Array[Stdlib::Absolutepath]           $path            = ['/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin',],
+  Optional[Stdlib::Absolutepath]        $cwd             = undef,
+  Integer                               $timeout         = 1800,
+  String                                $pip_args        = '',
+  String                                $extra_pip_args  = '',
+  Optional[Stdlib::Absolutepath]        $virtualenv      = undef,
 ) {
   include python
+
   $python_provider = getparam(Class['python'], 'provider')
-  $anaconda_path = getparam(Class['python'], 'anaconda_install_path')
+  $anaconda_path   = getparam(Class['python'], 'anaconda_install_path')
 
   if $ensure == 'present' {
     $python = $version ? {
@@ -81,8 +82,14 @@ define python::virtualenv (
     $proxy_hash = $proxy ? {
       undef   => {},
       default => $facts['os']['family'] ? {
-        'AIX'   => { 'http_proxy' => $proxy, 'https_proxy' => $proxy },
-        default => { 'HTTP_PROXY' => $proxy, 'HTTPS_PROXY' => $proxy },
+        'AIX'   => {
+          'http_proxy'  => $proxy,
+          'https_proxy' => $proxy,
+        },
+        default => {
+          'HTTP_PROXY'  => $proxy,
+          'HTTPS_PROXY' => $proxy,
+        },
       }
     }
 
@@ -94,15 +101,15 @@ define python::virtualenv (
       /.*/ => getvar('virtualenv_version'),
       default => '',
     }
-    if (( versioncmp($_virtualenv_version,'1.7') > 0 ) and ( $systempkgs == true )) {
+
+    if versioncmp($_virtualenv_version,'1.7') > 0 and $systempkgs == true {
       $system_pkgs_flag = '--system-site-packages'
-    } elsif (( versioncmp($_virtualenv_version,'1.7') < 0 ) and ( $systempkgs == false )) {
+    } elsif versioncmp($_virtualenv_version,'1.7') < 0 and $systempkgs == false {
       $system_pkgs_flag = '--no-site-packages'
     } else {
       $system_pkgs_flag = $systempkgs ? {
         true    => '--system-site-packages',
-        false   => '--no-site-packages',
-        default => fail('Invalid value for systempkgs. Boolean value is expected')
+        default => '--no-site-packages',
       }
     }
 
@@ -110,6 +117,7 @@ define python::virtualenv (
       true     => 'distribute',
       default  => 'setuptools',
     }
+
     $pypi_index = $index ? {
       false   => '',
       default => "-i ${index}",
@@ -132,9 +140,8 @@ define python::virtualenv (
     }
 
     $virtualenv_cmd = "${python::exec_prefix}${used_virtualenv}"
-
-    $pip_cmd   = "${python::exec_prefix}${venv_dir}/bin/pip"
-    $pip_flags = "${pypi_index} ${proxy_flag} ${pip_args}"
+    $pip_cmd        = "${python::exec_prefix}${venv_dir}/bin/pip"
+    $pip_flags      = "${pypi_index} ${proxy_flag} ${pip_args}"
 
     exec { "python_virtualenv_${venv_dir}":
       command     => "${virtualenv_cmd} ${system_pkgs_flag} -p ${python} ${venv_dir} && ${pip_cmd} --log ${venv_dir}/pip.log install ${pip_flags} --upgrade pip && ${pip_cmd} install ${pip_flags} --upgrade ${distribute_pkg}",

@@ -1,19 +1,19 @@
-#
 # @summary allow to bootstrap pip when python is managed from other module
 #
 # @param version should be pip or pip3
 # @param manage_python if python module will manage deps
 # @param http_proxy Proxy server to use for outbound connections.
 #
-# @example 
+# @example
 #   class { 'python::pip::bootstrap':
 #     version => 'pip',
 #   }
+#
 class python::pip::bootstrap (
-  Enum['pip', 'pip3'] $version            = 'pip',
-  Variant[Boolean, String] $manage_python = false,
-  Optional[Stdlib::HTTPUrl] $http_proxy   = undef,
-  String[1] $exec_provider                = 'shell',
+  Enum['pip', 'pip3']       $version       = 'pip',
+  Variant[Boolean, String]  $manage_python = false,
+  Optional[Stdlib::HTTPUrl] $http_proxy    = undef,
+  String[1]                 $exec_provider = 'shell',
 ) inherits python::params {
   if $manage_python {
     include python
@@ -40,6 +40,7 @@ class python::pip::bootstrap (
         require     => Package['python3'],
         provider    => $exec_provider,
       }
+
       # puppet is opinionated about the pip command name
       file { 'pip3-python':
         ensure  => link,
@@ -56,6 +57,7 @@ class python::pip::bootstrap (
         require     => Package['python'],
         provider    => $exec_provider,
       }
+
       # puppet is opinionated about the pip command name
       file { 'pip-python':
         ensure  => link,
