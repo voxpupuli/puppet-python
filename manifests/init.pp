@@ -74,7 +74,7 @@ class python (
 
   # Set default umask.
   exec { default:
-    umask => $umask
+    umask => $umask,
   }
 
   # Allow hiera configuration of python resources
