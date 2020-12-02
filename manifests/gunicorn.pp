@@ -37,7 +37,7 @@ define python::gunicorn (
   Stdlib::Absolutepath                  $dir,
   Enum['present', 'absent']             $ensure            = present,
   Stdlib::Absolutepath                  $config_dir        = '/etc/gunicorn.d',
-  Booloean                              $manage_config_dir = false,
+  Boolean                               $manage_config_dir = false,
   Variant[Boolean,Stdlib::Absolutepath] $virtualenv        = false,
   Enum['wsgi', 'django']                $mode              = 'wsgi',
   Variant[String[1],Boolean]            $bind              = false,
