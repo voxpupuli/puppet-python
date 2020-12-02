@@ -15,10 +15,12 @@ describe 'python::requirements', type: :define do
       context 'with /requirements.txt' do
         let :params do
           {
-            requirements: '/requirements.txt'
+            requirements: '/requirements.txt',
+            cwd: '/foo'
           }
         end
 
+        it { is_expected.to compile.with_all_deps }
         it { is_expected.to contain_file('/requirements.txt').with_mode('0644') }
 
         context 'with manage_requirements => false' do
@@ -33,7 +35,8 @@ describe 'python::requirements', type: :define do
           let :params do
             {
               owner: 'bob',
-              group: 'bob'
+              group: 'bob',
+              'cwd': '/foo'
             }
           end
 
@@ -42,7 +45,15 @@ describe 'python::requirements', type: :define do
       end
 
       context 'default' do
+        let :params do
+          {
+            'cwd': '/foo'
+          }
+        end
         it { is_expected.to contain_file('/requirements.txt').with_owner('root').with_group('root') }
+      end
+      describe 'without cwd' do
+        it { is_expected.to compile.and_raise_error(%r{parameter 'cwd' expects a Stdlib::Absolutepath}) }
       end
     end
   end
