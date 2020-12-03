@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe 'python::requirements', type: :define do
   on_supported_os.each do |os, facts|
-    next if os == 'gentoo-3-x86_64'
     context "on #{os}" do
       let :facts do
         facts
@@ -15,8 +14,7 @@ describe 'python::requirements', type: :define do
       context 'with /requirements.txt' do
         let :params do
           {
-            requirements: '/requirements.txt',
-            cwd: '/foo'
+            requirements: '/requirements.txt'
           }
         end
 
@@ -35,8 +33,7 @@ describe 'python::requirements', type: :define do
           let :params do
             {
               owner: 'bob',
-              group: 'bob',
-              cwd: '/foo'
+              group: 'bob'
             }
           end
 
@@ -44,17 +41,24 @@ describe 'python::requirements', type: :define do
         end
       end
 
-      context 'default' do
-        let :params do
-          {
-            'cwd': '/foo'
-          }
-        end
+      context 'without parameters' do
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.to contain_class('python::config') }
+        it { is_expected.to contain_class('python::install') }
+        it { is_expected.to contain_class('python::params') }
+        it { is_expected.to contain_class('python') }
+        it { is_expected.to contain_exec('python_requirements/requirements.txt') }
+        it { is_expected.to contain_package('pip') }
+        it { is_expected.to contain_package('python') }
+        it { is_expected.to contain_package('virtualenv') }
+        it { is_expected.to contain_package('gunicorn') }
         it { is_expected.to contain_file('/requirements.txt').with_owner('root').with_group('root') }
-      end
 
-      describe 'without cwd' do
-        it { is_expected.to compile.and_raise_error(%r{parameter 'cwd' expects a Stdlib::Absolutepath}) }
+        if facts[:os]['name'] == 'Gentoo'
+          it { is_expected.not_to contain_package('python-dev') }
+        else
+          it { is_expected.to contain_package('python-dev') }
+        end
       end
     end
   end
