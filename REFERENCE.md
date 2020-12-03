@@ -28,10 +28,10 @@
 
 ### Data types
 
-* [`Python::Loglevel`](#pythonloglevel): A version type to match all valid versions for python
-* [`Python::Package::Ensure`](#pythonpackageensure): A version type to match all valid versions for python
-* [`Python::Provider`](#pythonprovider): A version type to match all valid versions for python
-* [`Python::Umask`](#pythonumask): A version type to match all valid versions for python
+* [`Python::Loglevel`](#pythonloglevel): A version type to match all valid loglevels for python
+* [`Python::Package::Ensure`](#pythonpackageensure): A version type to match all valid package ensures for python
+* [`Python::Provider`](#pythonprovider): A version type to match all valid provider for python
+* [`Python::Umask`](#pythonumask): A version type to match valid umask for python
 * [`Python::Version`](#pythonversion): A version type to match all valid versions for python
 
 ## Classes
@@ -433,7 +433,7 @@ Default value: `'/etc/gunicorn.d'`
 
 ##### `manage_config_dir`
 
-Data type: `Booloean`
+Data type: `Boolean`
 
 Set if the gunicorn config directory should be created.
 
@@ -872,7 +872,7 @@ Data type: `Array[Stdlib::Absolutepath]`
 
 Specifies the PATH variable.
 
-Default value: `[ '/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin', ]`
+Default value: `['/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin',]`
 
 ##### `environment`
 
@@ -977,7 +977,7 @@ Default value: ``false``
 
 ##### `cwd`
 
-Data type: `Stdlib::Absolutepath`
+Data type: `Optional[Stdlib::Absolutepath]`
 
 The directory from which to run the "pip install" command.
 
@@ -1156,7 +1156,7 @@ Data type: `Array[Stdlib::Absolutepath]`
 
 Specifies the PATH variable
 
-Default value: `[ '/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin', ]`
+Default value: `['/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin',]`
 
 ##### `cwd`
 
@@ -1202,25 +1202,25 @@ Default value: ``undef``
 
 ### `Python::Loglevel`
 
-A version type to match all valid versions for python
+A version type to match all valid loglevels for python
 
 Alias of `Enum['debug', 'info', 'warning', 'error', 'critical']`
 
 ### `Python::Package::Ensure`
 
-A version type to match all valid versions for python
+A version type to match all valid package ensures for python
 
 Alias of `Enum['absent', 'present', 'latest']`
 
 ### `Python::Provider`
 
-A version type to match all valid versions for python
+A version type to match all valid provider for python
 
 Alias of `Enum['pip', 'scl', 'rhscl', 'anaconda', '']`
 
 ### `Python::Umask`
 
-A version type to match all valid versions for python
+A version type to match valid umask for python
 
 Alias of `Pattern[/[0-7]{1,4}/]`
 

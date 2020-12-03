@@ -10,7 +10,7 @@
 # @param src Pip --src parameter to; if the requirements file contains --editable resources, this parameter specifies where they will be installed. See the pip documentation for more.
 # @param environment Additional environment variables required to install the packages.
 # @param forceupdate Run a pip install requirements even if we don't receive an event from the requirements file - Useful for when the requirements file is written as part of a resource other than file (E.g vcsrepo)
-# @param cwd  The directory from which to run the "pip install" command.
+# @param cwd The directory from which to run the "pip install" command.
 # @param extra_pip_args Extra arguments to pass to pip after the requirements file
 # @param manage_requirements Create the requirements file if it doesn't exist.
 # @param fix_requirements_owner Change owner and group of requirements file.
@@ -35,7 +35,7 @@ define python::requirements (
   Any                                          $src                    = false,
   Array                                        $environment            = [],
   Boolean                                      $forceupdate            = false,
-  Stdlib::Absolutepath                         $cwd                    = undef,
+  Optional[Stdlib::Absolutepath]               $cwd                    = undef,
   String                                       $extra_pip_args         = '',
   Boolean                                      $manage_requirements    = true,
   Boolean                                      $fix_requirements_owner = true,
