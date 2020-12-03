@@ -1,0 +1,146 @@
+require 'spec_helper_acceptance'
+
+describe 'python::pyvenv defined resource' do
+  context 'minimal parameters' do
+    # Using puppet_apply as a helper
+    it 'works with no errors' do
+      pp = <<-PUPPET
+      class { 'python':
+        version => '3',
+        dev     => 'present',
+      }
+      user { 'agent':
+        ensure         => 'present',
+        managehome     => true,
+        home           => '/opt/agent',
+      }
+      group { 'agent':
+        ensure => 'present',
+        system => true,
+      }
+      python::pyvenv { '/opt/agent/venv':
+        ensure     => 'present',
+        systempkgs => true,
+        owner      => 'agent',
+        group      => 'agent',
+        mode       => '0755',
+      }
+      PUPPET
+
+      # Run it twice and test for idempotency
+      apply_manifest(pp, catch_failures: true)
+      apply_manifest(pp, catch_changes: true)
+    end
+  end
+
+  context 'with python::pip' do
+    it 'works with no errors' do
+      pp = <<-PUPPET
+      class { 'python':
+        version => '3',
+        dev     => 'present',
+      }
+      user { 'agent':
+        ensure         => 'present',
+        managehome     => true,
+        home           => '/opt/agent',
+      }
+      group { 'agent':
+        ensure => 'present',
+        system => true,
+      }
+      python::pyvenv { '/opt/agent/venv':
+        ensure     => 'present',
+        systempkgs => true,
+        owner      => 'agent',
+        group      => 'agent',
+        mode       => '0755',
+      }
+      python::pip { 'agent' :
+        ensure       => 'latest',
+        pkgname      => 'agent',
+        pip_provider => 'pip',
+        virtualenv   => '/opt/agent/venv',
+        owner        => 'agent',
+        group        => 'agent',
+      }
+      PUPPET
+
+      # Run it twice and test for idempotency
+      apply_manifest(pp, catch_failures: true)
+      apply_manifest(pp, catch_changes: true)
+    end
+  end
+
+  context 'with minimal python::pip' do
+    it 'works with no errors' do
+      pp = <<-PUPPET
+      class { 'python':
+        version => '3',
+        dev     => 'present',
+      }
+      user { 'agent':
+        ensure         => 'present',
+        managehome     => true,
+        home           => '/opt/agent',
+      }
+      group { 'agent':
+        ensure => 'present',
+        system => true,
+      }
+      python::pyvenv { '/opt/agent/venv':
+        ensure     => 'present',
+        systempkgs => true,
+        owner      => 'agent',
+        group      => 'agent',
+        mode       => '0755',
+      }
+      python::pip { 'agent' :
+        virtualenv => '/opt/agent/venv',
+        owner      => 'agent',
+        group      => 'agent',
+      }
+      PUPPET
+
+      # Run it twice and test for idempotency
+      apply_manifest(pp, catch_failures: true)
+      apply_manifest(pp, catch_changes: true)
+    end
+  end
+
+  context 'with minimal python::pip and without systempkgs' do
+    it 'works with no errors' do
+      pp = <<-PUPPET
+      class { 'python':
+        version => '3',
+        dev     => 'present',
+      }
+      user { 'agent':
+        ensure         => 'present',
+        managehome     => true,
+        home           => '/opt/agent',
+      }
+      group { 'agent':
+        ensure => 'present',
+        system => true,
+      }
+      python::pyvenv { '/opt/agent/venv':
+        ensure     => 'present',
+        systempkgs => false,
+        owner      => 'agent',
+        group      => 'agent',
+        mode       => '0755',
+      }
+      python::pip { 'agent' :
+        virtualenv => '/opt/agent/venv',
+        owner      => 'agent',
+        group      => 'agent',
+      }
+      PUPPET
+
+      # Run it twice and test for idempotency
+      apply_manifest(pp, catch_failures: true)
+      apply_manifest(pp, catch_changes: true)
+    end
+  end
+end
