@@ -52,6 +52,7 @@ describe 'python::requirements', type: :define do
         end
         it { is_expected.to contain_file('/requirements.txt').with_owner('root').with_group('root') }
       end
+
       describe 'without cwd' do
         it { is_expected.to compile.and_raise_error(%r{parameter 'cwd' expects a Stdlib::Absolutepath}) }
       end
