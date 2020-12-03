@@ -36,7 +36,7 @@ describe 'python::requirements', type: :define do
             {
               owner: 'bob',
               group: 'bob',
-              'cwd': '/foo'
+              cwd: '/foo'
             }
           end
 
