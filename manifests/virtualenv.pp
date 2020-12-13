@@ -52,7 +52,7 @@ define python::virtualenv (
   Integer                               $timeout         = 1800,
   String                                $pip_args        = '',
   String                                $extra_pip_args  = '',
-  Optional[Stdlib::Absolutepath]        $virtualenv      = undef,
+  Optional[String[1]]                   $virtualenv      = undef,
 ) {
   include python
 
