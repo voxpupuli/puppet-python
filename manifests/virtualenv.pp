@@ -9,7 +9,8 @@
 # @param ensure_venv_dir Create $venv_dir
 # @param distribute
 #   Include distribute in the virtualenv
-#   Forced to `false` for Ubuntu 20.04
+#   Forced to `false` for Ubuntu 18.04 and 20.04
+#   Forced to `false` for RedHat based systems
 # @param index Base URL of Python package index
 # @param owner The owner of the virtualenv being manipulated
 # @param group  The group relating to the virtualenv being manipulated
@@ -100,8 +101,10 @@ define python::virtualenv (
       default => '',
     }
 
-    # Installing distribute does not work on Ubuntu 20.04
-    if $facts.dig('os','distro','codename') == 'focal' {
+    # Installing distribute does not work on these operating systems
+    if $facts.dig('os','distro','codename') in ['focal', 'bionic', 'buster'] {
+      $distribute_pkg = 'setuptools'
+    } elsif $facts['os']['family'] == 'RedHat' {
       $distribute_pkg = 'setuptools'
     } else {
       $distribute_pkg = $distribute ? {
