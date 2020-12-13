@@ -10,18 +10,27 @@ describe 'python::virtualenv', type: :define do
       let :title do
         '/opt/env'
       end
+      let(:distribute_pkg) do
+        if facts[:os]['family'] == 'Debian' && %w[focal bionic buster].include?(facts[:os]['distro']['codename'])
+          'setuptools'
+        elsif facts[:os]['family'] == 'RedHat'
+          'setuptools'
+        else
+          'distribute'
+        end
+      end
 
       context 'with default parameters' do
         it { is_expected.to compile.with_all_deps }
         it { is_expected.to contain_file('/opt/env') }
-        it { is_expected.to contain_exec('python_virtualenv_/opt/env').with_command('virtualenv --no-site-packages -p python /opt/env && /opt/env/bin/pip --log /opt/env/pip.log install  --proxy=  --upgrade pip && /opt/env/bin/pip install  --proxy=  --upgrade distribute') }
+        it { is_expected.to contain_exec('python_virtualenv_/opt/env').with_command("virtualenv  -p python /opt/env && /opt/env/bin/pip --log /opt/env/pip.log install  --proxy=  --upgrade pip && /opt/env/bin/pip install  --proxy=  --upgrade #{distribute_pkg}") }
       end
 
       context 'when virtualenv is defined' do
-        let(:params) {{ virtualenv: 'virtualenv-3' }}
+        let(:params) { { virtualenv: 'virtualenv-3' } }
 
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_exec('python_virtualenv_/opt/env').with_command(%r{virtualenv-3 --no-site-packages -p python .+}) }
+        it { is_expected.to contain_exec('python_virtualenv_/opt/env').with_command(%r{virtualenv-3  -p python .+}) }
       end
 
       describe 'when ensure' do
