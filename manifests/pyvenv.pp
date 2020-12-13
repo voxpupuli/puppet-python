@@ -48,7 +48,7 @@ define python::pyvenv (
       $python3_venv_package = "python${normalized_python_version}-venv"
 
       case $facts['os']['distro']['codename'] {
-        'xenial', 'bionic', 'cosmic', 'disco', 'stretch', 'buster': {
+        'xenial', 'bionic', 'cosmic', 'disco', 'stretch', 'buster', 'focal': {
           ensure_packages($python3_venv_package)
 
           Package[$python3_venv_package] -> File[$venv_dir]
