@@ -32,12 +32,16 @@ describe 'python class' do
 
     it 'maintains pip version' do
       pp = <<-EOS
+      $version = '3'
+
       class { 'python' :
+        version    => $version,
         pip        => 'present',
         virtualenv => 'present',
       }
       -> python::virtualenv { 'venv' :
         ensure     => 'present',
+        version    => $version,
         systempkgs => false,
         venv_dir   => '/opt/venv2',
       }
@@ -54,12 +58,16 @@ describe 'python class' do
 
     it 'works with ensure=>latest' do
       pp = <<-EOS
+      $version = '3'
+
       class { 'python' :
+        version    => $version,
         pip        => 'present',
         virtualenv => 'present',
       }
       -> python::virtualenv { 'venv' :
         ensure     => 'present',
+        version    => $version,
         systempkgs => false,
         venv_dir   => '/opt/venv3',
       }
@@ -78,12 +86,16 @@ describe 'python class' do
 
     it 'works with ensure=>latest for package with underscore in its name' do
       pp = <<-EOS
+      $version = '3'
+
       class { 'python' :
+        version    => $version,
         pip        => 'present',
         virtualenv => 'present',
       }
       -> python::virtualenv { 'venv' :
         ensure     => 'present',
+        version    => $version,
         systempkgs => false,
         venv_dir   => '/opt/venv4',
       }
@@ -102,15 +114,19 @@ describe 'python class' do
 
     it 'works with editable=>true' do
       pp = <<-EOS
+      $version = '3'
+
       package{ 'git' :
         ensure => 'present',
       }
       -> class { 'python' :
+        version    => $version,
         pip        => 'present',
         virtualenv => 'present',
       }
       -> python::virtualenv { 'venv' :
         ensure     => 'present',
+        version    => $version,
         systempkgs => false,
         venv_dir   => '/opt/venv5',
       }
@@ -129,12 +145,16 @@ describe 'python class' do
 
     it 'works with == in pkgname' do
       pp = <<-EOS
+      $version = '3'
+
       class { 'python' :
+        version    => $version,
         pip        => 'present',
         virtualenv => 'present',
       }
       -> python::virtualenv { 'venv' :
         ensure     => 'present',
+        version    => $version,
         systempkgs => false,
         venv_dir   => '/opt/venv6',
       }
