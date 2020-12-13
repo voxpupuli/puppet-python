@@ -7,7 +7,9 @@
 # @param systempkgs Copy system site-packages into virtualenv.
 # @param venv_dir  Directory to install virtualenv to
 # @param ensure_venv_dir Create $venv_dir
-# @param distribute Include distribute in the virtualenv
+# @param distribute
+#   Include distribute in the virtualenv
+#   Forced to `false` for Ubuntu 20.04
 # @param index Base URL of Python package index
 # @param owner The owner of the virtualenv being manipulated
 # @param group  The group relating to the virtualenv being manipulated
@@ -98,9 +100,14 @@ define python::virtualenv (
       default => '',
     }
 
-    $distribute_pkg = $distribute ? {
-      true     => 'distribute',
-      default  => 'setuptools',
+    # Installing distribute does not work on Ubuntu 20.04
+    if $facts.dig('os','distro','codename') == 'focal' {
+      $distribute_pkg = 'setuptools'
+    } else {
+      $distribute_pkg = $distribute ? {
+        true     => 'distribute',
+        default  => 'setuptools',
+      }
     }
 
     $pypi_index = $index ? {
