@@ -7,7 +7,10 @@
 # @param systempkgs Copy system site-packages into virtualenv.
 # @param venv_dir  Directory to install virtualenv to
 # @param ensure_venv_dir Create $venv_dir
-# @param distribute Include distribute in the virtualenv
+# @param distribute
+#   Include distribute in the virtualenv
+#   Forced to `false` for Ubuntu 18.04 and 20.04
+#   Forced to `false` for RedHat based systems
 # @param index Base URL of Python package index
 # @param owner The owner of the virtualenv being manipulated
 # @param group  The group relating to the virtualenv being manipulated
@@ -93,29 +96,21 @@ define python::virtualenv (
       }
     }
 
-    # Virtualenv versions prior to 1.7 do not support the
-    # --system-site-packages flag, default off for prior versions
-    # Prior to version 1.7 the default was equal to --system-site-packages
-    # and the flag --no-site-packages had to be passed to do the opposite
-    $_virtualenv_version = getvar('virtualenv_version') ? {
-      /.*/ => getvar('virtualenv_version'),
+    $system_pkgs_flag = $systempkgs ? {
+      true    => '--system-site-packages',
       default => '',
     }
 
-    if versioncmp($_virtualenv_version,'1.7') > 0 and $systempkgs == true {
-      $system_pkgs_flag = '--system-site-packages'
-    } elsif versioncmp($_virtualenv_version,'1.7') < 0 and $systempkgs == false {
-      $system_pkgs_flag = '--no-site-packages'
+    # Installing distribute does not work on these operating systems
+    if $facts.dig('os','distro','codename') in ['focal', 'bionic', 'buster'] {
+      $distribute_pkg = 'setuptools'
+    } elsif $facts['os']['family'] == 'RedHat' {
+      $distribute_pkg = 'setuptools'
     } else {
-      $system_pkgs_flag = $systempkgs ? {
-        true    => '--system-site-packages',
-        default => '--no-site-packages',
+      $distribute_pkg = $distribute ? {
+        true     => 'distribute',
+        default  => 'setuptools',
       }
-    }
-
-    $distribute_pkg = $distribute ? {
-      true     => 'distribute',
-      default  => 'setuptools',
     }
 
     $pypi_index = $index ? {

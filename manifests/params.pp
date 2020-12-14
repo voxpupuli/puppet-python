@@ -10,7 +10,6 @@ class python::params {
   }
 
   $ensure                      = 'present'
-  $version                     = 'system'
   $pip                         = 'present'
   $dev                         = 'absent'
   $virtualenv                  = 'absent'
@@ -45,5 +44,10 @@ class python::params {
   $gunicorn_package_name = $facts['os']['family'] ? {
     'RedHat' => 'python-gunicorn',
     default  => 'gunicorn',
+  }
+
+  $version = $facts['os']['release']['major'] ? {
+    '20.04' => '3',
+    default => 'system',
   }
 }

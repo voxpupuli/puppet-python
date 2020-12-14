@@ -10,7 +10,8 @@ describe 'python::pip', type: :define do # rubocop:disable RSpec/MultipleDescrib
         kernel: 'Linux',
         lsbdistcodename: 'squeeze',
         os: {
-          family: 'Debian'
+          family: 'Debian',
+          release: { major: '6' },
         },
         osfamily: 'Debian',
         operatingsystem: 'Debian',

@@ -32,11 +32,8 @@ describe 'python class' do
 
     it 'maintains pip version' do
       pp = <<-EOS
-      if $facts['os']['name'] == 'Ubuntu' and $facts['os']['release']['major'] == '16.04' {
-        $version = '3'
-      } else {
-        $version = 'system'
-      }
+      $version = '3'
+
       class { 'python' :
         version    => $version,
         pip        => 'present',
@@ -61,11 +58,8 @@ describe 'python class' do
 
     it 'works with ensure=>latest' do
       pp = <<-EOS
-      if $facts['os']['name'] == 'Ubuntu' and $facts['os']['release']['major'] == '16.04' {
-        $version = '3'
-      } else {
-        $version = 'system'
-      }
+      $version = '3'
+
       class { 'python' :
         version    => $version,
         pip        => 'present',
@@ -92,11 +86,8 @@ describe 'python class' do
 
     it 'works with ensure=>latest for package with underscore in its name' do
       pp = <<-EOS
-       if $facts['os']['name'] == 'Ubuntu' and $facts['os']['release']['major'] == '16.04' {
-        $version = '3'
-      } else {
-        $version = 'system'
-      }
+      $version = '3'
+
       class { 'python' :
         version    => $version,
         pip        => 'present',
@@ -123,11 +114,8 @@ describe 'python class' do
 
     it 'works with editable=>true' do
       pp = <<-EOS
-      if $facts['os']['name'] == 'Ubuntu' and $facts['os']['release']['major'] == '16.04' {
-        $version = '3'
-      } else {
-        $version = 'system'
-      }
+      $version = '3'
+
       package{ 'git' :
         ensure => 'present',
       }
@@ -157,11 +145,8 @@ describe 'python class' do
 
     it 'works with == in pkgname' do
       pp = <<-EOS
-      if $facts['os']['name'] == 'Ubuntu' and $facts['os']['release']['major'] == '16.04' {
-        $version = '3'
-      } else {
-        $version = 'system'
-      }
+      $version = '3'
+
       class { 'python' :
         version    => $version,
         pip        => 'present',

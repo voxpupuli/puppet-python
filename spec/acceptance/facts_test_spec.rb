@@ -4,7 +4,6 @@ describe 'python class' do
   context 'facts' do
     install_python = <<-EOS
       class { 'python' :
-        version    => 'system',
         pip        => 'present',
         virtualenv => 'present',
       }
