@@ -284,7 +284,7 @@ class python::install {
         $pip_package  = 'pip'
         $pip_provider = 'pip'
       } else {
-        $pip_package = fact('os.release.major') ? {
+        $pip_package = $facts['os']['release']['major'] ? {
           '20.04' => 'python3-pip',
           default => 'python-pip',
         }

@@ -47,6 +47,7 @@ define python::pyvenv (
     if ( $facts['os']['family'] == 'Debian') {
       $python3_venv_package = "python${normalized_python_version}-venv"
       ensure_packages($python3_venv_package)
+
       Package[$python3_venv_package] -> File[$venv_dir]
     }
 

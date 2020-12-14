@@ -46,7 +46,7 @@ class python::params {
     default  => 'gunicorn',
   }
 
-  $version = fact('os.release.major') ? {
+  $version = $facts['os']['release']['major'] ? {
     '20.04' => '3',
     default => 'system',
   }
