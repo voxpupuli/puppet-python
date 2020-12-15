@@ -275,6 +275,10 @@ class python::install {
         $pip_category = undef
         $pip_package  = "${python}-pip"
         $pip_provider = $python.regsubst(/^.*python3\.?/,'pip3.').regsubst(/\.$/,'')
+      } elsif ($facts['os']['family'] == 'RedHat') and (versioncmp($facts['os']['release']['major'], '8') >= 0) {
+        $pip_category = undef
+        $pip_package  = 'python3-pip'
+        $pip_provider = pip3
       } elsif ($facts['os']['family'] == 'RedHat') and (versioncmp($facts['os']['release']['major'], '7') >= 0) {
         $pip_category = undef
         $pip_package  = 'python2-pip'
