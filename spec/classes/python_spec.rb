@@ -216,8 +216,8 @@ describe 'python' do
           it { is_expected.to contain_class('python::install') }
           # Base Suse packages.
           it { is_expected.to contain_package('python') }
-          it { is_expected.to contain_package('python-dev').with_name('python-devel') }
-          it { is_expected.to contain_package('python-dev').with_alias('python-devel') }
+          it { is_expected.to contain_package('python-dev').with_name('python3-devel') }
+          it { is_expected.to contain_package('python-dev').with_alias('python3-devel') }
           it { is_expected.to contain_package('pip') }
 
           describe 'with python::dev' do

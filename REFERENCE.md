@@ -87,7 +87,7 @@ Allowed values:
     - 3/3.3/... means you are going to install the python3/python3.3/...
       package, if available on your osfamily.
 
-Default value: `$python::params::version`
+Default value: `'3'`
 
 ##### `pip`
 

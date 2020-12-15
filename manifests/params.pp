@@ -45,12 +45,4 @@ class python::params {
     'RedHat' => 'python-gunicorn',
     default  => 'gunicorn',
   }
-
-  if $facts['os']['family'] == 'RedHat' and $facts['os']['release']['major'] == '8' {
-    $version = '3'
-  } elsif $facts['os']['release']['major'] == '20.04' {
-    $version = '3'
-  } else {
-    $version = 'system'
-  }
 }

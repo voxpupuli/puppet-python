@@ -34,7 +34,7 @@
 #
 class python (
   Python::Package::Ensure    $ensure                      = $python::params::ensure,
-  Python::Version            $version                     = $python::params::version,
+  Python::Version            $version                     = '3',
   Python::Package::Ensure    $pip                         = $python::params::pip,
   Python::Package::Ensure    $dev                         = $python::params::dev,
   Python::Package::Ensure    $gunicorn                    = $python::params::gunicorn,
