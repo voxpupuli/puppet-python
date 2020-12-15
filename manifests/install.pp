@@ -28,40 +28,16 @@ class python::install {
     default => $python::pip,
   }
 
-  $venv_ensure = $python::virtualenv ? {
+  $dev_ensure = $python::dev ? {
     true    => 'present',
     false   => 'absent',
-    default => $python::virtualenv,
-  }
-
-  if $venv_ensure == 'present' {
-    $dev_ensure = 'present'
-
-    unless $python::dev {
-      # Error: python2-devel is needed by (installed) python-virtualenv-15.1.0-2.el7.noarch
-      # Python dev is required for virtual environment, but python environment is not required for python dev.
-      notify { 'Python virtual environment is dependent on python dev': }
-    }
-  } else {
-    $dev_ensure = $python::dev ? {
-      true    => 'present',
-      false   => 'absent',
-      default => $python::dev,
-    }
+    default => $python::dev,
   }
 
   if $python::manage_python_package {
     package { 'python':
       ensure => $python::ensure,
       name   => $python,
-    }
-  }
-
-  if $python::manage_virtualenv_package {
-    package { 'virtualenv':
-      ensure  => $venv_ensure,
-      name    => "${python}-virtualenv",
-      require => Package['python'],
     }
   }
 
@@ -91,19 +67,6 @@ class python::install {
         Package <| title == 'pip' |> {
           name     => 'pip',
           provider => 'pip',
-        }
-
-        if $pythondev {
-          Package <| title == 'virtualenv' |> {
-            name     => 'virtualenv',
-            provider => 'pip',
-            require  => Package['python-dev'],
-          }
-        } else {
-          Package <| title == 'virtualenv' |> {
-            name     => 'virtualenv',
-            provider => 'pip',
-          }
         }
       }
     }
@@ -244,30 +207,9 @@ class python::install {
         }
       }
 
-      case $facts['os']['family'] {
-        'RedHat': {
-          if $pip_ensure != 'absent' and $python::use_epel and ($python::manage_pip_package or $python::manage_python_package) {
-            require epel
-          }
-
-          if $venv_ensure != 'absent' and $facts['os']['release']['full'] =~ /^6/ and $python::use_epel {
-            require epel
-          }
-
-          $virtualenv_package = "${python}-virtualenv"
-        }
-        'Debian': {
-          if fact('lsbdistcodename') == 'trusty' {
-            $virtualenv_package = 'python-virtualenv'
-          } else {
-            $virtualenv_package = 'virtualenv'
-          }
-        }
-        'Gentoo': {
-          $virtualenv_package = 'virtualenv'
-        }
-        default: {
-          $virtualenv_package = 'python-virtualenv'
+      if $facts['os']['family'] == 'RedHat' {
+        if $pip_ensure != 'absent' and $python::use_epel and ($python::manage_pip_package or $python::manage_python_package) {
+          require epel
         }
       }
 
@@ -299,10 +241,6 @@ class python::install {
       Package <| title == 'pip' |> {
         name     => $pip_package,
         category => $pip_category,
-      }
-
-      Package <| title == 'virtualenv' |> {
-        name => $virtualenv_package,
       }
     }
   }

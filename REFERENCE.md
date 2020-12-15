@@ -8,7 +8,7 @@
 
 #### Public Classes
 
-* [`python`](#python): Installs and manages python, python-dev, python-virtualenv and gunicorn.
+* [`python`](#python): Installs and manages python, python-dev and gunicorn.
 * [`python::pip::bootstrap`](#pythonpipbootstrap): allow to bootstrap pip when python is managed from other module
 
 #### Private Classes
@@ -24,7 +24,6 @@
 * [`python::pip`](#pythonpip): Installs and manages packages from pip.
 * [`python::pyvenv`](#pythonpyvenv): Create a Python3 virtualenv using pyvenv.
 * [`python::requirements`](#pythonrequirements): Installs and manages Python packages from requirements file.
-* [`python::virtualenv`](#pythonvirtualenv): Creates Python virtualenv.
 
 ### Data types
 
@@ -38,7 +37,7 @@
 
 ### `python`
 
-Installs and manages python, python-dev, python-virtualenv and gunicorn.
+Installs and manages python, python-dev and gunicorn.
 
 #### Examples
 
@@ -49,7 +48,6 @@ class { 'python':
   version    => 'system',
   pip        => 'present',
   dev        => 'present',
-  virtualenv => 'present',
   gunicorn   => 'present',
 }
 ```
@@ -61,7 +59,6 @@ class { 'python' :
   ensure      => 'present',
   version     => 'rh-python36-python',
   dev         => 'present',
-  virtualenv  => 'present',
 }
 ```
 
@@ -107,14 +104,6 @@ Data type: `Python::Package::Ensure`
 Desired installation state for the python-dev package.
 
 Default value: `$python::params::dev`
-
-##### `virtualenv`
-
-Data type: `Python::Package::Ensure`
-
-Desired installation state for the virtualenv package
-
-Default value: `$python::params::virtualenv`
 
 ##### `gunicorn`
 
@@ -172,14 +161,6 @@ Data type: `Boolean`
 
 Default value: `$python::params::manage_python_package`
 
-##### `manage_virtualenv_package`
-
-Data type: `Boolean`
-
-
-
-Default value: `$python::params::manage_virtualenv_package`
-
 ##### `manage_pip_package`
 
 Data type: `Boolean`
@@ -197,14 +178,6 @@ Data type: `String[1]`
 Default value: `$python::params::gunicorn_package_name`
 
 ##### `python_pips`
-
-Data type: `Hash`
-
-
-
-Default value: `{}`
-
-##### `python_virtualenvs`
 
 Data type: `Hash`
 
@@ -1022,181 +995,6 @@ Data type: `Integer`
 The maximum time in seconds the "pip install" command should take.
 
 Default value: `1800`
-
-### `python::virtualenv`
-
-Creates Python virtualenv.
-
-#### Examples
-
-##### install a virtual env at /var/www/project1
-
-```puppet
-python::virtualenv { '/var/www/project1':
-  ensure       => present,
-  version      => 'system',
-  requirements => '/var/www/project1/requirements.txt',
-  proxy        => 'http://proxy.domain.com:3128',
-  systempkgs   => true,
-  index        => 'http://www.example.com/simple/',
-}
-```
-
-#### Parameters
-
-The following parameters are available in the `python::virtualenv` defined type.
-
-##### `ensure`
-
-Data type: `Python::Package::Ensure`
-
-
-
-Default value: `'present'`
-
-##### `version`
-
-Data type: `Python::Version`
-
-Python version to use.
-
-Default value: `'system'`
-
-##### `requirements`
-
-Data type: `Variant[Boolean,Stdlib::Absolutepath]`
-
-Path to pip requirements.txt file
-
-Default value: ``false``
-
-##### `systempkgs`
-
-Data type: `Boolean`
-
-Copy system site-packages into virtualenv.
-
-Default value: ``false``
-
-##### `venv_dir`
-
-Data type: `Stdlib::Absolutepath`
-
-Directory to install virtualenv to
-
-Default value: `$name`
-
-##### `ensure_venv_dir`
-
-Data type: `Boolean`
-
-Create $venv_dir
-
-Default value: ``true``
-
-##### `distribute`
-
-Data type: `Boolean`
-
-Include distribute in the virtualenv
-
-Default value: ``true``
-
-##### `index`
-
-Data type: `Variant[Boolean,Stdlib::HTTPUrl]`
-
-Base URL of Python package index
-
-Default value: ``false``
-
-##### `owner`
-
-Data type: `String[1]`
-
-The owner of the virtualenv being manipulated
-
-Default value: `'root'`
-
-##### `group`
-
-Data type: `String[1]`
-
-The group relating to the virtualenv being manipulated
-
-Default value: `'root'`
-
-##### `mode`
-
-Data type: `Stdlib::Filemode`
-
-Optionally specify directory mode
-
-Default value: `'0755'`
-
-##### `proxy`
-
-Data type: `Optional[Stdlib::HTTPUrl]`
-
-Proxy server to use for outbound connections
-
-Default value: ``undef``
-
-##### `environment`
-
-Data type: `Array`
-
-Additional environment variables required to install the packages
-
-Default value: `[]`
-
-##### `path`
-
-Data type: `Array[Stdlib::Absolutepath]`
-
-Specifies the PATH variable
-
-Default value: `['/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin',]`
-
-##### `cwd`
-
-Data type: `Optional[Stdlib::Absolutepath]`
-
-The directory from which to run the "pip install" command
-
-Default value: ``undef``
-
-##### `timeout`
-
-Data type: `Integer`
-
-The maximum time in seconds the "pip install" command should take
-
-Default value: `1800`
-
-##### `pip_args`
-
-Data type: `String`
-
-Arguments to pass to pip during initialization
-
-Default value: `''`
-
-##### `extra_pip_args`
-
-Data type: `String`
-
-Extra arguments to pass to pip after requirements file
-
-Default value: `''`
-
-##### `virtualenv`
-
-Data type: `Optional[Stdlib::Absolutepath]`
-
-
-
-Default value: ``undef``
 
 ## Data types
 
