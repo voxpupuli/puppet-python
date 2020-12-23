@@ -50,7 +50,6 @@ describe 'python::requirements', type: :define do
         it { is_expected.to contain_exec('python_requirements/requirements.txt') }
         it { is_expected.to contain_package('pip') }
         it { is_expected.to contain_package('python') }
-        it { is_expected.to contain_package('virtualenv') }
         it { is_expected.to contain_package('gunicorn') }
         it { is_expected.to contain_file('/requirements.txt').with_owner('root').with_group('root') }
 

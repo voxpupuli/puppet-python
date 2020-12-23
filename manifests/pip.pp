@@ -74,7 +74,6 @@ define python::pip (
 
   if $virtualenv != 'system' {
     Python::Pyvenv <| |> -> Python::Pip[$name]
-    Python::Virtualenv <| |> -> Python::Pip[$name]
   }
 
   # Get SCL exec prefix

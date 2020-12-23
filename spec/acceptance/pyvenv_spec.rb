@@ -1,6 +1,6 @@
 require 'spec_helper_acceptance'
 
-describe 'python::pyvenv defined resource' do
+describe 'python::pyvenv defined resource with python 3' do
   context 'minimal parameters' do
     # Using puppet_apply as a helper
     it 'works with no errors' do

@@ -1,4 +1,4 @@
-# @summary Installs and manages python, python-dev, python-virtualenv and gunicorn.
+# @summary Installs and manages python, python-dev and gunicorn.
 #
 # @param ensure Desired installation state for the Python package.
 # @param version Python version to install. Beware that valid values for this differ a) by the provider you choose and b) by the osfamily/operatingsystem you are using.
@@ -11,7 +11,6 @@
 #        package, if available on your osfamily.
 # @param pip Desired installation state for the python-pip package.
 # @param dev Desired installation state for the python-dev package.
-# @param virtualenv Desired installation state for the virtualenv package
 # @param gunicorn Desired installation state for Gunicorn.
 # @param manage_gunicorn Allow Installation / Removal of Gunicorn.
 # @param provider What provider to use for installation of the packages, except gunicorn and Python itself.
@@ -24,7 +23,6 @@
 #     version    => 'system',
 #     pip        => 'present',
 #     dev        => 'present',
-#     virtualenv => 'present',
 #     gunicorn   => 'present',
 #   }
 # @example install python3 from scl repo
@@ -32,24 +30,20 @@
 #     ensure      => 'present',
 #     version     => 'rh-python36-python',
 #     dev         => 'present',
-#     virtualenv  => 'present',
 #   }
 #
 class python (
   Python::Package::Ensure    $ensure                      = $python::params::ensure,
-  Python::Version            $version                     = $python::params::version,
+  Python::Version            $version                     = '3',
   Python::Package::Ensure    $pip                         = $python::params::pip,
   Python::Package::Ensure    $dev                         = $python::params::dev,
-  Python::Package::Ensure    $virtualenv                  = $python::params::virtualenv,
   Python::Package::Ensure    $gunicorn                    = $python::params::gunicorn,
   Boolean                    $manage_gunicorn             = $python::params::manage_gunicorn,
   Boolean                    $manage_python_package       = $python::params::manage_python_package,
-  Boolean                    $manage_virtualenv_package   = $python::params::manage_virtualenv_package,
   Boolean                    $manage_pip_package          = $python::params::manage_pip_package,
   String[1]                  $gunicorn_package_name       = $python::params::gunicorn_package_name,
   Optional[Python::Provider] $provider                    = $python::params::provider,
   Hash                       $python_pips                 = {},
-  Hash                       $python_virtualenvs          = {},
   Hash                       $python_pyvenvs              = {},
   Hash                       $python_requirements         = {},
   Hash                       $python_dotfiles             = {},
@@ -80,7 +74,6 @@ class python (
   # Allow hiera configuration of python resources
   create_resources('python::pip', $python_pips)
   create_resources('python::pyvenv', $python_pyvenvs)
-  create_resources('python::virtualenv', $python_virtualenvs)
   create_resources('python::requirements', $python_requirements)
   create_resources('python::dotfile', $python_dotfiles)
 }

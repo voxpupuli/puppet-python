@@ -85,6 +85,7 @@ define python::pyvenv (
       path        => $_path,
       cwd         => '/tmp',
       environment => $environment,
+      timeout     => 600,
       unless      => "grep '^[\\t ]*VIRTUAL_ENV=[\\\\'\\\"]*${venv_dir}[\\\"\\\\'][\\t ]*$' ${venv_dir}/bin/activate", #Unless activate exists and VIRTUAL_ENV is correct we re-create the virtualenv
       require     => File[$venv_dir],
     }
