@@ -45,16 +45,16 @@ define python::pyvenv (
 
     # Debian splits the venv module into a seperate package
     if ( $facts['os']['family'] == 'Debian') {
-      $python3_venv_package = "python${normalized_python_version}-venv"
-      ensure_packages($python3_venv_package)
-
-      Package[$python3_venv_package] -> File[$venv_dir]
-
       if $facts['os']['distro']['codename'] in ['buster','bionic'] {
-        $python3_distutils_package = "python${normalized_python_version}-distutils"
-        ensure_packages($python3_distutils_package)
+        $python3_venv_package = "python${$python_version_parts[0]}-venv"
+        ensure_packages($python3_venv_package)
 
-        Package[$python3_distutils_package] -> File[$venv_dir]
+        Package[$python3_venv_package] -> File[$venv_dir]
+      } else {
+        $python3_venv_package = "python${normalized_python_version}-venv"
+        ensure_packages($python3_venv_package)
+
+        Package[$python3_venv_package] -> File[$venv_dir]
       }
     }
 
