@@ -21,6 +21,10 @@ describe 'python::pyvenv', type: :define do
         if %w[xenial bionic cosmic disco stretch buster].include?(facts[:lsbdistcodename])
           it { is_expected.to contain_package('python3.5-venv').that_comes_before('File[/opt/env]') }
         end
+
+        if %w[bionic buster].include?(facts[:lsbdistcodename])
+          it { is_expected.to contain_package('python3.5-distutils').that_comes_before('File[/opt/env]') }
+        end
       end
 
       describe 'when ensure' do

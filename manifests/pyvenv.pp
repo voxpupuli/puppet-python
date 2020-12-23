@@ -49,6 +49,13 @@ define python::pyvenv (
       ensure_packages($python3_venv_package)
 
       Package[$python3_venv_package] -> File[$venv_dir]
+
+      if $facts['os']['distro']['codename'] in ['buster','bionic'] {
+        $python3_distutils_package = "python${normalized_python_version}-distutils"
+        ensure_packages($python3_distutils_package)
+
+        Package[$python3_distutils_package] -> File[$venv_dir]
+      }
     }
 
     # pyvenv is deprecated since 3.6 and will be removed in 3.8
