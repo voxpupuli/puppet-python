@@ -31,6 +31,7 @@ define python::pyvenv (
   Stdlib::Filemode            $mode        = '0755',
   Array[Stdlib::Absolutepath] $path        = ['/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin',],
   Array                       $environment = [],
+  Python::Venv::PipVersion    $pip_version = 'latest',
 ) {
   include python
 
@@ -78,8 +79,13 @@ define python::pyvenv (
 
     $pip_cmd = "${python::exec_prefix}${venv_dir}/bin/pip"
 
+    $pip_upgrade = ($pip_version != 'latest') ? {
+      true  => "--upgrade 'pip ${pip_version}'",
+      false => '--upgrade pip',
+    }
+
     exec { "python_virtualenv_${venv_dir}":
-      command     => "${virtualenv_cmd} --clear ${system_pkgs_flag} ${venv_dir} && ${pip_cmd} --log ${venv_dir}/pip.log install --upgrade pip && ${pip_cmd} --log ${venv_dir}/pip.log install --upgrade setuptools",
+      command     => "${virtualenv_cmd} --clear ${system_pkgs_flag} ${venv_dir} && ${pip_cmd} --log ${venv_dir}/pip.log install ${pip_upgrade} && ${pip_cmd} --log ${venv_dir}/pip.log install --upgrade setuptools",
       user        => $owner,
       creates     => "${venv_dir}/bin/activate",
       path        => $_path,

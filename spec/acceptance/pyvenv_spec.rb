@@ -19,11 +19,12 @@ describe 'python::pyvenv defined resource with python 3' do
         system => true,
       }
       python::pyvenv { '/opt/agent/venv':
-        ensure     => 'present',
-        systempkgs => true,
-        owner      => 'agent',
-        group      => 'agent',
-        mode       => '0755',
+        ensure      => 'present',
+        systempkgs  => true,
+        owner       => 'agent',
+        group       => 'agent',
+        mode        => '0755',
+        pip_version => '<= 20.3.4',
       }
       PUPPET
 
@@ -50,11 +51,12 @@ describe 'python::pyvenv defined resource with python 3' do
         system => true,
       }
       python::pyvenv { '/opt/agent/venv':
-        ensure     => 'present',
-        systempkgs => true,
-        owner      => 'agent',
-        group      => 'agent',
-        mode       => '0755',
+        ensure      => 'present',
+        systempkgs  => true,
+        owner       => 'agent',
+        group       => 'agent',
+        mode        => '0755',
+        pip_version => '<= 20.3.4',
       }
       python::pip { 'agent' :
         ensure       => 'latest',
@@ -89,11 +91,12 @@ describe 'python::pyvenv defined resource with python 3' do
         system => true,
       }
       python::pyvenv { '/opt/agent/venv':
-        ensure     => 'present',
-        systempkgs => true,
-        owner      => 'agent',
-        group      => 'agent',
-        mode       => '0755',
+        ensure      => 'present',
+        systempkgs  => true,
+        owner       => 'agent',
+        group       => 'agent',
+        mode        => '0755',
+        pip_version => '<= 20.3.4',
       }
       python::pip { 'agent' :
         virtualenv => '/opt/agent/venv',
@@ -125,11 +128,12 @@ describe 'python::pyvenv defined resource with python 3' do
         system => true,
       }
       python::pyvenv { '/opt/agent/venv':
-        ensure     => 'present',
-        systempkgs => false,
-        owner      => 'agent',
-        group      => 'agent',
-        mode       => '0755',
+        ensure      => 'present',
+        systempkgs  => false,
+        owner       => 'agent',
+        group       => 'agent',
+        mode        => '0755',
+        pip_version => '<= 20.3.4',
       }
       python::pip { 'agent' :
         virtualenv => '/opt/agent/venv',
@@ -161,11 +165,12 @@ describe 'python::pyvenv defined resource with python 3' do
         system => true,
       }
       python::pyvenv { '/opt/agent/venv':
-        ensure     => 'present',
-        systempkgs => false,
-        owner      => 'agent',
-        group      => 'agent',
-        mode       => '0755',
+        ensure      => 'present',
+        systempkgs  => false,
+        owner       => 'agent',
+        group       => 'agent',
+        mode        => '0755',
+        pip_version => '<= 20.3.4',
       }
       python::pip { 'agent' :
         ensure     => '0.1.2',
