@@ -4,6 +4,43 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v6.0.0](https://github.com/voxpupuli/puppet-python/tree/v6.0.0) (2021-04-03)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v5.0.0...v6.0.0)
+
+**Breaking changes:**
+
+- Drop Puppet 5 support [\#603](https://github.com/voxpupuli/puppet-python/pull/603) ([bastelfreak](https://github.com/bastelfreak))
+- Drop python::virtualenv defined resource [\#596](https://github.com/voxpupuli/puppet-python/pull/596) ([bastelfreak](https://github.com/bastelfreak))
+- Set default python to 3 [\#595](https://github.com/voxpupuli/puppet-python/pull/595) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Add the possibility to specify the pip version in virtual envs [\#599](https://github.com/voxpupuli/puppet-python/pull/599) ([SaschaDoering](https://github.com/SaschaDoering))
+- Add Support for RedHat/CentOS 8 [\#594](https://github.com/voxpupuli/puppet-python/pull/594) ([treydock](https://github.com/treydock))
+- enhance pyvenv tests [\#590](https://github.com/voxpupuli/puppet-python/pull/590) ([bastelfreak](https://github.com/bastelfreak))
+- Add Debian 10 support [\#573](https://github.com/voxpupuli/puppet-python/pull/573) ([bastelfreak](https://github.com/bastelfreak))
+
+**Fixed bugs:**
+
+- Fix python::virtualenv to allow virtualenv to not require absolute path [\#592](https://github.com/voxpupuli/puppet-python/pull/592) ([treydock](https://github.com/treydock))
+- python::gunicorn: Fix typo in datatype [\#585](https://github.com/voxpupuli/puppet-python/pull/585) ([bastelfreak](https://github.com/bastelfreak))
+
+**Closed issues:**
+
+- Setting Pip Version for Virtual Environments [\#559](https://github.com/voxpupuli/puppet-python/issues/559)
+- Can't install this using librarian-puppet [\#406](https://github.com/voxpupuli/puppet-python/issues/406)
+
+**Merged pull requests:**
+
+- puppetlabs/stdlib: Allow 7.x [\#604](https://github.com/voxpupuli/puppet-python/pull/604) ([bastelfreak](https://github.com/bastelfreak))
+- Support Puppet 7 [\#602](https://github.com/voxpupuli/puppet-python/pull/602) ([mattock](https://github.com/mattock))
+- Support Ubuntu 20.04 [\#593](https://github.com/voxpupuli/puppet-python/pull/593) ([treydock](https://github.com/treydock))
+- Add pyvenv acceptance test [\#588](https://github.com/voxpupuli/puppet-python/pull/588) ([bastelfreak](https://github.com/bastelfreak))
+- General linting/indent/syntax [\#580](https://github.com/voxpupuli/puppet-python/pull/580) ([crazymind1337](https://github.com/crazymind1337))
+- Use Python 3 for virtualenv tests [\#575](https://github.com/voxpupuli/puppet-python/pull/575) ([waipeng](https://github.com/waipeng))
+- Add acceptance test for managing Python 3 [\#572](https://github.com/voxpupuli/puppet-python/pull/572) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v5.0.0](https://github.com/voxpupuli/puppet-python/tree/v5.0.0) (2020-09-23)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v4.1.1...v5.0.0)
@@ -387,11 +424,12 @@ These should not affect the functionality of the module.
 
 ## [1.13.0](https://github.com/voxpupuli/puppet-python/tree/1.13.0) (2016-07-18)
 
-[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/2.2.0...1.13.0)
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/1.12.0...1.13.0)
 
 **Closed issues:**
 
 - SCL package installation returns an error [\#308](https://github.com/voxpupuli/puppet-python/issues/308)
+- Patch Release [\#295](https://github.com/voxpupuli/puppet-python/issues/295)
 - Can't install pip3 with Ubuntu [\#287](https://github.com/voxpupuli/puppet-python/issues/287)
 - SCL python27: add a workaround for libpython2.7.so.1.0 issue \(LD\_LIBRARY\_PATH\) [\#234](https://github.com/voxpupuli/puppet-python/issues/234)
 
@@ -406,14 +444,6 @@ These should not affect the functionality of the module.
 - Fixed missing comma in \#301 [\#302](https://github.com/voxpupuli/puppet-python/pull/302) ([steverecio](https://github.com/steverecio))
 - Configure workers [\#301](https://github.com/voxpupuli/puppet-python/pull/301) ([steverecio](https://github.com/steverecio))
 - Fix support for Ruby 1.8.7 [\#298](https://github.com/voxpupuli/puppet-python/pull/298) ([ghoneycutt](https://github.com/ghoneycutt))
-
-## [2.2.0](https://github.com/voxpupuli/puppet-python/tree/2.2.0) (2016-05-31)
-
-[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/1.12.0...2.2.0)
-
-**Closed issues:**
-
-- Patch Release [\#295](https://github.com/voxpupuli/puppet-python/issues/295)
 
 ## [1.12.0](https://github.com/voxpupuli/puppet-python/tree/1.12.0) (2016-03-27)
 
@@ -479,13 +509,12 @@ These should not affect the functionality of the module.
 
 ## [1.9.8](https://github.com/voxpupuli/puppet-python/tree/1.9.8) (2015-09-19)
 
-[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/1.9.6...1.9.8)
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/1.9.7...1.9.8)
 
 **Closed issues:**
 
 - Unable to install pip using pip provider [\#243](https://github.com/voxpupuli/puppet-python/issues/243)
 - Not possible to install latest version of Python [\#240](https://github.com/voxpupuli/puppet-python/issues/240)
-- Exec\<| tag == 'python-virtualenv' |\> changes and breaks the API [\#230](https://github.com/voxpupuli/puppet-python/issues/230)
 
 **Merged pull requests:**
 
@@ -499,6 +528,14 @@ These should not affect the functionality of the module.
 - Allow custom versions to be installed [\#241](https://github.com/voxpupuli/puppet-python/pull/241) ([joshuaspence](https://github.com/joshuaspence))
 - Check that we have results before returning a value [\#238](https://github.com/voxpupuli/puppet-python/pull/238) ([xaque208](https://github.com/xaque208))
 - Adjust test code to pass syntax checker [\#237](https://github.com/voxpupuli/puppet-python/pull/237) ([fluential](https://github.com/fluential))
+
+## [1.9.7](https://github.com/voxpupuli/puppet-python/tree/1.9.7) (2015-08-21)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/1.9.6...1.9.7)
+
+**Closed issues:**
+
+- Exec\<| tag == 'python-virtualenv' |\> changes and breaks the API [\#230](https://github.com/voxpupuli/puppet-python/issues/230)
 
 ## [1.9.6](https://github.com/voxpupuli/puppet-python/tree/1.9.6) (2015-08-01)
 
