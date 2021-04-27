@@ -18,7 +18,7 @@ describe 'python::pip defined resource' do
       apply_manifest(pp, catch_failures: true)
       apply_manifest(pp, catch_changes: true)
   end
-  describe command('/opt/agent/venv/bin/pip list') do
+  describe command('/usr/bin/pip list') do
     its(:exit_status) { is_expected.to eq 0 }
     its(:stdout) { is_expected.to match %r{agent.* 0\.1\.2} }
   end
