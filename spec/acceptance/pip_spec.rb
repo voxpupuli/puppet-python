@@ -17,6 +17,7 @@ describe 'python::pip defined resource' do
 
       apply_manifest(pp, catch_failures: true)
       apply_manifest(pp, catch_changes: true)
+    end
   end
 
   describe command('/usr/bin/pip list') do
@@ -47,6 +48,7 @@ describe 'python::pip defined resource' do
 
       apply_manifest(pp, catch_failures: true)
       apply_manifest(pp, catch_changes: true)
+    end
   end
 
   describe command('/usr/bin/pip list') do
