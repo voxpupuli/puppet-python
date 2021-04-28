@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v6.0.1](https://github.com/voxpupuli/puppet-python/tree/v6.0.1) (2021-04-28)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v6.0.0...v6.0.1)
+
+**Fixed bugs:**
+
+- Use $real\_pkgname for pip uninstall command [\#607](https://github.com/voxpupuli/puppet-python/pull/607) ([brabiega](https://github.com/brabiega))
+
+**Closed issues:**
+
+- Pip uninstall does not support pkgname variable [\#606](https://github.com/voxpupuli/puppet-python/issues/606)
+
 ## [v6.0.0](https://github.com/voxpupuli/puppet-python/tree/v6.0.0) (2021-04-03)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v5.0.0...v6.0.0)
