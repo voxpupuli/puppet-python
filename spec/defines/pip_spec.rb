@@ -116,6 +116,14 @@ describe 'python::pip', type: :define do # rubocop:disable RSpec/MultipleDescrib
 
         it { is_expected.to contain_exec('pip_uninstall_rpyc').with_command(%r{uninstall.*rpyc$}) }
       end
+
+      context 'passes correct package name' do
+        let(:params) { { ensure: 'absent', 'pkgname': 'r-pyc' } }
+
+        it { is_expected.not_to contain_exec('pip_install_rpyc') }
+
+        it { is_expected.to contain_exec('pip_uninstall_rpyc').with_command(%r{uninstall.*r-pyc$}) }
+      end
     end
   end
 end
