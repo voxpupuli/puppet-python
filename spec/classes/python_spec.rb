@@ -118,41 +118,43 @@ describe 'python' do
 
               it { is_expected.to contain_python__pyvenv('/opt/env1').with_ensure('present') }
               it { is_expected.to contain_python__pyvenv('/opt/env2').with_ensure('present') }
-              it { is_expected.to contain_exec('python_virtualenv_/opt/env1')
-                .with(
-                  command: 'python3.8 -m venv --clear  /opt/env1 && /opt/env1/bin/pip --log /opt/env1/pip.log install --upgrade pip && /opt/env1/bin/pip --log /opt/env1/pip.log install --upgrade setuptools',
-                  user: 'root',
-                  creates: '/opt/env1/bin/activate',
-                  path: [
-                    '/bin',
-                    '/usr/bin',
-                    '/usr/sbin',
-                    '/usr/local/bin'
-                  ],
-                  cwd: '/tmp',
-                  environment: [],
-                  timeout: 600,
-                  unless: %r{^grep '\^\[\\t \]\*VIRTUAL_ENV=\[\\\\'\\\"\]\*/opt/env1\[\\\"\\\\'\]\[\\t \]\*\$' /opt/env1/bin/activate$}
-                )
-                .that_requires('File[/opt/env1]')
+              it {
+                is_expected.to contain_exec('python_virtualenv_/opt/env1').
+                  with(
+                    command: 'python3.8 -m venv --clear  /opt/env1 && /opt/env1/bin/pip --log /opt/env1/pip.log install --upgrade pip && /opt/env1/bin/pip --log /opt/env1/pip.log install --upgrade setuptools',
+                    user: 'root',
+                    creates: '/opt/env1/bin/activate',
+                    path: [
+                      '/bin',
+                      '/usr/bin',
+                      '/usr/sbin',
+                      '/usr/local/bin'
+                    ],
+                    cwd: '/tmp',
+                    environment: [],
+                    timeout: 600,
+                    unless: %r{^grep '\^\[\\t \]\*VIRTUAL_ENV=\[\\\\'\\\"\]\*/opt/env1\[\\\"\\\\'\]\[\\t \]\*\$' /opt/env1/bin/activate$}
+                  ).
+                  that_requires('File[/opt/env1]')
               }
-              it { is_expected.to contain_exec('python_virtualenv_/opt/env2')
-                .with(
-                  command: 'python3.8 -m venv --clear  /opt/env2 && /opt/env2/bin/pip --log /opt/env2/pip.log install --upgrade \'pip <= 20.3.4\' && /opt/env2/bin/pip --log /opt/env2/pip.log install --upgrade setuptools',
-                  user: 'root',
-                  creates: '/opt/env2/bin/activate',
-                  path: [
-                    '/bin',
-                    '/usr/bin',
-                    '/usr/sbin',
-                    '/usr/local/bin'
-                  ],
-                  cwd: '/tmp',
-                  environment: [],
-                  timeout: 600,
-                  unless: %r{^grep '\^\[\\t \]\*VIRTUAL_ENV=\[\\\\'\\\"\]\*/opt/env2\[\\\"\\\\'\]\[\\t \]\*\$' /opt/env2/bin/activate$}
-                )
-                .that_requires('File[/opt/env2]')
+              it {
+                is_expected.to contain_exec('python_virtualenv_/opt/env2').
+                  with(
+                    command: 'python3.8 -m venv --clear  /opt/env2 && /opt/env2/bin/pip --log /opt/env2/pip.log install --upgrade \'pip <= 20.3.4\' && /opt/env2/bin/pip --log /opt/env2/pip.log install --upgrade setuptools',
+                    user: 'root',
+                    creates: '/opt/env2/bin/activate',
+                    path: [
+                      '/bin',
+                      '/usr/bin',
+                      '/usr/sbin',
+                      '/usr/local/bin'
+                    ],
+                    cwd: '/tmp',
+                    environment: [],
+                    timeout: 600,
+                    unless: %r{^grep '\^\[\\t \]\*VIRTUAL_ENV=\[\\\\'\\\"\]\*/opt/env2\[\\\"\\\\'\]\[\\t \]\*\$' /opt/env2/bin/activate$}
+                  ).
+                  that_requires('File[/opt/env2]')
               }
               it { is_expected.to contain_file('/opt/env1') }
               it { is_expected.to contain_file('/opt/env2') }

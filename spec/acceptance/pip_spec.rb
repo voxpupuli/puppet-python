@@ -72,4 +72,3 @@ describe 'python::pip defined resource' do
     its(:stdout) { is_expected.not_to match %r{agent.* 0\.1\.2} }
   end
 end
-
