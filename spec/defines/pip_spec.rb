@@ -1,6 +1,6 @@
 require 'spec_helper'
-
-describe 'python::pip', type: :define do # rubocop:disable RSpec/MultipleDescribes
+# rubocop:disable RSpec/MultipleDescribes
+describe 'python::pip', type: :define do
   let(:title) { 'rpyc' }
 
   context 'on Debian OS' do
@@ -118,7 +118,7 @@ describe 'python::pip', type: :define do # rubocop:disable RSpec/MultipleDescrib
       end
 
       context 'passes correct package name' do
-        let(:params) { { ensure: 'absent', 'pkgname': 'r-pyc' } }
+        let(:params) { { ensure: 'absent', pkgname: 'r-pyc' } }
 
         it { is_expected.not_to contain_exec('pip_install_rpyc') }
 
@@ -162,3 +162,4 @@ describe 'python::pip', type: :define do
     end
   end
 end
+# rubocop:enable RSpec/MultipleDescribes
