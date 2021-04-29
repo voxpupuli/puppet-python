@@ -1,6 +1,6 @@
 {
   "name": "puppet-python",
-  "version": "6.0.1-rc0",
+  "version": "6.0.1",
   "author": "Vox Pupuli",
   "summary": "Python Module",
   "license": "Apache-2.0",
