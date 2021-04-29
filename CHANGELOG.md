@@ -4,7 +4,22 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v6.0.1](https://github.com/voxpupuli/puppet-python/tree/v6.0.1) (2021-04-28)
+## [v6.1.0](https://github.com/voxpupuli/puppet-python/tree/v6.1.0) (2021-06-05)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v6.0.1...v6.1.0)
+
+Due to a bug in the release pipeline, release v6.0.1 didn't make it to the forge. v6.0.2 just contains [modulesync 4.1.0](https://github.com/voxpupuli/modulesync_config/blob/master/CHANGELOG.md#410-2021-04-03) patch.
+
+**Implemented enhancements:**
+
+- Add support for FreeBSD [\#612](https://github.com/voxpupuli/puppet-python/pull/612) ([smortex](https://github.com/smortex))
+
+**Closed issues:**
+
+- Can't uninstall pip package because of duplicate variable name [\#532](https://github.com/voxpupuli/puppet-python/issues/532)
+- audit metaparameter is deprecated [\#375](https://github.com/voxpupuli/puppet-python/issues/375)
+
+## [v6.0.1](https://github.com/voxpupuli/puppet-python/tree/v6.0.1) (2021-04-29)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v6.0.0...v6.0.1)
 
