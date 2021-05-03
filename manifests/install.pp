@@ -15,11 +15,12 @@ class python::install {
   }
 
   $pythondev = $facts['os']['family'] ? {
-    'AIX'    => "${python}-devel",
-    'RedHat' => "${python}-devel",
-    'Debian' => "${python}-dev",
-    'Suse'   => "${python}-devel",
-    'Gentoo' => undef,
+    'AIX'     => "${python}-devel",
+    'Debian'  => "${python}-dev",
+    'FreeBSD' => undef,
+    'Gentoo'  => undef,
+    'RedHat'  => "${python}-devel",
+    'Suse'    => "${python}-devel",
   }
 
   $pip_ensure = $python::pip ? {
@@ -225,6 +226,10 @@ class python::install {
         $pip_category = undef
         $pip_package  = 'python2-pip'
         $pip_provider = pip2
+      } elsif $facts['os']['family'] == 'FreeBSD' {
+        $pip_category = undef
+        $pip_package  = "py${python::version}-pip"
+        $pip_provider = 'pip'
       } elsif $facts['os']['family'] == 'Gentoo' {
         $pip_category = 'dev-python'
         $pip_package  = 'pip'
