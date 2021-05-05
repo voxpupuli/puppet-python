@@ -5,7 +5,7 @@
 #
 class python::params {
   # Module compatibility check
-  unless $facts['os']['family'] in ['Debian', 'RedHat', 'Suse', 'Gentoo', 'AIX',] {
+  unless $facts['os']['family'] in ['AIX', 'Debian', 'FreeBSD', 'Gentoo', 'RedHat', 'Suse'] {
     fail("Module is not compatible with ${facts['os']['name']}")
   }
 
