@@ -155,11 +155,13 @@ define python::pip (
     $_ensure      = $ensure
   }
 
-  # Check if searching by explicit version.
-  if $_ensure =~ /^((19|20)[0-9][0-9]-(0[1-9]|1[1-2])-([0-2][1-9]|3[0-1])|[0-9]+\.\w+\+?\w*(\.\w+)*)$/ {
-    $grep_regex = "^${real_pkgname}[[:space:]]\\+(\\?${_ensure}\\()$\\|$\\|, \\|[[:space:]]\\)"
-  } else {
-    $grep_regex = "^${real_pkgname}[[:space:]].*$"
+  # We do not try to mimic a version scheme validation which is already implemented by the package manager.
+  # If it starts with a number it is probably a version.
+  # If it wasn't or if there is any error, the package manager will trigger a failure.
+  $grep_regex = $_ensure ? {
+    /^(present|absent|latest)$/ => "^${real_pkgname}[[:space:]].*$",
+    /^[0-9].*$/                 => "^${real_pkgname}[[:space:]]\\+(\\?${_ensure}\\()$\\|$\\|, \\|[[:space:]]\\)",
+    default                     => fail('ensure can be a version number or one of: present, absent, latest')
   }
 
   $extras_string = empty($extras) ? {
@@ -193,9 +195,8 @@ define python::pip (
     }
   } else {
     case $_ensure {
-      /^((19|20)[0-9][0-9]-(0[1-9]|1[1-2])-([0-2][1-9]|3[0-1])|[0-9]+\.\w+\+?\w*(\.\w+)*)$/: {
-        # Version formats as per http://guide.python-distribute.org/specification.html#standard-versioning-schemes
-        # Explicit version.
+      /^[0-9].*$/: {
+        # Specific version
         $command        = "${pip_install} ${install_args} ${pip_common_args}==${_ensure}"
         $unless_command = "${pip_env} list | grep -i -e '${grep_regex}'"
       }
