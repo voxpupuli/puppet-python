@@ -234,12 +234,17 @@ class python::install {
         $pip_category = 'dev-python'
         $pip_package  = 'pip'
         $pip_provider = 'pip'
-      } else {
-        $pip_package = $facts['os']['release']['major'] ? {
-          '20.04' => 'python3-pip',
-          default => 'python-pip',
-        }
+      } elsif ($facts['os']['name'] == 'Ubuntu') and (versioncmp($facts['os']['release']['major'], '20.04') >= 0) {
         $pip_category = undef
+        $pip_package  = 'python3-pip'
+        $pip_provider = 'pip3'
+      } elsif ($facts['os']['name'] == 'Debian') and (versioncmp($facts['os']['release']['major'], '11') >= 0) {
+        $pip_category = undef
+        $pip_package  = 'python3-pip'
+        $pip_provider = 'pip3'
+      } else {
+        $pip_category = undef
+        $pip_package  = 'python-pip'
         $pip_provider = 'pip'
       }
 
