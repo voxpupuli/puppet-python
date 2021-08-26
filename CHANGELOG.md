@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v6.2.0](https://github.com/voxpupuli/puppet-python/tree/v6.2.0) (2021-08-26)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v6.1.0...v6.2.0)
+
+**Implemented enhancements:**
+
+- Add support for Debian 11 [\#621](https://github.com/voxpupuli/puppet-python/pull/621) ([smortex](https://github.com/smortex))
+
+**Merged pull requests:**
+
+- Allow stdlib 8.0.0 [\#622](https://github.com/voxpupuli/puppet-python/pull/622) ([smortex](https://github.com/smortex))
+
 ## [v6.1.0](https://github.com/voxpupuli/puppet-python/tree/v6.1.0) (2021-06-05)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v6.0.1...v6.1.0)
