@@ -6,6 +6,10 @@ name: CI
 
 on: pull_request
 
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   setup_matrix:
     name: 'Setup Test Matrix'
