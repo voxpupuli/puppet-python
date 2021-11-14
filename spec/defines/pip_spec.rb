@@ -68,7 +68,7 @@ describe 'python::pip', type: :define do
       context 'adds proxy to install command if proxy set' do
         let(:params) { { proxy: 'http://my.proxy:3128' } }
 
-        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install  --proxy=http://my.proxy:3128   rpyc') }
+        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install   --proxy=http://my.proxy:3128  rpyc') }
       end
     end
 
@@ -81,7 +81,7 @@ describe 'python::pip', type: :define do
       context 'adds index to install command if index set' do
         let(:params) { { index: 'http://www.example.com/simple/' } }
 
-        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install --index-url=http://www.example.com/simple/    rpyc') }
+        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install  --index-url=http://www.example.com/simple/   rpyc') }
       end
     end
 
