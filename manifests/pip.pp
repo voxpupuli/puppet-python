@@ -173,7 +173,7 @@ define python::pip (
   }
 
   $pip_install     = "${pip_env} --log ${log}/pip.log install"
-  $pip_common_args = "${pypi_index} ${proxy_flag} ${install_args} ${install_editable} ${source}"
+  $pip_common_args = "${pypi_index} ${proxy_flag} ${install_editable} ${source}"
 
   # Explicit version out of VCS when PIP supported URL is provided
   if $source =~ /^'(git\+|hg\+|bzr\+|svn\+)(http|https|ssh|svn|sftp|ftp|lp|git)(:\/\/).+'$/ {
@@ -195,7 +195,7 @@ define python::pip (
 
       'present': {
         # Whatever version is available.
-        $command        = "${pip_install} ${pip_common_args}"
+        $command        = "${pip_install} ${install_args} ${pip_common_args}"
         $unless_command = "${pip_env} list | grep -i -e '${grep_regex}'"
       }
 
@@ -214,7 +214,7 @@ define python::pip (
         $grep_regex_pkgname_with_dashes = "^${pkgname_with_dashes}=="
         $installed_version              = join( ["${pip_env} freeze --all", " | grep -i -e ${grep_regex_pkgname_with_dashes} | cut -d= -f3", " | tr -d '[:space:]'",])
 
-        $command        = "${pip_install} --upgrade ${pip_common_args}"
+        $command        = "${pip_install} --upgrade ${install_args} ${pip_common_args}"
         $unless_command = "[ \$(${latest_version}) = \$(${installed_version}) ]"
       }
 
