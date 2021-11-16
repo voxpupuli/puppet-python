@@ -42,7 +42,10 @@ class python::params {
   }
 
   $gunicorn_package_name = $facts['os']['family'] ? {
-    'RedHat' => 'python-gunicorn',
+    'RedHat' => $facts['os']['release']['major'] ? {
+      '8' => 'python3-gunicorn',
+      default => 'python-gunicorn',
+    },
     default  => 'gunicorn',
   }
 }
