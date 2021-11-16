@@ -1,5 +1,4 @@
 require 'spec_helper'
-
 describe 'python' do
   on_supported_os.each do |os, facts|
     next if os == 'gentoo-3-x86_64'
@@ -240,6 +239,88 @@ describe 'python' do
                   it { is_expected.to contain_package('python-dev').with_name('python36-devel') }
                 end
               end
+
+              describe 'with manage_gunicorn' do
+                context 'true' do
+                  let(:params) { { manage_gunicorn: true } }
+
+                  it { is_expected.to contain_package('gunicorn').with_name('python-gunicorn') }
+                end
+                context 'empty args' do
+                  # let(:params) {{ :manage_gunicorn => '' }}
+                  it { is_expected.to contain_package('gunicorn').with_name('python-gunicorn') }
+                end
+                context 'false' do
+                  let(:params) { { manage_gunicorn: false } }
+
+                  it { is_expected.not_to contain_package('gunicorn') }
+                end
+              end
+
+              describe 'with python::provider' do
+                context 'scl' do
+                  describe 'with version' do
+                    context '3.6 SCL meta package' do
+                      let(:params) { { version: 'rh-python36' } }
+
+                      it { is_expected.to compile.with_all_deps }
+                    end
+                    context '3.6 SCL python package' do
+                      let(:params) { { version: 'rh-python36-python' } }
+
+                      it { is_expected.to compile.with_all_deps }
+                    end
+                  end
+                  describe 'with manage_scl' do
+                    context 'true' do
+                      let(:params) { { provider: 'scl', manage_scl: true } }
+
+                      it { is_expected.to contain_package('centos-release-scl') }
+                      it { is_expected.to contain_package('scl-utils') }
+                    end
+                    context 'false' do
+                      let(:params) { { provider: 'scl', manage_scl: false } }
+
+                      it { is_expected.not_to contain_package('centos-release-scl') }
+                      it { is_expected.not_to contain_package('scl-utils') }
+                    end
+                  end
+                end
+              end
+            end
+          when '8'
+            context 'on a Redhat 8 OS' do
+              it { is_expected.to contain_class('python::install') }
+              it { is_expected.to contain_package('pip').with_name('python3-pip') }
+
+              describe 'with python::version' do
+                context 'python36' do
+                  let(:params) { { version: 'python36' } }
+
+                  it { is_expected.to compile.with_all_deps }
+                  it { is_expected.to contain_package('pip').with_name('python36-pip') }
+                  it { is_expected.to contain_package('python').with_name('python36') }
+                  it { is_expected.to contain_package('python-dev').with_name('python36-devel') }
+                end
+              end
+
+              describe 'with manage_gunicorn' do
+                context 'true' do
+                  let(:params) { { manage_gunicorn: true } }
+
+                  it { is_expected.to contain_package('gunicorn').with_name('python3-gunicorn') }
+                end
+                context 'empty args' do
+                  # let(:params) {{ :manage_gunicorn => '' }}
+                  it { is_expected.to contain_package('gunicorn').with_name('python3-gunicorn') }
+                end
+                context 'false' do
+                  let(:params) { { manage_gunicorn: false } }
+
+                  it { is_expected.not_to contain_package('gunicorn').with_name('python3-gunicorn') }
+                end
+              end
+
               describe 'with python::provider' do
                 context 'scl' do
                   describe 'with version' do
