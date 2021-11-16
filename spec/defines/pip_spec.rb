@@ -94,6 +94,14 @@ describe 'python::pip', type: :define do
       end
     end
 
+    describe 'install_args as' do
+      context 'adds install_args to install command if install_args set' do
+        let(:params) { { install_args: '--pre' } }
+
+        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install --pre    rpyc') }
+      end
+    end
+
     describe 'install latest' do
       context 'does not use pip search in unless' do
         let(:params) { { ensure: 'latest' } }
