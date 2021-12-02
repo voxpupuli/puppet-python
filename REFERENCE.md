@@ -628,7 +628,7 @@ python::pip { 'cx_Oracle' :
   virtualenv    => '/var/www/project1',
   owner         => 'appuser',
   proxy         => 'http://proxy.domain.com:3128',
-  environment   => 'ORACLE_HOME=/usr/lib/oracle/11.2/client64',
+  environment   => ['ORACLE_HOME=/usr/lib/oracle/11.2/client64'],
   install_args  => '-e',
   timeout       => 1800,
 }
