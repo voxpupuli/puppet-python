@@ -60,7 +60,6 @@ describe 'python::pip defined resource' do
         virtualenv => '/opt/test-venv',
         require => Python::Pip['agent package install'],
       }
-
       PUPPET
 
       apply_manifest(pp, catch_failures: true)
@@ -70,5 +69,37 @@ describe 'python::pip defined resource' do
   describe command('/opt/test-venv/bin/pip list') do
     its(:exit_status) { is_expected.to eq 0 }
     its(:stdout) { is_expected.not_to match %r{agent.* 0\.1\.2} }
+  end
+
+  context 'fails to install package with wrong version' do
+    it 'throws an error' do
+      pp = <<-PUPPET
+      class { 'python':
+        version => '3',
+        dev     => 'present',
+      }
+
+      python::pyvenv { '/opt/test-venv':
+        ensure      => 'present',
+        systempkgs  => false,
+        mode        => '0755',
+        pip_version => '<= 20.3.4',
+      }
+
+      python::pip { 'agent package':
+        virtualenv => '/opt/test-venv',
+        pkgname    => 'agent',
+        ensure     => '0.1.33+2020-this_is_something-fun',
+      }
+      PUPPET
+
+      result = apply_manifest(pp, expect_failures: true)
+      expect(result.stderr).to contain(%r{returned 1 instead of one of})
+    end
+  end
+
+  describe command('/opt/test-venv/bin/pip show agent') do
+    its(:exit_status) { is_expected.to eq 1 }
+    its(:stderr) { is_expected.to match %r{WARNING: Package\(s\) not found: agent} }
   end
 end
