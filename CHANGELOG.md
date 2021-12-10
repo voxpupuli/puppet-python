@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v6.2.1](https://github.com/voxpupuli/puppet-python/tree/v6.2.1) (2021-12-10)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v6.2.0...v6.2.1)
+
+**Fixed bugs:**
+
+- Correct python::pip::environment parameter example [\#629](https://github.com/voxpupuli/puppet-python/pull/629) ([traylenator](https://github.com/traylenator))
+- gunicorn: RHEL8 has a different package name [\#628](https://github.com/voxpupuli/puppet-python/pull/628) ([yakatz](https://github.com/yakatz))
+- Remove duplicate arguments in the pip install command [\#627](https://github.com/voxpupuli/puppet-python/pull/627) ([zanyou](https://github.com/zanyou))
+
+**Closed issues:**
+
+- Package with provider pip3 tries installing every run. [\#626](https://github.com/voxpupuli/puppet-python/issues/626)
+
+**Merged pull requests:**
+
+- modulesync 5.1.0 & puppet-lint: fix params\_empty\_string\_assignment [\#631](https://github.com/voxpupuli/puppet-python/pull/631) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v6.2.0](https://github.com/voxpupuli/puppet-python/tree/v6.2.0) (2021-08-26)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v6.1.0...v6.2.0)
