@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Facter::Util::Fact do
@@ -6,14 +8,14 @@ describe Facter::Util::Fact do
   end
 
   let(:python2_version_output) do
-    <<-EOS
-Python 2.7.9
-EOS
+    <<~EOS
+      Python 2.7.9
+    EOS
   end
   let(:python3_version_output) do
-    <<-EOS
-Python 3.3.0
-EOS
+    <<~EOS
+      Python 3.3.0
+    EOS
   end
 
   describe 'python_release' do

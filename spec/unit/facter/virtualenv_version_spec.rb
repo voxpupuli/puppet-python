@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Facter::Util::Fact do
@@ -6,15 +8,15 @@ describe Facter::Util::Fact do
   end
 
   let(:virtualenv_old_version_output) do
-    <<-EOS
-12.0.7
-EOS
+    <<~EOS
+      12.0.7
+    EOS
   end
 
   let(:virtualenv_new_version_output) do
-    <<-EOS
-virtualenv 20.0.17 from /opt/python/lib/python3.5/site-packages/virtualenv/__init__.py
-EOS
+    <<~EOS
+      virtualenv 20.0.17 from /opt/python/lib/python3.5/site-packages/virtualenv/__init__.py
+    EOS
   end
 
   describe 'virtualenv_version old' do

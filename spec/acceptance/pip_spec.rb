@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper_acceptance'
 
 describe 'python::pip defined resource' do
@@ -28,6 +30,7 @@ describe 'python::pip defined resource' do
     end
   end
 
+  # rubocop:disable RSpec/RepeatedExampleGroupDescription
   describe command('/opt/test-venv/bin/pip list') do
     its(:exit_status) { is_expected.to eq 0 }
     its(:stdout) { is_expected.to match %r{agent.* 0\.1\.2} }
@@ -71,4 +74,5 @@ describe 'python::pip defined resource' do
     its(:exit_status) { is_expected.to eq 0 }
     its(:stdout) { is_expected.not_to match %r{agent.* 0\.1\.2} }
   end
+  # rubocop:enable RSpec/RepeatedExampleGroupDescription
 end
