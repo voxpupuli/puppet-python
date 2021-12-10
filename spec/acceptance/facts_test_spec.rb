@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper_acceptance'
 
 describe 'python class' do
@@ -6,13 +8,13 @@ describe 'python class' do
       class { 'python' :
         pip        => 'present',
       }
-      EOS
+    EOS
 
     fact_notices = <<-EOS
       notify{"pip_version: ${facts['pip_version']}":}
       notify{"system_python_version: ${facts['system_python_version']}":}
       notify{"python_version: ${facts['python_version']}":}
-      EOS
+    EOS
 
     # rubocop:disable RSpec/RepeatedExample
     it 'outputs python facts when not installed' do

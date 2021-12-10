@@ -1,3 +1,6 @@
 ---
 spec/spec_helper_acceptance.rb:
   unmanaged: false
+.puppet-lint.rc:
+  enabled_lint_checks:
+    - parameter_types

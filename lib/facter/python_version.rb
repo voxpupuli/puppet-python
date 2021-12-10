@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Make python versions available as facts
 
 def get_python_version(executable)

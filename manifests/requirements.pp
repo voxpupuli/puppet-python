@@ -36,7 +36,7 @@ define python::requirements (
   Array                                        $environment            = [],
   Boolean                                      $forceupdate            = false,
   Optional[Stdlib::Absolutepath]               $cwd                    = undef,
-  String                                       $extra_pip_args         = '',
+  Optional[String[1]]                          $extra_pip_args         = undef,
   Boolean                                      $manage_requirements    = true,
   Boolean                                      $fix_requirements_owner = true,
   Stdlib::Absolutepath                         $log_dir                = '/tmp',

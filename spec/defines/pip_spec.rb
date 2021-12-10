@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 # rubocop:disable RSpec/MultipleDescribes
+# rubocop:disable RSpec/RepeatedExampleGroupDescription
 describe 'python::pip', type: :define do
   let(:title) { 'rpyc' }
 
@@ -25,13 +28,15 @@ describe 'python::pip', type: :define do
       context 'fails with non qualified path' do
         let(:params) { { virtualenv: 'venv' } }
 
-        it { is_expected.to raise_error(%r{expects a match for Variant\[Enum\['system'\].*Stdlib::Windowspath = Pattern\[\/.*\/\], Stdlib::Unixpath = Pattern\[\/.*\/\]\]}) }
+        it { is_expected.to raise_error(%r{expects a match for Variant\[Enum\['system'\].*Stdlib::Windowspath = Pattern\[/.*/\], Stdlib::Unixpath = Pattern\[/.*/\]\]}) }
       end
+
       context 'suceeds with qualified path' do
         let(:params) { { virtualenv: '/opt/venv' } }
 
         it { is_expected.to contain_exec('pip_install_rpyc').with_cwd('/opt/venv') }
       end
+
       context 'defaults to system' do
         let(:params) { {} }
 
@@ -46,12 +51,14 @@ describe 'python::pip', type: :define do
         it { is_expected.to contain_exec('pip_install_rpyc').with_command(%r{pip}) }
         it { is_expected.not_to contain_exec('pip_install_rpyc').with_command(%r{pip3}) }
       end
+
       context 'use pip instead of pip3 when specified' do
         let(:params) { { pip_provider: 'pip' } }
 
         it { is_expected.to contain_exec('pip_install_rpyc').with_command(%r{pip}) }
         it { is_expected.not_to contain_exec('pip_install_rpyc').with_command(%r{pip3}) }
       end
+
       context 'use pip3 instead of pip when specified' do
         let(:params) { { pip_provider: 'pip3' } }
 
@@ -65,6 +72,7 @@ describe 'python::pip', type: :define do
 
         it { is_expected.not_to contain_exec('pip_install_rpyc').with_command(%r{--proxy}) }
       end
+
       context 'adds proxy to install command if proxy set' do
         let(:params) { { proxy: 'http://my.proxy:3128' } }
 
@@ -78,6 +86,7 @@ describe 'python::pip', type: :define do
 
         it { is_expected.not_to contain_exec('pip_install_rpyc').with_command(%r{--index-url}) }
       end
+
       context 'adds index to install command if index set' do
         let(:params) { { index: 'http://www.example.com/simple/' } }
 
@@ -108,6 +117,7 @@ describe 'python::pip', type: :define do
 
         it { is_expected.not_to contain_exec('pip_install_rpyc').with_unless(%r{search}) }
       end
+
       context 'checks installed version of a package by converting underscores in its name to dashes' do
         let(:params) { { ensure: 'latest', pkgname: 'wordpress_json' } }
 
@@ -137,6 +147,7 @@ describe 'python::pip', type: :define do
 end
 
 describe 'python::pip', type: :define do
+  # rubocop:enable RSpec/RepeatedExampleGroupDescription
   let(:title) { 'requests' }
 
   context 'on Debian OS' do
@@ -162,6 +173,7 @@ describe 'python::pip', type: :define do
 
         it { is_expected.to contain_exec('pip_install_requests').with_command('pip --log /tmp/pip.log install     requests') }
       end
+
       context 'succeeds with extras' do
         let(:params) { { extras: ['security'] } }
 

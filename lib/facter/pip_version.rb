@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Make pip version available as a fact
 
 def get_pip_version(executable)

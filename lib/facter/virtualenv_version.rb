@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Make virtualenv version available as a fact
 
 Facter.add('virtualenv_version') do
