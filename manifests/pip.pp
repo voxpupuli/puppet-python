@@ -62,8 +62,8 @@ define python::pip (
   Boolean                                           $editable       = false,
   Array                                             $environment    = [],
   Array                                             $extras         = [],
-  String                                            $install_args   = '',
-  String                                            $uninstall_args = '',
+  Optional[String[1]]                               $install_args   = undef,
+  Optional[String[1]]                               $uninstall_args = undef,
   Numeric                                           $timeout        = 1800,
   String[1]                                         $log_dir        = '/tmp',
   Array[String]                                     $path           = ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
@@ -127,11 +127,11 @@ define python::pip (
   }
 
   # TODO: Do more robust argument checking, but below is a start
-  if ($ensure == absent) and ($install_args != '') {
+  if ($ensure == absent) and $install_args {
     fail('python::pip cannot provide install_args with ensure => absent')
   }
 
-  if ($ensure == present) and ($uninstall_args != '') {
+  if ($ensure == present) and $uninstall_args {
     fail('python::pip cannot provide uninstall_args with ensure => present')
   }
 

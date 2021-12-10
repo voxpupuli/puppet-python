@@ -783,19 +783,19 @@ Default value: `1800`
 
 ##### <a name="install_args"></a>`install_args`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 Any additional installation arguments that will be supplied when running pip install.
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="uninstall_args"></a>`uninstall_args`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 Any additional arguments that will be supplied when running pip uninstall.
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="log_dir"></a>`log_dir`
 
@@ -1070,11 +1070,11 @@ Default value: ``undef``
 
 ##### <a name="extra_pip_args"></a>`extra_pip_args`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 Extra arguments to pass to pip after the requirements file
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="manage_requirements"></a>`manage_requirements`
 
