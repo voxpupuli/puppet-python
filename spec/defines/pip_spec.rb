@@ -68,7 +68,7 @@ describe 'python::pip', type: :define do
       context 'adds proxy to install command if proxy set' do
         let(:params) { { proxy: 'http://my.proxy:3128' } }
 
-        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install  --proxy=http://my.proxy:3128   rpyc') }
+        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install   --proxy=http://my.proxy:3128  rpyc') }
       end
     end
 
@@ -81,7 +81,7 @@ describe 'python::pip', type: :define do
       context 'adds index to install command if index set' do
         let(:params) { { index: 'http://www.example.com/simple/' } }
 
-        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install --index-url=http://www.example.com/simple/    rpyc') }
+        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install  --index-url=http://www.example.com/simple/   rpyc') }
       end
     end
 
@@ -91,6 +91,14 @@ describe 'python::pip', type: :define do
         let(:pre_condition) { 'class {"python": provider => "anaconda", anaconda_install_path => "/opt/python3"}' }
 
         it { is_expected.to contain_exec('pip_install_rpyc').with_path(['/opt/python3/bin', '/usr/local/bin', '/usr/bin', '/bin', '/usr/sbin']) }
+      end
+    end
+
+    describe 'install_args as' do
+      context 'adds install_args to install command if install_args set' do
+        let(:params) { { install_args: '--pre' } }
+
+        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install --pre    rpyc') }
       end
     end
 
