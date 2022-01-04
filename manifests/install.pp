@@ -36,10 +36,15 @@ class python::install {
   }
 
   if $python::manage_python_package {
-    package { 'python':
-      ensure => $python::ensure,
-      name   => $python,
-    }
+    ensure_package({
+      'python' => {
+        ensure => $python::ensure
+      }
+    })
+    # package { 'python':
+    #   ensure => $python::ensure,
+    #   name   => $python,
+    # }
   }
 
   case $python::provider {
