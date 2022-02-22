@@ -36,26 +36,26 @@ class python::install {
   }
 
   if $python::manage_python_package {
-    package { 'python':
+    ensure_packages (['python'],
       ensure => $python::ensure,
       name   => $python,
-    }
+    )
   }
 
   case $python::provider {
     'pip': {
       if $python::manage_pip_package {
-        package { 'pip':
+        ensure_packages (['pip'],
           ensure  => $pip_ensure,
           require => Package['python'],
-        }
+        )
       }
 
       if $pythondev {
-        package { 'python-dev':
+        ensure_packages (['python-dev'],
           ensure => $dev_ensure,
           name   => $pythondev,
-        }
+        )
       }
 
       # Respect the $pip_ensure setting
@@ -182,28 +182,28 @@ class python::install {
           }
 
           if $pythondev {
-            package { 'python-dev':
-              ensure   => $dev_ensure,
-              name     => $pythondev,
-              alias    => $pythondev,
+            ensure_packages (['python-dev'],
+              ensure => $dev_ensure,
+              name   => $pythondev,
+              alias  => $pythondev,
               provider => 'yum',
-            }
+            )
           }
         }
         default: {
           if $python::manage_pip_package {
-            package { 'pip':
+            ensure_packages (['pip'],
               ensure  => $pip_ensure,
               require => Package['python'],
-            }
+            )
           }
 
           if $pythondev {
-            package { 'python-dev':
+            ensure_packages (['python-dev'],
               ensure => $dev_ensure,
               name   => $pythondev,
               alias  => $pythondev,
-            }
+            )
           }
         }
       }
