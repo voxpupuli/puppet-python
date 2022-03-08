@@ -17,19 +17,39 @@ describe 'python' do
         it { is_expected.to contain_class('python::config') }
         it { is_expected.to contain_package('python') }
         it { is_expected.to contain_package('pip') }
+
+        it { is_expected.to contain_package('python-venv') } unless facts[:os]['name'] == 'CentOS'
       end
 
       context 'without managing things' do
         let :params do
           {
             manage_python_package: false,
-            manage_pip_package: false
+            manage_pip_package: false,
+            manage_venv_package: false
           }
         end
 
         it { is_expected.to compile.with_all_deps }
         it { is_expected.not_to contain_package('python') }
         it { is_expected.not_to contain_package('pip') }
+        it { is_expected.not_to contain_package('python-venv') }
+      end
+
+      context 'with packages present' do
+        let :params do
+          {
+            manage_pip_package: true,
+            manage_venv_package: true,
+            pip: 'present',
+            venv: 'present'
+          }
+        end
+
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.to contain_package('pip').with(ensure: 'present') }
+
+        it { is_expected.to contain_package('python-venv').with(ensure: 'present') } unless facts[:os]['name'] == 'CentOS'
       end
 
       case facts[:os]['family']
