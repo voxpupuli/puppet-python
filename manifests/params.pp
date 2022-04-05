@@ -12,7 +12,6 @@ class python::params {
   $ensure                      = 'present'
   $pip                         = 'present'
   $dev                         = 'absent'
-  $virtualenv                  = 'absent'
   $venv                        = 'absent'
   $gunicorn                    = 'absent'
   $manage_gunicorn             = true

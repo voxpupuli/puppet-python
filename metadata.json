@@ -2,16 +2,14 @@
   "name": "puppet-python",
   "version": "6.2.2-rc0",
   "author": "Vox Pupuli",
-  "summary": "Python Module",
+  "summary": "Puppet module for Python",
   "license": "Apache-2.0",
   "source": "https://github.com/voxpupuli/puppet-python.git",
   "project_page": "https://github.com/voxpupuli/puppet-python",
   "issues_url": "https://github.com/voxpupuli/puppet-python/issues",
-  "description": "Puppet module for Python",
   "tags": [
     "python",
     "pip",
-    "virtualenv",
     "gunicorn"
   ],
   "operatingsystem_support": [

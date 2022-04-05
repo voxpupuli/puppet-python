@@ -1,7 +1,6 @@
 class { 'python':
-  version    => 'system',
-  dev        => true,
-  virtualenv => true,
+  version => 'system',
+  dev     => true,
 }
 
 python::requirements { '/var/www/project1/requirements.txt':
