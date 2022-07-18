@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v6.3.0](https://github.com/voxpupuli/puppet-python/tree/v6.3.0) (2022-07-18)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v6.2.1...v6.3.0)
+
+**Implemented enhancements:**
+
+- allow puppet/epel v4 [\#634](https://github.com/voxpupuli/puppet-python/pull/634) ([vchepkov](https://github.com/vchepkov))
+- cleanup references to obsolete virtualenv parameter/command [\#633](https://github.com/voxpupuli/puppet-python/pull/633) ([vchepkov](https://github.com/vchepkov))
+
+**Fixed bugs:**
+
+- Add python-venv installation [\#579](https://github.com/voxpupuli/puppet-python/pull/579) ([crazymind1337](https://github.com/crazymind1337))
+
 ## [v6.2.1](https://github.com/voxpupuli/puppet-python/tree/v6.2.1) (2021-12-10)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v6.2.0...v6.2.1)
