@@ -9,6 +9,7 @@
 # @param owner The owner of the virtualenv being manipulated.
 # @param group The group of the virtualenv being manipulated.
 # @param index Base URL of Python package index.
+# @param extra_index Base URL of extra Python package index.
 # @param proxy Proxy server to use for outbound connections.
 # @param editable If true the package is installed as an editable resource.
 # @param environment Additional environment variables required to install the packages.
@@ -57,6 +58,7 @@ define python::pip (
   Optional[String[1]]                               $group          = getvar('python::params::group'),
   Optional[Python::Umask]                           $umask          = undef,
   Variant[Boolean,String[1]]                        $index          = false,
+  Variant[Boolean,String[1]]                        $extra_index    = false,
   Optional[Stdlib::HTTPUrl]                         $proxy          = undef,
   Any                                               $egg            = false,
   Boolean                                           $editable       = false,
@@ -112,6 +114,11 @@ define python::pip (
   $pypi_index = $index ? {
     false   => '',
     default => "--index-url=${index}",
+  }
+
+  $pypi_extra_index = $extra_index ? {
+    false   => '',
+    default => "--extra-index-url=${extra_index}",
   }
 
   $proxy_flag = $proxy ? {
@@ -173,7 +180,7 @@ define python::pip (
   }
 
   $pip_install     = "${pip_env} --log ${log}/pip.log install"
-  $pip_common_args = "${pypi_index} ${proxy_flag} ${install_editable} ${source}"
+  $pip_common_args = "${pypi_index} ${pypi_extra_index} ${proxy_flag} ${install_editable} ${source}"
 
   # Explicit version out of VCS when PIP supported URL is provided
   if $source =~ /^'(git\+|hg\+|bzr\+|svn\+)(http|https|ssh|svn|sftp|ftp|lp|git)(:\/\/).+'$/ {
@@ -204,7 +211,8 @@ define python::pip (
         # Note: we DO need to repeat ourselves with "from version" in both grep and sed as on some systems pip returns
         # more than one line with paretheses.
         $latest_version = join( [
-            "${pip_install} ${pypi_index} ${proxy_flag} ${install_args} ${install_editable} ${real_pkgname}==notreallyaversion 2>&1",
+            "${pip_install} ${pypi_index} ${pypi_extra_index} ${proxy_flag}",
+            " ${install_args} ${install_editable} ${real_pkgname}==notreallyaversion 2>&1",
             ' | grep -oP "\(from versions: .*\)" | sed -E "s/\(from versions: (.*?, )*(.*)\)/\2/g"',
             ' | tr -d "[:space:]"',
         ])

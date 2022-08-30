@@ -76,7 +76,7 @@ describe 'python::pip', type: :define do
       context 'adds proxy to install command if proxy set' do
         let(:params) { { proxy: 'http://my.proxy:3128' } }
 
-        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install   --proxy=http://my.proxy:3128  rpyc') }
+        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install    --proxy=http://my.proxy:3128  rpyc') }
       end
     end
 
@@ -90,7 +90,21 @@ describe 'python::pip', type: :define do
       context 'adds index to install command if index set' do
         let(:params) { { index: 'http://www.example.com/simple/' } }
 
-        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install  --index-url=http://www.example.com/simple/   rpyc') }
+        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install  --index-url=http://www.example.com/simple/    rpyc') }
+      end
+    end
+
+    describe 'extra_index as' do
+      context 'defaults to empty' do
+        let(:params) { {} }
+
+        it { is_expected.not_to contain_exec('pip_install_rpyc').with_command(%r{--extra-index-url}) }
+      end
+
+      context 'adds extra_index to install command if extra_index set' do
+        let(:params) { { extra_index: 'http://www.example.com/extra/simple/' } }
+
+        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install   --extra-index-url=http://www.example.com/extra/simple/   rpyc') }
       end
     end
 
@@ -107,7 +121,7 @@ describe 'python::pip', type: :define do
       context 'adds install_args to install command if install_args set' do
         let(:params) { { install_args: '--pre' } }
 
-        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install --pre    rpyc') }
+        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install --pre     rpyc') }
       end
     end
 
@@ -171,13 +185,13 @@ describe 'python::pip', type: :define do
       context 'suceeds with no extras' do
         let(:params) { {} }
 
-        it { is_expected.to contain_exec('pip_install_requests').with_command('pip --log /tmp/pip.log install     requests') }
+        it { is_expected.to contain_exec('pip_install_requests').with_command('pip --log /tmp/pip.log install      requests') }
       end
 
       context 'succeeds with extras' do
         let(:params) { { extras: ['security'] } }
 
-        it { is_expected.to contain_exec('pip_install_requests').with_command('pip --log /tmp/pip.log install     requests[security]') }
+        it { is_expected.to contain_exec('pip_install_requests').with_command('pip --log /tmp/pip.log install      requests[security]') }
       end
     end
   end

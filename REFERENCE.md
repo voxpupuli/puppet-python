@@ -685,6 +685,7 @@ The following parameters are available in the `python::pip` defined type:
 * [`owner`](#owner)
 * [`group`](#group)
 * [`index`](#index)
+* [`extra_index`](#extra_index)
 * [`proxy`](#proxy)
 * [`editable`](#editable)
 * [`environment`](#environment)
@@ -763,6 +764,14 @@ Default value: `getvar('python::params::group')`
 Data type: `Variant[Boolean,String[1]]`
 
 Base URL of Python package index.
+
+Default value: ``false``
+
+##### <a name="extra_index"></a>`extra_index`
+
+Data type: `Variant[Boolean,String[1]]`
+
+Base URL of extra Python package index.
 
 Default value: ``false``
 
