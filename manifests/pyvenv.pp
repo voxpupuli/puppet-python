@@ -10,6 +10,7 @@
 # @param mode  Optionally specify directory mode
 # @param path Specifies the PATH variable.
 # @param environment Optionally specify environment variables for pyvenv
+# @param prompt Optionally specify the virtualenv prompt (python >= 3.6)
 #
 # @example
 #   python::pyvenv { '/var/www/project1' :
@@ -31,6 +32,7 @@ define python::pyvenv (
   Stdlib::Filemode            $mode        = '0755',
   Array[Stdlib::Absolutepath] $path        = ['/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin',],
   Array                       $environment = [],
+  Optional[String[1]]         $prompt      = undef,
   Python::Venv::PipVersion    $pip_version = 'latest',
 ) {
   include python
@@ -62,6 +64,12 @@ define python::pyvenv (
       $system_pkgs_flag = ''
     }
 
+    if versioncmp($normalized_python_version, '3.6') >=0 and $prompt {
+      $prompt_arg = "--prompt ${shell_escape($prompt)}"
+    } else {
+      $prompt_arg = ''
+    }
+
     file { $venv_dir:
       ensure  => directory,
       owner   => $owner,
@@ -78,7 +86,7 @@ define python::pyvenv (
     }
 
     exec { "python_virtualenv_${venv_dir}":
-      command     => "${virtualenv_cmd} --clear ${system_pkgs_flag} ${venv_dir} && ${pip_cmd} --log ${venv_dir}/pip.log install ${pip_upgrade} && ${pip_cmd} --log ${venv_dir}/pip.log install --upgrade setuptools",
+      command     => "${virtualenv_cmd} --clear ${system_pkgs_flag} ${prompt_arg} ${venv_dir} && ${pip_cmd} --log ${venv_dir}/pip.log install ${pip_upgrade} && ${pip_cmd} --log ${venv_dir}/pip.log install --upgrade setuptools",
       user        => $owner,
       creates     => "${venv_dir}/bin/activate",
       path        => $_path,
