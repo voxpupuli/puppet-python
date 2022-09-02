@@ -903,6 +903,7 @@ The following parameters are available in the `python::pyvenv` defined type:
 * [`mode`](#mode)
 * [`path`](#path)
 * [`environment`](#environment)
+* [`prompt`](#prompt)
 * [`pip_version`](#pip_version)
 
 ##### <a name="ensure"></a>`ensure`
@@ -976,6 +977,14 @@ Data type: `Array`
 Optionally specify environment variables for pyvenv
 
 Default value: `[]`
+
+##### <a name="prompt"></a>`prompt`
+
+Data type: `Variant[Boolean,String[1]]`
+
+Optionally specify the virtualenv prompt (python >= 3.6)
+
+Default value: ``false``
 
 ##### <a name="pip_version"></a>`pip_version`
 
