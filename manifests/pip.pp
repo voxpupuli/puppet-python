@@ -207,11 +207,18 @@ define python::pip (
       }
 
       'latest': {
+        $pip_version = $facts['pip_version']
+        if $pip_version and versioncmp($pip_version, '21.1') == -1 and versioncmp($pip_version, '20.2.4') == 1 {
+          $legacy_resolver = '--use-deprecated=legacy-resolver'
+        } else {
+          $legacy_resolver = ''
+        }
+
         # Unfortunately this is the smartest way of getting the latest available package version with pip as of now
         # Note: we DO need to repeat ourselves with "from version" in both grep and sed as on some systems pip returns
         # more than one line with paretheses.
         $latest_version = join( [
-            "${pip_install} ${pypi_index} ${pypi_extra_index} ${proxy_flag}",
+            "${pip_install} ${legacy_resolver} ${pypi_index} ${pypi_extra_index} ${proxy_flag}",
             " ${install_args} ${install_editable} ${real_pkgname}==notreallyaversion 2>&1",
             ' | grep -oP "\(from versions: .*\)" | sed -E "s/\(from versions: (.*?, )*(.*)\)/\2/g"',
             ' | tr -d "[:space:]"',

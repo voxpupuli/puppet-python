@@ -20,7 +20,8 @@ describe 'python::pip', type: :define do
         operatingsystem: 'Debian',
         operatingsystemrelease: '6',
         path: '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
-        concat_basedir: '/dne'
+        concat_basedir: '/dne',
+        pip_version: '18.1'
       }
     end
 
@@ -126,6 +127,12 @@ describe 'python::pip', type: :define do
     end
 
     describe 'install latest' do
+      context 'does not use legacy resolver in unless' do
+        let(:params) { { ensure: 'latest' } }
+
+        it { is_expected.not_to contain_exec('pip_install_rpyc').with_unless(%r{--use-deprecated=legacy-resolver}) }
+      end
+
       context 'does not use pip search in unless' do
         let(:params) { { ensure: 'latest' } }
 
@@ -155,6 +162,35 @@ describe 'python::pip', type: :define do
         it { is_expected.not_to contain_exec('pip_install_rpyc') }
 
         it { is_expected.to contain_exec('pip_uninstall_rpyc').with_command(%r{uninstall.*r-pyc$}) }
+      end
+    end
+  end
+
+  context 'on Debian OS with pip_version 20.3.4' do
+    let :facts do
+      {
+        id: 'root',
+        kernel: 'Linux',
+        lsbdistcodename: 'buster',
+        os: {
+          family: 'Debian',
+          release: { major: '10' },
+        },
+        osfamily: 'Debian',
+        operatingsystem: 'Debian',
+        operatingsystemrelease: '10.12',
+        path: '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+        concat_basedir: '/dne',
+        pip_version: '20.3.4'
+      }
+    end
+
+    describe 'install latest' do
+      context 'with legacy resolver in unless cmd' do
+        let(:params) { { ensure: 'latest' } }
+
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.to contain_exec('pip_install_rpyc').with_unless(%r{--use-deprecated=legacy-resolver}) }
       end
     end
   end
