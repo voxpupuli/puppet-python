@@ -16,9 +16,18 @@ describe 'python' do
         it { is_expected.to contain_class('python::params') }
         it { is_expected.to contain_class('python::config') }
         it { is_expected.to contain_package('python') }
-        it { is_expected.to contain_package('pip') }
 
-        it { is_expected.to contain_package('python-venv') } unless facts[:os]['name'] == 'CentOS'
+        if facts[:os]['family'] == 'Archlinux'
+          it { is_expected.not_to contain_package('pip') }
+        else
+          it { is_expected.to contain_package('pip') }
+        end
+
+        if %w[Archlinux CentOS].include?(facts[:os]['name'])
+          it { is_expected.not_to contain_package('python-venv') }
+        else
+          it { is_expected.to contain_package('python-venv') }
+        end
       end
 
       context 'without managing things' do
