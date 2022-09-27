@@ -24,10 +24,7 @@ class python::install {
   }
 
   if $python::manage_python_package {
-    package { 'python':
-      ensure => $python::ensure,
-      name   => $python,
-    }
+    ensure_packages('python')
   }
 
   if $python::manage_venv_package {
