@@ -217,7 +217,7 @@ define python::pip (
         # Unfortunately this is the smartest way of getting the latest available package version with pip as of now
         # Note: we DO need to repeat ourselves with "from version" in both grep and sed as on some systems pip returns
         # more than one line with paretheses.
-        $latest_version = join( [
+        $latest_version = join([
             "${pip_install} ${legacy_resolver} ${pypi_index} ${pypi_extra_index} ${proxy_flag}",
             " ${install_args} ${install_editable} ${real_pkgname}==notreallyaversion 2>&1",
             ' | grep -oP "\(from versions: .*\)" | sed -E "s/\(from versions: (.*?, )*(.*)\)/\2/g"',
@@ -227,7 +227,7 @@ define python::pip (
         # Packages with underscores in their names are listed with dashes in their place in `pip freeze` output
         $pkgname_with_dashes            = regsubst($real_pkgname, '_', '-', 'G')
         $grep_regex_pkgname_with_dashes = "^${pkgname_with_dashes}=="
-        $installed_version              = join( ["${pip_env} freeze --all", " | grep -i -e ${grep_regex_pkgname_with_dashes} | cut -d= -f3", " | tr -d '[:space:]'",])
+        $installed_version              = join(["${pip_env} freeze --all", " | grep -i -e ${grep_regex_pkgname_with_dashes} | cut -d= -f3", " | tr -d '[:space:]'",])
 
         $command        = "${pip_install} --upgrade ${install_args} ${pip_common_args}"
         $unless_command = "[ \$(${latest_version}) = \$(${installed_version}) ]"
