@@ -9,7 +9,7 @@
 #### Public Classes
 
 * [`python`](#python): Installs and manages python, python-dev and gunicorn.
-* [`python::pip::bootstrap`](#pythonpipbootstrap): allow to bootstrap pip when python is managed from other module
+* [`python::pip::bootstrap`](#python--pip--bootstrap): allow to bootstrap pip when python is managed from other module
 
 #### Private Classes
 
@@ -19,20 +19,20 @@
 
 ### Defined types
 
-* [`python::dotfile`](#pythondotfile): Manages any python dotfiles with a simple config hash.
-* [`python::gunicorn`](#pythongunicorn): Manages Gunicorn virtual hosts.
-* [`python::pip`](#pythonpip): Installs and manages packages from pip.
-* [`python::pyvenv`](#pythonpyvenv): Create a Python3 virtualenv using pyvenv.
-* [`python::requirements`](#pythonrequirements): Installs and manages Python packages from requirements file.
+* [`python::dotfile`](#python--dotfile): Manages any python dotfiles with a simple config hash.
+* [`python::gunicorn`](#python--gunicorn): Manages Gunicorn virtual hosts.
+* [`python::pip`](#python--pip): Installs and manages packages from pip.
+* [`python::pyvenv`](#python--pyvenv): Create a Python3 virtualenv using pyvenv.
+* [`python::requirements`](#python--requirements): Installs and manages Python packages from requirements file.
 
 ### Data types
 
-* [`Python::Loglevel`](#pythonloglevel): Match all valid loglevels for python
-* [`Python::Package::Ensure`](#pythonpackageensure): Match all valid package ensures for python
-* [`Python::Provider`](#pythonprovider): Match all valid provider for python
-* [`Python::Umask`](#pythonumask): Match valid umask for python
-* [`Python::Venv::PipVersion`](#pythonvenvpipversion): A version type to ensure a specific Pip version in a virtual env.
-* [`Python::Version`](#pythonversion): Match all valid versions for python
+* [`Python::Loglevel`](#Python--Loglevel): Match all valid loglevels for python
+* [`Python::Package::Ensure`](#Python--Package--Ensure): Match all valid package ensures for python
+* [`Python::Provider`](#Python--Provider): Match all valid provider for python
+* [`Python::Umask`](#Python--Umask): Match valid umask for python
+* [`Python::Venv::PipVersion`](#Python--Venv--PipVersion): A version type to ensure a specific Pip version in a virtual env.
+* [`Python::Version`](#Python--Version): Match all valid versions for python
 
 ## Classes
 
@@ -67,39 +67,39 @@ class { 'python' :
 
 The following parameters are available in the `python` class:
 
-* [`ensure`](#ensure)
-* [`version`](#version)
-* [`pip`](#pip)
-* [`dev`](#dev)
-* [`gunicorn`](#gunicorn)
-* [`manage_gunicorn`](#manage_gunicorn)
-* [`provider`](#provider)
-* [`use_epel`](#use_epel)
-* [`manage_scl`](#manage_scl)
-* [`umask`](#umask)
-* [`manage_gunicorn`](#manage_gunicorn)
-* [`manage_python_package`](#manage_python_package)
-* [`manage_venv_package`](#manage_venv_package)
-* [`manage_pip_package`](#manage_pip_package)
-* [`venv`](#venv)
-* [`gunicorn_package_name`](#gunicorn_package_name)
-* [`python_pips`](#python_pips)
-* [`python_pyvenvs`](#python_pyvenvs)
-* [`python_requirements`](#python_requirements)
-* [`python_dotfiles`](#python_dotfiles)
-* [`rhscl_use_public_repository`](#rhscl_use_public_repository)
-* [`anaconda_installer_url`](#anaconda_installer_url)
-* [`anaconda_install_path`](#anaconda_install_path)
+* [`ensure`](#-python--ensure)
+* [`version`](#-python--version)
+* [`pip`](#-python--pip)
+* [`dev`](#-python--dev)
+* [`gunicorn`](#-python--gunicorn)
+* [`manage_gunicorn`](#-python--manage_gunicorn)
+* [`provider`](#-python--provider)
+* [`use_epel`](#-python--use_epel)
+* [`manage_scl`](#-python--manage_scl)
+* [`umask`](#-python--umask)
+* [`manage_gunicorn`](#-python--manage_gunicorn)
+* [`manage_python_package`](#-python--manage_python_package)
+* [`manage_venv_package`](#-python--manage_venv_package)
+* [`manage_pip_package`](#-python--manage_pip_package)
+* [`venv`](#-python--venv)
+* [`gunicorn_package_name`](#-python--gunicorn_package_name)
+* [`python_pips`](#-python--python_pips)
+* [`python_pyvenvs`](#-python--python_pyvenvs)
+* [`python_requirements`](#-python--python_requirements)
+* [`python_dotfiles`](#-python--python_dotfiles)
+* [`rhscl_use_public_repository`](#-python--rhscl_use_public_repository)
+* [`anaconda_installer_url`](#-python--anaconda_installer_url)
+* [`anaconda_install_path`](#-python--anaconda_install_path)
 
-##### <a name="ensure"></a>`ensure`
+##### <a name="-python--ensure"></a>`ensure`
 
 Data type: `Python::Package::Ensure`
 
 Desired installation state for the Python package.
 
-Default value: `$python::params::ensure`
+Default value: `'present'`
 
-##### <a name="version"></a>`version`
+##### <a name="-python--version"></a>`version`
 
 Data type: `Python::Version`
 
@@ -112,49 +112,49 @@ Allowed values:
     - 3/3.3/... means you are going to install the python3/python3.3/...
       package, if available on your osfamily.
 
-Default value: `'3'`
+Default value: `$facts['os']['family'] ? { 'Archlinux' => 'system', default => '3'`
 
-##### <a name="pip"></a>`pip`
+##### <a name="-python--pip"></a>`pip`
 
 Data type: `Python::Package::Ensure`
 
 Desired installation state for the python-pip package.
 
-Default value: `$python::params::pip`
+Default value: `'present'`
 
-##### <a name="dev"></a>`dev`
+##### <a name="-python--dev"></a>`dev`
 
 Data type: `Python::Package::Ensure`
 
 Desired installation state for the python-dev package.
 
-Default value: `$python::params::dev`
+Default value: `'absent'`
 
-##### <a name="gunicorn"></a>`gunicorn`
+##### <a name="-python--gunicorn"></a>`gunicorn`
 
 Data type: `Python::Package::Ensure`
 
 Desired installation state for Gunicorn.
 
-Default value: `$python::params::gunicorn`
+Default value: `'absent'`
 
-##### <a name="manage_gunicorn"></a>`manage_gunicorn`
+##### <a name="-python--manage_gunicorn"></a>`manage_gunicorn`
 
 Data type: `Boolean`
 
 Allow Installation / Removal of Gunicorn.
 
-Default value: `$python::params::manage_gunicorn`
+Default value: `true`
 
-##### <a name="provider"></a>`provider`
+##### <a name="-python--provider"></a>`provider`
 
 Data type: `Optional[Python::Provider]`
 
 What provider to use for installation of the packages, except gunicorn and Python itself.
 
-Default value: `$python::params::provider`
+Default value: `undef`
 
-##### <a name="use_epel"></a>`use_epel`
+##### <a name="-python--use_epel"></a>`use_epel`
 
 Data type: `Boolean`
 
@@ -162,37 +162,37 @@ to determine if the epel class is used.
 
 Default value: `$python::params::use_epel`
 
-##### <a name="manage_scl"></a>`manage_scl`
+##### <a name="-python--manage_scl"></a>`manage_scl`
 
 Data type: `Boolean`
 
 Whether to manage core SCL packages or not.
 
-Default value: `$python::params::manage_scl`
+Default value: `true`
 
-##### <a name="umask"></a>`umask`
+##### <a name="-python--umask"></a>`umask`
 
 Data type: `Optional[Python::Umask]`
 
 The default umask for invoked exec calls.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="manage_gunicorn"></a>`manage_gunicorn`
+##### <a name="-python--manage_gunicorn"></a>`manage_gunicorn`
 
 manage the state for package gunicorn
 
-Default value: `$python::params::manage_gunicorn`
+Default value: `true`
 
-##### <a name="manage_python_package"></a>`manage_python_package`
+##### <a name="-python--manage_python_package"></a>`manage_python_package`
 
 Data type: `Boolean`
 
 manage the state for package python
 
-Default value: `$python::params::manage_python_package`
+Default value: `true`
 
-##### <a name="manage_venv_package"></a>`manage_venv_package`
+##### <a name="-python--manage_venv_package"></a>`manage_venv_package`
 
 Data type: `Boolean`
 
@@ -200,7 +200,7 @@ manage the state for package venv
 
 Default value: `$python::params::manage_venv_package`
 
-##### <a name="manage_pip_package"></a>`manage_pip_package`
+##### <a name="-python--manage_pip_package"></a>`manage_pip_package`
 
 Data type: `Boolean`
 
@@ -208,15 +208,15 @@ manage the state for package pip
 
 Default value: `$python::params::manage_pip_package`
 
-##### <a name="venv"></a>`venv`
+##### <a name="-python--venv"></a>`venv`
 
 Data type: `Python::Package::Ensure`
 
 
 
-Default value: `$python::params::venv`
+Default value: `'absent'`
 
-##### <a name="gunicorn_package_name"></a>`gunicorn_package_name`
+##### <a name="-python--gunicorn_package_name"></a>`gunicorn_package_name`
 
 Data type: `String[1]`
 
@@ -224,7 +224,7 @@ Data type: `String[1]`
 
 Default value: `$python::params::gunicorn_package_name`
 
-##### <a name="python_pips"></a>`python_pips`
+##### <a name="-python--python_pips"></a>`python_pips`
 
 Data type: `Hash`
 
@@ -232,7 +232,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-##### <a name="python_pyvenvs"></a>`python_pyvenvs`
+##### <a name="-python--python_pyvenvs"></a>`python_pyvenvs`
 
 Data type: `Hash`
 
@@ -240,7 +240,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-##### <a name="python_requirements"></a>`python_requirements`
+##### <a name="-python--python_requirements"></a>`python_requirements`
 
 Data type: `Hash`
 
@@ -248,7 +248,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-##### <a name="python_dotfiles"></a>`python_dotfiles`
+##### <a name="-python--python_dotfiles"></a>`python_dotfiles`
 
 Data type: `Hash`
 
@@ -256,31 +256,31 @@ Data type: `Hash`
 
 Default value: `{}`
 
-##### <a name="rhscl_use_public_repository"></a>`rhscl_use_public_repository`
+##### <a name="-python--rhscl_use_public_repository"></a>`rhscl_use_public_repository`
 
 Data type: `Boolean`
 
 
 
-Default value: `$python::params::rhscl_use_public_repository`
+Default value: `true`
 
-##### <a name="anaconda_installer_url"></a>`anaconda_installer_url`
+##### <a name="-python--anaconda_installer_url"></a>`anaconda_installer_url`
 
 Data type: `Stdlib::Httpurl`
 
 
 
-Default value: `$python::params::anaconda_installer_url`
+Default value: `'https://repo.anaconda.com/archive/Anaconda3-5.2.0-Linux-x86_64.sh'`
 
-##### <a name="anaconda_install_path"></a>`anaconda_install_path`
+##### <a name="-python--anaconda_install_path"></a>`anaconda_install_path`
 
 Data type: `Stdlib::Absolutepath`
 
 
 
-Default value: `$python::params::anaconda_install_path`
+Default value: `'/opt/python'`
 
-### <a name="pythonpipbootstrap"></a>`python::pip::bootstrap`
+### <a name="python--pip--bootstrap"></a>`python::pip::bootstrap`
 
 allow to bootstrap pip when python is managed from other module
 
@@ -298,12 +298,12 @@ class { 'python::pip::bootstrap':
 
 The following parameters are available in the `python::pip::bootstrap` class:
 
-* [`version`](#version)
-* [`manage_python`](#manage_python)
-* [`http_proxy`](#http_proxy)
-* [`exec_provider`](#exec_provider)
+* [`version`](#-python--pip--bootstrap--version)
+* [`manage_python`](#-python--pip--bootstrap--manage_python)
+* [`http_proxy`](#-python--pip--bootstrap--http_proxy)
+* [`exec_provider`](#-python--pip--bootstrap--exec_provider)
 
-##### <a name="version"></a>`version`
+##### <a name="-python--pip--bootstrap--version"></a>`version`
 
 Data type: `Enum['pip', 'pip3']`
 
@@ -311,23 +311,23 @@ should be pip or pip3
 
 Default value: `'pip'`
 
-##### <a name="manage_python"></a>`manage_python`
+##### <a name="-python--pip--bootstrap--manage_python"></a>`manage_python`
 
 Data type: `Variant[Boolean, String]`
 
 if python module will manage deps
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="http_proxy"></a>`http_proxy`
+##### <a name="-python--pip--bootstrap--http_proxy"></a>`http_proxy`
 
 Data type: `Optional[Stdlib::HTTPUrl]`
 
 Proxy server to use for outbound connections.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="exec_provider"></a>`exec_provider`
+##### <a name="-python--pip--bootstrap--exec_provider"></a>`exec_provider`
 
 Data type: `String[1]`
 
@@ -337,7 +337,7 @@ Default value: `'shell'`
 
 ## Defined types
 
-### <a name="pythondotfile"></a>`python::dotfile`
+### <a name="python--dotfile"></a>`python::dotfile`
 
 Manages any python dotfiles with a simple config hash.
 
@@ -363,14 +363,14 @@ python::dotfile { '/var/lib/jenkins/.pip/pip.conf':
 
 The following parameters are available in the `python::dotfile` defined type:
 
-* [`ensure`](#ensure)
-* [`filename`](#filename)
-* [`mode`](#mode)
-* [`owner`](#owner)
-* [`group`](#group)
-* [`config`](#config)
+* [`ensure`](#-python--dotfile--ensure)
+* [`filename`](#-python--dotfile--filename)
+* [`mode`](#-python--dotfile--mode)
+* [`owner`](#-python--dotfile--owner)
+* [`group`](#-python--dotfile--group)
+* [`config`](#-python--dotfile--config)
 
-##### <a name="ensure"></a>`ensure`
+##### <a name="-python--dotfile--ensure"></a>`ensure`
 
 Data type: `Enum['absent', 'present']`
 
@@ -378,7 +378,7 @@ Data type: `Enum['absent', 'present']`
 
 Default value: `'present'`
 
-##### <a name="filename"></a>`filename`
+##### <a name="-python--dotfile--filename"></a>`filename`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -386,7 +386,7 @@ Filename.
 
 Default value: `$title`
 
-##### <a name="mode"></a>`mode`
+##### <a name="-python--dotfile--mode"></a>`mode`
 
 Data type: `Stdlib::Filemode`
 
@@ -394,7 +394,7 @@ File mode.
 
 Default value: `'0644'`
 
-##### <a name="owner"></a>`owner`
+##### <a name="-python--dotfile--owner"></a>`owner`
 
 Data type: `String[1]`
 
@@ -402,7 +402,7 @@ user owner of dotfile
 
 Default value: `'root'`
 
-##### <a name="group"></a>`group`
+##### <a name="-python--dotfile--group"></a>`group`
 
 Data type: `String[1]`
 
@@ -410,7 +410,7 @@ group owner of dotfile
 
 Default value: `'root'`
 
-##### <a name="config"></a>`config`
+##### <a name="-python--dotfile--config"></a>`config`
 
 Data type: `Hash`
 
@@ -418,7 +418,7 @@ Config hash. This will be expanded to an ini-file.
 
 Default value: `{}`
 
-### <a name="pythongunicorn"></a>`python::gunicorn`
+### <a name="python--gunicorn"></a>`python::gunicorn`
 
 Manages Gunicorn virtual hosts.
 
@@ -447,28 +447,28 @@ python::gunicorn { 'vhost':
 
 The following parameters are available in the `python::gunicorn` defined type:
 
-* [`ensure`](#ensure)
-* [`config_dir`](#config_dir)
-* [`manage_config_dir`](#manage_config_dir)
-* [`virtualenv`](#virtualenv)
-* [`mode`](#mode)
-* [`dir`](#dir)
-* [`bind`](#bind)
-* [`environment`](#environment)
-* [`appmodule`](#appmodule)
-* [`osenv`](#osenv)
-* [`timeout`](#timeout)
-* [`template`](#template)
-* [`args`](#args)
-* [`owner`](#owner)
-* [`group`](#group)
-* [`workers`](#workers)
-* [`access_log_format`](#access_log_format)
-* [`accesslog`](#accesslog)
-* [`errorlog`](#errorlog)
-* [`log_level`](#log_level)
+* [`ensure`](#-python--gunicorn--ensure)
+* [`config_dir`](#-python--gunicorn--config_dir)
+* [`manage_config_dir`](#-python--gunicorn--manage_config_dir)
+* [`virtualenv`](#-python--gunicorn--virtualenv)
+* [`mode`](#-python--gunicorn--mode)
+* [`dir`](#-python--gunicorn--dir)
+* [`bind`](#-python--gunicorn--bind)
+* [`environment`](#-python--gunicorn--environment)
+* [`appmodule`](#-python--gunicorn--appmodule)
+* [`osenv`](#-python--gunicorn--osenv)
+* [`timeout`](#-python--gunicorn--timeout)
+* [`template`](#-python--gunicorn--template)
+* [`args`](#-python--gunicorn--args)
+* [`owner`](#-python--gunicorn--owner)
+* [`group`](#-python--gunicorn--group)
+* [`workers`](#-python--gunicorn--workers)
+* [`access_log_format`](#-python--gunicorn--access_log_format)
+* [`accesslog`](#-python--gunicorn--accesslog)
+* [`errorlog`](#-python--gunicorn--errorlog)
+* [`log_level`](#-python--gunicorn--log_level)
 
-##### <a name="ensure"></a>`ensure`
+##### <a name="-python--gunicorn--ensure"></a>`ensure`
 
 Data type: `Enum['present', 'absent']`
 
@@ -476,7 +476,7 @@ Data type: `Enum['present', 'absent']`
 
 Default value: `present`
 
-##### <a name="config_dir"></a>`config_dir`
+##### <a name="-python--gunicorn--config_dir"></a>`config_dir`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -484,23 +484,23 @@ Configure the gunicorn config directory path.
 
 Default value: `'/etc/gunicorn.d'`
 
-##### <a name="manage_config_dir"></a>`manage_config_dir`
+##### <a name="-python--gunicorn--manage_config_dir"></a>`manage_config_dir`
 
 Data type: `Boolean`
 
 Set if the gunicorn config directory should be created.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="virtualenv"></a>`virtualenv`
+##### <a name="-python--gunicorn--virtualenv"></a>`virtualenv`
 
 Data type: `Variant[Boolean,Stdlib::Absolutepath]`
 
 Run in virtualenv, specify directory.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="mode"></a>`mode`
+##### <a name="-python--gunicorn--mode"></a>`mode`
 
 Data type: `Enum['wsgi', 'django']`
 
@@ -508,13 +508,13 @@ Gunicorn mode.
 
 Default value: `'wsgi'`
 
-##### <a name="dir"></a>`dir`
+##### <a name="-python--gunicorn--dir"></a>`dir`
 
 Data type: `Stdlib::Absolutepath`
 
 Application directory.
 
-##### <a name="bind"></a>`bind`
+##### <a name="-python--gunicorn--bind"></a>`bind`
 
 Data type: `Variant[String[1],Boolean]`
 
@@ -522,17 +522,17 @@ Bind on: 'HOST', 'HOST:PORT', 'unix:PATH'.
 Default: system-wide: unix:/tmp/gunicorn-$name.socket
          virtualenv:  unix:${virtualenv}/${name}.socket
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="environment"></a>`environment`
+##### <a name="-python--gunicorn--environment"></a>`environment`
 
 Data type: `Variant[String[1],Boolean]`
 
 Set ENVIRONMENT variable.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="appmodule"></a>`appmodule`
+##### <a name="-python--gunicorn--appmodule"></a>`appmodule`
 
 Data type: `String[1]`
 
@@ -540,15 +540,15 @@ Set the application module name for gunicorn to load when not using Django.
 
 Default value: `'app:app'`
 
-##### <a name="osenv"></a>`osenv`
+##### <a name="-python--gunicorn--osenv"></a>`osenv`
 
 Data type: `Variant[Boolean,Hash]`
 
 Allows setting environment variables for the gunicorn service. Accepts a hash of 'key': 'value' pairs.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="timeout"></a>`timeout`
+##### <a name="-python--gunicorn--timeout"></a>`timeout`
 
 Data type: `Integer`
 
@@ -556,7 +556,7 @@ Allows setting the gunicorn idle worker process time before being killed. The un
 
 Default value: `30`
 
-##### <a name="template"></a>`template`
+##### <a name="-python--gunicorn--template"></a>`template`
 
 Data type: `String[1]`
 
@@ -564,7 +564,7 @@ Which ERB template to use.
 
 Default value: `'python/gunicorn.erb'`
 
-##### <a name="args"></a>`args`
+##### <a name="-python--gunicorn--args"></a>`args`
 
 Data type: `Array`
 
@@ -572,7 +572,7 @@ Custom arguments to add in gunicorn config file.
 
 Default value: `[]`
 
-##### <a name="owner"></a>`owner`
+##### <a name="-python--gunicorn--owner"></a>`owner`
 
 Data type: `String[1]`
 
@@ -580,7 +580,7 @@ Data type: `String[1]`
 
 Default value: `'www-data'`
 
-##### <a name="group"></a>`group`
+##### <a name="-python--gunicorn--group"></a>`group`
 
 Data type: `String[1]`
 
@@ -588,39 +588,39 @@ Data type: `String[1]`
 
 Default value: `'www-data'`
 
-##### <a name="workers"></a>`workers`
+##### <a name="-python--gunicorn--workers"></a>`workers`
 
 Data type: `Variant[Boolean,Integer]`
 
 
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="access_log_format"></a>`access_log_format`
+##### <a name="-python--gunicorn--access_log_format"></a>`access_log_format`
 
 Data type: `Variant[Boolean,String[1]]`
 
 
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="accesslog"></a>`accesslog`
-
-Data type: `Variant[Boolean,Stdlib::Absolutepath]`
-
-
-
-Default value: ``false``
-
-##### <a name="errorlog"></a>`errorlog`
+##### <a name="-python--gunicorn--accesslog"></a>`accesslog`
 
 Data type: `Variant[Boolean,Stdlib::Absolutepath]`
 
 
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="log_level"></a>`log_level`
+##### <a name="-python--gunicorn--errorlog"></a>`errorlog`
+
+Data type: `Variant[Boolean,Stdlib::Absolutepath]`
+
+
+
+Default value: `false`
+
+##### <a name="-python--gunicorn--log_level"></a>`log_level`
 
 Data type: `Python::Loglevel`
 
@@ -628,7 +628,7 @@ Data type: `Python::Loglevel`
 
 Default value: `'error'`
 
-### <a name="pythonpip"></a>`python::pip`
+### <a name="python--pip"></a>`python::pip`
 
 Installs and manages packages from pip.
 
@@ -676,34 +676,34 @@ python::pip { 'requests' :
 
 The following parameters are available in the `python::pip` defined type:
 
-* [`name`](#name)
-* [`pkgname`](#pkgname)
-* [`ensure`](#ensure)
-* [`virtualenv`](#virtualenv)
-* [`pip_provider`](#pip_provider)
-* [`url`](#url)
-* [`owner`](#owner)
-* [`group`](#group)
-* [`index`](#index)
-* [`extra_index`](#extra_index)
-* [`proxy`](#proxy)
-* [`editable`](#editable)
-* [`environment`](#environment)
-* [`extras`](#extras)
-* [`timeout`](#timeout)
-* [`install_args`](#install_args)
-* [`uninstall_args`](#uninstall_args)
-* [`log_dir`](#log_dir)
-* [`egg`](#egg)
-* [`umask`](#umask)
-* [`path`](#path)
-* [`exec_provider`](#exec_provider)
+* [`name`](#-python--pip--name)
+* [`pkgname`](#-python--pip--pkgname)
+* [`ensure`](#-python--pip--ensure)
+* [`virtualenv`](#-python--pip--virtualenv)
+* [`pip_provider`](#-python--pip--pip_provider)
+* [`url`](#-python--pip--url)
+* [`owner`](#-python--pip--owner)
+* [`group`](#-python--pip--group)
+* [`index`](#-python--pip--index)
+* [`extra_index`](#-python--pip--extra_index)
+* [`proxy`](#-python--pip--proxy)
+* [`editable`](#-python--pip--editable)
+* [`environment`](#-python--pip--environment)
+* [`extras`](#-python--pip--extras)
+* [`timeout`](#-python--pip--timeout)
+* [`install_args`](#-python--pip--install_args)
+* [`uninstall_args`](#-python--pip--uninstall_args)
+* [`log_dir`](#-python--pip--log_dir)
+* [`egg`](#-python--pip--egg)
+* [`umask`](#-python--pip--umask)
+* [`path`](#-python--pip--path)
+* [`exec_provider`](#-python--pip--exec_provider)
 
-##### <a name="name"></a>`name`
+##### <a name="-python--pip--name"></a>`name`
 
 must be unique
 
-##### <a name="pkgname"></a>`pkgname`
+##### <a name="-python--pip--pkgname"></a>`pkgname`
 
 Data type: `String[1]`
 
@@ -711,7 +711,7 @@ the name of the package.
 
 Default value: `$name`
 
-##### <a name="ensure"></a>`ensure`
+##### <a name="-python--pip--ensure"></a>`ensure`
 
 Data type: `Variant[Enum[present, absent, latest], String[1]]`
 
@@ -719,7 +719,7 @@ Require pip to be available.
 
 Default value: `present`
 
-##### <a name="virtualenv"></a>`virtualenv`
+##### <a name="-python--pip--virtualenv"></a>`virtualenv`
 
 Data type: `Variant[Enum['system'], Stdlib::Absolutepath]`
 
@@ -727,7 +727,7 @@ virtualenv to run pip in.
 
 Default value: `'system'`
 
-##### <a name="pip_provider"></a>`pip_provider`
+##### <a name="-python--pip--pip_provider"></a>`pip_provider`
 
 Data type: `String[1]`
 
@@ -735,15 +735,15 @@ version of pip you wish to use.
 
 Default value: `'pip'`
 
-##### <a name="url"></a>`url`
+##### <a name="-python--pip--url"></a>`url`
 
 Data type: `Variant[Boolean, String]`
 
 URL to install from.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="owner"></a>`owner`
+##### <a name="-python--pip--owner"></a>`owner`
 
 Data type: `String[1]`
 
@@ -751,7 +751,7 @@ The owner of the virtualenv being manipulated.
 
 Default value: `'root'`
 
-##### <a name="group"></a>`group`
+##### <a name="-python--pip--group"></a>`group`
 
 Data type: `Optional[String[1]]`
 
@@ -759,39 +759,39 @@ The group of the virtualenv being manipulated.
 
 Default value: `getvar('python::params::group')`
 
-##### <a name="index"></a>`index`
+##### <a name="-python--pip--index"></a>`index`
 
 Data type: `Variant[Boolean,String[1]]`
 
 Base URL of Python package index.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="extra_index"></a>`extra_index`
+##### <a name="-python--pip--extra_index"></a>`extra_index`
 
 Data type: `Variant[Boolean,String[1]]`
 
 Base URL of extra Python package index.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="proxy"></a>`proxy`
+##### <a name="-python--pip--proxy"></a>`proxy`
 
 Data type: `Optional[Stdlib::HTTPUrl]`
 
 Proxy server to use for outbound connections.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="editable"></a>`editable`
+##### <a name="-python--pip--editable"></a>`editable`
 
 Data type: `Boolean`
 
 If true the package is installed as an editable resource.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="environment"></a>`environment`
+##### <a name="-python--pip--environment"></a>`environment`
 
 Data type: `Array`
 
@@ -799,7 +799,7 @@ Additional environment variables required to install the packages.
 
 Default value: `[]`
 
-##### <a name="extras"></a>`extras`
+##### <a name="-python--pip--extras"></a>`extras`
 
 Data type: `Array`
 
@@ -807,7 +807,7 @@ Extra features provided by the package which should be installed.
 
 Default value: `[]`
 
-##### <a name="timeout"></a>`timeout`
+##### <a name="-python--pip--timeout"></a>`timeout`
 
 Data type: `Numeric`
 
@@ -815,23 +815,23 @@ The maximum time in seconds the "pip install" command should take.
 
 Default value: `1800`
 
-##### <a name="install_args"></a>`install_args`
+##### <a name="-python--pip--install_args"></a>`install_args`
 
 Data type: `Optional[String[1]]`
 
 Any additional installation arguments that will be supplied when running pip install.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="uninstall_args"></a>`uninstall_args`
+##### <a name="-python--pip--uninstall_args"></a>`uninstall_args`
 
 Data type: `Optional[String[1]]`
 
 Any additional arguments that will be supplied when running pip uninstall.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="log_dir"></a>`log_dir`
+##### <a name="-python--pip--log_dir"></a>`log_dir`
 
 Data type: `String[1]`
 
@@ -839,23 +839,23 @@ Log directory
 
 Default value: `'/tmp'`
 
-##### <a name="egg"></a>`egg`
+##### <a name="-python--pip--egg"></a>`egg`
 
 Data type: `Any`
 
 The egg name to use
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="umask"></a>`umask`
+##### <a name="-python--pip--umask"></a>`umask`
 
 Data type: `Optional[Python::Umask]`
 
 
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="path"></a>`path`
+##### <a name="-python--pip--path"></a>`path`
 
 Data type: `Array[String]`
 
@@ -863,7 +863,7 @@ Data type: `Array[String]`
 
 Default value: `['/usr/local/bin','/usr/bin','/bin', '/usr/sbin']`
 
-##### <a name="exec_provider"></a>`exec_provider`
+##### <a name="-python--pip--exec_provider"></a>`exec_provider`
 
 Data type: `String[1]`
 
@@ -871,7 +871,7 @@ Data type: `String[1]`
 
 Default value: `'shell'`
 
-### <a name="pythonpyvenv"></a>`python::pyvenv`
+### <a name="python--pyvenv"></a>`python::pyvenv`
 
 Create a Python3 virtualenv using pyvenv.
 
@@ -894,19 +894,19 @@ python::pyvenv { '/var/www/project1' :
 
 The following parameters are available in the `python::pyvenv` defined type:
 
-* [`ensure`](#ensure)
-* [`version`](#version)
-* [`systempkgs`](#systempkgs)
-* [`venv_dir`](#venv_dir)
-* [`owner`](#owner)
-* [`group`](#group)
-* [`mode`](#mode)
-* [`path`](#path)
-* [`environment`](#environment)
-* [`prompt`](#prompt)
-* [`pip_version`](#pip_version)
+* [`ensure`](#-python--pyvenv--ensure)
+* [`version`](#-python--pyvenv--version)
+* [`systempkgs`](#-python--pyvenv--systempkgs)
+* [`venv_dir`](#-python--pyvenv--venv_dir)
+* [`owner`](#-python--pyvenv--owner)
+* [`group`](#-python--pyvenv--group)
+* [`mode`](#-python--pyvenv--mode)
+* [`path`](#-python--pyvenv--path)
+* [`environment`](#-python--pyvenv--environment)
+* [`prompt`](#-python--pyvenv--prompt)
+* [`pip_version`](#-python--pyvenv--pip_version)
 
-##### <a name="ensure"></a>`ensure`
+##### <a name="-python--pyvenv--ensure"></a>`ensure`
 
 Data type: `Python::Package::Ensure`
 
@@ -914,7 +914,7 @@ Data type: `Python::Package::Ensure`
 
 Default value: `present`
 
-##### <a name="version"></a>`version`
+##### <a name="-python--pyvenv--version"></a>`version`
 
 Data type: `Python::Version`
 
@@ -922,15 +922,15 @@ Python version to use.
 
 Default value: `'system'`
 
-##### <a name="systempkgs"></a>`systempkgs`
+##### <a name="-python--pyvenv--systempkgs"></a>`systempkgs`
 
 Data type: `Boolean`
 
 Copy system site-packages into virtualenv
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="venv_dir"></a>`venv_dir`
+##### <a name="-python--pyvenv--venv_dir"></a>`venv_dir`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -938,7 +938,7 @@ Directory to install virtualenv to
 
 Default value: `$name`
 
-##### <a name="owner"></a>`owner`
+##### <a name="-python--pyvenv--owner"></a>`owner`
 
 Data type: `String[1]`
 
@@ -946,7 +946,7 @@ The owner of the virtualenv being manipulated
 
 Default value: `'root'`
 
-##### <a name="group"></a>`group`
+##### <a name="-python--pyvenv--group"></a>`group`
 
 Data type: `String[1]`
 
@@ -954,7 +954,7 @@ The group relating to the virtualenv being manipulated
 
 Default value: `'root'`
 
-##### <a name="mode"></a>`mode`
+##### <a name="-python--pyvenv--mode"></a>`mode`
 
 Data type: `Stdlib::Filemode`
 
@@ -962,7 +962,7 @@ Optionally specify directory mode
 
 Default value: `'0755'`
 
-##### <a name="path"></a>`path`
+##### <a name="-python--pyvenv--path"></a>`path`
 
 Data type: `Array[Stdlib::Absolutepath]`
 
@@ -970,7 +970,7 @@ Specifies the PATH variable.
 
 Default value: `['/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin',]`
 
-##### <a name="environment"></a>`environment`
+##### <a name="-python--pyvenv--environment"></a>`environment`
 
 Data type: `Array`
 
@@ -978,15 +978,15 @@ Optionally specify environment variables for pyvenv
 
 Default value: `[]`
 
-##### <a name="prompt"></a>`prompt`
+##### <a name="-python--pyvenv--prompt"></a>`prompt`
 
-Data type: `Variant[Boolean,String[1]]`
+Data type: `Optional[String[1]]`
 
 Optionally specify the virtualenv prompt (python >= 3.6)
 
-Default value: ``false``
+Default value: `undef`
 
-##### <a name="pip_version"></a>`pip_version`
+##### <a name="-python--pyvenv--pip_version"></a>`pip_version`
 
 Data type: `Python::Venv::PipVersion`
 
@@ -994,7 +994,7 @@ Data type: `Python::Venv::PipVersion`
 
 Default value: `'latest'`
 
-### <a name="pythonrequirements"></a>`python::requirements`
+### <a name="python--requirements"></a>`python::requirements`
 
 Installs and manages Python packages from requirements file.
 
@@ -1015,23 +1015,23 @@ python::requirements { '/var/www/project1/requirements.txt' :
 
 The following parameters are available in the `python::requirements` defined type:
 
-* [`requirements`](#requirements)
-* [`virtualenv`](#virtualenv)
-* [`pip_provider`](#pip_provider)
-* [`owner`](#owner)
-* [`group`](#group)
-* [`proxy`](#proxy)
-* [`src`](#src)
-* [`environment`](#environment)
-* [`forceupdate`](#forceupdate)
-* [`cwd`](#cwd)
-* [`extra_pip_args`](#extra_pip_args)
-* [`manage_requirements`](#manage_requirements)
-* [`fix_requirements_owner`](#fix_requirements_owner)
-* [`log_dir`](#log_dir)
-* [`timeout`](#timeout)
+* [`requirements`](#-python--requirements--requirements)
+* [`virtualenv`](#-python--requirements--virtualenv)
+* [`pip_provider`](#-python--requirements--pip_provider)
+* [`owner`](#-python--requirements--owner)
+* [`group`](#-python--requirements--group)
+* [`proxy`](#-python--requirements--proxy)
+* [`src`](#-python--requirements--src)
+* [`environment`](#-python--requirements--environment)
+* [`forceupdate`](#-python--requirements--forceupdate)
+* [`cwd`](#-python--requirements--cwd)
+* [`extra_pip_args`](#-python--requirements--extra_pip_args)
+* [`manage_requirements`](#-python--requirements--manage_requirements)
+* [`fix_requirements_owner`](#-python--requirements--fix_requirements_owner)
+* [`log_dir`](#-python--requirements--log_dir)
+* [`timeout`](#-python--requirements--timeout)
 
-##### <a name="requirements"></a>`requirements`
+##### <a name="-python--requirements--requirements"></a>`requirements`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -1039,7 +1039,7 @@ Path to the requirements file.
 
 Default value: `$name`
 
-##### <a name="virtualenv"></a>`virtualenv`
+##### <a name="-python--requirements--virtualenv"></a>`virtualenv`
 
 Data type: `Variant[Enum['system'],Stdlib::Absolutepath]`
 
@@ -1047,7 +1047,7 @@ virtualenv to run pip in.
 
 Default value: `'system'`
 
-##### <a name="pip_provider"></a>`pip_provider`
+##### <a name="-python--requirements--pip_provider"></a>`pip_provider`
 
 Data type: `Enum['pip', 'pip3']`
 
@@ -1055,7 +1055,7 @@ version of pip you wish to use.
 
 Default value: `'pip'`
 
-##### <a name="owner"></a>`owner`
+##### <a name="-python--requirements--owner"></a>`owner`
 
 Data type: `String[1]`
 
@@ -1063,7 +1063,7 @@ The owner of the virtualenv being manipulated.
 
 Default value: `'root'`
 
-##### <a name="group"></a>`group`
+##### <a name="-python--requirements--group"></a>`group`
 
 Data type: `String[1]`
 
@@ -1071,23 +1071,23 @@ The group relating to the virtualenv being manipulated.
 
 Default value: `'root'`
 
-##### <a name="proxy"></a>`proxy`
+##### <a name="-python--requirements--proxy"></a>`proxy`
 
 Data type: `Optional[Stdlib::HTTPUrl]`
 
 Proxy server to use for outbound connections.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="src"></a>`src`
+##### <a name="-python--requirements--src"></a>`src`
 
 Data type: `Any`
 
 Pip --src parameter to; if the requirements file contains --editable resources, this parameter specifies where they will be installed. See the pip documentation for more.
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="environment"></a>`environment`
+##### <a name="-python--requirements--environment"></a>`environment`
 
 Data type: `Array`
 
@@ -1095,47 +1095,47 @@ Additional environment variables required to install the packages.
 
 Default value: `[]`
 
-##### <a name="forceupdate"></a>`forceupdate`
+##### <a name="-python--requirements--forceupdate"></a>`forceupdate`
 
 Data type: `Boolean`
 
 Run a pip install requirements even if we don't receive an event from the requirements file - Useful for when the requirements file is written as part of a resource other than file (E.g vcsrepo)
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="cwd"></a>`cwd`
+##### <a name="-python--requirements--cwd"></a>`cwd`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
 The directory from which to run the "pip install" command.
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="extra_pip_args"></a>`extra_pip_args`
+##### <a name="-python--requirements--extra_pip_args"></a>`extra_pip_args`
 
 Data type: `Optional[String[1]]`
 
 Extra arguments to pass to pip after the requirements file
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="manage_requirements"></a>`manage_requirements`
+##### <a name="-python--requirements--manage_requirements"></a>`manage_requirements`
 
 Data type: `Boolean`
 
 Create the requirements file if it doesn't exist.
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="fix_requirements_owner"></a>`fix_requirements_owner`
+##### <a name="-python--requirements--fix_requirements_owner"></a>`fix_requirements_owner`
 
 Data type: `Boolean`
 
 Change owner and group of requirements file.
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="log_dir"></a>`log_dir`
+##### <a name="-python--requirements--log_dir"></a>`log_dir`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -1143,7 +1143,7 @@ Log directory.
 
 Default value: `'/tmp'`
 
-##### <a name="timeout"></a>`timeout`
+##### <a name="-python--requirements--timeout"></a>`timeout`
 
 Data type: `Integer`
 
@@ -1153,63 +1153,39 @@ Default value: `1800`
 
 ## Data types
 
-### <a name="pythonloglevel"></a>`Python::Loglevel`
+### <a name="Python--Loglevel"></a>`Python::Loglevel`
 
 Match all valid loglevels for python
 
-Alias of
+Alias of `Enum['debug', 'info', 'warning', 'error', 'critical']`
 
-```puppet
-Enum['debug', 'info', 'warning', 'error', 'critical']
-```
-
-### <a name="pythonpackageensure"></a>`Python::Package::Ensure`
+### <a name="Python--Package--Ensure"></a>`Python::Package::Ensure`
 
 Match all valid package ensures for python
 
-Alias of
+Alias of `Enum['absent', 'present', 'latest']`
 
-```puppet
-Enum['absent', 'present', 'latest']
-```
-
-### <a name="pythonprovider"></a>`Python::Provider`
+### <a name="Python--Provider"></a>`Python::Provider`
 
 Match all valid provider for python
 
-Alias of
+Alias of `Enum['pip', 'scl', 'rhscl', 'anaconda', '']`
 
-```puppet
-Enum['pip', 'scl', 'rhscl', 'anaconda', '']
-```
-
-### <a name="pythonumask"></a>`Python::Umask`
+### <a name="Python--Umask"></a>`Python::Umask`
 
 Match valid umask for python
 
-Alias of
+Alias of `Pattern[/[0-7]{1,4}/]`
 
-```puppet
-Pattern[/[0-7]{1,4}/]
-```
-
-### <a name="pythonvenvpipversion"></a>`Python::Venv::PipVersion`
+### <a name="Python--Venv--PipVersion"></a>`Python::Venv::PipVersion`
 
 A version type to ensure a specific Pip version in a virtual env.
 
-Alias of
+Alias of `Pattern[/^(<|>|<=|>=|==) [0-9]*(\.[0-9]+)*$/, /\Alatest\Z/]`
 
-```puppet
-Pattern[/^(<|>|<=|>=|==) [0-9]*(\.[0-9]+)*$/, /\Alatest\Z/]
-```
-
-### <a name="pythonversion"></a>`Python::Version`
+### <a name="Python--Version"></a>`Python::Version`
 
 Match all valid versions for python
 
-Alias of
-
-```puppet
-Pattern[/\A(python)?[0-9](\.?[0-9])*/, /\Apypy\Z/, /\Asystem\Z/, /\Arh-python[0-9]{2}(?:-python)?\Z/]
-```
+Alias of `Pattern[/\A(python)?[0-9](\.?[0-9])*/, /\Apypy\Z/, /\Asystem\Z/, /\Arh-python[0-9]{2}(?:-python)?\Z/]`
 
