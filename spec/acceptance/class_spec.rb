@@ -20,7 +20,6 @@ describe 'python class' do
       pp = <<-EOS
       class { 'python':
         ensure     => 'present',
-        version    => '3',
         pip        => 'present',
         dev        => 'present',
         venv       => 'present',
