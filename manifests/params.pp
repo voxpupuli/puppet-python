@@ -9,20 +9,6 @@ class python::params {
     fail("Module is not compatible with ${facts['os']['name']}")
   }
 
-  $ensure                      = 'present'
-  $pip                         = 'present'
-  $dev                         = 'absent'
-  $venv                        = 'absent'
-  $gunicorn                    = 'absent'
-  $manage_gunicorn             = true
-  $manage_python_package       = true
-  $provider                    = undef
-  $valid_versions              = undef
-  $manage_scl                  = true
-  $rhscl_use_public_repository = true
-  $anaconda_installer_url      = 'https://repo.anaconda.com/archive/Anaconda3-5.2.0-Linux-x86_64.sh'
-  $anaconda_install_path       = '/opt/python'
-
   if $facts['os']['family'] == 'RedHat' and $facts['os']['name'] != 'Fedora' {
     $use_epel = true
   } else {
