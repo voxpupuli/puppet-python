@@ -5,7 +5,7 @@
 #
 class python::params {
   # Module compatibility check
-  unless $facts['os']['family'] in ['AIX', 'Debian', 'FreeBSD', 'Gentoo', 'RedHat', 'Suse'] {
+  unless $facts['os']['family'] in ['AIX', 'Debian', 'FreeBSD', 'Gentoo', 'RedHat', 'Suse', 'Archlinux'] {
     fail("Module is not compatible with ${facts['os']['name']}")
   }
 
@@ -16,8 +16,6 @@ class python::params {
   $gunicorn                    = 'absent'
   $manage_gunicorn             = true
   $manage_python_package       = true
-  $manage_venv_package         = true
-  $manage_pip_package          = true
   $provider                    = undef
   $valid_versions              = undef
   $manage_scl                  = true
@@ -47,5 +45,14 @@ class python::params {
       default => 'python-gunicorn',
     },
     default  => 'gunicorn',
+  }
+
+  $manage_pip_package = $facts['os']['family'] ? {
+    'Archlinux' => false,
+    default     => true,
+  }
+  $manage_venv_package = $facts['os']['family'] ? {
+    'Archlinux' => false,
+    default     => true,
   }
 }

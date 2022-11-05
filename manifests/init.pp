@@ -38,7 +38,7 @@
 #
 class python (
   Python::Package::Ensure    $ensure                      = $python::params::ensure,
-  Python::Version            $version                     = '3',
+  Python::Version            $version                     = $facts['os']['family'] ? { 'Archlinux' => 'system', default => '3' },
   Python::Package::Ensure    $pip                         = $python::params::pip,
   Python::Package::Ensure    $dev                         = $python::params::dev,
   Python::Package::Ensure    $venv                        = $python::params::venv,

@@ -15,12 +15,13 @@ class python::install {
   }
 
   $pythondev = $facts['os']['family'] ? {
-    'AIX'     => "${python}-devel",
-    'Debian'  => "${python}-dev",
-    'FreeBSD' => undef,
-    'Gentoo'  => undef,
-    'RedHat'  => "${python}-devel",
-    'Suse'    => "${python}-devel",
+    'AIX'       => "${python}-devel",
+    'Debian'    => "${python}-dev",
+    'FreeBSD'   => undef,
+    'Gentoo'    => undef,
+    'Archlinux' => undef,
+    'RedHat'    => "${python}-devel",
+    'Suse'      => "${python}-devel",
   }
 
   if $python::manage_python_package {

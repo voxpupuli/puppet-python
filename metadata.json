@@ -59,6 +59,9 @@
       "operatingsystemrelease": [
         "11.3"
       ]
+    },
+    {
+      "operatingsystem": "Archlinux"
     }
   ],
   "requirements": [
