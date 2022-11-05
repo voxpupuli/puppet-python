@@ -7,8 +7,7 @@ describe 'python::pip defined resource' do
     it 'works with no errors' do
       pp = <<-PUPPET
       class { 'python':
-        version => '3',
-        dev     => 'present',
+        dev => 'present',
       }
 
       python::pyvenv { '/opt/test-venv':
@@ -41,8 +40,7 @@ describe 'python::pip defined resource' do
     it 'works with no errors' do
       pp = <<-PUPPET
       class { 'python':
-        version => '3',
-        dev     => 'present',
+        dev => 'present',
       }
 
       python::pyvenv { '/opt/test-venv':
@@ -80,8 +78,7 @@ describe 'python::pip defined resource' do
     it 'works with no errors' do
       pp = <<-PUPPET
       class { 'python':
-        version => '3',
-        dev     => 'present',
+        dev => 'present',
       }
 
       python::pyvenv { '/opt/test-venv':
