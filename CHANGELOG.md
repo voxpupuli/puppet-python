@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v6.4.0](https://github.com/voxpupuli/puppet-python/tree/v6.4.0) (2022-11-06)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v6.3.0...v6.4.0)
+
+**Implemented enhancements:**
+
+- move static data from params.pp to init.pp [\#648](https://github.com/voxpupuli/puppet-python/pull/648) ([bastelfreak](https://github.com/bastelfreak))
+- cleanup acceptance tests [\#647](https://github.com/voxpupuli/puppet-python/pull/647) ([bastelfreak](https://github.com/bastelfreak))
+- Implement Arch Linux support [\#642](https://github.com/voxpupuli/puppet-python/pull/642) ([bastelfreak](https://github.com/bastelfreak))
+- Add prompt parameter to python::pyvenv [\#641](https://github.com/voxpupuli/puppet-python/pull/641) ([ookisan](https://github.com/ookisan))
+- Add extra\_index parameter to python::pip [\#640](https://github.com/voxpupuli/puppet-python/pull/640) ([ookisan](https://github.com/ookisan))
+
+**Fixed bugs:**
+
+- use legacy pip resolver for pip versions \< 21.1 \> 20.2.4 [\#639](https://github.com/voxpupuli/puppet-python/pull/639) ([saz](https://github.com/saz))
+
 ## [v6.3.0](https://github.com/voxpupuli/puppet-python/tree/v6.3.0) (2022-07-18)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v6.2.1...v6.3.0)
@@ -362,7 +378,7 @@ Due to a bug in the release pipeline, release v6.0.1 didn't make it to the forge
 
 - Fix Python version regex in install.pp [\#410](https://github.com/voxpupuli/puppet-python/pull/410) ([fklajn](https://github.com/fklajn))
 - Remove docker nodesets [\#408](https://github.com/voxpupuli/puppet-python/pull/408) ([bastelfreak](https://github.com/bastelfreak))
-- Update README compatibility section [\#405](https://github.com/voxpupuli/puppet-python/pull/405) ([rkcpi](https://github.com/rkcpi))
+- Update README compatibility section [\#405](https://github.com/voxpupuli/puppet-python/pull/405) ([sandra-thieme](https://github.com/sandra-thieme))
 - add secret for forge deployment via travis [\#404](https://github.com/voxpupuli/puppet-python/pull/404) ([bastelfreak](https://github.com/bastelfreak))
 - Add deprecation notice for the old repository [\#403](https://github.com/voxpupuli/puppet-python/pull/403) ([stankevich](https://github.com/stankevich))
 - virtualenv.pp: make creation of $venv\_dir optional [\#391](https://github.com/voxpupuli/puppet-python/pull/391) ([daylicron](https://github.com/daylicron))
