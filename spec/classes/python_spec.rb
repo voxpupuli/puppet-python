@@ -489,7 +489,7 @@ describe 'python' do
           it { is_expected.to contain_class('python::install') }
           # Base debian packages.
           it { is_expected.to contain_package('python') }
-          it { is_expected.to contain_package('pip').with('category' => 'dev-python') }
+          it { is_expected.to contain_package('pip').with('name' => 'dev-python/pip') }
           # Python::Dev
           it { is_expected.not_to contain_package('python-dev') }
 
