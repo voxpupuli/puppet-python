@@ -213,42 +213,33 @@ class python::install {
       }
 
       if String($python::version) =~ /^python3/ {
-        $pip_category = undef
         $pip_package  = "${python}-pip"
         $pip_provider = $python.regsubst(/^.*python3\.?/,'pip3.').regsubst(/\.$/,'')
       } elsif ($facts['os']['family'] == 'RedHat') and (versioncmp($facts['os']['release']['major'], '8') >= 0) {
-        $pip_category = undef
         $pip_package  = 'python3-pip'
         $pip_provider = pip3
       } elsif ($facts['os']['family'] == 'RedHat') and (versioncmp($facts['os']['release']['major'], '7') >= 0) {
-        $pip_category = undef
         $pip_package  = 'python2-pip'
         $pip_provider = pip2
       } elsif $facts['os']['family'] == 'FreeBSD' {
-        $pip_category = undef
         $pip_package  = "py${python::version}-pip"
         $pip_provider = 'pip'
       } elsif $facts['os']['family'] == 'Gentoo' {
-        $pip_category = 'dev-python'
-        $pip_package  = 'pip'
+        $pip_package  = 'dev-python/pip'
         $pip_provider = 'pip'
       } elsif ($facts['os']['name'] == 'Ubuntu') and (versioncmp($facts['os']['release']['major'], '20.04') >= 0) {
-        $pip_category = undef
         $pip_package  = 'python3-pip'
         $pip_provider = 'pip3'
       } elsif ($facts['os']['name'] == 'Debian') and (versioncmp($facts['os']['release']['major'], '11') >= 0) {
-        $pip_category = undef
         $pip_package  = 'python3-pip'
         $pip_provider = 'pip3'
       } else {
-        $pip_category = undef
         $pip_package  = 'python-pip'
         $pip_provider = 'pip'
       }
 
       Package <| title == 'pip' |> {
-        name     => $pip_package,
-        category => $pip_category,
+        name => $pip_package,
       }
     }
   }
