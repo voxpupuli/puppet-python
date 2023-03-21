@@ -49,7 +49,7 @@
 #   }
 #
 define python::pip (
-  String[1]                                         $group,
+  String[1]                                         $group          = lookup('python::pip::group'), # lint:ignore:lookup_in_parameter
   String[1]                                         $pkgname        = $name,
   Variant[Enum[present, absent, latest], String[1]] $ensure         = present,
   Variant[Enum['system'], Stdlib::Absolutepath]     $virtualenv     = 'system',

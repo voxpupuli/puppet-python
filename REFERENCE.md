@@ -753,6 +753,8 @@ Data type: `String[1]`
 
 The group of the virtualenv being manipulated.
 
+Default value: `lookup('python::pip::group')`
+
 ##### <a name="-python--pip--index"></a>`index`
 
 Data type: `Variant[Boolean,String[1]]`
