@@ -10,11 +10,12 @@
 #   }
 #
 class python::pip::bootstrap (
+  Array[String[1]]          $pip_lookup_path,
   Enum['pip', 'pip3']       $version       = 'pip',
   Variant[Boolean, String]  $manage_python = false,
   Optional[Stdlib::HTTPUrl] $http_proxy    = undef,
   String[1]                 $exec_provider = 'shell',
-) inherits python::params {
+) {
   if $manage_python {
     include python
   } else {
@@ -36,7 +37,7 @@ class python::pip::bootstrap (
         command     => '/usr/bin/curl https://bootstrap.pypa.io/get-pip.py | python3',
         environment => $environ,
         unless      => 'which pip3',
-        path        => $python::params::pip_lookup_path,
+        path        => $pip_lookup_path,
         require     => Package['python3'],
         provider    => $exec_provider,
       }
@@ -53,7 +54,7 @@ class python::pip::bootstrap (
         command     => '/usr/bin/curl https://bootstrap.pypa.io/get-pip.py | python',
         environment => $environ,
         unless      => 'which pip',
-        path        => $python::params::pip_lookup_path,
+        path        => $pip_lookup_path,
         require     => Package['python'],
         provider    => $exec_provider,
       }

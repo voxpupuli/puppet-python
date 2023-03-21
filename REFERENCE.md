@@ -15,7 +15,6 @@
 
 * `python::config`: Optionally installs the gunicorn service
 * `python::install`: Installs core python packages
-* `python::params`: The python Module default configuration settings.
 
 ### Defined types
 
@@ -81,8 +80,8 @@ The following parameters are available in the `python` class:
 * [`manage_python_package`](#-python--manage_python_package)
 * [`manage_venv_package`](#-python--manage_venv_package)
 * [`manage_pip_package`](#-python--manage_pip_package)
-* [`venv`](#-python--venv)
 * [`gunicorn_package_name`](#-python--gunicorn_package_name)
+* [`venv`](#-python--venv)
 * [`python_pips`](#-python--python_pips)
 * [`python_pyvenvs`](#-python--python_pyvenvs)
 * [`python_requirements`](#-python--python_requirements)
@@ -111,8 +110,6 @@ Allowed values:
     - 'pypy' actually lets us use pypy as python.
     - 3/3.3/... means you are going to install the python3/python3.3/...
       package, if available on your osfamily.
-
-Default value: `$facts['os']['family'] ? { 'Archlinux' => 'system', default => '3'`
 
 ##### <a name="-python--pip"></a>`pip`
 
@@ -160,8 +157,6 @@ Data type: `Boolean`
 
 to determine if the epel class is used.
 
-Default value: `$python::params::use_epel`
-
 ##### <a name="-python--manage_scl"></a>`manage_scl`
 
 Data type: `Boolean`
@@ -198,15 +193,17 @@ Data type: `Boolean`
 
 manage the state for package venv
 
-Default value: `$python::params::manage_venv_package`
-
 ##### <a name="-python--manage_pip_package"></a>`manage_pip_package`
 
 Data type: `Boolean`
 
 manage the state for package pip
 
-Default value: `$python::params::manage_pip_package`
+##### <a name="-python--gunicorn_package_name"></a>`gunicorn_package_name`
+
+Data type: `String[1]`
+
+
 
 ##### <a name="-python--venv"></a>`venv`
 
@@ -215,14 +212,6 @@ Data type: `Python::Package::Ensure`
 
 
 Default value: `'absent'`
-
-##### <a name="-python--gunicorn_package_name"></a>`gunicorn_package_name`
-
-Data type: `String[1]`
-
-
-
-Default value: `$python::params::gunicorn_package_name`
 
 ##### <a name="-python--python_pips"></a>`python_pips`
 
@@ -301,6 +290,7 @@ The following parameters are available in the `python::pip::bootstrap` class:
 * [`version`](#-python--pip--bootstrap--version)
 * [`manage_python`](#-python--pip--bootstrap--manage_python)
 * [`http_proxy`](#-python--pip--bootstrap--http_proxy)
+* [`pip_lookup_path`](#-python--pip--bootstrap--pip_lookup_path)
 * [`exec_provider`](#-python--pip--bootstrap--exec_provider)
 
 ##### <a name="-python--pip--bootstrap--version"></a>`version`
@@ -326,6 +316,12 @@ Data type: `Optional[Stdlib::HTTPUrl]`
 Proxy server to use for outbound connections.
 
 Default value: `undef`
+
+##### <a name="-python--pip--bootstrap--pip_lookup_path"></a>`pip_lookup_path`
+
+Data type: `Array[String[1]]`
+
+
 
 ##### <a name="-python--pip--bootstrap--exec_provider"></a>`exec_provider`
 
@@ -753,11 +749,9 @@ Default value: `'root'`
 
 ##### <a name="-python--pip--group"></a>`group`
 
-Data type: `Optional[String[1]]`
+Data type: `String[1]`
 
 The group of the virtualenv being manipulated.
-
-Default value: `getvar('python::params::group')`
 
 ##### <a name="-python--pip--index"></a>`index`
 

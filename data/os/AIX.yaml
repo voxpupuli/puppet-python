@@ -1,0 +1,7 @@
+---
+python::pip::group: 'system'
+python::pip::bootstrap::pip_lookup_path:
+  - /bin
+  - /usr/bin
+  - /usr/local/bin
+  - /opt/freeware/bin/

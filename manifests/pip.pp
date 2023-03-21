@@ -49,13 +49,13 @@
 #   }
 #
 define python::pip (
+  String[1]                                         $group,
   String[1]                                         $pkgname        = $name,
   Variant[Enum[present, absent, latest], String[1]] $ensure         = present,
   Variant[Enum['system'], Stdlib::Absolutepath]     $virtualenv     = 'system',
   String[1]                                         $pip_provider   = 'pip',
   Variant[Boolean, String]                          $url            = false,
   String[1]                                         $owner          = 'root',
-  Optional[String[1]]                               $group          = getvar('python::params::group'),
   Optional[Python::Umask]                           $umask          = undef,
   Variant[Boolean,String[1]]                        $index          = false,
   Variant[Boolean,String[1]]                        $extra_index    = false,
