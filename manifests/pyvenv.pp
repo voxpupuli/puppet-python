@@ -11,6 +11,7 @@
 # @param path Specifies the PATH variable.
 # @param environment Optionally specify environment variables for pyvenv
 # @param prompt Optionally specify the virtualenv prompt (python >= 3.6)
+# @param timeout Optionally specify a timout for the execution of virtualenv creation
 #
 # @example
 #   python::pyvenv { '/var/www/project1' :
@@ -34,6 +35,7 @@ define python::pyvenv (
   Array                       $environment = [],
   Optional[String[1]]         $prompt      = undef,
   Python::Venv::PipVersion    $pip_version = 'latest',
+  Integer[0]                  $timeout     = 600,
 ) {
   include python
 
@@ -92,7 +94,7 @@ define python::pyvenv (
       path        => $_path,
       cwd         => '/tmp',
       environment => $environment,
-      timeout     => 600,
+      timeout     => $timeout,
       unless      => "grep '^[\\t ]*VIRTUAL_ENV=[\\\\'\\\"]*${venv_dir}[\\\"\\\\'][\\t ]*$' ${venv_dir}/bin/activate", #Unless activate exists and VIRTUAL_ENV is correct we re-create the virtualenv
       require     => File[$venv_dir],
     }
