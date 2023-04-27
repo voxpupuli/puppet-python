@@ -11,7 +11,7 @@
 # @param path Specifies the PATH variable.
 # @param environment Optionally specify environment variables for pyvenv
 # @param prompt Optionally specify the virtualenv prompt (python >= 3.6)
-# @param timeout Optionally specify a timout for the execution of virtualenv creation
+# @param timeout Optionally specify a timeout in seconds for the execution of virtualenv creation
 #
 # @example
 #   python::pyvenv { '/var/www/project1' :

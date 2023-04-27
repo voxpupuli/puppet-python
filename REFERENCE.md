@@ -905,6 +905,7 @@ The following parameters are available in the `python::pyvenv` defined type:
 * [`environment`](#-python--pyvenv--environment)
 * [`prompt`](#-python--pyvenv--prompt)
 * [`pip_version`](#-python--pyvenv--pip_version)
+* [`timeout`](#-python--pyvenv--timeout)
 
 ##### <a name="-python--pyvenv--ensure"></a>`ensure`
 
@@ -993,6 +994,14 @@ Data type: `Python::Venv::PipVersion`
 
 
 Default value: `'latest'`
+
+##### <a name="-python--pyvenv--timeout"></a>`timeout`
+
+Data type: `Integer`
+
+Optionally specify a timeout in seconds for the execution of virtualenv creation
+
+Default value: `600`
 
 ### <a name="python--requirements"></a>`python::requirements`
 
