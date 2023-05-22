@@ -35,6 +35,16 @@ describe 'python::pyvenv', type: :define do
           }
         end
       end
+
+      context 'custom index is provided' do
+        let :params do
+          {
+            index: 'https://site.tld',
+          }
+        end
+
+        it { is_expected.to contain_exec('python_virtualenv_/opt/env').with_command('pyvenv-3.5 --clear   /opt/env && /opt/env/bin/pip --log /opt/env/pip.log install -i https://site.tld --upgrade pip && /opt/env/bin/pip --log /opt/env/pip.log install -i https://site.tld --upgrade setuptools') }
+      end
     end
 
     context "prompt on #{os} with python 3.6" do
