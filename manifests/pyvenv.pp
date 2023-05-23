@@ -84,7 +84,7 @@ define python::pyvenv (
 
     $index_config = $index ? {
       undef   => '',
-      default => "-i ${index}"
+      default => "-i ${shell_escape($index)}"
     }
 
     $pip_upgrade = ($pip_version != 'latest') ? {
