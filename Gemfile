@@ -31,4 +31,5 @@ gem 'facter', ENV['FACTER_GEM_VERSION'], :require => false, :groups => [:test]
 puppetversion = ENV['PUPPET_GEM_VERSION'] || '~> 7.24'
 gem 'puppet', puppetversion, :require => false, :groups => [:test]
 
+gem 'beaker_puppet_helpers', git: 'https://github.com/voxpupuli/beaker_puppet_helpers', branch: 'arch'
 # vim: syntax=ruby
