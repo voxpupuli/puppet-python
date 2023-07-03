@@ -35,7 +35,7 @@ class python::install {
     ##
     ## CentOS has no extra package for venv
     ##
-    unless $facts['os']['name'] == 'CentOS' {
+    unless $facts['os']['name'] in ['CentOS', 'Rocky'] {
       package { 'python-venv':
         ensure  => $python::venv,
         name    => "${python}-venv",

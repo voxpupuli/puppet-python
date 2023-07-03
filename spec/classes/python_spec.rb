@@ -23,7 +23,7 @@ describe 'python' do
           it { is_expected.to contain_package('pip') }
         end
 
-        if %w[Archlinux CentOS].include?(facts[:os]['name'])
+        if %w[Archlinux CentOS Rocky].include?(facts[:os]['name'])
           it { is_expected.not_to contain_package('python-venv') }
         else
           it { is_expected.to contain_package('python-venv') }
@@ -58,7 +58,7 @@ describe 'python' do
         it { is_expected.to compile.with_all_deps }
         it { is_expected.to contain_package('pip').with(ensure: 'present') }
 
-        it { is_expected.to contain_package('python-venv').with(ensure: 'present') } unless facts[:os]['name'] == 'CentOS'
+        it { is_expected.to contain_package('python-venv').with(ensure: 'present') } unless %w[CentOS Rocky].include?(facts[:os]['name'])
       end
 
       case facts[:os]['family']
