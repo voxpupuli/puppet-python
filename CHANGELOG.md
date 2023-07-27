@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v7.0.0](https://github.com/voxpupuli/puppet-python/tree/v7.0.0) (2023-07-12)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v6.4.0...v7.0.0)
+
+**Breaking changes:**
+
+- Drop Ubuntu 16.04 \(EOL\) [\#659](https://github.com/voxpupuli/puppet-python/pull/659) ([smortex](https://github.com/smortex))
+- Drop Debian 9 \(EOL\) [\#658](https://github.com/voxpupuli/puppet-python/pull/658) ([smortex](https://github.com/smortex))
+- Drop Puppet 6 support [\#656](https://github.com/voxpupuli/puppet-python/pull/656) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Add Puppet 8 support [\#664](https://github.com/voxpupuli/puppet-python/pull/664) ([bastelfreak](https://github.com/bastelfreak))
+- puppetlabs/stdlib: Allow 9.x [\#663](https://github.com/voxpupuli/puppet-python/pull/663) ([bastelfreak](https://github.com/bastelfreak))
+
+**Fixed bugs:**
+
+- Fix pip installation on Gentoo [\#651](https://github.com/voxpupuli/puppet-python/pull/651) ([jameslikeslinux](https://github.com/jameslikeslinux))
+
 ## [v6.4.0](https://github.com/voxpupuli/puppet-python/tree/v6.4.0) (2022-11-06)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v6.3.0...v6.4.0)
@@ -612,7 +631,7 @@ Due to a bug in the release pipeline, release v6.0.1 didn't make it to the forge
 - Bootstrap pip installation [\#244](https://github.com/voxpupuli/puppet-python/pull/244) ([joshuaspence](https://github.com/joshuaspence))
 - Various tidying up [\#242](https://github.com/voxpupuli/puppet-python/pull/242) ([joshuaspence](https://github.com/joshuaspence))
 - Allow custom versions to be installed [\#241](https://github.com/voxpupuli/puppet-python/pull/241) ([joshuaspence](https://github.com/joshuaspence))
-- Check that we have results before returning a value [\#238](https://github.com/voxpupuli/puppet-python/pull/238) ([xaque208](https://github.com/xaque208))
+- Check that we have results before returning a value [\#238](https://github.com/voxpupuli/puppet-python/pull/238) ([zachfi](https://github.com/zachfi))
 - Adjust test code to pass syntax checker [\#237](https://github.com/voxpupuli/puppet-python/pull/237) ([fluential](https://github.com/fluential))
 
 ## [1.9.7](https://github.com/voxpupuli/puppet-python/tree/1.9.7) (2015-08-21)
