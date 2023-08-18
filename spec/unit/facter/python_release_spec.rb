@@ -7,6 +7,7 @@ describe Facter::Util::Fact do
     Facter.clear
   end
 
+  # rubocop:disable RSpec/IndexedLet
   let(:python2_version_output) do
     <<~EOS
       Python 2.7.9
@@ -17,6 +18,7 @@ describe Facter::Util::Fact do
       Python 3.3.0
     EOS
   end
+  # rubocop:enable RSpec/IndexedLet
 
   describe 'python_release' do
     context 'returns Python release when `python` present' do
@@ -31,7 +33,7 @@ describe Facter::Util::Fact do
       it do
         allow(Facter::Util::Resolution).to receive(:exec).and_return(false)
         allow(Facter::Util::Resolution).to receive(:which).with('python').and_return(false)
-        expect(Facter.value(:python_release)).to eq(nil)
+        expect(Facter.value(:python_release)).to be_nil
       end
     end
   end
@@ -60,7 +62,7 @@ describe Facter::Util::Fact do
         allow(Facter::Util::Resolution).to receive(:which).with('python').and_return(true)
         allow(Facter::Util::Resolution).to receive(:exec).with('python -V 2>&1').and_return(python3_version_output)
         allow(Facter::Util::Resolution).to receive(:which).with('python2').and_return(false)
-        expect(Facter.value(:python2_release)).to eq(nil)
+        expect(Facter.value(:python2_release)).to be_nil
       end
     end
 
@@ -68,7 +70,7 @@ describe Facter::Util::Fact do
       it do
         allow(Facter::Util::Resolution).to receive(:which).with('python').and_return(false)
         allow(Facter::Util::Resolution).to receive(:which).with('python2').and_return(false)
-        expect(Facter.value(:python2_release)).to eq(nil)
+        expect(Facter.value(:python2_release)).to be_nil
       end
     end
   end
@@ -85,7 +87,7 @@ describe Facter::Util::Fact do
     context 'returns nil when `python3` not present' do
       it do
         allow(Facter::Util::Resolution).to receive(:which).with('python3').and_return(false)
-        expect(Facter.value(:python3_release)).to eq(nil)
+        expect(Facter.value(:python3_release)).to be_nil
       end
     end
   end
