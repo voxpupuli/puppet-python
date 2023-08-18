@@ -7,6 +7,7 @@ describe Facter::Util::Fact do
     Facter.clear
   end
 
+  # rubocop:disable RSpec/IndexedLet
   let(:pip_version_output) do
     <<~EOS
       pip 6.0.6 from /opt/boxen/homebrew/Cellar/python/2.7.9/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/pip-6.0.6-py2.7.egg (python 2.7)
@@ -24,6 +25,7 @@ describe Facter::Util::Fact do
       pip 18.1 from /usr/lib/python3/dist-packages/pip (python 3.7)
     EOS
   end
+  # rubocop:enable RSpec/IndexedLet
 
   describe 'pip_version' do
     context 'returns pip version when pip present' do
