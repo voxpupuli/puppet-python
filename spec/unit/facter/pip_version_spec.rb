@@ -37,7 +37,7 @@ describe Facter::Util::Fact do
     context 'returns nil when pip not present' do
       it do
         allow(Facter::Util::Resolution).to receive(:which).with('pip').and_return(false)
-        expect(Facter.value(:pip_version)).to eq(nil)
+        expect(Facter.value(:pip_version)).to be_nil
       end
     end
   end
@@ -54,7 +54,7 @@ describe Facter::Util::Fact do
     context 'returns nil when pip2 not present' do
       it do
         allow(Facter::Util::Resolution).to receive(:which).with('pip2').and_return(false)
-        expect(Facter.value(:pip2_version)).to eq(nil)
+        expect(Facter.value(:pip2_version)).to be_nil
       end
     end
   end
@@ -71,7 +71,7 @@ describe Facter::Util::Fact do
     context 'returns nil when pip3 not present' do
       it do
         allow(Facter::Util::Resolution).to receive(:which).with('pip3').and_return(false)
-        expect(Facter.value(:pip3_version)).to eq(nil)
+        expect(Facter.value(:pip3_version)).to be_nil
       end
     end
   end
