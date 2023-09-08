@@ -17,6 +17,10 @@
 # @param use_epel to determine if the epel class is used.
 # @param manage_scl Whether to manage core SCL packages or not.
 # @param umask The default umask for invoked exec calls.
+# @param manage_gunicorn manage the state for package gunicorn
+# @param manage_python_package manage the state for package python
+# @param manage_venv_package manage the state for package venv
+# @param manage_pip_package manage the state for package pip
 #
 # @example install python from system python
 #   class { 'python':
@@ -33,25 +37,27 @@
 #   }
 #
 class python (
-  Python::Package::Ensure    $ensure                      = $python::params::ensure,
-  Python::Version            $version                     = '3',
-  Python::Package::Ensure    $pip                         = $python::params::pip,
-  Python::Package::Ensure    $dev                         = $python::params::dev,
-  Python::Package::Ensure    $gunicorn                    = $python::params::gunicorn,
-  Boolean                    $manage_gunicorn             = $python::params::manage_gunicorn,
-  Boolean                    $manage_python_package       = $python::params::manage_python_package,
+  Python::Package::Ensure    $ensure                      = 'present',
+  Python::Version            $version                     = $facts['os']['family'] ? { 'Archlinux' => 'system', default => '3' },
+  Python::Package::Ensure    $pip                         = 'present',
+  Python::Package::Ensure    $dev                         = 'absent',
+  Python::Package::Ensure    $venv                        = 'absent',
+  Python::Package::Ensure    $gunicorn                    = 'absent',
+  Boolean                    $manage_gunicorn             = true,
+  Boolean                    $manage_python_package       = true,
+  Boolean                    $manage_venv_package         = $python::params::manage_venv_package,
   Boolean                    $manage_pip_package          = $python::params::manage_pip_package,
   String[1]                  $gunicorn_package_name       = $python::params::gunicorn_package_name,
-  Optional[Python::Provider] $provider                    = $python::params::provider,
+  Optional[Python::Provider] $provider                    = undef,
   Hash                       $python_pips                 = {},
   Hash                       $python_pyvenvs              = {},
   Hash                       $python_requirements         = {},
   Hash                       $python_dotfiles             = {},
   Boolean                    $use_epel                    = $python::params::use_epel,
-  Boolean                    $rhscl_use_public_repository = $python::params::rhscl_use_public_repository,
-  Stdlib::Httpurl            $anaconda_installer_url      = $python::params::anaconda_installer_url,
-  Stdlib::Absolutepath       $anaconda_install_path       = $python::params::anaconda_install_path,
-  Boolean                    $manage_scl                  = $python::params::manage_scl,
+  Boolean                    $rhscl_use_public_repository = true,
+  Stdlib::Httpurl            $anaconda_installer_url      = 'https://repo.anaconda.com/archive/Anaconda3-5.2.0-Linux-x86_64.sh',
+  Stdlib::Absolutepath       $anaconda_install_path       = '/opt/python',
+  Boolean                    $manage_scl                  = true,
   Optional[Python::Umask]    $umask                       = undef,
 ) inherits python::params {
   $exec_prefix = $provider ? {

@@ -1,7 +1,6 @@
 class { 'python':
-  version    => 'system',
-  dev        => true,
-  virtualenv => true,
+  version => 'system',
+  dev     => true,
 }
 
 python::pip { 'flask':

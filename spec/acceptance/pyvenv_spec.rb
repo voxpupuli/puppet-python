@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper_acceptance'
 
 describe 'python::pyvenv defined resource with python 3' do
@@ -6,8 +8,8 @@ describe 'python::pyvenv defined resource with python 3' do
     it 'works with no errors' do
       pp = <<-PUPPET
       class { 'python':
-        version => '3',
-        dev     => 'present',
+        dev  => 'present',
+        venv => 'present',
       }
       user { 'agent':
         ensure         => 'present',
@@ -38,8 +40,8 @@ describe 'python::pyvenv defined resource with python 3' do
     it 'works with no errors' do
       pp = <<-PUPPET
       class { 'python':
-        version => '3',
-        dev     => 'present',
+        dev  => 'present',
+        venv => 'present',
       }
       user { 'agent':
         ensure         => 'present',
@@ -78,8 +80,8 @@ describe 'python::pyvenv defined resource with python 3' do
     it 'works with no errors' do
       pp = <<-PUPPET
       class { 'python':
-        version => '3',
-        dev     => 'present',
+        dev  => 'present',
+        venv => 'present',
       }
       user { 'agent':
         ensure         => 'present',
@@ -115,8 +117,8 @@ describe 'python::pyvenv defined resource with python 3' do
     it 'works with no errors' do
       pp = <<-PUPPET
       class { 'python':
-        version => '3',
-        dev     => 'present',
+        dev  => 'present',
+        venv => 'present',
       }
       user { 'agent':
         ensure         => 'present',
@@ -152,8 +154,8 @@ describe 'python::pyvenv defined resource with python 3' do
     it 'works with no errors' do
       pp = <<-PUPPET
       class { 'python':
-        version => '3',
-        dev     => 'present',
+        dev  => 'present',
+        venv => 'present',
       }
       user { 'agent':
         ensure         => 'present',

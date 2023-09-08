@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Facter::Util::Fact do
@@ -5,16 +7,18 @@ describe Facter::Util::Fact do
     Facter.clear
   end
 
+  # rubocop:disable RSpec/IndexedLet
   let(:python2_version_output) do
-    <<-EOS
-Python 2.7.9
-EOS
+    <<~EOS
+      Python 2.7.9
+    EOS
   end
   let(:python3_version_output) do
-    <<-EOS
-Python 3.3.0
-EOS
+    <<~EOS
+      Python 3.3.0
+    EOS
   end
+  # rubocop:enable RSpec/IndexedLet
 
   describe 'python_version' do
     context 'returns Python version when `python` present' do
@@ -28,7 +32,7 @@ EOS
     context 'returns nil when `python` not present' do
       it do
         allow(Facter::Util::Resolution).to receive(:which).with('python').and_return(false)
-        expect(Facter.value(:python_version)).to eq(nil)
+        expect(Facter.value(:python_version)).to be_nil
       end
     end
   end
@@ -57,7 +61,7 @@ EOS
         allow(Facter::Util::Resolution).to receive(:which).with('python').and_return(true)
         allow(Facter::Util::Resolution).to receive(:exec).with('python -V 2>&1').and_return(python3_version_output)
         allow(Facter::Util::Resolution).to receive(:which).with('python2').and_return(false)
-        expect(Facter.value(:python2_version)).to eq(nil)
+        expect(Facter.value(:python2_version)).to be_nil
       end
     end
 
@@ -65,7 +69,7 @@ EOS
       it do
         allow(Facter::Util::Resolution).to receive(:which).with('python2').and_return(false)
         allow(Facter::Util::Resolution).to receive(:which).with('python').and_return(false)
-        expect(Facter.value(:python2_version)).to eq(nil)
+        expect(Facter.value(:python2_version)).to be_nil
       end
     end
   end
@@ -82,7 +86,7 @@ EOS
     context 'returns nil when `python3` not present' do
       it do
         allow(Facter::Util::Resolution).to receive(:which).with('python3').and_return(false)
-        expect(Facter.value(:python3_version)).to eq(nil)
+        expect(Facter.value(:python3_version)).to be_nil
       end
     end
   end

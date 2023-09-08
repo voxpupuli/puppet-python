@@ -9,6 +9,7 @@
 # @param owner The owner of the virtualenv being manipulated.
 # @param group The group of the virtualenv being manipulated.
 # @param index Base URL of Python package index.
+# @param extra_index Base URL of extra Python package index.
 # @param proxy Proxy server to use for outbound connections.
 # @param editable If true the package is installed as an editable resource.
 # @param environment Additional environment variables required to install the packages.
@@ -33,7 +34,7 @@
 #     virtualenv    => '/var/www/project1',
 #     owner         => 'appuser',
 #     proxy         => 'http://proxy.domain.com:3128',
-#     environment   => 'ORACLE_HOME=/usr/lib/oracle/11.2/client64',
+#     environment   => ['ORACLE_HOME=/usr/lib/oracle/11.2/client64'],
 #     install_args  => '-e',
 #     timeout       => 1800,
 #   }
@@ -57,13 +58,14 @@ define python::pip (
   Optional[String[1]]                               $group          = getvar('python::params::group'),
   Optional[Python::Umask]                           $umask          = undef,
   Variant[Boolean,String[1]]                        $index          = false,
+  Variant[Boolean,String[1]]                        $extra_index    = false,
   Optional[Stdlib::HTTPUrl]                         $proxy          = undef,
   Any                                               $egg            = false,
   Boolean                                           $editable       = false,
   Array                                             $environment    = [],
   Array                                             $extras         = [],
-  String                                            $install_args   = '',
-  String                                            $uninstall_args = '',
+  Optional[String[1]]                               $install_args   = undef,
+  Optional[String[1]]                               $uninstall_args = undef,
   Numeric                                           $timeout        = 1800,
   String[1]                                         $log_dir        = '/tmp',
   Array[String]                                     $path           = ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
@@ -114,6 +116,11 @@ define python::pip (
     default => "--index-url=${index}",
   }
 
+  $pypi_extra_index = $extra_index ? {
+    false   => '',
+    default => "--extra-index-url=${extra_index}",
+  }
+
   $proxy_flag = $proxy ? {
     undef    => '',
     default  => "--proxy=${proxy}",
@@ -127,11 +134,11 @@ define python::pip (
   }
 
   # TODO: Do more robust argument checking, but below is a start
-  if ($ensure == absent) and ($install_args != '') {
+  if ($ensure == absent) and $install_args {
     fail('python::pip cannot provide install_args with ensure => absent')
   }
 
-  if ($ensure == present) and ($uninstall_args != '') {
+  if ($ensure == present) and $uninstall_args {
     fail('python::pip cannot provide uninstall_args with ensure => present')
   }
 
@@ -173,7 +180,7 @@ define python::pip (
   }
 
   $pip_install     = "${pip_env} --log ${log}/pip.log install"
-  $pip_common_args = "${pypi_index} ${proxy_flag} ${install_args} ${install_editable} ${source}"
+  $pip_common_args = "${pypi_index} ${pypi_extra_index} ${proxy_flag} ${install_editable} ${source}"
 
   # Explicit version out of VCS when PIP supported URL is provided
   if $source =~ /^'(git\+|hg\+|bzr\+|svn\+)(http|https|ssh|svn|sftp|ftp|lp|git)(:\/\/).+'$/ {
@@ -195,16 +202,24 @@ define python::pip (
 
       'present': {
         # Whatever version is available.
-        $command        = "${pip_install} ${pip_common_args}"
+        $command        = "${pip_install} ${install_args} ${pip_common_args}"
         $unless_command = "${pip_env} list | grep -i -e '${grep_regex}'"
       }
 
       'latest': {
+        $pip_version = $facts['pip_version']
+        if $pip_version and versioncmp($pip_version, '21.1') == -1 and versioncmp($pip_version, '20.2.4') == 1 {
+          $legacy_resolver = '--use-deprecated=legacy-resolver'
+        } else {
+          $legacy_resolver = ''
+        }
+
         # Unfortunately this is the smartest way of getting the latest available package version with pip as of now
         # Note: we DO need to repeat ourselves with "from version" in both grep and sed as on some systems pip returns
         # more than one line with paretheses.
-        $latest_version = join( [
-            "${pip_install} ${pypi_index} ${proxy_flag} ${install_args} ${install_editable} ${real_pkgname}==notreallyaversion 2>&1",
+        $latest_version = join([
+            "${pip_install} ${legacy_resolver} ${pypi_index} ${pypi_extra_index} ${proxy_flag}",
+            " ${install_args} ${install_editable} ${real_pkgname}==notreallyaversion 2>&1",
             ' | grep -oP "\(from versions: .*\)" | sed -E "s/\(from versions: (.*?, )*(.*)\)/\2/g"',
             ' | tr -d "[:space:]"',
         ])
@@ -212,9 +227,9 @@ define python::pip (
         # Packages with underscores in their names are listed with dashes in their place in `pip freeze` output
         $pkgname_with_dashes            = regsubst($real_pkgname, '_', '-', 'G')
         $grep_regex_pkgname_with_dashes = "^${pkgname_with_dashes}=="
-        $installed_version              = join( ["${pip_env} freeze --all", " | grep -i -e ${grep_regex_pkgname_with_dashes} | cut -d= -f3", " | tr -d '[:space:]'",])
+        $installed_version              = join(["${pip_env} freeze --all", " | grep -i -e ${grep_regex_pkgname_with_dashes} | cut -d= -f3", " | tr -d '[:space:]'",])
 
-        $command        = "${pip_install} --upgrade ${pip_common_args}"
+        $command        = "${pip_install} --upgrade ${install_args} ${pip_common_args}"
         $unless_command = "[ \$(${latest_version}) = \$(${installed_version}) ]"
       }
 

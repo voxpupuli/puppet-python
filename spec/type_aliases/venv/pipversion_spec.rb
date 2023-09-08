@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'Python::Venv::PipVersion' do
@@ -26,7 +28,7 @@ describe 'Python::Venv::PipVersion' do
     ].each do |value|
       describe value.inspect do
         it {
-          is_expected.to allow_value(value)
+          expect(subject).to allow_value(value)
         }
       end
     end
@@ -50,7 +52,7 @@ describe 'Python::Venv::PipVersion' do
     ].each do |value|
       describe value.inspect do
         it {
-          is_expected.not_to allow_value(value)
+          expect(subject).not_to allow_value(value)
         }
       end
     end

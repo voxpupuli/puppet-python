@@ -4,6 +4,84 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v7.0.0](https://github.com/voxpupuli/puppet-python/tree/v7.0.0) (2023-07-12)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v6.4.0...v7.0.0)
+
+**Breaking changes:**
+
+- Drop Ubuntu 16.04 \(EOL\) [\#659](https://github.com/voxpupuli/puppet-python/pull/659) ([smortex](https://github.com/smortex))
+- Drop Debian 9 \(EOL\) [\#658](https://github.com/voxpupuli/puppet-python/pull/658) ([smortex](https://github.com/smortex))
+- Drop Puppet 6 support [\#656](https://github.com/voxpupuli/puppet-python/pull/656) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Add Puppet 8 support [\#664](https://github.com/voxpupuli/puppet-python/pull/664) ([bastelfreak](https://github.com/bastelfreak))
+- puppetlabs/stdlib: Allow 9.x [\#663](https://github.com/voxpupuli/puppet-python/pull/663) ([bastelfreak](https://github.com/bastelfreak))
+
+**Fixed bugs:**
+
+- Fix pip installation on Gentoo [\#651](https://github.com/voxpupuli/puppet-python/pull/651) ([jameslikeslinux](https://github.com/jameslikeslinux))
+
+## [v6.4.0](https://github.com/voxpupuli/puppet-python/tree/v6.4.0) (2022-11-06)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v6.3.0...v6.4.0)
+
+**Implemented enhancements:**
+
+- move static data from params.pp to init.pp [\#648](https://github.com/voxpupuli/puppet-python/pull/648) ([bastelfreak](https://github.com/bastelfreak))
+- cleanup acceptance tests [\#647](https://github.com/voxpupuli/puppet-python/pull/647) ([bastelfreak](https://github.com/bastelfreak))
+- Implement Arch Linux support [\#642](https://github.com/voxpupuli/puppet-python/pull/642) ([bastelfreak](https://github.com/bastelfreak))
+- Add prompt parameter to python::pyvenv [\#641](https://github.com/voxpupuli/puppet-python/pull/641) ([ookisan](https://github.com/ookisan))
+- Add extra\_index parameter to python::pip [\#640](https://github.com/voxpupuli/puppet-python/pull/640) ([ookisan](https://github.com/ookisan))
+
+**Fixed bugs:**
+
+- use legacy pip resolver for pip versions \< 21.1 \> 20.2.4 [\#639](https://github.com/voxpupuli/puppet-python/pull/639) ([saz](https://github.com/saz))
+
+## [v6.3.0](https://github.com/voxpupuli/puppet-python/tree/v6.3.0) (2022-07-18)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v6.2.1...v6.3.0)
+
+**Implemented enhancements:**
+
+- allow puppet/epel v4 [\#634](https://github.com/voxpupuli/puppet-python/pull/634) ([vchepkov](https://github.com/vchepkov))
+- cleanup references to obsolete virtualenv parameter/command [\#633](https://github.com/voxpupuli/puppet-python/pull/633) ([vchepkov](https://github.com/vchepkov))
+
+**Fixed bugs:**
+
+- Add python-venv installation [\#579](https://github.com/voxpupuli/puppet-python/pull/579) ([crazymind1337](https://github.com/crazymind1337))
+
+## [v6.2.1](https://github.com/voxpupuli/puppet-python/tree/v6.2.1) (2021-12-10)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v6.2.0...v6.2.1)
+
+**Fixed bugs:**
+
+- Correct python::pip::environment parameter example [\#629](https://github.com/voxpupuli/puppet-python/pull/629) ([traylenator](https://github.com/traylenator))
+- gunicorn: RHEL8 has a different package name [\#628](https://github.com/voxpupuli/puppet-python/pull/628) ([yakatz](https://github.com/yakatz))
+- Remove duplicate arguments in the pip install command [\#627](https://github.com/voxpupuli/puppet-python/pull/627) ([zanyou](https://github.com/zanyou))
+
+**Closed issues:**
+
+- Package with provider pip3 tries installing every run. [\#626](https://github.com/voxpupuli/puppet-python/issues/626)
+
+**Merged pull requests:**
+
+- modulesync 5.1.0 & puppet-lint: fix params\_empty\_string\_assignment [\#631](https://github.com/voxpupuli/puppet-python/pull/631) ([bastelfreak](https://github.com/bastelfreak))
+
+## [v6.2.0](https://github.com/voxpupuli/puppet-python/tree/v6.2.0) (2021-08-26)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v6.1.0...v6.2.0)
+
+**Implemented enhancements:**
+
+- Add support for Debian 11 [\#621](https://github.com/voxpupuli/puppet-python/pull/621) ([smortex](https://github.com/smortex))
+
+**Merged pull requests:**
+
+- Allow stdlib 8.0.0 [\#622](https://github.com/voxpupuli/puppet-python/pull/622) ([smortex](https://github.com/smortex))
+
 ## [v6.1.0](https://github.com/voxpupuli/puppet-python/tree/v6.1.0) (2021-06-05)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v6.0.1...v6.1.0)
@@ -319,7 +397,7 @@ Due to a bug in the release pipeline, release v6.0.1 didn't make it to the forge
 
 - Fix Python version regex in install.pp [\#410](https://github.com/voxpupuli/puppet-python/pull/410) ([fklajn](https://github.com/fklajn))
 - Remove docker nodesets [\#408](https://github.com/voxpupuli/puppet-python/pull/408) ([bastelfreak](https://github.com/bastelfreak))
-- Update README compatibility section [\#405](https://github.com/voxpupuli/puppet-python/pull/405) ([rkcpi](https://github.com/rkcpi))
+- Update README compatibility section [\#405](https://github.com/voxpupuli/puppet-python/pull/405) ([sandra-thieme](https://github.com/sandra-thieme))
 - add secret for forge deployment via travis [\#404](https://github.com/voxpupuli/puppet-python/pull/404) ([bastelfreak](https://github.com/bastelfreak))
 - Add deprecation notice for the old repository [\#403](https://github.com/voxpupuli/puppet-python/pull/403) ([stankevich](https://github.com/stankevich))
 - virtualenv.pp: make creation of $venv\_dir optional [\#391](https://github.com/voxpupuli/puppet-python/pull/391) ([daylicron](https://github.com/daylicron))
@@ -553,7 +631,7 @@ Due to a bug in the release pipeline, release v6.0.1 didn't make it to the forge
 - Bootstrap pip installation [\#244](https://github.com/voxpupuli/puppet-python/pull/244) ([joshuaspence](https://github.com/joshuaspence))
 - Various tidying up [\#242](https://github.com/voxpupuli/puppet-python/pull/242) ([joshuaspence](https://github.com/joshuaspence))
 - Allow custom versions to be installed [\#241](https://github.com/voxpupuli/puppet-python/pull/241) ([joshuaspence](https://github.com/joshuaspence))
-- Check that we have results before returning a value [\#238](https://github.com/voxpupuli/puppet-python/pull/238) ([xaque208](https://github.com/xaque208))
+- Check that we have results before returning a value [\#238](https://github.com/voxpupuli/puppet-python/pull/238) ([zachfi](https://github.com/zachfi))
 - Adjust test code to pass syntax checker [\#237](https://github.com/voxpupuli/puppet-python/pull/237) ([fluential](https://github.com/fluential))
 
 ## [1.9.7](https://github.com/voxpupuli/puppet-python/tree/1.9.7) (2015-08-21)

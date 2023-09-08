@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper_acceptance'
 
 describe 'python class' do
@@ -18,9 +20,9 @@ describe 'python class' do
       pp = <<-EOS
       class { 'python':
         ensure     => 'present',
-        version    => '3',
         pip        => 'present',
         dev        => 'present',
+        venv       => 'present',
       }
       EOS
 
@@ -28,10 +30,11 @@ describe 'python class' do
       apply_manifest(pp, catch_failures: true)
       apply_manifest(pp, catch_changes: true)
     end
+
     fact_notices = <<-EOS
       notify{"pip_version: ${facts['pip3_version']}":}
       notify{"python_version: ${facts['python3_version']}":}
-      EOS
+    EOS
     it 'outputs python facts when not installed' do
       apply_manifest(fact_notices, catch_failures: true) do |r|
         expect(r.stdout).to match(%r{python_version: 3\.\S+})

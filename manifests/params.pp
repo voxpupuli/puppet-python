@@ -5,25 +5,9 @@
 #
 class python::params {
   # Module compatibility check
-  unless $facts['os']['family'] in ['AIX', 'Debian', 'FreeBSD', 'Gentoo', 'RedHat', 'Suse'] {
+  unless $facts['os']['family'] in ['AIX', 'Debian', 'FreeBSD', 'Gentoo', 'RedHat', 'Suse', 'Archlinux'] {
     fail("Module is not compatible with ${facts['os']['name']}")
   }
-
-  $ensure                      = 'present'
-  $pip                         = 'present'
-  $dev                         = 'absent'
-  $virtualenv                  = 'absent'
-  $gunicorn                    = 'absent'
-  $manage_gunicorn             = true
-  $manage_python_package       = true
-  $manage_virtualenv_package   = true
-  $manage_pip_package          = true
-  $provider                    = undef
-  $valid_versions              = undef
-  $manage_scl                  = true
-  $rhscl_use_public_repository = true
-  $anaconda_installer_url      = 'https://repo.anaconda.com/archive/Anaconda3-5.2.0-Linux-x86_64.sh'
-  $anaconda_install_path       = '/opt/python'
 
   if $facts['os']['family'] == 'RedHat' and $facts['os']['name'] != 'Fedora' {
     $use_epel = true
@@ -42,7 +26,19 @@ class python::params {
   }
 
   $gunicorn_package_name = $facts['os']['family'] ? {
-    'RedHat' => 'python-gunicorn',
+    'RedHat' => $facts['os']['release']['major'] ? {
+      '8' => 'python3-gunicorn',
+      default => 'python-gunicorn',
+    },
     default  => 'gunicorn',
+  }
+
+  $manage_pip_package = $facts['os']['family'] ? {
+    'Archlinux' => false,
+    default     => true,
+  }
+  $manage_venv_package = $facts['os']['family'] ? {
+    'Archlinux' => false,
+    default     => true,
   }
 }

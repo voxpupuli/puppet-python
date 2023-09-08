@@ -15,24 +15,13 @@ class python::install {
   }
 
   $pythondev = $facts['os']['family'] ? {
-    'AIX'     => "${python}-devel",
-    'Debian'  => "${python}-dev",
-    'FreeBSD' => undef,
-    'Gentoo'  => undef,
-    'RedHat'  => "${python}-devel",
-    'Suse'    => "${python}-devel",
-  }
-
-  $pip_ensure = $python::pip ? {
-    true    => 'present',
-    false   => 'absent',
-    default => $python::pip,
-  }
-
-  $dev_ensure = $python::dev ? {
-    true    => 'present',
-    false   => 'absent',
-    default => $python::dev,
+    'AIX'       => "${python}-devel",
+    'Debian'    => "${python}-dev",
+    'FreeBSD'   => undef,
+    'Gentoo'    => undef,
+    'Archlinux' => undef,
+    'RedHat'    => "${python}-devel",
+    'Suse'      => "${python}-devel",
   }
 
   if $python::manage_python_package {
@@ -42,24 +31,37 @@ class python::install {
     )
   }
 
+  if $python::manage_venv_package {
+    ##
+    ## CentOS has no extra package for venv
+    ##
+    unless $facts['os']['name'] == 'CentOS' {
+      package { 'python-venv':
+        ensure  => $python::venv,
+        name    => "${python}-venv",
+        require => Package['python'],
+      }
+    }
+  }
+
   case $python::provider {
     'pip': {
       if $python::manage_pip_package {
         ensure_packages (['pip'],
-          ensure  => $pip_ensure,
+          ensure  => $python::pip,
           require => Package['python'],
         )
       }
 
       if $pythondev {
         ensure_packages (['python-dev'],
-          ensure => $dev_ensure,
+          ensure => $python::dev,
           name   => $pythondev,
         )
       }
 
-      # Respect the $pip_ensure setting
-      unless $pip_ensure == 'absent' {
+      # Respect the $python::pip setting
+      unless $python::pip == 'absent' {
         # Install pip without pip, see https://pip.pypa.io/en/stable/installing/.
         include python::pip::bootstrap
 
@@ -93,16 +95,16 @@ class python::install {
 
         Package['scl-utils'] -> Package["${python}-scldevel"]
 
-        if $pip_ensure != 'absent' {
+        if $python::pip != 'absent' {
           Package['scl-utils'] -> Exec['python-scl-pip-install']
         }
       }
 
       package { "${python}-scldevel":
-        ensure => $dev_ensure,
+        ensure => $python::dev,
       }
 
-      if $pip_ensure != 'absent' {
+      if $python::pip != 'absent' {
         exec { 'python-scl-pip-install':
           command => "${python::exec_prefix}easy_install pip",
           path    => ['/usr/bin', '/bin'],
@@ -126,17 +128,13 @@ class python::install {
         tag => 'python-scl-package',
       }
 
-      Package <| title == 'virtualenv' |> {
-        name => "${python}-python-virtualenv",
-      }
-
       package { "${python}-scldevel":
-        ensure => $dev_ensure,
+        ensure => $python::dev,
         tag    => 'python-scl-package',
       }
 
       package { "${python}-python-pip":
-        ensure => $pip_ensure,
+        ensure => $python::pip,
         tag    => 'python-pip-package',
       }
 
@@ -174,7 +172,7 @@ class python::install {
           } else {
             if $python::manage_pip_package {
               package { 'python-pip':
-                ensure   => $pip_ensure,
+                ensure   => $python::pip,
                 require  => Package['python'],
                 provider => 'yum',
               }
@@ -183,7 +181,7 @@ class python::install {
 
           if $pythondev {
             ensure_packages (['python-dev'],
-              ensure => $dev_ensure,
+              ensure => $python::dev,
               name   => $pythondev,
               alias  => $pythondev,
               provider => 'yum',
@@ -193,14 +191,14 @@ class python::install {
         default: {
           if $python::manage_pip_package {
             ensure_packages (['pip'],
-              ensure  => $pip_ensure,
+              ensure  => $python::pip,
               require => Package['python'],
             )
           }
 
           if $pythondev {
             ensure_packages (['python-dev'],
-              ensure => $dev_ensure,
+              ensure => $python::dev,
               name   => $pythondev,
               alias  => $pythondev,
             )
@@ -209,43 +207,39 @@ class python::install {
       }
 
       if $facts['os']['family'] == 'RedHat' {
-        if $pip_ensure != 'absent' and $python::use_epel and ($python::manage_pip_package or $python::manage_python_package) {
+        if $python::pip != 'absent' and $python::use_epel and ($python::manage_pip_package or $python::manage_python_package) {
           require epel
         }
       }
 
       if String($python::version) =~ /^python3/ {
-        $pip_category = undef
         $pip_package  = "${python}-pip"
         $pip_provider = $python.regsubst(/^.*python3\.?/,'pip3.').regsubst(/\.$/,'')
       } elsif ($facts['os']['family'] == 'RedHat') and (versioncmp($facts['os']['release']['major'], '8') >= 0) {
-        $pip_category = undef
         $pip_package  = 'python3-pip'
         $pip_provider = pip3
       } elsif ($facts['os']['family'] == 'RedHat') and (versioncmp($facts['os']['release']['major'], '7') >= 0) {
-        $pip_category = undef
         $pip_package  = 'python2-pip'
         $pip_provider = pip2
       } elsif $facts['os']['family'] == 'FreeBSD' {
-        $pip_category = undef
         $pip_package  = "py${python::version}-pip"
         $pip_provider = 'pip'
       } elsif $facts['os']['family'] == 'Gentoo' {
-        $pip_category = 'dev-python'
-        $pip_package  = 'pip'
+        $pip_package  = 'dev-python/pip'
         $pip_provider = 'pip'
+      } elsif ($facts['os']['name'] == 'Ubuntu') and (versioncmp($facts['os']['release']['major'], '20.04') >= 0) {
+        $pip_package  = 'python3-pip'
+        $pip_provider = 'pip3'
+      } elsif ($facts['os']['name'] == 'Debian') and (versioncmp($facts['os']['release']['major'], '11') >= 0) {
+        $pip_package  = 'python3-pip'
+        $pip_provider = 'pip3'
       } else {
-        $pip_package = $facts['os']['release']['major'] ? {
-          '20.04' => 'python3-pip',
-          default => 'python-pip',
-        }
-        $pip_category = undef
+        $pip_package  = 'python-pip'
         $pip_provider = 'pip'
       }
 
       Package <| title == 'pip' |> {
-        name     => $pip_package,
-        category => $pip_category,
+        name => $pip_package,
       }
     }
   }

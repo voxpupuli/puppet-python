@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'python::requirements', type: :define do
@@ -48,12 +50,17 @@ describe 'python::requirements', type: :define do
         it { is_expected.to contain_class('python::params') }
         it { is_expected.to contain_class('python') }
         it { is_expected.to contain_exec('python_requirements/requirements.txt') }
-        it { is_expected.to contain_package('pip') }
+
+        if facts[:os]['family'] == 'Archlinux'
+          it { is_expected.not_to contain_package('pip') }
+        else
+          it { is_expected.to contain_package('pip') }
+        end
         it { is_expected.to contain_package('python') }
         it { is_expected.to contain_package('gunicorn') }
         it { is_expected.to contain_file('/requirements.txt').with_owner('root').with_group('root') }
 
-        if %w[FreeBSD Gentoo].include?(facts[:os]['name'])
+        if %w[Archlinux FreeBSD Gentoo].include?(facts[:os]['name'])
           it { is_expected.not_to contain_package('python-dev') }
         else
           it { is_expected.to contain_package('python-dev') }
