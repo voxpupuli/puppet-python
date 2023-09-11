@@ -50,15 +50,15 @@ describe 'python' do
           {
             manage_pip_package: true,
             manage_venv_package: true,
-            pip: 'present',
-            venv: 'present'
+            pip: 'installed',
+            venv: 'installed'
           }
         end
 
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_package('pip').with(ensure: 'present') }
+        it { is_expected.to contain_package('pip').with(ensure: 'installed') }
 
-        it { is_expected.to contain_package('python-venv').with(ensure: 'present') } unless facts[:os]['name'] == 'CentOS'
+        it { is_expected.to contain_package('python-venv').with(ensure: 'installed') } unless facts[:os]['name'] == 'CentOS'
       end
 
       case facts[:os]['family']
@@ -86,10 +86,10 @@ describe 'python' do
           # rubocop:disable RSpec/RepeatedExampleGroupDescription
           describe 'with python::dev' do
             context 'true' do
-              let(:params) { { dev: 'present' } }
+              let(:params) { { dev: 'installed' } }
 
               it { is_expected.to compile.with_all_deps }
-              it { is_expected.to contain_package('python-dev').with_ensure('present') }
+              it { is_expected.to contain_package('python-dev').with_ensure('installed') }
             end
 
             context 'empty/default' do
@@ -233,9 +233,9 @@ describe 'python' do
 
           describe 'with python::dev' do
             context 'true' do
-              let(:params) { { dev: 'present' } }
+              let(:params) { { dev: 'installed' } }
 
-              it { is_expected.to contain_package('python-dev').with_ensure('present') }
+              it { is_expected.to contain_package('python-dev').with_ensure('installed') }
             end
 
             context 'default/empty' do
@@ -417,9 +417,9 @@ describe 'python' do
 
           describe 'with python::dev' do
             context 'true' do
-              let(:params) { { dev: 'present' } }
+              let(:params) { { dev: 'installed' } }
 
-              it { is_expected.to contain_package('python-dev').with_ensure('present') }
+              it { is_expected.to contain_package('python-dev').with_ensure('installed') }
             end
 
             context 'empty/default' do
@@ -467,9 +467,9 @@ describe 'python' do
 
           describe 'with python::dev' do
             context 'true' do
-              let(:params) { { dev: 'present' } }
+              let(:params) { { dev: 'installed' } }
 
-              it { is_expected.to contain_package('python-dev').with_ensure('present') }
+              it { is_expected.to contain_package('python-dev').with_ensure('installed') }
             end
 
             context 'default/empty' do
