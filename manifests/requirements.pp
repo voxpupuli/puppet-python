@@ -88,8 +88,13 @@ define python::requirements (
       replace => false,
       content => '# Puppet will install and/or update pip packages listed here',
     }
+
+    $local_subscribe = File[$requirements]
+  } elsif File[$requirements] and $manage_requirements == true {
+    $local_subscribe = File[$requirements]
+  } else {
+    $local_subscribe = undef
   }
-  $local_subscribe = File[$requirements]
 
   exec { "python_requirements${name}":
     provider    => shell,
