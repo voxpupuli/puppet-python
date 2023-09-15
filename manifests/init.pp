@@ -19,6 +19,7 @@
 # @param umask The default umask for invoked exec calls.
 # @param manage_gunicorn manage the state for package gunicorn
 # @param manage_python_package manage the state for package python
+# @param manage_dev_package manage the state of the python development package
 # @param manage_venv_package manage the state for package venv
 # @param manage_pip_package manage the state for package pip
 #
@@ -45,6 +46,7 @@ class python (
   Python::Package::Ensure    $gunicorn                    = 'absent',
   Boolean                    $manage_gunicorn             = true,
   Boolean                    $manage_python_package       = true,
+  Boolean                    $manage_dev_package          = true,
   Boolean                    $manage_venv_package         = $python::params::manage_venv_package,
   Boolean                    $manage_pip_package          = $python::params::manage_pip_package,
   String[1]                  $gunicorn_package_name       = $python::params::gunicorn_package_name,

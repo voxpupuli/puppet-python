@@ -34,6 +34,7 @@ describe 'python' do
         let :params do
           {
             manage_python_package: false,
+            manage_dev_package: false,
             manage_pip_package: false,
             manage_venv_package: false
           }
@@ -41,6 +42,7 @@ describe 'python' do
 
         it { is_expected.to compile.with_all_deps }
         it { is_expected.not_to contain_package('python') }
+        it { is_expected.not_to contain_package('python-dev') }
         it { is_expected.not_to contain_package('pip') }
         it { is_expected.not_to contain_package('python-venv') }
       end

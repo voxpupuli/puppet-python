@@ -79,6 +79,7 @@ The following parameters are available in the `python` class:
 * [`umask`](#-python--umask)
 * [`manage_gunicorn`](#-python--manage_gunicorn)
 * [`manage_python_package`](#-python--manage_python_package)
+* [`manage_dev_package`](#-python--manage_dev_package)
 * [`manage_venv_package`](#-python--manage_venv_package)
 * [`manage_pip_package`](#-python--manage_pip_package)
 * [`venv`](#-python--venv)
@@ -189,6 +190,14 @@ Default value: `true`
 Data type: `Boolean`
 
 manage the state for package python
+
+Default value: `true`
+
+##### <a name="-python--manage_dev_package"></a>`manage_dev_package`
+
+Data type: `Boolean`
+
+manage the state of the python development package
 
 Default value: `true`
 
