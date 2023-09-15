@@ -32,16 +32,7 @@ class python::install {
   }
 
   if $python::manage_venv_package {
-    ##
-    ## CentOS has no extra package for venv
-    ##
-    unless $facts['os']['family'] == 'RedHat' {
-      package { 'python-venv':
-        ensure  => $python::venv,
-        name    => "${python}-venv",
-        require => Package['python'],
-      }
-    }
+    contain python::install::venv
   }
 
   case $python::provider {
