@@ -54,10 +54,7 @@ class python::install {
       }
 
       if $python::manage_dev_package and $pythondev {
-        package { 'python-dev':
-          ensure => $python::dev,
-          name   => $pythondev,
-        }
+        contain python::install::dev
       }
 
       # Respect the $python::pip setting
@@ -180,12 +177,7 @@ class python::install {
           }
 
           if $python::manage_dev_package and $pythondev {
-            package { 'python-dev':
-              ensure   => $python::dev,
-              name     => $pythondev,
-              alias    => $pythondev,
-              provider => 'yum',
-            }
+            contain python::install::dev
           }
         }
         default: {
@@ -197,11 +189,7 @@ class python::install {
           }
 
           if $python::manage_dev_package and $pythondev {
-            package { 'python-dev':
-              ensure => $python::dev,
-              name   => $pythondev,
-              alias  => $pythondev,
-            }
+            contain python::install::dev
           }
         }
       }

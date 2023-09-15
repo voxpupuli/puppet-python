@@ -9,6 +9,7 @@
 #### Public Classes
 
 * [`python`](#python): Installs and manages python, python-dev and gunicorn.
+* [`python::install::dev`](#python--install--dev): Installs python development packages
 * [`python::pip::bootstrap`](#python--pip--bootstrap): allow to bootstrap pip when python is managed from other module
 
 #### Private Classes
@@ -288,6 +289,10 @@ Data type: `Stdlib::Absolutepath`
 
 
 Default value: `'/opt/python'`
+
+### <a name="python--install--dev"></a>`python::install::dev`
+
+Installs python development packages
 
 ### <a name="python--pip--bootstrap"></a>`python::pip::bootstrap`
 
