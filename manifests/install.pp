@@ -38,10 +38,7 @@ class python::install {
   case $python::provider {
     'pip': {
       if $python::manage_pip_package {
-        package { 'pip':
-          ensure  => $python::pip,
-          require => Package['python'],
-        }
+        contain python::install::pip
       }
 
       if $python::manage_dev_package and $pythondev {
@@ -159,11 +156,7 @@ class python::install {
             }
           } else {
             if $python::manage_pip_package {
-              package { 'python-pip':
-                ensure   => $python::pip,
-                require  => Package['python'],
-                provider => 'yum',
-              }
+              contain python::install::pip
             }
           }
 
@@ -173,10 +166,7 @@ class python::install {
         }
         default: {
           if $python::manage_pip_package {
-            package { 'pip':
-              ensure  => $python::pip,
-              require => Package['python'],
-            }
+            contain python::install::pip
           }
 
           if $python::manage_dev_package and $pythondev {
