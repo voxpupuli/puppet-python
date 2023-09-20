@@ -1,0 +1,11 @@
+---
+python::version: '3'
+python::use_epel: true
+python::gunicorn_package_name: 'gunicorn'
+python::manage_pip_package: true
+python::manage_venv_package: true
+python::pip::group: 'root'
+python::pip::bootstrap::pip_lookup_path:
+  - /bin
+  - /usr/bin
+  - /usr/local/bin

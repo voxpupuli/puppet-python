@@ -47,7 +47,6 @@ describe 'python::requirements', type: :define do
         it { is_expected.to compile.with_all_deps }
         it { is_expected.to contain_class('python::config') }
         it { is_expected.to contain_class('python::install') }
-        it { is_expected.to contain_class('python::params') }
         it { is_expected.to contain_class('python') }
         it { is_expected.to contain_exec('python_requirements/requirements.txt') }
 

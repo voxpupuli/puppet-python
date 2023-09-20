@@ -1,0 +1,3 @@
+---
+python::use_epel: true
+python::gunicorn_package_name: 'python-gunicorn'
