@@ -90,6 +90,8 @@ define python::requirements (
     }
 
     $local_subscribe = File[$requirements]
+  } elsif File[$requirements] and $manage_requirements == true {
+    $local_subscribe = File[$requirements]
   } else {
     $local_subscribe = undef
   }

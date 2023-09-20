@@ -1163,7 +1163,7 @@ Alias of `Enum['debug', 'info', 'warning', 'error', 'critical']`
 
 Match all valid package ensures for python
 
-Alias of `Enum['absent', 'present', 'latest']`
+Alias of `Enum['absent', 'present', 'installed', 'latest']`
 
 ### <a name="Python--Provider"></a>`Python::Provider`
 
