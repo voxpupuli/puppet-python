@@ -16,8 +16,9 @@ class python::params {
   }
 
   $group = $facts['os']['family'] ? {
-    'AIX' => 'system',
-    default => 'root'
+    'AIX'     => 'system',
+    'FreeBSD' => 'wheel',
+    default   => 'root'
   }
 
   $pip_lookup_path = $facts['os']['family'] ? {
