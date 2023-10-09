@@ -38,6 +38,7 @@ define python::pyvenv (
   Optional[Stdlib::Absolutepath] $python_path = undef,
 ) {
   include python
+  include python::install::venv
 
   if $ensure == 'present' {
     $python_version = $version ? {

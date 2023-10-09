@@ -2,10 +2,8 @@
 class python::install::venv {
   include python
 
-  ##
-  ## CentOS has no extra package for venv
-  ##
-  unless $facts['os']['family'] == 'RedHat' {
+  # Main python package bundle venv on some operating systems
+  unless $facts['os']['family'] in ['Archlinux', 'RedHat', 'FreeBSD'] {
     package { 'python-venv':
       ensure  => $python::venv,
       name    => "${python::install::python}-venv",
