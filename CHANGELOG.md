@@ -796,7 +796,7 @@ Due to a bug in the release pipeline, release v6.0.1 didn't make it to the forge
 **Closed issues:**
 
 - 'system' or any other version of python doesn't work, doesn't get validated [\#129](https://github.com/voxpupuli/puppet-python/issues/129)
-- Could not look up qualified variable '::python::install::valid\_versions' [\#126](https://github.com/voxpupuli/puppet-python/issues/126)
+- Could not look up qualified variable 'python::install::valid\_versions' [\#126](https://github.com/voxpupuli/puppet-python/issues/126)
 
 ## [1.7.11](https://github.com/voxpupuli/puppet-python/tree/1.7.11) (2014-10-11)
 
