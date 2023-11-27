@@ -53,7 +53,7 @@ class python::install {
         }
       }
 
-      if $pythondev {
+      if $python::manage_dev_package and $pythondev {
         package { 'python-dev':
           ensure => $python::dev,
           name   => $pythondev,
@@ -179,7 +179,7 @@ class python::install {
             }
           }
 
-          if $pythondev {
+          if $python::manage_dev_package and $pythondev {
             package { 'python-dev':
               ensure   => $python::dev,
               name     => $pythondev,
@@ -196,7 +196,7 @@ class python::install {
             }
           }
 
-          if $pythondev {
+          if $python::manage_dev_package and $pythondev {
             package { 'python-dev':
               ensure => $python::dev,
               name   => $pythondev,
