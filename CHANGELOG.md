@@ -4,7 +4,24 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v7.0.0](https://github.com/voxpupuli/puppet-python/tree/v7.0.0) (2023-07-12)
+## [v7.1.0](https://github.com/voxpupuli/puppet-python/tree/v7.1.0) (2023-11-29)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v7.0.0...v7.1.0)
+
+**Implemented enhancements:**
+
+- Add Ubuntu 22.04 support [\#679](https://github.com/voxpupuli/puppet-python/pull/679) ([bastelfreak](https://github.com/bastelfreak))
+- Add Debian 12 support [\#678](https://github.com/voxpupuli/puppet-python/pull/678) ([bastelfreak](https://github.com/bastelfreak))
+- Add OracleLinux/AlmaLinux/Rocky support [\#677](https://github.com/voxpupuli/puppet-python/pull/677) ([JakeTRogers](https://github.com/JakeTRogers))
+- Bump puppet-epel to allow 5.x [\#674](https://github.com/voxpupuli/puppet-python/pull/674) ([dandunckelman](https://github.com/dandunckelman))
+- Allow to skip management of python dev package [\#669](https://github.com/voxpupuli/puppet-python/pull/669) ([smortex](https://github.com/smortex))
+
+**Fixed bugs:**
+
+- Use the wheel group by default on FreeBSD [\#672](https://github.com/voxpupuli/puppet-python/pull/672) ([smortex](https://github.com/smortex))
+- If user declares their requirements.txt in Puppet, don't skip pip installation in python::requirements [\#619](https://github.com/voxpupuli/puppet-python/pull/619) ([acullenn](https://github.com/acullenn))
+
+## [v7.0.0](https://github.com/voxpupuli/puppet-python/tree/v7.0.0) (2023-07-27)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v6.4.0...v7.0.0)
 
@@ -796,7 +813,7 @@ Due to a bug in the release pipeline, release v6.0.1 didn't make it to the forge
 **Closed issues:**
 
 - 'system' or any other version of python doesn't work, doesn't get validated [\#129](https://github.com/voxpupuli/puppet-python/issues/129)
-- Could not look up qualified variable '::python::install::valid\_versions' [\#126](https://github.com/voxpupuli/puppet-python/issues/126)
+- Could not look up qualified variable `python::install::valid_versions` [\#126](https://github.com/voxpupuli/puppet-python/issues/126)
 
 ## [1.7.11](https://github.com/voxpupuli/puppet-python/tree/1.7.11) (2014-10-11)
 
