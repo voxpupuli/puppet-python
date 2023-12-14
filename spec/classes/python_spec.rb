@@ -18,9 +18,9 @@ describe 'python' do
         it { is_expected.to contain_package('python') }
 
         if facts[:os]['family'] == 'Archlinux'
-          it { is_expected.not_to contain_package('pip') }
+          it { is_expected.not_to contain_class('python::install::pip') }
         else
-          it { is_expected.to contain_package('pip') }
+          it { is_expected.to contain_class('python::install::pip') }
         end
 
         if %w[Archlinux].include?(facts[:os]['family'])
@@ -43,20 +43,8 @@ describe 'python' do
         it { is_expected.to compile.with_all_deps }
         it { is_expected.not_to contain_package('python') }
         it { is_expected.not_to contain_package('python-dev') }
-        it { is_expected.not_to contain_package('pip') }
+        it { is_expected.not_to contain_class('python::install::pip') }
         it { is_expected.not_to contain_class('python::install::venv') }
-      end
-
-      context 'with packages present' do
-        let :params do
-          {
-            manage_pip_package: true,
-            pip: 'present',
-          }
-        end
-
-        it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_package('pip').with(ensure: 'present') }
       end
 
       case facts[:os]['family']
@@ -68,7 +56,7 @@ describe 'python' do
           # Base debian packages.
           it { is_expected.to contain_package('python') }
           it { is_expected.to contain_package('python-dev') }
-          it { is_expected.to contain_package('pip') }
+          it { is_expected.to contain_class('python::install::pip') }
 
           describe 'with python::version' do
             context 'python3.7' do

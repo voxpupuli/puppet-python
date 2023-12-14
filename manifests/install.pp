@@ -48,7 +48,7 @@ class python::install {
       # Respect the $python::pip setting
       unless $python::pip == 'absent' {
         # Install pip without pip, see https://pip.pypa.io/en/stable/installing/.
-        include python::pip::bootstrap
+        contain python::pip::bootstrap
 
         Exec['bootstrap pip'] -> File['pip-python'] -> Package <| provider == pip |>
 

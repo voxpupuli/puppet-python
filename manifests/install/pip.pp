@@ -15,7 +15,7 @@ class python::install::pip {
     }
     'anaconda': {
     }
-    default: {
+    pip, default: {
       case $facts['os']['family'] {
         'AIX': {
           unless String($python::version) =~ /^python3/ {

@@ -49,6 +49,7 @@ class python (
   Boolean                    $manage_dev_package          = true,
   Boolean                    $manage_venv_package         = $python::params::manage_venv_package,
   Boolean                    $manage_pip_package          = $python::params::manage_pip_package,
+  Optional[String[1]]        $pip_package_name            = undef,
   String[1]                  $gunicorn_package_name       = $python::params::gunicorn_package_name,
   Optional[Python::Provider] $provider                    = undef,
   Hash                       $python_pips                 = {},
@@ -67,6 +68,14 @@ class python (
     'rhscl' => "/usr/bin/scl enable ${version} -- ",
     default => '',
   }
+
+  $pip_package_real_name = $pip_package_name.lest || {
+    fact('os.family') ? {
+      'FreeBSD' => "py${version}-pip",
+      default   => 'python-pip',
+    }
+  }
+
 
   contain python::install
   contain python::config
