@@ -76,7 +76,6 @@ class python (
     }
   }
 
-
   contain python::install
   contain python::config
 

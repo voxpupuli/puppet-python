@@ -3,7 +3,7 @@ class python::install::venv {
   include python
 
   # Main python package bundle venv on some operating systems
-  unless $facts['os']['family'] in ['Archlinux', 'RedHat', 'FreeBSD'] {
+  unless $facts['os']['family'] in ['Archlinux', 'FreeBSD', 'RedHat'] {
     package { 'python-venv':
       ensure  => $python::venv,
       name    => "${python::install::python}-venv",

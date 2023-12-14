@@ -16,9 +16,9 @@ describe 'python::install::pip' do
       context 'when ensuring pip is absent' do
         let(:pre_condition) do
           <<~PP
-          class { 'python':
-            pip => absent,
-          }
+            class { 'python':
+              pip => absent,
+            }
           PP
         end
 

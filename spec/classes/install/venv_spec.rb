@@ -26,7 +26,7 @@ describe 'python::install::venv' do
           PP
         end
 
-        if %w[Archlinux RedHat FreeBSD].include?(facts[:os]['family'])
+        if %w[Archlinux FreeBSD RedHat].include?(facts[:os]['family'])
           it { is_expected.not_to contain_package('python-venv') }
         else
           it { is_expected.to contain_package('python-venv').with(ensure: 'present') }

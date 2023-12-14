@@ -86,6 +86,7 @@ The following parameters are available in the `python` class:
 * [`manage_venv_package`](#-python--manage_venv_package)
 * [`manage_pip_package`](#-python--manage_pip_package)
 * [`venv`](#-python--venv)
+* [`pip_package_name`](#-python--pip_package_name)
 * [`gunicorn_package_name`](#-python--gunicorn_package_name)
 * [`python_pips`](#-python--python_pips)
 * [`python_pyvenvs`](#-python--python_pyvenvs)
@@ -227,6 +228,14 @@ Data type: `Python::Package::Ensure`
 
 
 Default value: `'absent'`
+
+##### <a name="-python--pip_package_name"></a>`pip_package_name`
+
+Data type: `Optional[String[1]]`
+
+
+
+Default value: `undef`
 
 ##### <a name="-python--gunicorn_package_name"></a>`gunicorn_package_name`
 
