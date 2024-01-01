@@ -220,7 +220,7 @@ define python::pip (
         $latest_version = join([
             "${pip_install} ${legacy_resolver} ${pypi_index} ${pypi_extra_index} ${proxy_flag}",
             " ${install_args} ${install_editable} ${real_pkgname}==notreallyaversion 2>&1",
-            ' | grep -oP "\(from versions: .*\)" | sed -E "s/\(from versions: (.*?, )*(.*)\)/\2/g"',
+            " | sed -nE 's/.*\\(from versions: (.*, )*(.*)\\)/\\2/p'",
             ' | tr -d "[:space:]"',
         ])
 
