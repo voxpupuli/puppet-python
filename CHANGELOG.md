@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v7.2.0](https://github.com/voxpupuli/puppet-python/tree/v7.2.0) (2024-01-01)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v7.1.0...v7.2.0)
+
+**Implemented enhancements:**
+
+- Add Support for RedHat/CentOS 9 [\#676](https://github.com/voxpupuli/puppet-python/pull/676) ([ValdrinLushaj](https://github.com/ValdrinLushaj))
+
+**Fixed bugs:**
+
+- Make latest version detection portable [\#682](https://github.com/voxpupuli/puppet-python/pull/682) ([smortex](https://github.com/smortex))
+
 ## [v7.1.0](https://github.com/voxpupuli/puppet-python/tree/v7.1.0) (2023-11-29)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v7.0.0...v7.1.0)
