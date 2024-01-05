@@ -913,6 +913,7 @@ The following parameters are available in the `python::pyvenv` defined type:
 * [`path`](#-python--pyvenv--path)
 * [`environment`](#-python--pyvenv--environment)
 * [`prompt`](#-python--pyvenv--prompt)
+* [`index`](#-python--pyvenv--index)
 * [`pip_version`](#-python--pyvenv--pip_version)
 
 ##### <a name="-python--pyvenv--ensure"></a>`ensure`
@@ -992,6 +993,14 @@ Default value: `[]`
 Data type: `Optional[String[1]]`
 
 Optionally specify the virtualenv prompt (python >= 3.6)
+
+Default value: `undef`
+
+##### <a name="-python--pyvenv--index"></a>`index`
+
+Data type: `Optional[String[1]]`
+
+Optionally specify an index location from where pip and setuptools should be installed
 
 Default value: `undef`
 

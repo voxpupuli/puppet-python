@@ -157,7 +157,7 @@ describe 'python' do
               it {
                 expect(subject).to contain_exec('python_virtualenv_/opt/env1').
                   with(
-                    command: 'python3.8 -m venv --clear   /opt/env1 && /opt/env1/bin/pip --log /opt/env1/pip.log install --upgrade pip && /opt/env1/bin/pip --log /opt/env1/pip.log install --upgrade setuptools',
+                    command: 'python3.8 -m venv --clear   /opt/env1 && /opt/env1/bin/pip --log /opt/env1/pip.log install  --upgrade pip && /opt/env1/bin/pip --log /opt/env1/pip.log install  --upgrade setuptools',
                     user: 'root',
                     creates: '/opt/env1/bin/activate',
                     path: [
@@ -177,7 +177,7 @@ describe 'python' do
               it {
                 expect(subject).to contain_exec('python_virtualenv_/opt/env2').
                   with(
-                    command: 'python3.8 -m venv --clear   /opt/env2 && /opt/env2/bin/pip --log /opt/env2/pip.log install --upgrade \'pip <= 20.3.4\' && /opt/env2/bin/pip --log /opt/env2/pip.log install --upgrade setuptools',
+                    command: 'python3.8 -m venv --clear   /opt/env2 && /opt/env2/bin/pip --log /opt/env2/pip.log install  --upgrade \'pip <= 20.3.4\' && /opt/env2/bin/pip --log /opt/env2/pip.log install  --upgrade setuptools',
                     user: 'root',
                     creates: '/opt/env2/bin/activate',
                     path: [

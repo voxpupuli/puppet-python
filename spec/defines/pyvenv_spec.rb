@@ -19,7 +19,7 @@ describe 'python::pyvenv', type: :define do
 
       context 'with default parameters' do
         it { is_expected.to contain_file('/opt/env').that_requires('Class[python::install]') }
-        it { is_expected.to contain_exec('python_virtualenv_/opt/env').with_command('pyvenv-3.5 --clear   /opt/env && /opt/env/bin/pip --log /opt/env/pip.log install --upgrade pip && /opt/env/bin/pip --log /opt/env/pip.log install --upgrade setuptools') }
+        it { is_expected.to contain_exec('python_virtualenv_/opt/env').with_command('pyvenv-3.5 --clear   /opt/env && /opt/env/bin/pip --log /opt/env/pip.log install  --upgrade pip && /opt/env/bin/pip --log /opt/env/pip.log install  --upgrade setuptools') }
       end
 
       describe 'when ensure' do
@@ -34,6 +34,16 @@ describe 'python::pyvenv', type: :define do
             expect(subject).to contain_file('/opt/env').with_ensure('absent').with_purge(true)
           }
         end
+      end
+
+      context 'custom index is provided' do
+        let :params do
+          {
+            index: 'https://site.tld',
+          }
+        end
+
+        it { is_expected.to contain_exec('python_virtualenv_/opt/env').with_command('pyvenv-3.5 --clear   /opt/env && /opt/env/bin/pip --log /opt/env/pip.log install -i https://site.tld --upgrade pip && /opt/env/bin/pip --log /opt/env/pip.log install -i https://site.tld --upgrade setuptools') }
       end
     end
 
@@ -57,7 +67,7 @@ describe 'python::pyvenv', type: :define do
 
         it {
           is_expected.to contain_file('/opt/env').that_requires('Class[python::install]')
-          is_expected.to contain_exec('python_virtualenv_/opt/env').with_command('python3.6 -m venv --clear  --prompt custom\\ prompt /opt/env && /opt/env/bin/pip --log /opt/env/pip.log install --upgrade pip && /opt/env/bin/pip --log /opt/env/pip.log install --upgrade setuptools')
+          is_expected.to contain_exec('python_virtualenv_/opt/env').with_command('python3.6 -m venv --clear  --prompt custom\\ prompt /opt/env && /opt/env/bin/pip --log /opt/env/pip.log install  --upgrade pip && /opt/env/bin/pip --log /opt/env/pip.log install  --upgrade setuptools')
         }
       end
     end
@@ -81,7 +91,7 @@ describe 'python::pyvenv', type: :define do
 
         it {
           is_expected.to contain_file('/opt/env').that_requires('Class[python::install]')
-          is_expected.to contain_exec('python_virtualenv_/opt/env').with_command('pyvenv-3.5 --clear   /opt/env && /opt/env/bin/pip --log /opt/env/pip.log install --upgrade pip && /opt/env/bin/pip --log /opt/env/pip.log install --upgrade setuptools')
+          is_expected.to contain_exec('python_virtualenv_/opt/env').with_command('pyvenv-3.5 --clear   /opt/env && /opt/env/bin/pip --log /opt/env/pip.log install  --upgrade pip && /opt/env/bin/pip --log /opt/env/pip.log install  --upgrade setuptools')
         }
       end
     end

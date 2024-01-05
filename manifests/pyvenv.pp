@@ -11,6 +11,7 @@
 # @param path Specifies the PATH variable.
 # @param environment Optionally specify environment variables for pyvenv
 # @param prompt Optionally specify the virtualenv prompt (python >= 3.6)
+# @param index Optionally specify an index location from where pip and setuptools should be installed
 #
 # @example
 #   python::pyvenv { '/var/www/project1' :
@@ -34,6 +35,7 @@ define python::pyvenv (
   Array                       $environment = [],
   Optional[String[1]]         $prompt      = undef,
   Python::Venv::PipVersion    $pip_version = 'latest',
+  Optional[String[1]]         $index       = undef,
 ) {
   include python
 
@@ -80,13 +82,18 @@ define python::pyvenv (
 
     $pip_cmd = "${python::exec_prefix}${venv_dir}/bin/pip"
 
+    $index_config = $index ? {
+      undef   => '',
+      default => "-i ${shell_escape($index)}"
+    }
+
     $pip_upgrade = ($pip_version != 'latest') ? {
       true  => "--upgrade 'pip ${pip_version}'",
       false => '--upgrade pip',
     }
 
     exec { "python_virtualenv_${venv_dir}":
-      command     => "${virtualenv_cmd} --clear ${system_pkgs_flag} ${prompt_arg} ${venv_dir} && ${pip_cmd} --log ${venv_dir}/pip.log install ${pip_upgrade} && ${pip_cmd} --log ${venv_dir}/pip.log install --upgrade setuptools",
+      command     => "${virtualenv_cmd} --clear ${system_pkgs_flag} ${prompt_arg} ${venv_dir} && ${pip_cmd} --log ${venv_dir}/pip.log install ${index_config} ${pip_upgrade} && ${pip_cmd} --log ${venv_dir}/pip.log install ${index_config} --upgrade setuptools",
       user        => $owner,
       creates     => "${venv_dir}/bin/activate",
       path        => $_path,
