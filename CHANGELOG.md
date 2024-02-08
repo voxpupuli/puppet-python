@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v7.3.0](https://github.com/voxpupuli/puppet-python/tree/v7.3.0) (2024-02-08)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v7.2.0...v7.3.0)
+
+**Implemented enhancements:**
+
+- Add python\_path to pyvenv class [\#686](https://github.com/voxpupuli/puppet-python/pull/686) ([wmellema](https://github.com/wmellema))
+
 ## [v7.2.0](https://github.com/voxpupuli/puppet-python/tree/v7.2.0) (2024-01-01)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v7.1.0...v7.2.0)
