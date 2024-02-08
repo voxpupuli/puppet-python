@@ -11,6 +11,7 @@
 # @param path Specifies the PATH variable.
 # @param environment Optionally specify environment variables for pyvenv
 # @param prompt Optionally specify the virtualenv prompt (python >= 3.6)
+# @param python_path Optionally specify python path for creation of virtualenv
 #
 # @example
 #   python::pyvenv { '/var/www/project1' :
@@ -34,6 +35,7 @@ define python::pyvenv (
   Array                       $environment = [],
   Optional[String[1]]         $prompt      = undef,
   Python::Venv::PipVersion    $pip_version = 'latest',
+  Optional[Stdlib::Absolutepath] $python_path = undef,
 ) {
   include python
 
@@ -46,11 +48,17 @@ define python::pyvenv (
     $python_version_parts      = split($python_version, '[.]')
     $normalized_python_version = sprintf('%s.%s', $python_version_parts[0], $python_version_parts[1])
 
+    $local_exec_prefix = $python_path ? {
+      undef   => $python::exec_prefix,
+      default => $python_path,
+    }
     # pyvenv is deprecated since 3.6 and will be removed in 3.8
-    if versioncmp($normalized_python_version, '3.6') >=0 {
-      $virtualenv_cmd = "${python::exec_prefix}python${normalized_python_version} -m venv"
+    if $python_path != undef {
+      $virtualenv_cmd = "${python_path} -m venv"
+    } elsif versioncmp($normalized_python_version, '3.6') >=0 {
+      $virtualenv_cmd = "${local_exec_prefix}python${normalized_python_version} -m venv"
     } else {
-      $virtualenv_cmd = "${python::exec_prefix}pyvenv-${normalized_python_version}"
+      $virtualenv_cmd = "${local_exec_prefix}pyvenv-${normalized_python_version}"
     }
 
     $_path = $python::provider ? {
