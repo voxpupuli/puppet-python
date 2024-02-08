@@ -913,6 +913,7 @@ The following parameters are available in the `python::pyvenv` defined type:
 * [`path`](#-python--pyvenv--path)
 * [`environment`](#-python--pyvenv--environment)
 * [`prompt`](#-python--pyvenv--prompt)
+* [`python_path`](#-python--pyvenv--python_path)
 * [`pip_version`](#-python--pyvenv--pip_version)
 
 ##### <a name="-python--pyvenv--ensure"></a>`ensure`
@@ -992,6 +993,14 @@ Default value: `[]`
 Data type: `Optional[String[1]]`
 
 Optionally specify the virtualenv prompt (python >= 3.6)
+
+Default value: `undef`
+
+##### <a name="-python--pyvenv--python_path"></a>`python_path`
+
+Data type: `Optional[String[1]]`
+
+Optionally specify python path for creation of virtualenv
 
 Default value: `undef`
 
