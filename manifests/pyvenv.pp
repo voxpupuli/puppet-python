@@ -35,7 +35,7 @@ define python::pyvenv (
   Array                       $environment = [],
   Optional[String[1]]         $prompt      = undef,
   Python::Venv::PipVersion    $pip_version = 'latest',
-  Optional[String[1]]         $python_path = undef,
+  Optional[Stdlib::Absolutepath] $python_path = undef,
 ) {
   include python
 
