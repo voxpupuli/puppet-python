@@ -998,7 +998,7 @@ Default value: `undef`
 
 ##### <a name="-python--pyvenv--python_path"></a>`python_path`
 
-Data type: `Optional[String[1]]`
+Data type: `Optional[Stdlib::Absolutepath]`
 
 Optionally specify python path for creation of virtualenv
 
