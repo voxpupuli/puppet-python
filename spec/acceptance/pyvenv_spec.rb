@@ -196,7 +196,7 @@ describe 'python::pyvenv defined resource with python 3' do
   context 'with versioned minimal python::pip and without systempkgs using custom python path' do
     it 'works with no errors' do
       pp = <<-PUPPET
-      
+
       class { 'python':
         dev  => 'present',
         venv => 'present',
