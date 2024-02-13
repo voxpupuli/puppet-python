@@ -222,7 +222,7 @@ class python::install {
         $pip_package  = 'python2-pip'
         $pip_provider = pip2
       } elsif $facts['os']['family'] == 'FreeBSD' {
-        $pip_package = sprintf( "py%s-pip", regsubst($python::version, '([0-9])\\.([0-9]+)', '\\1\\2') )
+        $pip_package = sprintf( 'py%s-pip', regsubst($python::version, '([0-9])\\.([0-9]+)', '\\1\\2') )
         $pip_provider = 'pip'
       } elsif $facts['os']['family'] == 'Gentoo' {
         $pip_package  = 'dev-python/pip'
