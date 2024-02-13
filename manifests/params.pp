@@ -40,6 +40,7 @@ class python::params {
   }
   $manage_venv_package = $facts['os']['family'] ? {
     'Archlinux' => false,
+    'FreeBSD'   => false,
     default     => true,
   }
 }
