@@ -32,32 +32,17 @@ class python::install {
   }
 
   if $python::manage_venv_package {
-    ##
-    ## CentOS has no extra package for venv
-    ##
-    unless $facts['os']['family'] == 'RedHat' {
-      package { 'python-venv':
-        ensure  => $python::venv,
-        name    => "${python}-venv",
-        require => Package['python'],
-      }
-    }
+    contain python::install::venv
   }
 
   case $python::provider {
     'pip': {
       if $python::manage_pip_package {
-        package { 'pip':
-          ensure  => $python::pip,
-          require => Package['python'],
-        }
+        contain python::install::pip
       }
 
       if $python::manage_dev_package and $pythondev {
-        package { 'python-dev':
-          ensure => $python::dev,
-          name   => $pythondev,
-        }
+        contain python::install::dev
       }
 
       # Respect the $python::pip setting
@@ -171,37 +156,21 @@ class python::install {
             }
           } else {
             if $python::manage_pip_package {
-              package { 'python-pip':
-                ensure   => $python::pip,
-                require  => Package['python'],
-                provider => 'yum',
-              }
+              contain python::install::pip
             }
           }
 
           if $python::manage_dev_package and $pythondev {
-            package { 'python-dev':
-              ensure   => $python::dev,
-              name     => $pythondev,
-              alias    => $pythondev,
-              provider => 'yum',
-            }
+            contain python::install::dev
           }
         }
         default: {
           if $python::manage_pip_package {
-            package { 'pip':
-              ensure  => $python::pip,
-              require => Package['python'],
-            }
+            contain python::install::pip
           }
 
           if $python::manage_dev_package and $pythondev {
-            package { 'python-dev':
-              ensure => $python::dev,
-              name   => $pythondev,
-              alias  => $pythondev,
-            }
+            contain python::install::dev
           }
         }
       }
