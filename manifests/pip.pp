@@ -20,7 +20,6 @@
 # @param log_dir Log directory
 # @param egg The egg name to use
 # @param umask
-# @param pre_release if ye allow to install with --pre
 #
 # @example Install Flask to /var/www/project1 using a proxy
 #   python::pip { 'flask':
@@ -71,7 +70,6 @@ define python::pip (
   String[1]                                         $log_dir        = '/tmp',
   Array[String]                                     $path           = ['/usr/local/bin','/usr/bin','/bin', '/usr/sbin'],
   String[1]                                         $exec_provider  = 'shell',
-  Boolean                                           $pre_release    = false,
 ) {
   $python_provider = getparam(Class['python'], 'provider')
   $python_version  = getparam(Class['python'], 'version')
@@ -135,11 +133,6 @@ define python::pip (
     $install_editable = ''
   }
 
-  $prerelease_flag = $pre_release ? {
-    false   => '',
-    default => '--pre'
-  }
-
   # TODO: Do more robust argument checking, but below is a start
   if ($ensure == absent) and $install_args {
     fail('python::pip cannot provide install_args with ensure => absent')
@@ -186,7 +179,7 @@ define python::pip (
     default                                                                   => "'${url}#egg=${egg_name}'",
   }
 
-  $pip_install     = "${pip_env} --log ${log}/pip.log install ${prerelease_flag}"
+  $pip_install     = "${pip_env} --log ${log}/pip.log install"
   $pip_common_args = "${pypi_index} ${pypi_extra_index} ${proxy_flag} ${install_editable} ${source}"
 
   # Explicit version out of VCS when PIP supported URL is provided
@@ -222,21 +215,20 @@ define python::pip (
         }
 
         # Unfortunately this is the smartest way of getting the latest available package version with pip as of now
-        # Note: we DO need to repeat ourselves with "from version" in both grep and sed as on some systems pip returns
-        # more than one line with paretheses.
         # Public version identifiers: [N!]N(.N)*[{a|b|rc}N][.postN][.devN]
-        $latest_version = $pre_release ? {
-          false   => join([
-              "${pip_install} ${legacy_resolver} ${pypi_index} ${pypi_extra_index} ${proxy_flag}",
-              " ${install_args} ${install_editable} ${real_pkgname}==0.0 2>&1",
-              " | sed -nE 's/.*\\(from versions: ([^\\)]*)\\)/\\1/p'",
-              ' | awk \'BEGIN {RS=", "} {if ($0 !~ /(a|b|rc|dev)/) {gsub(/\n/,"");stable[arraylen++]=$0}} END {print stable[arraylen-1] }\'',
-          ]),
-          default => join([
+        if $install_args and $install_args =~ /--pre/ {
+          $latest_version = join([
               "${pip_install} ${legacy_resolver} ${pypi_index} ${pypi_extra_index} ${proxy_flag}",
               " ${install_args} ${install_editable} ${real_pkgname}==0.0 2>&1",
               " | sed -nE 's/.*\\(from versions: (.*, )*(.*)\\)/\\2/p'",
               ' | tr -d "[:space:]"',
+          ])
+        } else {
+          $latest_version = join([
+              "${pip_install} ${legacy_resolver} ${pypi_index} ${pypi_extra_index} ${proxy_flag}",
+              " ${install_args} ${install_editable} ${real_pkgname}==0.0 2>&1",
+              " | sed -nE 's/.*\\(from versions: ([^\\)]*)\\)/\\1/p'",
+              ' | awk \'BEGIN {RS=", "} {if ($0 !~ /(a|b|rc|dev)/) {gsub(/\n/,"");stable[arraylen++]=$0}} END {print stable[arraylen-1] }\'',
           ])
         }
 
