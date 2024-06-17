@@ -20,6 +20,7 @@
 # @param log_dir Log directory
 # @param egg The egg name to use
 # @param umask
+# @param pre_release if ye allow to install with --pre
 #
 # @example Install Flask to /var/www/project1 using a proxy
 #   python::pip { 'flask':
