@@ -215,14 +215,22 @@ define python::pip (
         }
 
         # Unfortunately this is the smartest way of getting the latest available package version with pip as of now
-        # Note: we DO need to repeat ourselves with "from version" in both grep and sed as on some systems pip returns
-        # more than one line with paretheses.
-        $latest_version = join([
-            "${pip_install} ${legacy_resolver} ${pypi_index} ${pypi_extra_index} ${proxy_flag}",
-            " ${install_args} ${install_editable} ${real_pkgname}==notreallyaversion 2>&1",
-            " | sed -nE 's/.*\\(from versions: (.*, )*(.*)\\)/\\2/p'",
-            ' | tr -d "[:space:]"',
-        ])
+        # Public version identifiers: [N!]N(.N)*[{a|b|rc}N][.postN][.devN]
+        if $install_args and $install_args =~ /--pre/ {
+          $latest_version = join([
+              "${pip_install} ${legacy_resolver} ${pypi_index} ${pypi_extra_index} ${proxy_flag}",
+              " ${install_args} ${install_editable} ${real_pkgname}==0.0 2>&1",
+              " | sed -nE 's/.*\\(from versions: (.*, )*(.*)\\)/\\2/p'",
+              ' | tr -d "[:space:]"',
+          ])
+        } else {
+          $latest_version = join([
+              "${pip_install} ${legacy_resolver} ${pypi_index} ${pypi_extra_index} ${proxy_flag}",
+              " ${install_args} ${install_editable} ${real_pkgname}==0.0 2>&1",
+              " | sed -nE 's/.*\\(from versions: ([^\\)]*)\\)/\\1/p'",
+              ' | awk \'BEGIN {RS=", "} {if ($0 !~ /(a|b|rc|dev)/) {gsub(/\n/,"");stable[arraylen++]=$0}} END {print stable[arraylen-1] }\'',
+          ])
+        }
 
         # Packages with underscores in their names are listed with dashes in their place in `pip freeze` output
         $pkgname_with_dashes            = regsubst($real_pkgname, '_', '-', 'G')
