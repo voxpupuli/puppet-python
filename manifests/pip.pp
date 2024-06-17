@@ -227,13 +227,13 @@ define python::pip (
         $latest_version = $pre_release ? {
           false   => join([
               "${pip_install} ${legacy_resolver} ${pypi_index} ${pypi_extra_index} ${proxy_flag}",
-              " ${install_args} ${install_editable} ${real_pkgname}==notreallyaversion 2>&1",
+              " ${install_args} ${install_editable} ${real_pkgname}==0.0 2>&1",
               " | sed -nE 's/.*\\(from versions: ([^\\)]*)\\)/\\1/p'",
               ' | awk \'BEGIN {RS=", "} {if ($0 !~ /(a|b|rc|dev)/) {gsub(/\n/,"");stable[arraylen++]=$0}} END {print stable[arraylen-1] }\'',
           ]),
           default => join([
               "${pip_install} ${legacy_resolver} ${pypi_index} ${pypi_extra_index} ${proxy_flag}",
-              " ${install_args} ${install_editable} ${real_pkgname}==notreallyaversion 2>&1",
+              " ${install_args} ${install_editable} ${real_pkgname}==0.0 2>&1",
               " | sed -nE 's/.*\\(from versions: (.*, )*(.*)\\)/\\2/p'",
               ' | tr -d "[:space:]"',
           ])
