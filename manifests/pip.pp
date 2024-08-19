@@ -219,7 +219,7 @@ define python::pip (
         # more than one line with paretheses.
         $latest_version = join([
             "${pip_install} ${legacy_resolver} ${pypi_index} ${pypi_extra_index} ${proxy_flag}",
-            " ${install_args} ${install_editable} ${real_pkgname}==notreallyaversion 2>&1",
+            " ${install_args} ${install_editable} '${real_pkgname}==9!0dev0+x' 2>&1",
             " | sed -nE 's/.*\\(from versions: (.*, )*(.*)\\)/\\2/p'",
             ' | tr -d "[:space:]"',
         ])
