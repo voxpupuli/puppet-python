@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v7.4.0](https://github.com/voxpupuli/puppet-python/tree/v7.4.0) (2024-11-27)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v7.3.0...v7.4.0)
+
+**Implemented enhancements:**
+
+- Add Ubuntu 24.04 support [\#707](https://github.com/voxpupuli/puppet-python/pull/707) ([bastelfreak](https://github.com/bastelfreak))
+- pyvenv: Harden datatype for `$environment` [\#704](https://github.com/voxpupuli/puppet-python/pull/704) ([bastelfreak](https://github.com/bastelfreak))
+- simplify packages version detection [\#703](https://github.com/voxpupuli/puppet-python/pull/703) ([maxadamo](https://github.com/maxadamo))
+- Add support for FreeBSD 14 [\#694](https://github.com/voxpupuli/puppet-python/pull/694) ([smortex](https://github.com/smortex))
+
+**Fixed bugs:**
+
+- `python::pip`'s `notreallyaversion` is not compatible with latest `pip` \(\>= 24.1\) due to changed output \(again\) [\#695](https://github.com/voxpupuli/puppet-python/issues/695)
+- Fix `python::pip` - use valid, but highly unlikely package version [\#696](https://github.com/voxpupuli/puppet-python/pull/696) ([acojocariu1-godaddy](https://github.com/acojocariu1-godaddy))
+
+**Merged pull requests:**
+
+- CI: Dont pin pip to an outdated version and don't force python3 package installation [\#706](https://github.com/voxpupuli/puppet-python/pull/706) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v7.3.0](https://github.com/voxpupuli/puppet-python/tree/v7.3.0) (2024-02-08)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v7.2.0...v7.3.0)
@@ -293,7 +313,7 @@ Due to a bug in the release pipeline, release v6.0.1 didn't make it to the forge
 
 - Allow HTTP\_PROXY on bootstrap. [\#488](https://github.com/voxpupuli/puppet-python/pull/488) ([pillarsdotnet](https://github.com/pillarsdotnet))
 - Modern pip can install wheels without wheel installed [\#483](https://github.com/voxpupuli/puppet-python/pull/483) ([asottile](https://github.com/asottile))
-- Allow arbitrary pip providers [\#480](https://github.com/voxpupuli/puppet-python/pull/480) ([ethanhs](https://github.com/ethanhs))
+- Allow arbitrary pip providers [\#480](https://github.com/voxpupuli/puppet-python/pull/480) ([emmatyping](https://github.com/emmatyping))
 - Add manage\_scl boolean to control managing SCL [\#464](https://github.com/voxpupuli/puppet-python/pull/464) ([bodgit](https://github.com/bodgit))
 - Allow pip to work in AIX systems [\#461](https://github.com/voxpupuli/puppet-python/pull/461) ([feltra](https://github.com/feltra))
 - move pip bootstrap into a seperate class [\#460](https://github.com/voxpupuli/puppet-python/pull/460) ([feltra](https://github.com/feltra))
@@ -631,7 +651,7 @@ Due to a bug in the release pipeline, release v6.0.1 didn't make it to the forge
 - Revert "Update virtualenv\_version.rb" [\#267](https://github.com/voxpupuli/puppet-python/pull/267) ([shivapoudel](https://github.com/shivapoudel))
 - Update virtualenv\_version.rb [\#265](https://github.com/voxpupuli/puppet-python/pull/265) ([shivapoudel](https://github.com/shivapoudel))
 - Update params.pp [\#263](https://github.com/voxpupuli/puppet-python/pull/263) ([philippeback](https://github.com/philippeback))
-- Bug virtualenv instead of virtualenv-$version [\#261](https://github.com/voxpupuli/puppet-python/pull/261) ([Asher256](https://github.com/Asher256))
+- Bug virtualenv instead of virtualenv-$version [\#261](https://github.com/voxpupuli/puppet-python/pull/261) ([ghost](https://github.com/ghost))
 - Addressing stankevich/puppet-python issue \#258. [\#260](https://github.com/voxpupuli/puppet-python/pull/260) ([rpocase](https://github.com/rpocase))
 
 ## [1.10.0](https://github.com/voxpupuli/puppet-python/tree/1.10.0) (2015-10-29)
