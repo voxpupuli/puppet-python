@@ -24,6 +24,12 @@ class python::install {
     'Suse'      => "${python}-devel",
   }
 
+  if $python::manage_setuptools {
+    package { 'python-distutils-extra':
+      ensure => 'installed',
+    }
+  }
+
   if $python::manage_python_package {
     package { 'python':
       ensure => $python::ensure,
