@@ -82,6 +82,7 @@ The following parameters are available in the `python` class:
 * [`manage_dev_package`](#-python--manage_dev_package)
 * [`manage_venv_package`](#-python--manage_venv_package)
 * [`manage_pip_package`](#-python--manage_pip_package)
+* [`manage_setuptools`](#-python--manage_setuptools)
 * [`venv`](#-python--venv)
 * [`gunicorn_package_name`](#-python--gunicorn_package_name)
 * [`python_pips`](#-python--python_pips)
@@ -216,6 +217,14 @@ Data type: `Boolean`
 manage the state for package pip
 
 Default value: `$python::params::manage_pip_package`
+
+##### <a name="-python--manage_setuptools"></a>`manage_setuptools`
+
+Data type: `Boolean`
+
+if true, install python-setuptools
+
+Default value: `$facts['os']['family'] ? { 'Archlinux' => true, default => false`
 
 ##### <a name="-python--venv"></a>`venv`
 
