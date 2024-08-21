@@ -19,8 +19,10 @@ describe 'python' do
 
         if facts[:os]['family'] == 'Archlinux'
           it { is_expected.not_to contain_package('pip') }
+          it { is_expected.to contain_package('python-setuptools') }
         else
           it { is_expected.to contain_package('pip') }
+          it { is_expected.not_to contain_package('python-setuptools') }
         end
 
         if %w[Archlinux RedHat].include?(facts[:os]['family'])

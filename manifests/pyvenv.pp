@@ -94,14 +94,14 @@ define python::pyvenv (
     }
 
     exec { "python_virtualenv_${venv_dir}":
-      command     => "${virtualenv_cmd} --clear ${system_pkgs_flag} ${prompt_arg} ${venv_dir} && ${pip_cmd} --log ${venv_dir}/pip.log install ${pip_upgrade} && ${pip_cmd} --log ${venv_dir}/pip.log install --upgrade setuptools",
+      command     => "${virtualenv_cmd} --clear ${system_pkgs_flag} ${prompt_arg} ${venv_dir} && ${pip_cmd} --log ${venv_dir}/pip.log install ${pip_upgrade} && cat ${venv_dir}/pip.log && ${pip_cmd} --log ${venv_dir}/pip.log install --upgrade setuptools && cat ${venv_dir}/pip.log",
       user        => $owner,
       creates     => "${venv_dir}/bin/activate",
       path        => $_path,
       cwd         => '/tmp',
       environment => $environment,
       timeout     => 600,
-      unless      => "grep '^[\\t ]*VIRTUAL_ENV=[\\\\'\\\"]*${venv_dir}[\\\"\\\\'][\\t ]*$' ${venv_dir}/bin/activate", #Unless activate exists and VIRTUAL_ENV is correct we re-create the virtualenv
+      unless      => "grep '^[\\t ]*VIRTUAL_ENV=[\\\\'\\\"]*${venv_dir}[\\\"\\\\'][\\t ]*$' ${venv_dir}/bin/activate && cat ${venv_dir}/pip.log", #Unless activate exists and VIRTUAL_ENV is correct we re-create the virtualenv
       require     => File[$venv_dir],
     }
   } elsif $ensure == 'absent' {
