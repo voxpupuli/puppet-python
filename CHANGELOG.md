@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v7.4.0](https://github.com/voxpupuli/puppet-python/tree/v7.4.0) (2024-08-21)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v7.3.0...v7.4.0)
+
+**Implemented enhancements:**
+
+- Add support for FreeBSD 14 [\#694](https://github.com/voxpupuli/puppet-python/pull/694) ([smortex](https://github.com/smortex))
+
+**Fixed bugs:**
+
+- `python::pip`'s `notreallyaversion` is not compatible with latest `pip` \(\>= 24.1\) due to changed output \(again\) [\#695](https://github.com/voxpupuli/puppet-python/issues/695)
+- Fix python::pip - use valid, but highly unlikely package version [\#696](https://github.com/voxpupuli/puppet-python/pull/696) ([acojocariu1-godaddy](https://github.com/acojocariu1-godaddy))
+
 ## [v7.3.0](https://github.com/voxpupuli/puppet-python/tree/v7.3.0) (2024-02-08)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v7.2.0...v7.3.0)
