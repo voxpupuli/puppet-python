@@ -1,0 +1,12 @@
+class { 'python':
+    pip     => 'absent',
+    version => 'system',
+  }
+
+  python::pyvenv { '/opt/ansible':
+  }
+
+  python::pip { 'ansible':
+    ensure     => 'latest',
+    virtualenv => '/opt/ansible',
+  }
