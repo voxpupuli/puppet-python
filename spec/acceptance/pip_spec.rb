@@ -14,7 +14,6 @@ describe 'python::pip defined resource' do
         ensure      => 'present',
         systempkgs  => false,
         mode        => '0755',
-        pip_version => '<= 20.3.4',
       }
 
       python::pip { 'agent package':
@@ -47,7 +46,6 @@ describe 'python::pip defined resource' do
         ensure      => 'present',
         systempkgs  => false,
         mode        => '0755',
-        pip_version => '<= 20.3.4',
       }
 
       python::pip { 'agent package install':
@@ -86,7 +84,6 @@ describe 'python::pip defined resource' do
         ensure      => 'present',
         systempkgs  => false,
         mode        => '0755',
-        pip_version => '<= 20.3.4',
       }
 
       python::pip { 'agent package':
@@ -116,7 +113,6 @@ describe 'python::pip defined resource' do
         ensure      => 'present',
         systempkgs  => false,
         mode        => '0755',
-        pip_version => '<= 20.3.4',
       }
 
       python::pip { 'agent package via extra_index':
