@@ -76,8 +76,7 @@ describe 'python::pip defined resource' do
     it 'throws an error' do
       pp = <<-PUPPET
       class { 'python':
-        version => '3',
-        dev     => 'present',
+        dev => 'present',
       }
 
       python::pyvenv { '/opt/test-venv':
