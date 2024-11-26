@@ -982,7 +982,7 @@ Default value: `['/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin',]`
 
 ##### <a name="-python--pyvenv--environment"></a>`environment`
 
-Data type: `Array`
+Data type: `Array[String[1]]`
 
 Optionally specify environment variables for pyvenv
 

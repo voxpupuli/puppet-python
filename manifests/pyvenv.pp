@@ -32,7 +32,7 @@ define python::pyvenv (
   String[1]                   $group       = 'root',
   Stdlib::Filemode            $mode        = '0755',
   Array[Stdlib::Absolutepath] $path        = ['/bin', '/usr/bin', '/usr/sbin', '/usr/local/bin',],
-  Array                       $environment = [],
+  Array[String[1]]            $environment = [],
   Optional[String[1]]         $prompt      = undef,
   Python::Venv::PipVersion    $pip_version = 'latest',
   Optional[Stdlib::Absolutepath] $python_path = undef,
