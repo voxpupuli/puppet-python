@@ -230,7 +230,7 @@ class python::install {
       } elsif ($facts['os']['name'] == 'Ubuntu') and (versioncmp($facts['os']['release']['major'], '20.04') >= 0) {
         $pip_package  = 'python3-pip'
         $pip_provider = 'pip3'
-      } elsif ($facts['os']['name'] == 'Debian') and (versioncmp($facts['os']['release']['major'], '11') >= 0) {
+      } elsif $facts['os']['name'] == 'Debian' {
         $pip_package  = 'python3-pip'
         $pip_provider = 'pip3'
       } else {
