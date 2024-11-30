@@ -22,6 +22,7 @@
 # @param manage_dev_package manage the state of the python development package
 # @param manage_venv_package manage the state for package venv
 # @param manage_pip_package manage the state for package pip
+# @param manage_setuptools if true, install python-setuptools
 #
 # @example install python from system python
 #   class { 'python':
@@ -61,6 +62,7 @@ class python (
   Stdlib::Absolutepath       $anaconda_install_path       = '/opt/python',
   Boolean                    $manage_scl                  = true,
   Optional[Python::Umask]    $umask                       = undef,
+  Boolean $manage_setuptools = $facts['os']['family'] ? { 'Archlinux' => true, default => false, },
 ) inherits python::params {
   $exec_prefix = $provider ? {
     'scl'   => "/usr/bin/scl enable ${version} -- ",
