@@ -9,6 +9,9 @@
 #### Public Classes
 
 * [`python`](#python): Installs and manages python, python-dev and gunicorn.
+* [`python::install::dev`](#python--install--dev): Installs python development packages
+* [`python::install::pip`](#python--install--pip): Installs python pip packages
+* [`python::install::venv`](#python--install--venv): Installs python virtualenv packages
 * [`python::pip::bootstrap`](#python--pip--bootstrap): allow to bootstrap pip when python is managed from other module
 
 #### Private Classes
@@ -83,6 +86,7 @@ The following parameters are available in the `python` class:
 * [`manage_venv_package`](#-python--manage_venv_package)
 * [`manage_pip_package`](#-python--manage_pip_package)
 * [`venv`](#-python--venv)
+* [`pip_package_name`](#-python--pip_package_name)
 * [`gunicorn_package_name`](#-python--gunicorn_package_name)
 * [`python_pips`](#-python--python_pips)
 * [`python_pyvenvs`](#-python--python_pyvenvs)
@@ -225,6 +229,14 @@ Data type: `Python::Package::Ensure`
 
 Default value: `'absent'`
 
+##### <a name="-python--pip_package_name"></a>`pip_package_name`
+
+Data type: `Optional[String[1]]`
+
+
+
+Default value: `undef`
+
 ##### <a name="-python--gunicorn_package_name"></a>`gunicorn_package_name`
 
 Data type: `String[1]`
@@ -288,6 +300,18 @@ Data type: `Stdlib::Absolutepath`
 
 
 Default value: `'/opt/python'`
+
+### <a name="python--install--dev"></a>`python::install::dev`
+
+Installs python development packages
+
+### <a name="python--install--pip"></a>`python::install::pip`
+
+Installs python pip packages
+
+### <a name="python--install--venv"></a>`python::install::venv`
+
+Installs python virtualenv packages
 
 ### <a name="python--pip--bootstrap"></a>`python::pip::bootstrap`
 
