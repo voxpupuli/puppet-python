@@ -67,6 +67,7 @@ class { 'python' :
 
 The following parameters are available in the `python` class:
 
+* [`default_system_version`](#-python--default_system_version)
 * [`ensure`](#-python--ensure)
 * [`version`](#-python--version)
 * [`pip`](#-python--pip)
@@ -91,6 +92,12 @@ The following parameters are available in the `python` class:
 * [`rhscl_use_public_repository`](#-python--rhscl_use_public_repository)
 * [`anaconda_installer_url`](#-python--anaconda_installer_url)
 * [`anaconda_install_path`](#-python--anaconda_install_path)
+
+##### <a name="-python--default_system_version"></a>`default_system_version`
+
+Data type: `Python::Version`
+
+The default version of Python provided by the operating system. Only used as a fallback if Python is not installed yet to determine how to handle some actions that vary depending on the Python version used.
 
 ##### <a name="-python--ensure"></a>`ensure`
 

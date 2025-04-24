@@ -41,7 +41,7 @@ define python::pyvenv (
 
   if $ensure == 'present' {
     $python_version = $version ? {
-      'system' => $facts['python3_version'],
+      'system' => $facts['python3_version'].lest || { $python::default_system_version },
       default  => $version,
     }
 
