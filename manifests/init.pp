@@ -1,5 +1,6 @@
 # @summary Installs and manages python, python-dev and gunicorn.
 #
+# @param default_system_version The default version of Python provided by the operating system. Only used as a fallback if Python is not installed yet to determine how to handle some actions that vary depending on the Python version used.
 # @param ensure Desired installation state for the Python package.
 # @param version Python version to install. Beware that valid values for this differ a) by the provider you choose and b) by the osfamily/operatingsystem you are using.
 #  Allowed values:
@@ -38,6 +39,7 @@
 #   }
 #
 class python (
+  Python::Version            $default_system_version,
   Python::Package::Ensure    $ensure                      = 'present',
   Python::Version            $version                     = $facts['os']['family'] ? { 'Archlinux' => 'system', default => '3' },
   Python::Package::Ensure    $pip                         = 'present',
