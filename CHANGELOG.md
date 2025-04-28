@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v8.0.0](https://github.com/voxpupuli/puppet-python/tree/v8.0.0) (2025-04-28)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v7.4.0...v8.0.0)
+
+**Breaking changes:**
+
+- Drop EoL Ubuntu 20.04 support [\#719](https://github.com/voxpupuli/puppet-python/pull/719) ([smortex](https://github.com/smortex))
+- Drop EoL FreeBSD 11/12 support [\#718](https://github.com/voxpupuli/puppet-python/pull/718) ([smortex](https://github.com/smortex))
+- Drop EoL Ubuntu 18.04 support [\#710](https://github.com/voxpupuli/puppet-python/pull/710) ([bastelfreak](https://github.com/bastelfreak))
+- Drop EoL CentOS 7/8 support [\#709](https://github.com/voxpupuli/puppet-python/pull/709) ([bastelfreak](https://github.com/bastelfreak))
+- Drop EoL Debian 10 support [\#708](https://github.com/voxpupuli/puppet-python/pull/708) ([bastelfreak](https://github.com/bastelfreak))
+
+**Fixed bugs:**
+
+- Fix bootstrapping `python::pyvenv` when Python is not installed [\#716](https://github.com/voxpupuli/puppet-python/pull/716) ([smortex](https://github.com/smortex))
+
 ## [v7.4.0](https://github.com/voxpupuli/puppet-python/tree/v7.4.0) (2024-11-27)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v7.3.0...v7.4.0)
@@ -78,7 +94,7 @@ These should not affect the functionality of the module.
 
 **Fixed bugs:**
 
-- Fix pip installation on Gentoo [\#651](https://github.com/voxpupuli/puppet-python/pull/651) ([jameslikeslinux](https://github.com/jameslikeslinux))
+- Fix pip installation on Gentoo [\#651](https://github.com/voxpupuli/puppet-python/pull/651) ([puppetjoy](https://github.com/puppetjoy))
 
 ## [v6.4.0](https://github.com/voxpupuli/puppet-python/tree/v6.4.0) (2022-11-06)
 
