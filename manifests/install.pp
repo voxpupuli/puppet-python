@@ -224,7 +224,7 @@ class python::install {
       } elsif $facts['os']['family'] == 'Gentoo' {
         $pip_package  = 'dev-python/pip'
         $pip_provider = 'pip'
-      } elsif ($facts['os']['name'] == 'Ubuntu') and (versioncmp($facts['os']['release']['major'], '20.04') >= 0) {
+      } elsif $facts['os']['name'] == 'Ubuntu' {
         $pip_package  = 'python3-pip'
         $pip_provider = 'pip3'
       } elsif $facts['os']['name'] == 'Debian' {
