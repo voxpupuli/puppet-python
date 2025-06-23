@@ -39,7 +39,7 @@ CONFIG = {
 <% if @workers -%>
     '--workers=<%= @workers %>',
 <% else -%>
-    '--workers=<%= @processorcount.to_i*2 + 1 %>',
+    '--workers=<%= @processor_count.to_i*2 + 1 %>',
 <% end -%>
     '--timeout=<%= @timeout %>',
 <% if @access_log_format -%>
