@@ -13,8 +13,11 @@ describe 'python::gunicorn', type: :define do
         context 'configures test app with default parameter values' do
           let(:params) { { dir: '/srv/testapp' } }
           let(:expected_workers) do
+            # manifests/gunicorn.pp
+            processor_count = facts.dig(:processors, 'count')
+
             # templates/gunicorn.erb
-            (facts[:processorcount].to_i * 2) + 1
+            (processor_count.to_i * 2) + 1
           end
 
           it { is_expected.to contain_file('/etc/gunicorn.d/test-app').with_mode('0644').with_content(%r{--log-level=error}) }

@@ -55,6 +55,8 @@ define python::gunicorn (
   String[1]                             $template          = 'python/gunicorn.erb',
   Array                                 $args              = [],
 ) {
+  $processor_count = fact('processors.count')
+
   if $manage_config_dir {
     file { $config_dir:
       ensure => directory,
