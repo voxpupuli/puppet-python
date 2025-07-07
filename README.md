@@ -19,6 +19,35 @@ For class usage refer to the [Reference]("https://github.com/voxpupuli/puppet-py
 bundle exec rake strings:generate\[',,,,false,true']
 ```
 
+### Install Python package to a user's default install directory
+
+The following code simulates
+
+```shell
+python3 -m pip install pandas --user
+```
+where pip installs packages to a user's default install directory --
+typically  `~/.local/` on Linux.
+
+```puppet
+# Somewhat hackishly, install Python PIP module PANDAS for Oracle Cloud API queries.
+python::pyvenv { 'user_python_venv':
+  ensure     => present,
+  version    => 'system',
+  systempkgs => true,
+  venv_dir   => '/home/example/.local',
+  owner      => 'example',
+  group      => 'example',
+  mode       => '0750',
+}
+
+python::pip { 'pandas':
+  virtualenv => '/home/example/.local',
+  owner      => 'example',
+  group      => 'example',
+}
+```
+
 ### hiera configuration
 
 This module supports configuration through hiera. The following example
