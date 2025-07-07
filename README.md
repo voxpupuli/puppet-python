@@ -42,9 +42,9 @@ python::pyvenv { 'user_python_venv':
 }
 
 python::pip { 'pandas':
-  virtualenv   => '/home/example/.local',
-  owner        => 'example',
-  group        => 'example',
+  virtualenv => '/home/example/.local',
+  owner      => 'example',
+  group      => 'example',
 }
 ```
 
