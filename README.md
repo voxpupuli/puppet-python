@@ -31,7 +31,7 @@ typically  `~/.local/` on Linux.
 
 ```puppet
 # Somewhat hackishly, install Python PIP module PANDAS for Oracle Cloud API queries.
-python::pyvenv { 'user_python_venv' :
+python::pyvenv { 'user_python_venv':
   ensure     => present,
   version    => 'system',
   systempkgs => true,
