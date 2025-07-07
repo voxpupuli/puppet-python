@@ -22,8 +22,9 @@ bundle exec rake strings:generate\[',,,,false,true']
 ### Install Python package to a user's default install directory
 
 The following code simulates
+
 ```shell
-python3 -m pip install pandas --user`
+python3 -m pip install pandas --user
 ```
 where pip installs packages to a user's default install directory --
 typically  ~/.local/ on Linux.
