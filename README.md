@@ -29,8 +29,8 @@ python3 -m pip install pandas --user
 where pip installs packages to a user's default install directory --
 typically  `~/.local/` on Linux.
 
-```
-# Somewhat hackisly, install Python PIP module PANDAS for Oracle Cloud API queries.
+```puppet
+# Somewhat hackishly, install Python PIP module PANDAS for Oracle Cloud API queries.
 python::pyvenv { 'user_python_venv' :
   ensure     => present,
   version    => 'system',
