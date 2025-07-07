@@ -27,7 +27,7 @@ The following code simulates
 python3 -m pip install pandas --user
 ```
 where pip installs packages to a user's default install directory --
-typically  ~/.local/ on Linux.
+typically  `~/.local/` on Linux.
 
 ```
 # Somewhat hackisly, install Python PIP module PANDAS for Oracle Cloud API queries.
