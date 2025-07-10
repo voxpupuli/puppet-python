@@ -160,8 +160,8 @@ define python::pip (
   # If it wasn't or if there is any error, the package manager will trigger a failure.
   $grep_regex = $_ensure ? {
     /^(present|absent|latest)$/ => "^${real_pkgname}[[:space:]].*$",
-    /^[0-9].*$/                 => "^${real_pkgname}[[:space:]]\\+(\\?${_ensure}\\()$\\|$\\|, \\|[[:space:]]\\)",
-    default                     => fail('ensure can be a version number or one of: present, absent, latest')
+    /^v?[0-9].*$/               => "^${real_pkgname}[[:space:]]\\+(\\?${_ensure}\\()$\\|$\\|, \\|[[:space:]]\\)",
+    default                     => fail('ensure can be a version number (e.g. 1.7.0 or v1.7.0) or one of: present, absent, latest')
   }
 
   $extras_string = empty($extras) ? {
@@ -195,7 +195,7 @@ define python::pip (
     }
   } else {
     case $_ensure {
-      /^[0-9].*$/: {
+      /^v?[0-9].*$/: {
         # Specific version
         $command        = "${pip_install} ${install_args} ${pip_common_args}==${_ensure}"
         $unless_command = "${pip_env} list | grep -i -e '${grep_regex}'"
