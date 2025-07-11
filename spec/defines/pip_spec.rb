@@ -147,6 +147,20 @@ describe 'python::pip', type: :define do
       end
     end
 
+    describe 'install specific version' do
+      context 'supports v-prefixed version string' do
+        let(:params) { { ensure: 'v1.7.0' } }
+
+        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install      rpyc==v1.7.0') }
+      end
+
+      context 'supports version string without v-prefix' do
+        let(:params) { { ensure: '1.7.0' } }
+
+        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install      rpyc==1.7.0') }
+      end
+    end
+
     describe 'uninstall' do
       context 'adds correct title' do
         let(:params) { { ensure: 'absent' } }
