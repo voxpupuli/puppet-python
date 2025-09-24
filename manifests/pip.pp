@@ -218,12 +218,14 @@ define python::pip (
         # Unfortunately this is the smartest way of getting the latest available package version with pip as of now
         # Note: we DO need to repeat ourselves with "from version" in both grep and sed as on some systems pip returns
         # more than one line with paretheses.
-        $latest_version = join([
+        $latest_version = join(
+          [
             "${pip_install} ${legacy_resolver} ${pypi_index} ${pypi_extra_index} ${proxy_flag}",
             " ${install_args} ${install_editable} '${real_pkgname}==9!0dev0+x' 2>&1",
             " | sed -nE 's/.*\\(from versions: (.*, )*(.*)\\)/\\2/p'",
             ' | tr -d "[:space:]"',
-        ])
+          ],
+        )
 
         # Packages with underscores in their names are listed with dashes in their place in `pip freeze` output
         $pkgname_with_dashes            = regsubst($real_pkgname, '_', '-', 'G')
