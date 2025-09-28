@@ -62,7 +62,6 @@ class python (
   Stdlib::Httpurl            $anaconda_installer_url      = 'https://repo.anaconda.com/archive/Anaconda3-5.2.0-Linux-x86_64.sh',
   Stdlib::Absolutepath       $anaconda_install_path       = '/opt/python',
   Boolean                    $manage_scl                  = true,
-  Optional[Python::Umask]    $umask                       = undef,
 ) inherits python::params {
   $exec_prefix = $provider ? {
     'scl'   => "/usr/bin/scl enable ${version} -- ",
@@ -75,11 +74,6 @@ class python (
 
   Class['python::install']
   -> Class['python::config']
-
-  # Set default umask.
-  exec { default:
-    umask => $umask,
-  }
 
   # Allow hiera configuration of python resources
   create_resources('python::pip', $python_pips)

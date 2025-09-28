@@ -180,11 +180,7 @@ Default value: `true`
 
 ##### <a name="-python--umask"></a>`umask`
 
-Data type: `Optional[Python::Umask]`
-
 The default umask for invoked exec calls.
-
-Default value: `undef`
 
 ##### <a name="-python--manage_gunicorn"></a>`manage_gunicorn`
 
