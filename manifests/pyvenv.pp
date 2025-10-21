@@ -94,7 +94,7 @@ define python::pyvenv (
     }
 
     exec { "python_virtualenv_${venv_dir}":
-      command     => "${virtualenv_cmd} --clear ${system_pkgs_flag} ${prompt_arg} ${venv_dir} && ${pip_cmd} --log ${venv_dir}/pip.log install ${pip_upgrade} && ${pip_cmd} --log ${venv_dir}/pip.log install --upgrade setuptools",
+      command     => "${virtualenv_cmd} --clear ${system_pkgs_flag} ${prompt_arg} ${venv_dir} && ${pip_cmd} install ${pip_upgrade} && ${pip_cmd} install --upgrade setuptools",
       user        => $owner,
       creates     => "${venv_dir}/bin/activate",
       path        => $_path,
