@@ -26,7 +26,7 @@ define python::dotfile (
   Enum['absent', 'present'] $ensure   = 'present',
   Stdlib::Absolutepath      $filename = $title,
   String[1]                 $owner    = 'root',
-  String[1]                 $group    = 'root',
+  String[1]                 $group    = getvar('python::params::group'),
   Stdlib::Filemode          $mode     = '0644',
   Hash                      $config   = {},
 ) {

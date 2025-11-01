@@ -420,7 +420,7 @@ Data type: `String[1]`
 
 group owner of dotfile
 
-Default value: `'root'`
+Default value: `getvar('python::params::group')`
 
 ##### <a name="-python--dotfile--config"></a>`config`
 
