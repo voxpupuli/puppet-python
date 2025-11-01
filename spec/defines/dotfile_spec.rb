@@ -9,6 +9,16 @@ describe 'python::dotfile', type: :define do
         facts
       end
 
+      let(:root_group) do
+        if facts[:os]['family'] == 'FreeBSD'
+          'wheel'
+        else
+          'root'
+        end
+      end
+
+      let(:pre_condition) { 'include python' }
+
       describe 'dotfile as' do
         context 'fails with empty string filename' do
           let(:title) { '' }
@@ -32,7 +42,7 @@ describe 'python::dotfile', type: :define do
         context 'succeeds with filename in a non-existing path' do
           let(:title) { '/home/someuser/.pip/pip.conf' }
 
-          it { is_expected.to contain_exec('create /home/someuser/.pip/pip.conf\'s parent dir').with_command('install -o root -g root -d /home/someuser/.pip') }
+          it { is_expected.to contain_exec('create /home/someuser/.pip/pip.conf\'s parent dir').with_command("install -o root -g #{root_group} -d /home/someuser/.pip") }
           it { is_expected.to contain_file('/home/someuser/.pip/pip.conf').with_mode('0644') }
         end
 
@@ -40,7 +50,7 @@ describe 'python::dotfile', type: :define do
           let(:title) { '/home/someuser/.pip/pip.conf' }
           let(:params) { { owner: 'someuser' } }
 
-          it { is_expected.to contain_exec('create /home/someuser/.pip/pip.conf\'s parent dir').with_command('install -o someuser -g root -d /home/someuser/.pip') }
+          it { is_expected.to contain_exec('create /home/someuser/.pip/pip.conf\'s parent dir').with_command("install -o someuser -g #{root_group} -d /home/someuser/.pip") }
           it { is_expected.to contain_file('/home/someuser/.pip/pip.conf').with_owner('someuser') }
         end
 
