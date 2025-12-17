@@ -181,7 +181,7 @@ define python::pip (
     default                                                                   => "'${url}#egg=${egg_name}'",
   }
 
-  $pip_install     = "${pip_env} --log ${log}/pip.log install"
+  $pip_install     = "${pip_env} install"
   $pip_common_args = "${pypi_index} ${pypi_extra_index} ${proxy_flag} ${install_editable} ${source}"
 
   # Explicit version out of VCS when PIP supported URL is provided

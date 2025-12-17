@@ -77,7 +77,7 @@ describe 'python::pip', type: :define do
       context 'adds proxy to install command if proxy set' do
         let(:params) { { proxy: 'http://my.proxy:3128' } }
 
-        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install    --proxy=http://my.proxy:3128  rpyc') }
+        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip install    --proxy=http://my.proxy:3128  rpyc') }
       end
     end
 
@@ -91,7 +91,7 @@ describe 'python::pip', type: :define do
       context 'adds index to install command if index set' do
         let(:params) { { index: 'http://www.example.com/simple/' } }
 
-        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install  --index-url=http://www.example.com/simple/    rpyc') }
+        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip install  --index-url=http://www.example.com/simple/    rpyc') }
       end
     end
 
@@ -105,7 +105,7 @@ describe 'python::pip', type: :define do
       context 'adds extra_index to install command if extra_index set' do
         let(:params) { { extra_index: 'http://www.example.com/extra/simple/' } }
 
-        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install   --extra-index-url=http://www.example.com/extra/simple/   rpyc') }
+        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip install   --extra-index-url=http://www.example.com/extra/simple/   rpyc') }
       end
     end
 
@@ -122,7 +122,7 @@ describe 'python::pip', type: :define do
       context 'adds install_args to install command if install_args set' do
         let(:params) { { install_args: '--pre' } }
 
-        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install --pre     rpyc') }
+        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip install --pre     rpyc') }
       end
     end
 
@@ -151,13 +151,13 @@ describe 'python::pip', type: :define do
       context 'supports v-prefixed version string' do
         let(:params) { { ensure: 'v1.7.0' } }
 
-        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install      rpyc==v1.7.0') }
+        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip install      rpyc==v1.7.0') }
       end
 
       context 'supports version string without v-prefix' do
         let(:params) { { ensure: '1.7.0' } }
 
-        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip --log /tmp/pip.log install      rpyc==1.7.0') }
+        it { is_expected.to contain_exec('pip_install_rpyc').with_command('pip install      rpyc==1.7.0') }
       end
     end
 
@@ -235,13 +235,13 @@ describe 'python::pip', type: :define do
       context 'suceeds with no extras' do
         let(:params) { {} }
 
-        it { is_expected.to contain_exec('pip_install_requests').with_command('pip --log /tmp/pip.log install      requests') }
+        it { is_expected.to contain_exec('pip_install_requests').with_command('pip install      requests') }
       end
 
       context 'succeeds with extras' do
         let(:params) { { extras: ['security'] } }
 
-        it { is_expected.to contain_exec('pip_install_requests').with_command('pip --log /tmp/pip.log install      requests[security]') }
+        it { is_expected.to contain_exec('pip_install_requests').with_command('pip install      requests[security]') }
       end
     end
   end
