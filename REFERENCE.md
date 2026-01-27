@@ -1208,14 +1208,5 @@ Alias of `Pattern[/^(<|>|<=|>=|==) [0-9]*(\.[0-9]+)*$/, /\Alatest\Z/]`
 
 Match all valid versions for python
 
-Alias of
-
-```puppet
-Variant[Integer, Pattern[
-    /\A(python)?[0-9](\.?[0-9])*/,
-    /\Apypy\Z/,
-    /\Asystem\Z/,
-    /\Arh-python[0-9]{2}(?:-python)?\Z/
-  ]]
-```
+Alias of `Pattern[/\A(python)?[0-9](\.?[0-9])*/, /\Apypy\Z/, /\Asystem\Z/, /\Arh-python[0-9]{2}(?:-python)?\Z/]`
 
