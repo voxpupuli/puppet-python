@@ -99,6 +99,8 @@ Data type: `Python::Version`
 
 The default version of Python provided by the operating system. Only used as a fallback if Python is not installed yet to determine how to handle some actions that vary depending on the Python version used.
 
+Default value: `'3.11'`
+
 ##### <a name="-python--ensure"></a>`ensure`
 
 Data type: `Python::Package::Ensure`

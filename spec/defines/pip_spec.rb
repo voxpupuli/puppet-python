@@ -21,7 +21,7 @@ describe 'python::pip', type: :define do
         operatingsystemrelease: '6',
         path: '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
         concat_basedir: '/dne',
-        pip_version: '18.1'
+        pip_version: '18.1',
       }
     end
 
@@ -195,7 +195,7 @@ describe 'python::pip', type: :define do
         operatingsystemrelease: '10.12',
         path: '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
         concat_basedir: '/dne',
-        pip_version: '20.3.4'
+        pip_version: '20.3.4',
       }
     end
 
@@ -221,13 +221,13 @@ describe 'python::pip', type: :define do
         kernel: 'Linux',
         lsbdistcodename: 'squeeze',
         os: {
-          family: 'Debian'
+          family: 'Debian',
         },
         osfamily: 'Debian',
         operatingsystem: 'Debian',
         operatingsystemrelease: '6',
         path: '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
-        concat_basedir: '/dne'
+        concat_basedir: '/dne',
       }
     end
 

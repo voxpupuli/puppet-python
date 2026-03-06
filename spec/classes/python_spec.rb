@@ -36,7 +36,7 @@ describe 'python' do
             manage_python_package: false,
             manage_dev_package: false,
             manage_pip_package: false,
-            manage_venv_package: false
+            manage_venv_package: false,
           }
         end
 
@@ -53,7 +53,7 @@ describe 'python' do
             manage_pip_package: true,
             manage_venv_package: true,
             pip: 'present',
-            venv: 'present'
+            venv: 'present',
           }
         end
 
@@ -112,12 +112,12 @@ describe 'python' do
                 {
                   python_pyvenvs: {
                     '/opt/env1' => {
-                      version: '3.8'
+                      version: '3.8',
                     },
                     '/opt/env2' => {
-                      version: '3.8'
-                    }
-                  }
+                      version: '3.8',
+                    },
+                  },
                 }
               end
 
@@ -139,13 +139,13 @@ describe 'python' do
                   python_pyvenvs: {
                     '/opt/env1' => {
                       version: '3.8',
-                      pip_version: 'latest'
+                      pip_version: 'latest',
                     },
                     '/opt/env2' => {
                       version: '3.8',
-                      pip_version: '<= 20.3.4'
-                    }
-                  }
+                      pip_version: '<= 20.3.4',
+                    },
+                  },
                 }
               end
 
@@ -155,8 +155,8 @@ describe 'python' do
               it { is_expected.to contain_python__pyvenv('/opt/env2').with_ensure('present') }
 
               it {
-                expect(subject).to contain_exec('python_virtualenv_/opt/env1').
-                  with(
+                expect(subject).to contain_exec('python_virtualenv_/opt/env1')
+                  .with(
                     command: 'python3.8 -m venv --clear   /opt/env1 && /opt/env1/bin/pip install --upgrade pip && /opt/env1/bin/pip install --upgrade setuptools',
                     user: 'root',
                     creates: '/opt/env1/bin/activate',
@@ -164,19 +164,19 @@ describe 'python' do
                       '/bin',
                       '/usr/bin',
                       '/usr/sbin',
-                      '/usr/local/bin'
+                      '/usr/local/bin',
                     ],
                     cwd: '/tmp',
                     environment: [],
                     timeout: 600,
-                    unless: %r{^grep '\^\[\\t \]\*VIRTUAL_ENV=\[\\\\'\\"\]\*/opt/env1\[\\"\\\\'\]\[\\t \]\*\$' /opt/env1/bin/activate$}
-                  ).
-                  that_requires('File[/opt/env1]')
+                    unless: %r{^grep '\^\[\\t \]\*VIRTUAL_ENV=\[\\\\'\\"\]\*/opt/env1\[\\"\\\\'\]\[\\t \]\*\$' /opt/env1/bin/activate$},
+                  )
+                  .that_requires('File[/opt/env1]')
               }
 
               it {
-                expect(subject).to contain_exec('python_virtualenv_/opt/env2').
-                  with(
+                expect(subject).to contain_exec('python_virtualenv_/opt/env2')
+                  .with(
                     command: 'python3.8 -m venv --clear   /opt/env2 && /opt/env2/bin/pip install --upgrade \'pip <= 20.3.4\' && /opt/env2/bin/pip install --upgrade setuptools',
                     user: 'root',
                     creates: '/opt/env2/bin/activate',
@@ -184,14 +184,14 @@ describe 'python' do
                       '/bin',
                       '/usr/bin',
                       '/usr/sbin',
-                      '/usr/local/bin'
+                      '/usr/local/bin',
                     ],
                     cwd: '/tmp',
                     environment: [],
                     timeout: 600,
-                    unless: %r{^grep '\^\[\\t \]\*VIRTUAL_ENV=\[\\\\'\\"\]\*/opt/env2\[\\"\\\\'\]\[\\t \]\*\$' /opt/env2/bin/activate$}
-                  ).
-                  that_requires('File[/opt/env2]')
+                    unless: %r{^grep '\^\[\\t \]\*VIRTUAL_ENV=\[\\\\'\\"\]\*/opt/env2\[\\"\\\\'\]\[\\t \]\*\$' /opt/env2/bin/activate$},
+                  )
+                  .that_requires('File[/opt/env2]')
               }
 
               it { is_expected.to contain_file('/opt/env1') }
@@ -384,7 +384,7 @@ describe 'python' do
 
               it {
                 expect(subject).to contain_package('pip').with(
-                  'provider' => 'pip'
+                  'provider' => 'pip',
                 )
               }
             end

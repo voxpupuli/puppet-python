@@ -7,7 +7,6 @@ describe Facter::Util::Fact do
     Facter.clear
   end
 
-  # rubocop:disable RSpec/IndexedLet
   let(:python2_version_output) do
     <<~EOS
       Python 2.7.9
@@ -18,7 +17,6 @@ describe Facter::Util::Fact do
       Python 3.3.0
     EOS
   end
-  # rubocop:enable RSpec/IndexedLet
 
   describe 'python_release' do
     context 'returns Python release when `python` present' do
