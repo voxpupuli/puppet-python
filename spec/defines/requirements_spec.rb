@@ -16,7 +16,7 @@ describe 'python::requirements', type: :define do
       context 'with /requirements.txt' do
         let :params do
           {
-            requirements: '/requirements.txt'
+            requirements: '/requirements.txt',
           }
         end
 
@@ -35,7 +35,7 @@ describe 'python::requirements', type: :define do
           let :params do
             {
               owner: 'bob',
-              group: 'bob'
+              group: 'bob',
             }
           end
 

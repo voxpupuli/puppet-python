@@ -23,7 +23,7 @@ describe 'python::pyvenv', type: :define do
         let :facts do
           # python3 is required to use pyvenv
           facts.merge(
-            python3_version: '3.5.1'
+            python3_version: '3.5.1',
           )
         end
 
@@ -36,7 +36,7 @@ describe 'python::pyvenv', type: :define do
           context 'is absent' do
             let :params do
               {
-                ensure: 'absent'
+                ensure: 'absent',
               }
             end
 
@@ -51,7 +51,7 @@ describe 'python::pyvenv', type: :define do
         let :facts do
           # python 3.6 is required for venv and prompt
           facts.merge(
-            python3_version: '3.6.1'
+            python3_version: '3.6.1',
           )
         end
         let :title do
@@ -75,7 +75,7 @@ describe 'python::pyvenv', type: :define do
       context "prompt on #{os} with python 3.5" do
         let :facts do
           facts.merge(
-            python3_version: '3.5.1'
+            python3_version: '3.5.1',
           )
         end
         let :title do
