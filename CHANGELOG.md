@@ -4,6 +4,36 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v9.0.0](https://github.com/voxpupuli/puppet-python/tree/v9.0.0) (2026-01-27)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v8.0.0...v9.0.0)
+
+**Breaking changes:**
+
+- `init.pp`: remove useless `exec` with `default` title that was trying to set a default `umask` [\#735](https://github.com/voxpupuli/puppet-python/pull/735) ([kenyon](https://github.com/kenyon))
+- Drop puppet, update openvox minimum version to 8.19 [\#729](https://github.com/voxpupuli/puppet-python/pull/729) ([TheMeier](https://github.com/TheMeier))
+
+**Implemented enhancements:**
+
+- Add support for Debian 13 [\#740](https://github.com/voxpupuli/puppet-python/pull/740) ([smortex](https://github.com/smortex))
+- Do not pass `--log` to `pip install` [\#736](https://github.com/voxpupuli/puppet-python/pull/736) ([smortex](https://github.com/smortex))
+- pip: allow v-prefixed version string [\#727](https://github.com/voxpupuli/puppet-python/pull/727) ([techsk8](https://github.com/techsk8))
+
+**Fixed bugs:**
+
+- Fix group ownership for pip.conf on FreeBSD [\#739](https://github.com/voxpupuli/puppet-python/pull/739) ([Szparki](https://github.com/Szparki))
+- Replace legacy fact in gunicorn config templating [\#724](https://github.com/voxpupuli/puppet-python/pull/724) ([notCalle](https://github.com/notCalle))
+
+**Closed issues:**
+
+- pip.conf in hieradata - FreeBSD [\#738](https://github.com/voxpupuli/puppet-python/issues/738)
+- Define pip\_package in hieradata [\#731](https://github.com/voxpupuli/puppet-python/issues/731)
+
+**Merged pull requests:**
+
+- Allow setting `python::version` in hiera to `Integer` [\#733](https://github.com/voxpupuli/puppet-python/pull/733) ([tj-cisco](https://github.com/tj-cisco))
+- Add section in README that simulates `python3 -m pip install pandas --user` [\#725](https://github.com/voxpupuli/puppet-python/pull/725) ([bschonec](https://github.com/bschonec))
+
 ## [v8.0.0](https://github.com/voxpupuli/puppet-python/tree/v8.0.0) (2025-04-28)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v7.4.0...v8.0.0)
