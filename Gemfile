@@ -15,6 +15,7 @@ end
 
 group :system_tests do
   gem 'voxpupuli-acceptance', '~> 4.4',  :require => false
+  gem 'beaker-hostgenerator', github: 'bastelfreak/beaker-hostgenerator', branch: 'gnupg2'
 end
 
 group :release do
