@@ -4,6 +4,36 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v9.0.0](https://github.com/voxpupuli/puppet-python/tree/v9.0.0) (2026-05-05)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v8.0.0...v9.0.0)
+
+**Breaking changes:**
+
+- `init.pp`: remove useless `exec` with `default` title that was trying to set a default `umask` [\#735](https://github.com/voxpupuli/puppet-python/pull/735) ([kenyon](https://github.com/kenyon))
+- Drop puppet, update openvox minimum version to 8.19 [\#729](https://github.com/voxpupuli/puppet-python/pull/729) ([TheMeier](https://github.com/TheMeier))
+
+**Implemented enhancements:**
+
+- puppet/epel: Allow 6.x [\#751](https://github.com/voxpupuli/puppet-python/pull/751) ([bastelfreak](https://github.com/bastelfreak))
+- Add support for Debian 13 [\#740](https://github.com/voxpupuli/puppet-python/pull/740) ([smortex](https://github.com/smortex))
+- Do not pass `--log` to `pip install` [\#736](https://github.com/voxpupuli/puppet-python/pull/736) ([smortex](https://github.com/smortex))
+- Allow a version to start with "v" in `python::pip` [\#727](https://github.com/voxpupuli/puppet-python/pull/727) ([techsk8](https://github.com/techsk8))
+
+**Fixed bugs:**
+
+- Fix group ownership for `pip.conf` on FreeBSD [\#739](https://github.com/voxpupuli/puppet-python/pull/739) ([Szparki](https://github.com/Szparki))
+- Replace legacy fact in gunicorn config templating [\#724](https://github.com/voxpupuli/puppet-python/pull/724) ([notCalle](https://github.com/notCalle))
+
+**Closed issues:**
+
+- "Error: Could not find group root" on FreeBSD [\#738](https://github.com/voxpupuli/puppet-python/issues/738)
+- Define pip\_package in hieradata [\#731](https://github.com/voxpupuli/puppet-python/issues/731)
+
+**Merged pull requests:**
+
+- Add section in README that simulates `python3 -m pip install pandas --user` [\#725](https://github.com/voxpupuli/puppet-python/pull/725) ([bschonec](https://github.com/bschonec))
+
 ## [v8.0.0](https://github.com/voxpupuli/puppet-python/tree/v8.0.0) (2025-04-28)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v7.4.0...v8.0.0)
@@ -495,7 +525,7 @@ Due to a bug in the release pipeline, release v6.0.1 didn't make it to the forge
 - Fix tests: Pin rake for ruby 1.9.3 [\#387](https://github.com/voxpupuli/puppet-python/pull/387) ([waipeng](https://github.com/waipeng))
 - Support virtualenv for Ubuntu 16.04 [\#386](https://github.com/voxpupuli/puppet-python/pull/386) ([waipeng](https://github.com/waipeng))
 - Set virtualenv package name for Debian stretch [\#383](https://github.com/voxpupuli/puppet-python/pull/383) ([sergiik](https://github.com/sergiik))
-- Update gunicorn.pp - Add manage\_config\_dir [\#382](https://github.com/voxpupuli/puppet-python/pull/382) ([bc-bjoern](https://github.com/bc-bjoern))
+- Update gunicorn.pp - Add manage\_config\_dir [\#382](https://github.com/voxpupuli/puppet-python/pull/382) ([epik0r](https://github.com/epik0r))
 - Support latest puppet versions [\#376](https://github.com/voxpupuli/puppet-python/pull/376) ([ghoneycutt](https://github.com/ghoneycutt))
 - Add python release as available facts [\#355](https://github.com/voxpupuli/puppet-python/pull/355) ([jcpunk](https://github.com/jcpunk))
 - Allow hiera config for dotfiles [\#344](https://github.com/voxpupuli/puppet-python/pull/344) ([puppetninja](https://github.com/puppetninja))
