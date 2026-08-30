@@ -63,6 +63,22 @@ describe 'python' do
         it { is_expected.to contain_package('python-venv').with(ensure: 'present') } unless facts[:os]['family'] == 'RedHat'
       end
 
+      if facts[:os]['family'] == 'Debian'
+        context "with version => 'system' on Debian family" do
+          let(:params) { { version: 'system', venv: 'present' } }
+
+          it { is_expected.to contain_package('python-venv').with(name: 'python3-venv', ensure: 'present') }
+        end
+      end
+
+      if %w[Debian RedHat].include?(facts[:os]['family'])
+        context "with version => 'system'" do
+          let(:params) { { version: 'system' } }
+
+          it { is_expected.to contain_package('python').with(name: 'python3') }
+        end
+      end
+
       case facts[:os]['family']
       when 'Debian'
 

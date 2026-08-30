@@ -235,4 +235,21 @@ describe 'python::pyvenv defined resource with python 3' do
       its(:stdout) { is_expected.to match %r{agent.* 0\.1\.2} }
     end
   end
+
+  context "with version => 'system'" do
+    it 'works with no errors' do
+      pp = <<-PUPPET
+      class { 'python':
+        version => 'system',
+        venv    => 'present',
+      }
+      python::pyvenv { '/opt/regress700':
+        ensure => 'present',
+      }
+      PUPPET
+
+      apply_manifest(pp, catch_failures: true)
+      apply_manifest(pp, catch_changes: true)
+    end
+  end
 end

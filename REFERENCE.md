@@ -894,6 +894,11 @@ Create a Python3 virtualenv using pyvenv.
 ##### 
 
 ```puppet
+class { 'python':
+  version => 'system',
+  venv    => 'present',
+}
+
 python::pyvenv { '/var/www/project1' :
   ensure       => present,
   version      => 'system',

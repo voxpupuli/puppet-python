@@ -1,5 +1,6 @@
 class { 'python':
-  pip     => false,
+  pip     => 'absent',
+  venv    => 'present',
   version => '3',
 }
 

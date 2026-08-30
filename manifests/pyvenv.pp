@@ -14,6 +14,11 @@
 # @param python_path Optionally specify python path for creation of virtualenv
 #
 # @example
+#   class { 'python':
+#     version => 'system',
+#     venv    => 'present',
+#   }
+#
 #   python::pyvenv { '/var/www/project1' :
 #     ensure       => present,
 #     version      => 'system',
