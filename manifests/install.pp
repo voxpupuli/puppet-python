@@ -6,7 +6,11 @@
 #
 class python::install {
   $python = $python::version ? {
-    'system'                 => 'python',
+    'system'                 => $facts['os']['family'] ? {
+      'Debian' => 'python3',
+      'RedHat' => 'python3',
+      default  => 'python',
+    },
     'pypy'                   => 'pypy',
     /\A(python[23]\.[0-9]+)/ => $1,
     /\A(python)?([0-9]+)/    => "python${2}",
