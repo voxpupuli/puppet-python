@@ -28,15 +28,15 @@ describe Facter::Util::Fact do
   describe 'pip_version' do
     context 'returns pip version when pip present' do
       it do
-        allow(Facter::Util::Resolution).to receive(:which).with('pip').and_return(true)
-        allow(Facter::Util::Resolution).to receive(:exec).with('pip --version 2>&1').and_return(pip_version_output)
+        allow(Facter::Core::Execution).to receive(:which).with('pip').and_return(true)
+        allow(Facter::Core::Execution).to receive(:execute).with('pip --version 2>&1').and_return(pip_version_output)
         expect(Facter.value(:pip_version)).to eq('6.0.6')
       end
     end
 
     context 'returns nil when pip not present' do
       it do
-        allow(Facter::Util::Resolution).to receive(:which).with('pip').and_return(false)
+        allow(Facter::Core::Execution).to receive(:which).with('pip').and_return(false)
         expect(Facter.value(:pip_version)).to be_nil
       end
     end
@@ -45,15 +45,15 @@ describe Facter::Util::Fact do
   describe 'pip2_version' do
     context 'returns pip2 version when pip2 present' do
       it do
-        allow(Facter::Util::Resolution).to receive(:which).with('pip2').and_return(true)
-        allow(Facter::Util::Resolution).to receive(:exec).with('pip2 --version 2>&1').and_return(pip2_version_output)
+        allow(Facter::Core::Execution).to receive(:which).with('pip2').and_return(true)
+        allow(Facter::Core::Execution).to receive(:execute).with('pip2 --version 2>&1').and_return(pip2_version_output)
         expect(Facter.value(:pip2_version)).to eq('9.0.1')
       end
     end
 
     context 'returns nil when pip2 not present' do
       it do
-        allow(Facter::Util::Resolution).to receive(:which).with('pip2').and_return(false)
+        allow(Facter::Core::Execution).to receive(:which).with('pip2').and_return(false)
         expect(Facter.value(:pip2_version)).to be_nil
       end
     end
@@ -62,15 +62,15 @@ describe Facter::Util::Fact do
   describe 'pip3_version' do
     context 'returns pip3 version when pip3 present' do
       it do
-        allow(Facter::Util::Resolution).to receive(:which).with('pip3').and_return(true)
-        allow(Facter::Util::Resolution).to receive(:exec).with('pip3 --version 2>&1').and_return(pip3_version_output)
+        allow(Facter::Core::Execution).to receive(:which).with('pip3').and_return(true)
+        allow(Facter::Core::Execution).to receive(:execute).with('pip3 --version 2>&1').and_return(pip3_version_output)
         expect(Facter.value(:pip3_version)).to eq('18.1')
       end
     end
 
     context 'returns nil when pip3 not present' do
       it do
-        allow(Facter::Util::Resolution).to receive(:which).with('pip3').and_return(false)
+        allow(Facter::Core::Execution).to receive(:which).with('pip3').and_return(false)
         expect(Facter.value(:pip3_version)).to be_nil
       end
     end
