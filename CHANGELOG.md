@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v10.0.0](https://github.com/voxpupuli/puppet-python/tree/v10.0.0) (2026-09-14)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v9.0.0...v10.0.0)
+
+**Breaking changes:**
+
+- Fix pre-release version resolution [\#693](https://github.com/voxpupuli/puppet-python/pull/693) ([teluq-pbrideau](https://github.com/teluq-pbrideau))
+
+**Implemented enhancements:**
+
+- Add Ubuntu 26.04 support [\#755](https://github.com/voxpupuli/puppet-python/pull/755) ([bastelfreak](https://github.com/bastelfreak))
+- Replace deprecated calls with `Facter::Core::Execution` [\#754](https://github.com/voxpupuli/puppet-python/pull/754) ([corporate-gadfly](https://github.com/corporate-gadfly))
+- Add support for el10 [\#750](https://github.com/voxpupuli/puppet-python/pull/750) ([bastelfreak](https://github.com/bastelfreak))
+
+**Fixed bugs:**
+
+- Virtual Environment Configuration not working [\#700](https://github.com/voxpupuli/puppet-python/issues/700)
+- Install the right venv package on Debian and RedHat family [\#752](https://github.com/voxpupuli/puppet-python/pull/752) ([bwitt](https://github.com/bwitt))
+
 ## [v9.0.0](https://github.com/voxpupuli/puppet-python/tree/v9.0.0) (2026-05-05)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v8.0.0...v9.0.0)
@@ -697,7 +716,6 @@ Due to a bug in the release pipeline, release v6.0.1 didn't make it to the forge
 - Revert "Update virtualenv\_version.rb" [\#267](https://github.com/voxpupuli/puppet-python/pull/267) ([shivapoudel](https://github.com/shivapoudel))
 - Update virtualenv\_version.rb [\#265](https://github.com/voxpupuli/puppet-python/pull/265) ([shivapoudel](https://github.com/shivapoudel))
 - Update params.pp [\#263](https://github.com/voxpupuli/puppet-python/pull/263) ([philippeback](https://github.com/philippeback))
-- Bug virtualenv instead of virtualenv-$version [\#261](https://github.com/voxpupuli/puppet-python/pull/261) ([ghost](https://github.com/ghost))
 - Addressing stankevich/puppet-python issue \#258. [\#260](https://github.com/voxpupuli/puppet-python/pull/260) ([rpocase](https://github.com/rpocase))
 
 ## [1.10.0](https://github.com/voxpupuli/puppet-python/tree/1.10.0) (2015-10-29)
