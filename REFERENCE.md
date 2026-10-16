@@ -300,7 +300,7 @@ allow to bootstrap pip when python is managed from other module
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 class { 'python::pip::bootstrap':
@@ -891,7 +891,7 @@ Create a Python3 virtualenv using pyvenv.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 class { 'python':
@@ -1216,4 +1216,3 @@ Alias of `Pattern[/^(<|>|<=|>=|==) [0-9]*(\.[0-9]+)*$/, /\Alatest\Z/]`
 Match all valid versions for python
 
 Alias of `Pattern[/\A(python)?[0-9](\.?[0-9])*/, /\Apypy\Z/, /\Asystem\Z/, /\Arh-python[0-9]{2}(?:-python)?\Z/]`
-
