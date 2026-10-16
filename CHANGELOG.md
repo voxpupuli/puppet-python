@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v10.1.0](https://github.com/voxpupuli/puppet-python/tree/v10.1.0) (2026-10-16)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v10.0.0...v10.1.0)
+
+**Implemented enhancements:**
+
+- puppetlabs/stdlib: Allow 10.x [\#760](https://github.com/voxpupuli/puppet-python/pull/760) ([bastelfreak](https://github.com/bastelfreak))
+- Update requirements to allow OpenVox 9 [\#758](https://github.com/voxpupuli/puppet-python/pull/758) ([sebastianrakel](https://github.com/sebastianrakel))
+- make content of inifile sensitive [\#753](https://github.com/voxpupuli/puppet-python/pull/753) ([buminks](https://github.com/buminks))
+- Add support for FreeBSD 15 [\#742](https://github.com/voxpupuli/puppet-python/pull/742) ([smortex](https://github.com/smortex))
+
 ## [v10.0.0](https://github.com/voxpupuli/puppet-python/tree/v10.0.0) (2026-09-14)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-python/compare/v9.0.0...v10.0.0)
