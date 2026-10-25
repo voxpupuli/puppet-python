@@ -15,7 +15,6 @@
 
 * `python::config`: Optionally installs the gunicorn service
 * `python::install`: Installs core python packages
-* `python::params`: The python Module default configuration settings.
 
 ### Defined types
 
@@ -83,6 +82,8 @@ The following parameters are available in the `python` class:
 * [`manage_dev_package`](#-python--manage_dev_package)
 * [`manage_venv_package`](#-python--manage_venv_package)
 * [`manage_pip_package`](#-python--manage_pip_package)
+* [`group`](#-python--group)
+* [`pip_lookup_path`](#-python--pip_lookup_path)
 * [`venv`](#-python--venv)
 * [`gunicorn_package_name`](#-python--gunicorn_package_name)
 * [`python_pips`](#-python--python_pips)
@@ -170,7 +171,7 @@ Data type: `Boolean`
 
 to determine if the epel class is used.
 
-Default value: `$python::params::use_epel`
+Default value: `false`
 
 ##### <a name="-python--manage_scl"></a>`manage_scl`
 
@@ -212,7 +213,7 @@ Data type: `Boolean`
 
 manage the state for package venv
 
-Default value: `$python::params::manage_venv_package`
+Default value: `true`
 
 ##### <a name="-python--manage_pip_package"></a>`manage_pip_package`
 
@@ -220,7 +221,23 @@ Data type: `Boolean`
 
 manage the state for package pip
 
-Default value: `$python::params::manage_pip_package`
+Default value: `true`
+
+##### <a name="-python--group"></a>`group`
+
+Data type: `String[1]`
+
+The group owner of the virtulenv and dotfile
+
+Default value: `'root'`
+
+##### <a name="-python--pip_lookup_path"></a>`pip_lookup_path`
+
+Data type: `Array`
+
+The paths used when bootstrapping pip
+
+Default value: `['/bin', '/usr/bin', '/usr/local/bin']`
 
 ##### <a name="-python--venv"></a>`venv`
 
@@ -236,7 +253,7 @@ Data type: `String[1]`
 
 
 
-Default value: `$python::params::gunicorn_package_name`
+Default value: `'gunicorn'`
 
 ##### <a name="-python--python_pips"></a>`python_pips`
 
@@ -422,7 +439,7 @@ Data type: `String[1]`
 
 group owner of dotfile
 
-Default value: `getvar('python::params::group')`
+Default value: `$python::group`
 
 ##### <a name="-python--dotfile--config"></a>`config`
 
@@ -771,7 +788,7 @@ Data type: `Optional[String[1]]`
 
 The group of the virtualenv being manipulated.
 
-Default value: `getvar('python::params::group')`
+Default value: `$python::group`
 
 ##### <a name="-python--pip--index"></a>`index`
 

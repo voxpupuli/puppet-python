@@ -5,6 +5,7 @@ require 'spec_helper'
 # rubocop:disable RSpec/RepeatedExampleGroupDescription
 describe 'python::pip', type: :define do
   let(:title) { 'rpyc' }
+  let(:pre_condition) { 'include python' }
 
   context 'on Debian OS' do
     let :facts do
@@ -213,6 +214,7 @@ end
 describe 'python::pip', type: :define do
   # rubocop:enable RSpec/RepeatedExampleGroupDescription
   let(:title) { 'requests' }
+  let(:pre_condition) { 'include python' }
 
   context 'on Debian OS' do
     let :facts do

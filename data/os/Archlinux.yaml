@@ -1,1 +1,3 @@
 python::default_system_version: "3.13"
+python::manage_pip_package: false
+python::manage_venv_package: false
