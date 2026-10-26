@@ -23,6 +23,8 @@
 # @param manage_dev_package manage the state of the python development package
 # @param manage_venv_package manage the state for package venv
 # @param manage_pip_package manage the state for package pip
+# @param group The group owner of the virtulenv and dotfile
+# @param pip_lookup_path The paths used when bootstrapping pip
 #
 # @example install python from system python
 #   class { 'python':
@@ -49,20 +51,22 @@ class python (
   Boolean                    $manage_gunicorn             = true,
   Boolean                    $manage_python_package       = true,
   Boolean                    $manage_dev_package          = true,
-  Boolean                    $manage_venv_package         = $python::params::manage_venv_package,
-  Boolean                    $manage_pip_package          = $python::params::manage_pip_package,
-  String[1]                  $gunicorn_package_name       = $python::params::gunicorn_package_name,
+  Boolean                    $manage_venv_package         = true,
+  Boolean                    $manage_pip_package          = true,
+  String[1]                  $gunicorn_package_name       = 'gunicorn',
   Optional[Python::Provider] $provider                    = undef,
   Hash                       $python_pips                 = {},
   Hash                       $python_pyvenvs              = {},
   Hash                       $python_requirements         = {},
   Hash                       $python_dotfiles             = {},
-  Boolean                    $use_epel                    = $python::params::use_epel,
+  Boolean                    $use_epel                    = false,
   Boolean                    $rhscl_use_public_repository = true,
   Stdlib::Httpurl            $anaconda_installer_url      = 'https://repo.anaconda.com/archive/Anaconda3-5.2.0-Linux-x86_64.sh',
   Stdlib::Absolutepath       $anaconda_install_path       = '/opt/python',
   Boolean                    $manage_scl                  = true,
-) inherits python::params {
+  String[1]                  $group                       = 'root',
+  Array                      $pip_lookup_path             = ['/bin', '/usr/bin', '/usr/local/bin'],
+) {
   $exec_prefix = $provider ? {
     'scl'   => "/usr/bin/scl enable ${version} -- ",
     'rhscl' => "/usr/bin/scl enable ${version} -- ",

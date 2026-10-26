@@ -55,7 +55,7 @@ define python::pip (
   String[1]                                         $pip_provider   = 'pip',
   Variant[Boolean, String]                          $url            = false,
   String[1]                                         $owner          = 'root',
-  Optional[String[1]]                               $group          = getvar('python::params::group'),
+  Optional[String[1]]                               $group          = $python::group,
   Optional[Python::Umask]                           $umask          = undef,
   Variant[Boolean,String[1]]                        $index          = false,
   Variant[Boolean,String[1]]                        $extra_index    = false,

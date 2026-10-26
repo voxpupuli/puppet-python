@@ -1,1 +1,2 @@
+python::group: wheel
 python::default_system_version: "3.11"

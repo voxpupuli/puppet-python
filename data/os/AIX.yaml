@@ -1,0 +1,6 @@
+python::group: system
+python::pip_lookup_path:
+  - /bin
+  - /usr/bin
+  - /usr/local/bin
+  - /opt/freeware/bin/
